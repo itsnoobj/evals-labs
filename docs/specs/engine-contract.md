@@ -1,6 +1,6 @@
 # Engine contract (shared by engine, UI and spike agents)
 
-Scope: pure JavaScript ES modules, no DOM, no WebLLM, no dependencies. Runs in the browser and in `node` (v20+). Files live in `evals-lab/`.
+Scope: pure JavaScript ES modules, no DOM, no WebLLM, no dependencies. Runs in the browser and in `node` (v20+). Files live in `evals-lab/src/` (`task/`, `agent/`, `evals/`).
 Scenario: card picker, 4 real cards, 6 golden cases. Rates are merchant-specific, cited per cell, and valid only under the `ASSUMPTIONS` in `cases.js` (Prime member, first purchase of the month below every cap, direct card payment, cash-like reward values). Audit and sources: `docs/answer-key-audit.md`. Educational, not financial advice.
 
 ## Agent loop (what the model does)

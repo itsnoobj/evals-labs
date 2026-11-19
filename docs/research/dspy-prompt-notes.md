@@ -1,6 +1,6 @@
 # DSPy prompt for the credit-card agent
 
-Data: `evals-lab/dspy-prompt.json`. DSPy 3.5.0, Python 3.14.7, captured with `dspy.utils.DummyLM` (no real model, no optimizer). Our live agent does not use it.
+Data: `evals-lab/data/dspy-prompt.json`. DSPy 3.5.0, Python 3.14.7, captured with `dspy.utils.DummyLM` (no real model, no optimizer). Our live agent does not use it.
 
 ## What DSPy produced
 - Zero-shot `dspy.ReAct`, first turn: system 1,598 chars + user 2,009 chars = 3,607 chars (about 1,000 tokens).
@@ -26,7 +26,7 @@ Data: `evals-lab/dspy-prompt.json`. DSPy 3.5.0, Python 3.14.7, captured with `ds
 
 ## Could a 1.5B model follow it? (reasoning only, not measured)
 Probably not reliably. Reasons:
-- Our spike (spike/RESULTS.md) found tiny models copy the last example and skip steps even with 500 chars.
+- Our spike (benchmarks/RESULTS.md) found tiny models copy the last example and skip steps even with 500 chars.
   DSPy gives one generic example (`search`/`cats`) and a schema, none for our tools. Small models follow schemas worse than examples.
 - The model must write two tagged sections per turn, with valid JSON nested inside a tag. That is two formats to get right.
 - Tool descriptions are flattened onto one line each and carry docstring text the model does not need.
@@ -35,6 +35,6 @@ Probably not reliably. Reasons:
 Larger models (7B+ or hosted) handle this format well; it was designed for them. A fair test needs a measured run. Not done here.
 
 ## Regenerate
-`node evals-lab/spike/export-tools.mjs && /tmp/dspy-venv/bin/python evals-lab/spike/make-dspy-prompt.py`
+`node scripts/export-tools.mjs && /tmp/dspy-venv/bin/python scripts/make-dspy-prompt.py`
 Setup: `python3 -m venv /tmp/dspy-venv && /tmp/dspy-venv/bin/pip install dspy`. Output is deterministic (verified by a second run).
 Card data is read from `tools-export.json`, so a change in `cases.js` flows through after re-running both commands.

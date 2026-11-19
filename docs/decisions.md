@@ -7,7 +7,7 @@
 - UI follows the square flat style of `entain/ai/incident-review`, with a welcome layer added.
 - Deviation from the global worktree rule: slices write to disjoint files in `evals-lab/` in the main checkout, because this folder is untracked in a shared repo with unrelated dirty files.
 - Parallel subagents own disjoint files; the engine contract in `docs/specs/engine-contract.md` is the only shared interface.
-- Model: Qwen2.5-1.5B-Instruct (about 880 MB). 360M and 0.5B score 0% on this task even with schema-constrained decoding (`evals-lab/spike/RESULTS.md`).
+- Model: Qwen2.5-1.5B-Instruct (about 880 MB). 360M and 0.5B score 0% on this task even with schema-constrained decoding (`benchmarks/RESULTS.md`).
 - WebLLM 0.2.79 pinned: `anyOf` is enforced by the grammar, top-level `oneOf` is not.
 - Guardrail (schema) toggle defaults off so free-form failures stay visible; it lifts the pass rate from 77% (23 of 30) to 87% (26 of 30) on the 6-case key with Infinia at 3.33% (older keys: 72% to 83%, 80% to 97%).
 - Measured, not assumed: the 1.5B model as a rubric judge gives 5 of 5 to every run, including a reply claiming 10x the reward. The page shows this; the Judge lab (v1.1) will calibrate it against your labels.

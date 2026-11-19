@@ -1,11 +1,11 @@
 # Answer key audit
 
-The Evals Lab answer key uses four real Indian credit cards with cited, merchant-specific rates. This page shows where each number comes from and why each golden case is safe to grade against. Research: `docs/research/card-icici-amazon-pay.md`, `docs/research/card-hdfc-infinia-and-swiggy.md`, `docs/research/card-idfc-first-power-plus.md` (Nov 2026). Data: `evals-lab/cases.js`.
+The Evals Lab answer key uses four real Indian credit cards with cited, merchant-specific rates. This page shows where each number comes from and why each golden case is safe to grade against. Research: `docs/research/card-icici-amazon-pay.md`, `docs/research/card-hdfc-infinia-and-swiggy.md`, `docs/research/card-idfc-first-power-plus.md` (Nov 2026). Data: `evals-lab/src/task/cases.js`.
 
 The sections from "Assumptions" to "All rate cells" are generated. Regenerate them with:
 
 ```
-node evals-lab/spike/audit-key.mjs
+node scripts/audit-key.mjs
 ```
 
 Confidence labels: high = official bank document; medium = agreeing secondary sources or an inferred merchant code; low = the research could not verify it (the cell is set to a number here and cannot change the winner of any case).
@@ -157,4 +157,4 @@ Also removed from `MERCHANTS` because no kept case uses them: BigBasket, DMart, 
 - HDFC Swiggy cashback may arrive as Swiggy Money, not a statement credit. The research found conflicting sources and used statement credit.
 - C01 is a deliberate tie. Both ICICI Amazon Pay and HDFC Swiggy are accepted, and the reward (Rs 750) is the same.
 - Rates change. The research is from Nov 2026. This is educational, not financial advice.
-- `evals-lab/recorded-runs.json`, `evals-lab/dspy-prompt.json` and the Qwen2.5-1.5B spike results were re-recorded on 2026-11-20 on the current key (Infinia 3.33%), with the real model (6 cases x 5 runs, free and constrained). The earlier recordings (Infinia 1%) are in `evals-lab/spike/old-key-infinia-1pct/`.
+- `evals-lab/data/recorded-runs.json`, `evals-lab/data/dspy-prompt.json` and the Qwen2.5-1.5B spike results were re-recorded on 2026-11-20 on the current key (Infinia 3.33%), with the real model (6 cases x 5 runs, free and constrained). The earlier recordings (Infinia 1%) are in `evals-lab/spike/old-key-infinia-1pct/`.

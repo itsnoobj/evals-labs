@@ -7,7 +7,7 @@
 - Invariants: static files only; engine is pure JS and runs in node; every metric is deterministic except `rubric_judge`.
 
 ### engine (S2)
-- Done when: `node evals-lab/engine.test.mjs` is green; perfect run scores 7/7 deterministic metrics on all 12 cases; each bug trips exactly the metrics in the contract table.
+- Done when: `node tests/engine.test.mjs` is green; perfect run scores 7/7 deterministic metrics on all 12 cases; each bug trips exactly the metrics in the contract table.
 - Spec: `docs/specs/engine-contract.md`.
 
 ### ui (S3-S6 static, wired later)

@@ -26,4 +26,4 @@ Simple, modern, minimal, welcoming to a first-time learner. Calm, flat, square, 
 - Curve: inline SVG, square markers, axes labelled in words.
 
 ## Files (owned by the UI agent)
-`evals-lab/index.html`, `evals-lab/styles.css`, `evals-lab/ui.js` (pure render functions taking plain data, no engine import), `evals-lab/preview-data.js` (static sample data matching `docs/specs/engine-contract.md` shapes, used only when the URL has `?preview`).
+`evals-lab/index.html`, `evals-lab/src/styles/styles.css`, `evals-lab/src/ui/ui.js` (pure render functions taking plain data, no engine import), `evals-lab/src/ui/preview-data.js` (static sample data matching `docs/specs/engine-contract.md` shapes, used only when the URL has `?preview`).

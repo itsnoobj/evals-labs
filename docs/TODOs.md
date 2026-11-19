@@ -18,7 +18,7 @@
 - [ ] More cards and cases, other scenarios, shareable URL state
 
 ## Done
-- [x] Git repo started in this folder (own `.git`, branch main). `npm test` (= `node evals-lab/run-all-tests.mjs`) runs 13 test files plus the agent-step self-check. First commit made.
+- [x] Git repo started in this folder (own `.git`, branch main). `npm test` (= `node --test`) runs 14 test files; `npm run verify` adds lint and the format check. First commit made.
 - [x] ux11: typed question next to every dropdown (Side by side, Run); guardrails (`guardrails.js`: 4 input rules, 5 output rules) in the careful agent with outcome `blocked`, new wiring node `guard`, chat bubble, chip; OSS tool lists (`stage-tools.js`, 33 URLs checked with curl on 2026-11-20) in every wiring panel and Start box; AI grader visual (`judge-flow.js`) on Checks screen and as a wiring node. Headless replay checked, live model not.
 - [x] ux11: typed question. Text field + 4 example buttons beside the Run and Side by side question lists (typed text wins; picking from the list clears it). Typed case has no answer key: result/score blocks say so, Checks screen shows key-based checks NOT RUN. Replay mode cannot run it (note shown); a blocked question still runs the careful agent. Headless replay checked, no console errors. Live model path not checked in a browser.
 - [x] ux11: Guardrails practice chip (careful ON, simple OFF), outcome `blocked` wording ("was stopped by a guardrail before the model ran"), "What is a guardrail?" gloss, bonus mission task.
@@ -35,6 +35,6 @@
 - [x] S9 UX guided flow: Start screen + task diagram, self-ticking missions, diagram lit by runs and bugs, answer key vs agent answer, clickable golden cells, what-if slider, insecure-origin banner. Replay path checked in headless Chrome at 1280 and 500 px, no console errors. Live path not re-run after the rewrite.
 - [x] S0 docs scaffold, engine contract, UI style spec
 - [x] S2 engine: `cases.js`, `engine.js`, `engine.test.mjs` (25 checks green)
-- [x] S3-S6 static UI: `index.html`, `styles.css`, `ui.js`, `preview-data.js` (square flat style, 1280 and 500 px checked)
-- [x] S1 gate: Qwen2.5-1.5B lands at 72% free and 83% constrained (`evals-lab/spike/RESULTS.md`); 0.5B and smaller score 0%
-- [x] Wiring: `llm.js`, `app.js`, controls in `index.html`; replay mode and `recorded-runs.json` (S7) verified end to end in headless Chrome
+- [x] S3-S6 static UI: `index.html`, `styles.css`, `ui.js` (square flat style, 1280 and 500 px checked)
+- [x] S1 gate: Qwen2.5-1.5B lands at 72% free and 83% constrained (`benchmarks/RESULTS.md`); 0.5B and smaller score 0%
+- [x] Wiring: `llm.js`, `src/app/main.js`, controls in `index.html`; replay mode and `recorded-runs.json` (S7) verified end to end in headless Chrome
