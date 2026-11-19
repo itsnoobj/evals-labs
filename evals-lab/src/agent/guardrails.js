@@ -29,7 +29,9 @@ function looksLikeCardNumber(text) {
 // postcode, not a PIN, so "pin code" is skipped.
 const SECRET_WORD = "(?:otp|cvv|cvc|password|pin(?!\\s*code))";
 const SECRET_NEAR_NUMBER = new RegExp(
-  `\\b${SECRET_WORD}\\b[^\\d]{0,15}\\d{3,8}|\\d{3,8}[^\\d]{0,15}\\b${SECRET_WORD}\\b`, "i");
+  `\\b${SECRET_WORD}\\b[^\\d]{0,15}\\d{3,8}|\\d{3,8}[^\\d]{0,15}\\b${SECRET_WORD}\\b`,
+  "i",
+);
 
 function looksSecret(text) {
   return looksLikeCardNumber(text) || SECRET_NEAR_NUMBER.test(text);
@@ -57,28 +59,37 @@ function mentionsPurchase(text) {
 // Each rule: test(ctx) returns a reason string when it blocks, otherwise null.
 const INPUT_RULE_LIST = [
   {
-    id: "empty_or_long", label: "Empty or too long",
+    id: "empty_or_long",
+    label: "Empty or too long",
     plain: `Blocks a blank question or one over ${MAX_CHARS} characters.`,
-    test: (text) => (text.length === 0 || text.length > MAX_CHARS)
-      ? `Type a question between 1 and ${MAX_CHARS} characters, for example: Ordering ₹800 on Swiggy, which card is best?`
-      : null,
+    test: (text) =>
+      text.length === 0 || text.length > MAX_CHARS
+        ? `Type a question between 1 and ${MAX_CHARS} characters, for example: Ordering ₹800 on Swiggy, which card is best?`
+        : null,
   },
   {
-    id: "secret_data", label: "Card number or secret",
+    id: "secret_data",
+    label: "Card number or secret",
     plain: "Blocks card numbers, and OTP, CVV, PIN or password values.",
-    test: (text) => looksSecret(text) ? "This looks like a card number. Never type real card numbers or OTPs." : null,
+    test: (text) => (looksSecret(text) ? "This looks like a card number. Never type real card numbers or OTPs." : null),
   },
   {
-    id: "prompt_injection", label: "Prompt injection attempt",
+    id: "prompt_injection",
+    label: "Prompt injection attempt",
     plain: "Blocks text that tries to override or reveal the agent's instructions.",
-    test: (text) => INJECTION_PATTERNS.some((p) => p.test(text))
-      ? "This tries to change the agent's instructions. Ask about a purchase instead." : null,
+    test: (text) =>
+      INJECTION_PATTERNS.some((p) => p.test(text))
+        ? "This tries to change the agent's instructions. Ask about a purchase instead."
+        : null,
   },
   {
-    id: "off_topic", label: "Off topic question",
+    id: "off_topic",
+    label: "Off topic question",
     plain: "Blocks questions with no purchase, amount, card or known merchant in them.",
-    test: (text) => mentionsPurchase(text) ? null
-      : "This agent only picks a credit card for a purchase. Mention what you are buying and the amount.",
+    test: (text) =>
+      mentionsPurchase(text)
+        ? null
+        : "This agent only picks a credit card for a purchase. Mention what you are buying and the amount.",
   },
 ];
 
@@ -86,38 +97,49 @@ const INPUT_RULE_LIST = [
 // for the caller's convenience; none of the current rules need it.
 const OUTPUT_RULE_LIST = [
   {
-    id: "secret_in_reply", label: "Secret in reply",
+    id: "secret_in_reply",
+    label: "Secret in reply",
     plain: "Blocks an answer that contains a card number, OTP, CVV, PIN or password.",
-    test: ({ final }) => looksSecret(String(final?.reply ?? ""))
-      ? "The answer contained something that looks like a card number or secret, so it was withheld." : null,
+    test: ({ final }) =>
+      looksSecret(String(final?.reply ?? ""))
+        ? "The answer contained something that looks like a card number or secret, so it was withheld."
+        : null,
   },
   {
-    id: "reward_too_big", label: "Reward exceeds purchase",
+    id: "reward_too_big",
+    label: "Reward exceeds purchase",
     plain: "Blocks an answer where the reward is more than the amount spent.",
-    test: ({ final, amount }) => (typeof amount === "number" && Number(final?.reward_inr) > amount)
-      ? "The answer claims a reward bigger than the purchase, which cannot be right." : null,
+    test: ({ final, amount }) =>
+      typeof amount === "number" && Number(final?.reward_inr) > amount
+        ? "The answer claims a reward bigger than the purchase, which cannot be right."
+        : null,
   },
   {
-    id: "unknown_card", label: "Card not in key",
+    id: "unknown_card",
+    label: "Card not in key",
     plain: "Blocks an answer that names a card that is not in the answer key.",
-    test: ({ final }) => Object.hasOwn(CARDS, final?.card)
-      ? null : "The answer named a card this lab does not know.",
+    test: ({ final }) => (Object.hasOwn(CARDS, final?.card) ? null : "The answer named a card this lab does not know."),
   },
   {
-    id: "leaked_prompt", label: "Leaked system prompt",
+    id: "leaked_prompt",
+    label: "Leaked system prompt",
     plain: "Blocks an answer that repeats the agent's hidden instructions.",
     test: ({ final }) => {
       const reply = String(final?.reply ?? "").toLowerCase();
       const leaks = ["system prompt", SYSTEM_PROMPT.slice(0, 40), "always start with step 1"];
       return leaks.some((s) => reply.includes(s.toLowerCase()))
-        ? "The answer repeated the agent's hidden instructions, so it was withheld." : null;
+        ? "The answer repeated the agent's hidden instructions, so it was withheld."
+        : null;
     },
   },
   {
-    id: "advice_claim", label: "Guaranteed result claim",
+    id: "advice_claim",
+    label: "Guaranteed result claim",
     plain: "Blocks answers that promise a guaranteed or risk-free result.",
-    test: ({ final }) => /guarantee|risk[- ]free/i.test(String(final?.reply ?? ""))
-      ? "The answer promised a guaranteed result. This lab only shows reward estimates, not promises." : null,
+    test: ({ final }) =>
+      /guarantee|risk[- ]free/i.test(String(final?.reply ?? ""))
+        ? "The answer promised a guaranteed result. This lab only shows reward estimates, not promises."
+        : null,
   },
 ];
 

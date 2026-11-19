@@ -9,14 +9,20 @@ const rec = JSON.parse(readFileSync(new URL("../evals-lab/data/recorded-runs.jso
 const ids = new Set(CASES.map((c) => c.id));
 const byId = Object.fromEntries(CASES.map((c) => [c.id, c]));
 const pct = (n, d) => `${n}/${d} = ${((100 * n) / d).toFixed(1)}%`;
-const out = { counts: { free: rec.free.length, constrained: rec.constrained.length }, allCaseIdsValid: [...rec.free, ...rec.constrained].every((r) => ids.has(r.caseId)) };
+const out = {
+  counts: { free: rec.free.length, constrained: rec.constrained.length },
+  allCaseIdsValid: [...rec.free, ...rec.constrained].every((r) => ids.has(r.caseId)),
+};
 
 // Every tool step's output must equal what the live tools return for the same tool and args.
-let toolSteps = 0, outputMismatch = 0;
-for (const r of [...rec.free, ...rec.constrained]) for (const s of r.steps) if (s.kind === "tool") {
-  toolSteps += 1;
-  if (JSON.stringify(s.output) !== JSON.stringify(runTool(s.tool, s.args))) outputMismatch += 1;
-}
+let toolSteps = 0,
+  outputMismatch = 0;
+for (const r of [...rec.free, ...rec.constrained])
+  for (const s of r.steps)
+    if (s.kind === "tool") {
+      toolSteps += 1;
+      if (JSON.stringify(s.output) !== JSON.stringify(runTool(s.tool, s.args))) outputMismatch += 1;
+    }
 out.toolSteps = toolSteps;
 out.outputMismatch = outputMismatch;
 
@@ -25,7 +31,12 @@ for (const mode of ["free", "constrained"]) {
   const pass = (rs) => rs.filter((r) => scoreRun(byId[r.caseId], r).task_success.pass).length;
   out[mode] = {
     taskSuccess: pct(pass(runs), runs.length),
-    perCase: Object.fromEntries(CASES.map((c) => { const rs = runs.filter((r) => r.caseId === c.id); return [c.id, pct(pass(rs), rs.length)]; })),
+    perCase: Object.fromEntries(
+      CASES.map((c) => {
+        const rs = runs.filter((r) => r.caseId === c.id);
+        return [c.id, pct(pass(rs), rs.length)];
+      }),
+    ),
     perStepAccuracy: (100 * perStepAccuracy(runs, CASES)).toFixed(1) + "%",
     checkerAccepts: pct(runs.filter((r) => verifyRun(byId[r.caseId], r).ok).length, runs.length),
   };

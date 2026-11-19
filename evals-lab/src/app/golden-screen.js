@@ -20,7 +20,11 @@ function drawCell() {
     label: `${caseId} · run ${index + 1}`,
     passed: scores.task_success.pass === true,
     why: failed.length ? failed.map((m) => `${m.label}: ${scores[m.id].reason}.`).join(" ") : "",
-    caseInfo: { id: c.id, query: c.query }, run, scores, expected: expectedOf(c), cardNames: CARD_NAMES,
+    caseInfo: { id: c.id, query: c.query },
+    run,
+    scores,
+    expected: expectedOf(c),
+    cardNames: CARD_NAMES,
   });
 }
 
@@ -40,7 +44,8 @@ export async function onRunSet() {
       const row = { caseId: c.id, runs: [] };
       const cells = [];
       for (let j = 0; j < runsPerCase && !state.stop; j++) {
-        $("set-progress").textContent = `${c.id}, run ${j + 1} of ${runsPerCase} (case ${results.length + 1} of ${CASES.length})`;
+        $("set-progress").textContent =
+          `${c.id}, run ${j + 1} of ${runsPerCase} (case ${results.length + 1} of ${CASES.length})`;
         const run = await runOne(c, 1000 + j, j);
         const scores = scoreRun(c, run);
         state.gridRuns.push(run);
@@ -54,7 +59,9 @@ export async function onRunSet() {
       drawGrid();
       drawCurve();
     }
-    $("set-progress").textContent = state.stop ? `Stopped after ${results.length} cases.` : `Done: ${results.length} cases, ${runsPerCase} runs each. Click any square to open that run.`;
+    $("set-progress").textContent = state.stop
+      ? `Stopped after ${results.length} cases.`
+      : `Done: ${results.length} cases, ${runsPerCase} runs each. Click any square to open that run.`;
     if (results.length) mark("set");
   } catch (err) {
     showError($("grid-view"), err);

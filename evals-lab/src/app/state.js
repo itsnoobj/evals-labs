@@ -22,10 +22,27 @@ export const CARD_NAMES = Object.fromEntries(Object.entries(CARDS).map(([id, c])
 // mode: "none" until the visitor loads the model ("live") or picks the recorded runs ("replay").
 // done: mission task ids the visitor has completed (see lessons.js MISSIONS).
 export const state = {
-  mode: "none", llm: null, gpuCheck: null, gpu: null, recorded: null, last: null, bugId: null, judge: null, metricsCtx: null,
-  gridRuns: [], cellRuns: {}, grid: null, cell: null, stop: false, whatIf: null,
-  done: new Set(), bugsTried: new Set(),
-  cmp: null, cmpLastCase: null, dspy: null, promptTab: "ours",
+  mode: "none",
+  llm: null,
+  gpuCheck: null,
+  gpu: null,
+  recorded: null,
+  last: null,
+  bugId: null,
+  judge: null,
+  metricsCtx: null,
+  gridRuns: [],
+  cellRuns: {},
+  grid: null,
+  cell: null,
+  stop: false,
+  whatIf: null,
+  done: new Set(),
+  bugsTried: new Set(),
+  cmp: null,
+  cmpLastCase: null,
+  dspy: null,
+  promptTab: "ours",
 };
 
 export function mark(taskId) {
@@ -42,4 +59,5 @@ export function showError(root, err) {
 }
 
 // accept lists every card tied for the top reward, so a tie counts as right whichever tied card the agent names.
-export const expectedOf = (c) => (c.expected ? { card: c.expected.card, accept: c.expected.accept, reward_inr: c.expected.reward_inr } : null);
+export const expectedOf = (c) =>
+  c.expected ? { card: c.expected.card, accept: c.expected.accept, reward_inr: c.expected.reward_inr } : null;

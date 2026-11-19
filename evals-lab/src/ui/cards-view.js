@@ -2,7 +2,10 @@
 const MAX_RATE = 10; // highest rate in cases.js (HDFC Swiggy on Swiggy); bar width = rate / MAX_RATE
 
 const esc = (s) =>
-  String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  String(s ?? "").replace(
+    /[&<>"']/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+  );
 
 const humanise = (id) => {
   const s = String(id).replace(/_/g, " ");
@@ -11,7 +14,14 @@ const humanise = (id) => {
 
 // labels: optional { categoryId: "plain label" } (CATEGORY_LABELS in cases.js). Missing ids fall back to humanise().
 // bestCard: one card id, or an array of ids when the top reward is tied.
-export function cardsMatrixHtml({ cards, categories, selectedCategory = null, bestCard = null, caption = "", labels = {} }) {
+export function cardsMatrixHtml({
+  cards,
+  categories,
+  selectedCategory = null,
+  bestCard = null,
+  caption = "",
+  labels = {},
+}) {
   const bestIds = bestCard === null ? [] : [].concat(bestCard);
   const head = categories
     .map((cat) => {

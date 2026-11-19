@@ -1,6 +1,14 @@
 // Prints the answer-key audit (markdown) from the live data in cases.js, so docs/answer-key-audit.md can be regenerated.
 // Run: node scripts/audit-key.mjs
-import { ASSUMPTIONS, CARDS, CATEGORIES, CATEGORY_LABELS, CASES, RATE_SOURCES, rank_cards } from "../evals-lab/src/task/cases.js";
+import {
+  ASSUMPTIONS,
+  CARDS,
+  CATEGORIES,
+  CATEGORY_LABELS,
+  CASES,
+  RATE_SOURCES,
+  rank_cards,
+} from "../evals-lab/src/task/cases.js";
 
 // Written once by a human from docs/research/*. The numbers around it come from the live data.
 const WHY_ROBUST = {
@@ -14,7 +22,10 @@ const WHY_ROBUST = {
 
 const acceptFor = (amount, category) => {
   const { ranked } = rank_cards({ amount, category });
-  return ranked.filter((r) => r.reward_inr === ranked[0].reward_inr).map((r) => r.card).sort();
+  return ranked
+    .filter((r) => r.reward_inr === ranked[0].reward_inr)
+    .map((r) => r.card)
+    .sort();
 };
 
 // Sets every low-confidence cell to `rate`, recomputes the accept list, restores the data.
@@ -26,7 +37,9 @@ function acceptWithLowCells(c, rate) {
     saved.push([card, category, CARDS[card].rates[category]]);
     CARDS[card].rates[category] = rate;
   }
-  try { return acceptFor(c.amount, c.expected.category); } finally {
+  try {
+    return acceptFor(c.amount, c.expected.category);
+  } finally {
     for (const [card, category, old] of saved) CARDS[card].rates[category] = old;
   }
 }
@@ -45,11 +58,23 @@ for (const a of ASSUMPTIONS) log(`- ${a}`);
 log();
 log("## Summary: one row per golden case");
 log();
-log(`| Case | Question | Merchant -> category | ${Object.values(CARDS).map((c) => c.name).join(" | ")} | Accepted | Reward |`);
-log(`|---|---|---|${Object.keys(CARDS).map(() => "---").join("|")}|---|---|`);
+log(
+  `| Case | Question | Merchant -> category | ${Object.values(CARDS)
+    .map((c) => c.name)
+    .join(" | ")} | Accepted | Reward |`,
+);
+log(
+  `|---|---|---|${Object.keys(CARDS)
+    .map(() => "---")
+    .join("|")}|---|---|`,
+);
 for (const c of CASES) {
   const { category, accept, reward_inr } = c.expected;
-  log(`| ${c.id} | ${c.query} | ${c.merchant} -> ${category} (${CATEGORY_LABELS[category]}) | ${Object.keys(CARDS).map((id) => cell(id, category)).join(" | ")} | ${accept.map((id) => CARDS[id].name).join(" or ")} | ₹${reward_inr} |`);
+  log(
+    `| ${c.id} | ${c.query} | ${c.merchant} -> ${category} (${CATEGORY_LABELS[category]}) | ${Object.keys(CARDS)
+      .map((id) => cell(id, category))
+      .join(" | ")} | ${accept.map((id) => CARDS[id].name).join(" or ")} | ₹${reward_inr} |`,
+  );
 }
 log();
 log("## Per case detail");
@@ -58,21 +83,27 @@ for (const c of CASES) {
   log();
   log(`### ${c.id}: ${c.query}`);
   log();
-  log(`Merchant "${c.merchant}" -> category \`${category}\`. Amount ₹${c.amount}. Accepted: ${accept.join(" or ")}, reward ₹${reward_inr}.${c.note ? ` Note: ${c.note}` : ""}`);
+  log(
+    `Merchant "${c.merchant}" -> category \`${category}\`. Amount ₹${c.amount}. Accepted: ${accept.join(" or ")}, reward ₹${reward_inr}.${c.note ? ` Note: ${c.note}` : ""}`,
+  );
   log();
   log("| Card | Rate | Reward | Confidence | Source | Note |");
   log("|---|---|---|---|---|---|");
   const { ranked } = rank_cards({ amount: c.amount, category });
   for (const r of ranked) {
     const src = RATE_SOURCES[`${r.card}.${category}`];
-    log(`| ${CARDS[r.card].name}${accept.includes(r.card) ? " (accepted)" : ""} | ${r.rate_pct}% | ₹${r.reward_inr} | ${src.confidence} | ${src.url} | ${src.note} |`);
+    log(
+      `| ${CARDS[r.card].name}${accept.includes(r.card) ? " (accepted)" : ""} | ${r.rate_pct}% | ₹${r.reward_inr} | ${src.confidence} | ${src.url} | ${src.note} |`,
+    );
   }
   log();
   const lowAt0 = same(acceptWithLowCells(c, 0), accept);
   const lowAt1 = same(acceptWithLowCells(c, 1), accept);
   log(`Why it is robust: ${WHY_ROBUST[c.id] ?? "(no text written yet)"}`);
   log();
-  log(`Check run by this script: with every low-confidence cell set to 0%, the accepted cards are ${lowAt0 ? "unchanged" : "CHANGED"}; set to 1%, ${lowAt1 ? "unchanged" : "CHANGED"}.`);
+  log(
+    `Check run by this script: with every low-confidence cell set to 0%, the accepted cards are ${lowAt0 ? "unchanged" : "CHANGED"}; set to 1%, ${lowAt1 ? "unchanged" : "CHANGED"}.`,
+  );
 }
 log();
 log("## All rate cells");

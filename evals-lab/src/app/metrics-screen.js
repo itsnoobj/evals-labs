@@ -35,16 +35,30 @@ export function drawMetrics() {
   state.metricsCtx = { c, run };
   $("metrics-note").textContent = note;
   ui.renderFlow($("metrics-flow"), {
-    states: stageStates(c, run, { scores }), metrics: METRICS, scores, chips: true,
+    states: stageStates(c, run, { scores }),
+    metrics: METRICS,
+    scores,
+    chips: true,
     bugStage: state.bugId ? BUG_STAGE[state.bugId] : null,
   });
   const picked = METRICS.find((m) => m.id === state.tileId);
   const judged = state.judge?.key === JSON.stringify(run.steps) ? state.judge : null;
-  $("judge-flow-view").innerHTML = judgeFlowHtml({ prompt: judgePrompt(c, run), grades: judged?.all ?? null, median: judged?.median ?? null });
-  const grader = picked?.id === "rubric_judge" ? { prompt: judgePrompt(c, run), grades: judged?.all ?? null, median: judged?.median ?? null } : null;
+  $("judge-flow-view").innerHTML = judgeFlowHtml({
+    prompt: judgePrompt(c, run),
+    grades: judged?.all ?? null,
+    median: judged?.median ?? null,
+  });
+  const grader =
+    picked?.id === "rubric_judge"
+      ? { prompt: judgePrompt(c, run), grades: judged?.all ?? null, median: judged?.median ?? null }
+      : null;
   ui.renderMetrics($("metrics-view"), {
-    metrics: METRICS, bugs: BUGS, scores, activeBug: state.bugId,
-    selected: picked?.id ?? null, detailHtml: checkDetailHtml(picked, scores[picked?.id], grader),
+    metrics: METRICS,
+    bugs: BUGS,
+    scores,
+    activeBug: state.bugId,
+    selected: picked?.id ?? null,
+    detailHtml: checkDetailHtml(picked, scores[picked?.id], grader),
   });
 }
 
@@ -66,13 +80,22 @@ export async function onJudge() {
     const all = [];
     for (let i = 0; i < 5; i++) {
       const reply = await state.llm.chat({
-        messages: [{ role: "system", content: system }, { role: "user", content: user }],
-        temperature: 0.7, seed: 200 + i, max_tokens: 8,
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: user },
+        ],
+        temperature: 0.7,
+        seed: 200 + i,
+        max_tokens: 8,
       });
       all.push(parseJudge(reply.text).score);
     }
     const valid = all.filter((s) => s !== null).sort((a, b) => a - b);
-    state.judge = { key: JSON.stringify(run.steps), all: all.map((s) => s ?? "?"), median: valid.length ? valid[Math.floor((valid.length - 1) / 2)] : null };
+    state.judge = {
+      key: JSON.stringify(run.steps),
+      all: all.map((s) => s ?? "?"),
+      median: valid.length ? valid[Math.floor((valid.length - 1) / 2)] : null,
+    };
     drawMetrics();
     mark("judge");
   } catch (err) {

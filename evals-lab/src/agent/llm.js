@@ -17,12 +17,21 @@ export async function checkWebGpu() {
   }
   try {
     // requestAdapter can hang on some drivers; a hang must not freeze the page, so give up after 5 s.
-    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("requestAdapter timed out after 5 s")), 5000));
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("requestAdapter timed out after 5 s")), 5000),
+    );
     const adapter = await Promise.race([
       timeout,
-      (async () => (await navigator.gpu.requestAdapter()) ?? (await navigator.gpu.requestAdapter({ powerPreference: "high-performance" })))(),
+      (async () =>
+        (await navigator.gpu.requestAdapter()) ??
+        (await navigator.gpu.requestAdapter({ powerPreference: "high-performance" })))(),
     ]);
-    if (!adapter) return { ok: false, reason: "Your browser reports no usable graphics chip for AI (WebGPU found no adapter).", modelId: MODEL_F16 };
+    if (!adapter)
+      return {
+        ok: false,
+        reason: "Your browser reports no usable graphics chip for AI (WebGPU found no adapter).",
+        modelId: MODEL_F16,
+      };
     return { ok: true, modelId: adapter.features.has("shader-f16") ? MODEL_F16 : MODEL_F32 };
   } catch (err) {
     return { ok: false, reason: `WebGPU check failed: ${err.message}`, modelId: MODEL_F16 };
@@ -44,7 +53,10 @@ export async function loadModel(modelId, onProgress) {
   async function chat({ messages, temperature, seed, max_tokens, response_format }) {
     const t0 = performance.now();
     const reply = await engine.chat.completions.create({
-      messages, temperature, seed, max_tokens,
+      messages,
+      temperature,
+      seed,
+      max_tokens,
       ...(response_format ? { response_format } : {}),
     });
     return {
@@ -53,5 +65,12 @@ export async function loadModel(modelId, onProgress) {
       ms: Math.round(performance.now() - t0),
     };
   }
-  return { chat, modelId, unload: async () => { await engine.unload(); worker.terminate(); } };
+  return {
+    chat,
+    modelId,
+    unload: async () => {
+      await engine.unload();
+      worker.terminate();
+    },
+  };
 }

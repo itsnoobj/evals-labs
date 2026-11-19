@@ -16,21 +16,27 @@ function setProgress(fraction) {
   $("model-progress").setAttribute("aria-valuenow", String(Math.round(fraction * 100)));
   syncCmpModelBar();
 }
-export const setNote = (text) => { $("model-note").textContent = text; syncCmpModelBar(); };
+export const setNote = (text) => {
+  $("model-note").textContent = text;
+  syncCmpModelBar();
+};
 
 // The Side by side screen has its own copy of the model bar. It only mirrors the Run-screen elements, so loading logic lives in one place.
 export function syncCmpModelBar() {
   const kind = $("model-status").dataset.status;
   const label = document.querySelector("[data-hook=model-status-label]").textContent;
   const pct = $("model-progress").getAttribute("aria-valuenow");
-  const text = { ready: "Live model ready", replay: "Using recorded runs", loading: `Loading model ${pct}%` }[kind]
-    ?? (label === "Load failed" ? `${label}. ${$("model-note").textContent}` : "No model loaded yet");
+  const text =
+    { ready: "Live model ready", replay: "Using recorded runs", loading: `Loading model ${pct}%` }[kind] ??
+    (label === "Load failed" ? `${label}. ${$("model-note").textContent}` : "No model loaded yet");
   $("cmp-model-status").dataset.status = kind;
   document.querySelector("[data-hook=cmp-model-label]").textContent = text;
   $("cmp-load-model").disabled = $("load-model").disabled;
   $("cmp-use-replay").disabled = $("use-replay").disabled;
   $("cmp-model-progress").hidden = kind !== "loading";
-  [...$("cmp-model-progress").children].forEach((s, i) => s.classList.toggle("on", $("model-progress").children[i].classList.contains("on")));
+  [...$("cmp-model-progress").children].forEach((s, i) =>
+    s.classList.toggle("on", $("model-progress").children[i].classList.contains("on")),
+  );
 }
 
 export function enterMode(mode) {
@@ -42,12 +48,16 @@ export function enterMode(mode) {
   $("run-hint").textContent = "Runs the question from step 2.";
   $("run-set").disabled = false;
   $("cmp-ask").disabled = false;
-  $("cmp-hint").textContent = mode === "replay"
-    ? "Recorded runs, run number 42. Try C03 (the Flipkart phone): the simple agent gets it wrong and the careful agent gets it right. The other five questions come out right for both. For a retry, set the run number to 3 on the Run screen (Settings) and ask C01 (Amazon): the simple agent is wrong and the careful agent needs a second try."
-    : "Pick a question and press Ask both. Live answers vary from run to run.";
+  $("cmp-hint").textContent =
+    mode === "replay"
+      ? "Recorded runs, run number 42. Try C03 (the Flipkart phone): the simple agent gets it wrong and the careful agent gets it right. The other five questions come out right for both. For a retry, set the run number to 3 on the Run screen (Settings) and ask C01 (Amazon): the simple agent is wrong and the careful agent needs a second try."
+      : "Pick a question and press Ask both. Live answers vary from run to run.";
   $("judge-run").disabled = mode !== "live";
   $("set-progress").textContent = `${CASES.length} cases. Press Run the set.`;
-  if (mode === "replay") setNote("Replay: real runs of the real model, recorded earlier. Temperature is fixed; the seed picks which recorded run you see.");
+  if (mode === "replay")
+    setNote(
+      "Replay: real runs of the real model, recorded earlier. Temperature is fixed; the seed picks which recorded run you see.",
+    );
   mark("engine");
 }
 
@@ -56,7 +66,10 @@ export async function onLoadModel() {
   setStatus("loading", "Loading");
   try {
     const gpu = await state.gpuCheck;
-    state.llm = await loadModel(gpu.modelId, (fraction, text) => { setProgress(fraction); setNote(text); });
+    state.llm = await loadModel(gpu.modelId, (fraction, text) => {
+      setProgress(fraction);
+      setNote(text);
+    });
     setNote("Ready. The model runs in your browser, nothing is sent anywhere.");
     enterMode("live");
   } catch (err) {

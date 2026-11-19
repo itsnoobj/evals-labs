@@ -47,7 +47,9 @@ check("digits glued to a word are ignored", () => {
 check("first amount wins", () => assert.equal(amountOf("₹500 now, ₹900 later"), 500));
 
 check("merchant Amazon", () => assert.equal(merchantOf("I shop on AMAZON a lot"), "Amazon"));
-check("merchant HP Petrol Pump keeps display spelling", () => assert.equal(merchantOf("fuel at an hp petrol pump"), "HP Petrol Pump"));
+check("merchant HP Petrol Pump keeps display spelling", () =>
+  assert.equal(merchantOf("fuel at an hp petrol pump"), "HP Petrol Pump"),
+);
 check("merchant BESCOM keeps display spelling", () => assert.equal(merchantOf("my bescom bill"), "BESCOM"));
 check("every known merchant is found", () => {
   for (const key of Object.keys(MERCHANTS)) {

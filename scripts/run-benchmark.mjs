@@ -28,18 +28,29 @@ const browser = await puppeteer.launch({
   // in that run's JSON is then ~0 and only the first (fresh profile) run of a model reports the real size.
   userDataDir: opt("profile", "") || mkdtempSync(join(tmpdir(), "spike-profile-")),
   protocolTimeout: 60 * 60 * 1000,
-  args: ["--enable-unsafe-webgpu", "--enable-features=Vulkan,UseSkiaRenderer", ...(opt("extra", "") ? opt("extra").split(" ") : [])],
+  args: [
+    "--enable-unsafe-webgpu",
+    "--enable-features=Vulkan,UseSkiaRenderer",
+    ...(opt("extra", "") ? opt("extra").split(" ") : []),
+  ],
 });
 const version = await browser.version();
 const page = await browser.newPage();
 // A reused profile caches the ES modules (agent-step.js, cases.js) and would silently run stale code.
 // Model weights live in the Cache API, which this switch does not touch.
 await page.setCacheEnabled(false);
-page.on("console", (m) => { if (flag("verbose")) console.log("[page]", m.text()); });
+page.on("console", (m) => {
+  if (flag("verbose")) console.log("[page]", m.text());
+});
 page.on("pageerror", (e) => console.log("[pageerror]", e.message));
 await page.goto(url);
 
-const snapshot = () => page.evaluate(() => ({ status: __bench.status, error: __bench.error, progress: document.getElementById("progress").textContent }));
+const snapshot = () =>
+  page.evaluate(() => ({
+    status: __bench.status,
+    error: __bench.error,
+    progress: document.getElementById("progress").textContent,
+  }));
 const waitFor = async (ok, ms) => {
   const t0 = Date.now();
   for (;;) {
@@ -53,26 +64,48 @@ const waitFor = async (ok, ms) => {
 
 try {
   await waitFor((s) => s.status === "idle", 120000);
-  const env = await page.evaluate(() => ({ env: __bench.env, webllm: __bench.webllm, models: __bench.models, engineKind: __bench.engineKind }));
+  const env = await page.evaluate(() => ({
+    env: __bench.env,
+    webllm: __bench.webllm,
+    models: __bench.models,
+    engineKind: __bench.engineKind,
+  }));
   console.log(JSON.stringify({ chrome: version, ...env }, null, 2));
   if (flag("probe")) process.exit(0);
 
   const model = env.models.find((id) => id.includes(opt("model", "SmolLM2")));
   if (!model) throw new Error("no candidate matches --model; have " + env.models.join(", "));
-  await page.evaluate((id) => { __bench.runModel(id); }, model); // not awaited: we poll below
+  await page.evaluate((id) => {
+    __bench.runModel(id);
+  }, model); // not awaited: we poll below
 
   let last = "";
   const t0 = Date.now();
-  const done = await waitFor((s) => {
-    if (s.progress !== last && Date.now() - t0 > 0) { last = s.progress; console.log(new Date().toISOString().slice(11, 19), s.progress); }
-    return s.status === "done";
-  }, 3 * 60 * 60 * 1000);
+  const done = await waitFor(
+    (s) => {
+      if (s.progress !== last && Date.now() - t0 > 0) {
+        last = s.progress;
+        console.log(new Date().toISOString().slice(11, 19), s.progress);
+      }
+      return s.status === "done";
+    },
+    3 * 60 * 60 * 1000,
+  );
   console.log("final:", done.progress);
 
   const result = await page.evaluate((id) => __bench.results[id], model);
-  const file = join(outDir, `results-${model.replace(/-q4f\d+_1-MLC$/, "")}-${opt("prompt", "v2")}-${opt("constrain", "0") === "1" ? "constrained" : "free"}-t${opt("temp", "0.7")}.json`);
+  const file = join(
+    outDir,
+    `results-${model.replace(/-q4f\d+_1-MLC$/, "")}-${opt("prompt", "v2")}-${opt("constrain", "0") === "1" ? "constrained" : "free"}-t${opt("temp", "0.7")}.json`,
+  );
   const record = {
-    meta: { chrome: version, machine: "Apple M4 Max, 64 GB, macOS " + (process.env.MACOS ?? "26.x"), mode: flag("headed") ? "headed" : "headless", webllm: env.webllm, userAgent: env.env.userAgent },
+    meta: {
+      chrome: version,
+      machine: "Apple M4 Max, 64 GB, macOS " + (process.env.MACOS ?? "26.x"),
+      mode: flag("headed") ? "headed" : "headless",
+      webllm: env.webllm,
+      userAgent: env.env.userAgent,
+    },
     ...result,
   };
   writeFileSync(file, JSON.stringify(record, null, 2));

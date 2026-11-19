@@ -38,8 +38,18 @@ export const SYSTEM_PROMPT = SYSTEM_PROMPT_V2;
 // let the model write junk keys, so args get their two real shapes.
 const argsSchema = {
   anyOf: [
-    { type: "object", properties: { merchant: { type: "string" } }, required: ["merchant"], additionalProperties: false },
-    { type: "object", properties: { amount: { type: "number" }, category: { enum: CATEGORIES } }, required: ["amount", "category"], additionalProperties: false },
+    {
+      type: "object",
+      properties: { merchant: { type: "string" } },
+      required: ["merchant"],
+      additionalProperties: false,
+    },
+    {
+      type: "object",
+      properties: { amount: { type: "number" }, category: { enum: CATEGORIES } },
+      required: ["amount", "category"],
+      additionalProperties: false,
+    },
   ],
 };
 export const STEP_SCHEMA = {
@@ -72,7 +82,8 @@ export function responseFormat({ jsonMode = true, constrain = false } = {}) {
   return jsonMode === false ? undefined : { type: "json_object" };
 }
 
-export const INVALID_NUDGE = 'That was not a valid step. Reply with ONE JSON object: a tool call {"tool":...,"args":...} or {"final":...}.';
+export const INVALID_NUDGE =
+  'That was not a valid step. Reply with ONE JSON object: a tool call {"tool":...,"args":...} or {"final":...}.';
 
 // The history is rebuilt from the recorded steps, so a Run and its prompt can never drift apart.
 export function buildMessages(c, steps, { system = SYSTEM_PROMPT } = {}) {
@@ -109,7 +120,18 @@ function parseStep(text) {
 // retryInvalid=true: invalid steps are free (at most 2 per case), so a later screen can show retry lift.
 export async function runCase(chat, c, opts = {}) {
   // onStep(steps) fires after every step so a UI can show progress; it never changes the run.
-  const { model = "unknown", temperature = 0.7, seed = 42, maxSteps = 4, maxTokens = 160, retryInvalid = false, system, jsonMode = true, constrain = false, onStep } = opts;
+  const {
+    model = "unknown",
+    temperature = 0.7,
+    seed = 42,
+    maxSteps = 4,
+    maxTokens = 160,
+    retryInvalid = false,
+    system,
+    jsonMode = true,
+    constrain = false,
+    onStep,
+  } = opts;
   const response_format = responseFormat({ jsonMode, constrain });
   const maxFreeRetries = 2;
   const steps = [];
@@ -119,7 +141,13 @@ export async function runCase(chat, c, opts = {}) {
   while (turns < maxSteps) {
     const messages = buildMessages(c, steps, { system });
     // A new seed per step, otherwise every step would start from the same random stream.
-    const { text, tokens, ms } = await chat({ messages, temperature, seed: seed + steps.length, max_tokens: maxTokens, response_format });
+    const { text, tokens, ms } = await chat({
+      messages,
+      temperature,
+      seed: seed + steps.length,
+      max_tokens: maxTokens,
+      response_format,
+    });
     const parsed = parseStep(text);
     const base = { raw: text, ms, tokens };
 
@@ -131,7 +159,14 @@ export async function runCase(chat, c, opts = {}) {
     }
     if (parsed.tool) {
       // Unknown tool names go through runTool too, which answers with an error output.
-      steps.push({ kind: "tool", tool: parsed.tool, args: parsed.args, output: runTool(parsed.tool, parsed.args), ...base, validJson: true });
+      steps.push({
+        kind: "tool",
+        tool: parsed.tool,
+        args: parsed.args,
+        output: runTool(parsed.tool, parsed.args),
+        ...base,
+        validJson: true,
+      });
       onStep?.(steps);
       turns += 1;
       continue;
@@ -143,7 +178,11 @@ export async function runCase(chat, c, opts = {}) {
   }
 
   return {
-    caseId: c.id, model, temperature, seed, steps,
+    caseId: c.id,
+    model,
+    temperature,
+    seed,
+    steps,
     totalMs: steps.reduce((sum, s) => sum + s.ms, 0),
     totalTokens: steps.reduce((sum, s) => sum + s.tokens, 0),
   };

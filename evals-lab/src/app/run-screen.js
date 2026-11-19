@@ -16,12 +16,19 @@ function pickRecorded(caseId, index) {
 export async function runOne(c, seed, replayIndex, { onStep } = {}) {
   if (state.mode === "replay") {
     const run = pickRecorded(c.id, replayIndex);
-    if (!onStep) { await sleep(250); return run; }
-    for (let i = 1; i <= run.steps.length; i++) { await sleep(700); onStep(run.steps.slice(0, i)); }
+    if (!onStep) {
+      await sleep(250);
+      return run;
+    }
+    for (let i = 1; i <= run.steps.length; i++) {
+      await sleep(700);
+      onStep(run.steps.slice(0, i));
+    }
     return run;
   }
   return runCase(state.llm.chat, c, {
-    model: state.llm.modelId, seed,
+    model: state.llm.modelId,
+    seed,
     temperature: Number($("temperature").value),
     constrain: $("constrain").checked,
     onStep,
@@ -31,7 +38,11 @@ export async function runOne(c, seed, replayIndex, { onStep } = {}) {
 const sumOf = (steps, key) => steps.reduce((total, s) => total + s[key], 0);
 
 function drawRunFlow(c, run, opts = {}) {
-  ui.renderFlow($("run-flow"), { states: run ? stageStates(c, run, opts) : null, metrics: METRICS, scores: opts.scores ?? null });
+  ui.renderFlow($("run-flow"), {
+    states: run ? stageStates(c, run, opts) : null,
+    metrics: METRICS,
+    scores: opts.scores ?? null,
+  });
 }
 
 export async function onRunCase() {
@@ -48,8 +59,21 @@ export async function onRunCase() {
   const info = { id: c.id, query: c.query, custom: !!c.custom };
   const model = state.mode === "live" ? state.llm.modelId : "recorded";
   const showPartial = (steps) => {
-    const run = { caseId: c.id, model, steps: steps.slice(), totalMs: sumOf(steps, "ms"), totalTokens: sumOf(steps, "tokens") };
-    ui.renderRun($("run-view"), { caseInfo: info, run, scores: null, expected: expectedOf(c), pending: true, cardNames: CARD_NAMES });
+    const run = {
+      caseId: c.id,
+      model,
+      steps: steps.slice(),
+      totalMs: sumOf(steps, "ms"),
+      totalTokens: sumOf(steps, "tokens"),
+    };
+    ui.renderRun($("run-view"), {
+      caseInfo: info,
+      run,
+      scores: null,
+      expected: expectedOf(c),
+      pending: true,
+      cardNames: CARD_NAMES,
+    });
     drawRunFlow(c, run, { running: true });
   };
   $("run-case").disabled = true;

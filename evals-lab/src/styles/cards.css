@@ -1,21 +1,115 @@
 /* Cards-in-play matrix. Markup comes from cards-view.js. Flat, square, no shadows. */
-.cardsmx { overflow-x: auto; background: #fff; border: 1px solid var(--line); border-radius: 0; box-shadow: none; }
-.cardsmx table { border-collapse: collapse; width: 100%; background: #fff; }
-.cardsmx caption { caption-side: top; text-align: left; padding: .5rem .75rem; font-weight: 700; color: var(--ink); border-bottom: 1px solid var(--line); }
-.cardsmx th, .cardsmx td { border: 1px solid var(--line); border-radius: 0; padding: .4rem .5rem; color: var(--ink); background: #fff; }
-.cardsmx thead td { border: 0; border-bottom: 1px solid var(--line); background: #fff; }
-.cardsmx thead th { min-width: 5.5rem; text-align: left; vertical-align: bottom; font-size: .8rem; font-weight: 700; white-space: normal; overflow-wrap: normal; word-break: normal; }
-.cardsmx tbody th { text-align: left; font-weight: 700; white-space: nowrap; }
-.cardsmx .lbl { display: block; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
-.cardsmx td { position: relative; text-align: right; font-family: var(--mono); }
-.cardsmx td .n { position: relative; z-index: 1; }
-.cardsmx td::before { content: ""; position: absolute; left: 0; bottom: 0; height: .5rem; width: var(--w, 0); background: #cfdcf3; border-radius: 0; }
-.cardsmx .sel { outline: 3px solid var(--accent); outline-offset: -3px; background: #eef3fb; }
-.cardsmx thead th.sel { background: #eef3fb; }
-.cardsmx td.best { border-top: 4px solid var(--ok); }
-.cardsmx .tag { display: inline-block; margin-left: .4rem; padding: 0 .35rem; font: 700 .65rem/1.4 var(--mono); letter-spacing: .04em; color: #fff; background: var(--ok); border-radius: 0; }
-.cardsmx td .tag { position: relative; z-index: 1; }
+.cardsmx {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+}
+.cardsmx table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #fff;
+}
+.cardsmx caption {
+  caption-side: top;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.cardsmx th,
+.cardsmx td {
+  border: 1px solid var(--line);
+  border-radius: 0;
+  padding: 0.4rem 0.5rem;
+  color: var(--ink);
+  background: #fff;
+}
+.cardsmx thead td {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+.cardsmx thead th {
+  min-width: 5.5rem;
+  text-align: left;
+  vertical-align: bottom;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.cardsmx tbody th {
+  text-align: left;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cardsmx .lbl {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+.cardsmx td {
+  position: relative;
+  text-align: right;
+  font-family: var(--mono);
+}
+.cardsmx td .n {
+  position: relative;
+  z-index: 1;
+}
+.cardsmx td::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 0.5rem;
+  width: var(--w, 0);
+  background: #cfdcf3;
+  border-radius: 0;
+}
+.cardsmx .sel {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+  background: #eef3fb;
+}
+.cardsmx thead th.sel {
+  background: #eef3fb;
+}
+.cardsmx td.best {
+  border-top: 4px solid var(--ok);
+}
+.cardsmx .tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0 0.35rem;
+  font: 700 0.65rem/1.4 var(--mono);
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: var(--ok);
+  border-radius: 0;
+}
+.cardsmx td .tag {
+  position: relative;
+  z-index: 1;
+}
 @media (max-width: 600px) {
-  .cardsmx tbody th { position: sticky; left: 0; z-index: 2; box-shadow: none; border-right: 2px solid var(--line); }
-  .cardsmx thead td { position: sticky; left: 0; z-index: 2; }
+  .cardsmx tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    box-shadow: none;
+    border-right: 2px solid var(--line);
+  }
+  .cardsmx thead td {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+  }
 }

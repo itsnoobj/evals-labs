@@ -15,7 +15,8 @@ import { drawChats, onAskBoth } from "./compare-screen.js";
 import { drawWiring, loadDspy, bindWiringRoots } from "./wiring-panel.js";
 import { drawStart, fillExamples } from "./start-screen.js";
 
-const LOAD_NOTE = "Downloads about 880 MB once, then loads from your computer's saved copy. Needs a recent Chrome or Edge and about 1.6 GB of graphics memory.";
+const LOAD_NOTE =
+  "Downloads about 880 MB once, then loads from your computer's saved copy. Needs a recent Chrome or Edge and about 1.6 GB of graphics memory.";
 
 async function init() {
   ui.showScreenFromHash();
@@ -24,11 +25,16 @@ async function init() {
     const c = questionFor("case-select", "case-text");
     $("case-question").textContent = c.query;
     if (c.custom) {
-      $("case-cards").innerHTML = `<p class="muted nokey">${NO_KEY_NOTE} There is no answer table for it. The run still shows every step, and the checks that need a key show NOT RUN.</p>`;
+      $("case-cards").innerHTML =
+        `<p class="muted nokey">${NO_KEY_NOTE} There is no answer table for it. The run still shows every step, and the checks that need a key show NOT RUN.</p>`;
       return;
     }
     $("case-cards").innerHTML = cardsMatrixHtml({
-      cards: CARDS, categories: CATEGORIES, selectedCategory: c.expected.category, bestCard: c.expected.accept, labels: CATEGORY_LABELS,
+      cards: CARDS,
+      categories: CATEGORIES,
+      selectedCategory: c.expected.category,
+      bestCard: c.expected.accept,
+      labels: CATEGORY_LABELS,
       caption: `Answer key for ${c.id}: the agent must work out the category, then pick the best card${c.expected.accept.length > 1 ? " (two cards tie, either is right)" : ""}. Rates are percent back.`,
     });
   };
@@ -42,29 +48,58 @@ async function init() {
   $("cmp-use-replay").onclick = () => enterMode("replay");
   $("run-case").onclick = onRunCase;
   $("run-set").onclick = onRunSet;
-  $("stop-set").onclick = () => { state.stop = true; };
+  $("stop-set").onclick = () => {
+    state.stop = true;
+  };
   $("judge-run").onclick = onJudge;
   $("metrics-base").onchange = drawMetrics;
-  $("case-select").onchange = () => { $("case-text").value = ""; showQuestion(); drawMetrics(); };
+  $("case-select").onchange = () => {
+    $("case-text").value = "";
+    showQuestion();
+    drawMetrics();
+  };
   $("case-text").oninput = showQuestion;
   fillExamples($("case-examples"), $("case-text"));
   fillExamples($("cmp-examples"), $("cmp-text"));
-  $("retry-tries").onchange = () => { drawCurve(); mark("tries"); };
-  $("what-if").oninput = () => { state.whatIf = Number($("what-if").value) / 100; drawCurve(); mark("whatif"); };
-  $("what-if-reset").onclick = () => { state.whatIf = null; drawCurve(); };
-  $("metrics-view").addEventListener("tile-selected", (ev) => { state.tileId = ev.detail.metricId; drawMetrics(); });
+  $("retry-tries").onchange = () => {
+    drawCurve();
+    mark("tries");
+  };
+  $("what-if").oninput = () => {
+    state.whatIf = Number($("what-if").value) / 100;
+    drawCurve();
+    mark("whatif");
+  };
+  $("what-if-reset").onclick = () => {
+    state.whatIf = null;
+    drawCurve();
+  };
+  $("metrics-view").addEventListener("tile-selected", (ev) => {
+    state.tileId = ev.detail.metricId;
+    drawMetrics();
+  });
   $("metrics-view").addEventListener("bug-selected", (ev) => onBugSelected(ev.detail.bugId));
   $("grid-view").addEventListener("cell-selected", (ev) => onCellSelected(ev.detail));
   $("use-replay").onclick = () => enterMode("replay");
   $("cmp-case").replaceChildren(...CASES.map((c) => new Option(`${c.id}  ${c.query}`, c.id)));
-  const cmpQuestionChanged = () => { state.cmp = null; $("cmp-summary").hidden = true; drawChats(); };
-  $("cmp-case").onchange = () => { $("cmp-text").value = ""; cmpQuestionChanged(); };
+  const cmpQuestionChanged = () => {
+    state.cmp = null;
+    $("cmp-summary").hidden = true;
+    drawChats();
+  };
+  $("cmp-case").onchange = () => {
+    $("cmp-text").value = "";
+    cmpQuestionChanged();
+  };
   $("cmp-text").oninput = cmpQuestionChanged;
   $("cmp-ask").onclick = onAskBoth;
   $("show-wiring").onchange = () => {
     const on = $("show-wiring").checked;
     $("cmp-root").classList.toggle("show-wiring", on);
-    if (on) { mark("wiring"); loadDspy(); }
+    if (on) {
+      mark("wiring");
+      loadDspy();
+    }
     drawWiring();
   };
   bindWiringRoots();
@@ -79,12 +114,19 @@ async function init() {
   $("load-model").disabled = !window.isSecureContext;
   syncCmpModelBar();
   if (!window.isSecureContext) {
-    const fixUrl = location.protocol === "file:" ? "http://localhost:8000/" : `http://localhost${location.port ? `:${location.port}` : ""}${location.pathname}`;
+    const fixUrl =
+      location.protocol === "file:"
+        ? "http://localhost:8000/"
+        : `http://localhost${location.port ? `:${location.port}` : ""}${location.pathname}`;
     ui.renderOriginWarning($("origin-warning"), { origin: location.origin, fixUrl });
   }
   state.gpuCheck = checkWebGpu();
   state.gpu = await state.gpuCheck;
-  setNote(state.gpu.ok ? LOAD_NOTE : `Warning: ${state.gpu.reason}${window.isSecureContext ? " You can still try Load model." : ""}`);
+  setNote(
+    state.gpu.ok
+      ? LOAD_NOTE
+      : `Warning: ${state.gpu.reason}${window.isSecureContext ? " You can still try Load model." : ""}`,
+  );
 
   try {
     const res = await fetch("data/recorded-runs.json");
@@ -94,7 +136,10 @@ async function init() {
     syncCmpModelBar();
   } catch (err) {
     // Opening index.html as a file:// URL lands here: browsers block module and fetch requests there.
-    if (!state.gpu.ok) setNote(`Warning: ${state.gpu.reason} Recorded runs could not load (${describeError(err)}). Serve this folder over http.`);
+    if (!state.gpu.ok)
+      setNote(
+        `Warning: ${state.gpu.reason} Recorded runs could not load (${describeError(err)}). Serve this folder over http.`,
+      );
   }
 }
 

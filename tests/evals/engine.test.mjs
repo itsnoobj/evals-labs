@@ -1,11 +1,30 @@
 // Run: node tests/evals/engine.test.mjs
 import assert from "node:assert/strict";
 import {
-  CARDS, CATEGORIES, CATEGORY_LABELS, MERCHANTS, RATE_SOURCES, ASSUMPTIONS, CASES, classify_merchant, rank_cards, runTool, perfectRun,
+  CARDS,
+  CATEGORIES,
+  CATEGORY_LABELS,
+  MERCHANTS,
+  RATE_SOURCES,
+  ASSUMPTIONS,
+  CASES,
+  classify_merchant,
+  rank_cards,
+  runTool,
+  perfectRun,
 } from "../../evals-lab/src/task/cases.js";
 import {
-  METRICS, BUGS, scoreRun, injectBug, summarizeGrid, perStepAccuracy, stepCorrectness,
-  chainSuccess, retryLift, judgePrompt, parseJudge,
+  METRICS,
+  BUGS,
+  scoreRun,
+  injectBug,
+  summarizeGrid,
+  perStepAccuracy,
+  stepCorrectness,
+  chainSuccess,
+  retryLift,
+  judgePrompt,
+  parseJudge,
 } from "../../evals-lab/src/evals/engine.js";
 import { makeCustomCase } from "../../evals-lab/src/task/custom-question.js";
 
@@ -32,11 +51,26 @@ const EXPECTED_ANSWERS = {
 
 // Copied from docs/specs/engine-contract.md "Bug table".
 const BUG_TABLE = {
-  wrong_number_in_reply: { fails: ["task_success", "grounded"], passes: ["trajectory", "answer_match", "tool_recall", "tool_precision", "ops"] },
-  skip_tool: { fails: ["trajectory", "tool_recall"], passes: ["task_success", "answer_match", "grounded", "tool_precision", "ops"] },
-  duplicate_call: { fails: ["trajectory", "tool_precision"], passes: ["task_success", "answer_match", "grounded", "tool_recall", "ops"] },
-  invented_tool: { fails: ["trajectory", "tool_precision"], passes: ["task_success", "answer_match", "grounded", "tool_recall", "ops"] },
-  right_words_wrong_card: { fails: ["task_success"], passes: ["trajectory", "answer_match", "grounded", "tool_recall", "tool_precision", "ops"] },
+  wrong_number_in_reply: {
+    fails: ["task_success", "grounded"],
+    passes: ["trajectory", "answer_match", "tool_recall", "tool_precision", "ops"],
+  },
+  skip_tool: {
+    fails: ["trajectory", "tool_recall"],
+    passes: ["task_success", "answer_match", "grounded", "tool_precision", "ops"],
+  },
+  duplicate_call: {
+    fails: ["trajectory", "tool_precision"],
+    passes: ["task_success", "answer_match", "grounded", "tool_recall", "ops"],
+  },
+  invented_tool: {
+    fails: ["trajectory", "tool_precision"],
+    passes: ["task_success", "answer_match", "grounded", "tool_recall", "ops"],
+  },
+  right_words_wrong_card: {
+    fails: ["task_success"],
+    passes: ["trajectory", "answer_match", "grounded", "tool_recall", "tool_precision", "ops"],
+  },
 };
 
 check("4 cards, each rating every category", () => {
@@ -50,19 +84,29 @@ check("category ids, labels and merchants line up", () => {
   assert.deepEqual(CATEGORIES, ["amazon", "online_shopping", "swiggy", "fuel_hpcl", "utilities", "telecom"]);
   assert.deepEqual(Object.keys(CATEGORY_LABELS).sort(), [...CATEGORIES].sort());
   assert.equal(CATEGORY_LABELS.amazon, "Amazon.in");
-  assert.deepEqual(Object.keys(MERCHANTS).sort(), ["airtel", "amazon", "bescom", "flipkart", "hp petrol pump", "swiggy"]);
+  assert.deepEqual(Object.keys(MERCHANTS).sort(), [
+    "airtel",
+    "amazon",
+    "bescom",
+    "flipkart",
+    "hp petrol pump",
+    "swiggy",
+  ]);
   for (const cat of Object.values(MERCHANTS)) assert.ok(CATEGORIES.includes(cat), cat);
 });
 
 check("every rate cell has a source note; the unverified cells are marked low", () => {
-  const cells = Object.entries(CARDS).flatMap(([id, card]) => CATEGORIES.map((cat) => `${id}.${cat}`));
+  const cells = Object.keys(CARDS).flatMap((id) => CATEGORIES.map((cat) => `${id}.${cat}`));
   assert.deepEqual(Object.keys(RATE_SOURCES).sort(), cells.sort());
   for (const [key, src] of Object.entries(RATE_SOURCES)) {
     assert.match(src.url, /^https:\/\//, key);
     assert.ok(["high", "medium", "low"].includes(src.confidence), key);
     assert.ok(src.note.length > 10, key);
   }
-  const low = Object.entries(RATE_SOURCES).filter(([, s]) => s.confidence === "low").map(([k]) => k).sort();
+  const low = Object.entries(RATE_SOURCES)
+    .filter(([, s]) => s.confidence === "low")
+    .map(([k]) => k)
+    .sort();
   assert.deepEqual(low, ["hdfc_swiggy.telecom", "hdfc_swiggy.utilities"]);
   for (const k of low) assert.match(RATE_SOURCES[k].note, /Cannot change the winner of any case/);
   assert.ok(ASSUMPTIONS.length >= 5 && ASSUMPTIONS.every((a) => typeof a === "string" && a.endsWith(".")));
@@ -70,26 +114,38 @@ check("every rate cell has a source note; the unverified cells are marked low", 
 });
 
 check("low-confidence cells cannot change any winner (set to 0% or 1%, accept lists stay the same)", () => {
-  const low = Object.entries(RATE_SOURCES).filter(([, src]) => src.confidence === "low").map(([k]) => k.split("."));
+  const low = Object.entries(RATE_SOURCES)
+    .filter(([, src]) => src.confidence === "low")
+    .map(([k]) => k.split("."));
   assert.equal(low.length, 2);
   for (const rate of [0, 1]) {
     const saved = low.map(([card, cat]) => CARDS[card].rates[cat]);
-    low.forEach(([card, cat]) => { CARDS[card].rates[cat] = rate; });
+    low.forEach(([card, cat]) => {
+      CARDS[card].rates[cat] = rate;
+    });
     try {
       for (const c of CASES) {
         const { ranked } = rank_cards({ amount: c.amount, category: c.expected.category });
-        const accept = ranked.filter((r) => r.reward_inr === ranked[0].reward_inr).map((r) => r.card).sort();
+        const accept = ranked
+          .filter((r) => r.reward_inr === ranked[0].reward_inr)
+          .map((r) => r.card)
+          .sort();
         assert.deepEqual(accept, c.expected.accept, `${c.id} at ${rate}%`);
       }
     } finally {
-      low.forEach(([card, cat], i) => { CARDS[card].rates[cat] = saved[i]; });
+      low.forEach(([card, cat], i) => {
+        CARDS[card].rates[cat] = saved[i];
+      });
     }
   }
 });
 
 check("6 cases with unique ids C01..C06", () => {
   assert.equal(CASES.length, 6);
-  assert.deepEqual(CASES.map((c) => c.id), ["C01", "C02", "C03", "C04", "C05", "C06"]);
+  assert.deepEqual(
+    CASES.map((c) => c.id),
+    ["C01", "C02", "C03", "C04", "C05", "C06"],
+  );
 });
 
 check("cases match hand-computed accept list and reward", () => {
@@ -118,25 +174,39 @@ check("classify_merchant: known, case and space tolerant, unknown", () => {
 
 check("rank_cards: sorted desc, exact rewards, tie broken by card id", () => {
   const { ranked } = rank_cards({ amount: 15000, category: "amazon" });
-  assert.deepEqual(ranked, [
-    { card: "hdfc_swiggy", rate_pct: 5, reward_inr: 750 },
-    { card: "icici_amazon_pay", rate_pct: 5, reward_inr: 750 },
-    { card: "hdfc_infinia", rate_pct: 3.33, reward_inr: 499.5 },
-    { card: "idfc_first_power_plus", rate_pct: 0.5, reward_inr: 75 },
-  ].sort((a, b) => b.reward_inr - a.reward_inr || (a.card < b.card ? -1 : 1)));
+  assert.deepEqual(
+    ranked,
+    [
+      { card: "hdfc_swiggy", rate_pct: 5, reward_inr: 750 },
+      { card: "icici_amazon_pay", rate_pct: 5, reward_inr: 750 },
+      { card: "hdfc_infinia", rate_pct: 3.33, reward_inr: 499.5 },
+      { card: "idfc_first_power_plus", rate_pct: 0.5, reward_inr: 75 },
+    ].sort((a, b) => b.reward_inr - a.reward_inr || (a.card < b.card ? -1 : 1)),
+  );
   assert.equal(ranked.length, 4);
   for (let i = 1; i < ranked.length; i++) assert.ok(ranked[i - 1].reward_inr >= ranked[i].reward_inr);
 });
 
 check("rank_cards: fuel_hpcl is 5% on IDFC and 0% on the rest", () => {
   const { ranked } = rank_cards({ amount: 2000, category: "fuel_hpcl" });
-  assert.deepEqual(ranked.map((r) => r.reward_inr), [100, 0, 0, 0]);
+  assert.deepEqual(
+    ranked.map((r) => r.reward_inr),
+    [100, 0, 0, 0],
+  );
   assert.equal(ranked[0].card, "idfc_first_power_plus");
 });
 
 check("rank_cards: decimal rates round to paise", () => {
   const { ranked } = rank_cards({ amount: 800, category: "swiggy" });
-  assert.deepEqual(ranked.map((r) => [r.card, r.reward_inr]), [["hdfc_swiggy", 80], ["hdfc_infinia", 26.64], ["icici_amazon_pay", 8], ["idfc_first_power_plus", 4]]);
+  assert.deepEqual(
+    ranked.map((r) => [r.card, r.reward_inr]),
+    [
+      ["hdfc_swiggy", 80],
+      ["hdfc_infinia", 26.64],
+      ["icici_amazon_pay", 8],
+      ["idfc_first_power_plus", 4],
+    ],
+  );
 });
 
 check("rank_cards: error outputs", () => {
@@ -154,8 +224,23 @@ check("runTool: dispatches and rejects unknown tools", () => {
 });
 
 check("METRICS has 8 items in contract order and groups", () => {
-  assert.deepEqual(METRICS.map((m) => m.id), ["trajectory", "task_success", "answer_match", "grounded", "tool_recall", "tool_precision", "rubric_judge", "ops"]);
-  assert.deepEqual(METRICS.map((m) => m.group), ["TOOL CHOICE", "RESULT", "REPLY TEXT", "NO MADE-UP NUMBERS", "TOOL CHOICE", "TOOL CHOICE", "SECOND OPINION", "SPEED"]);
+  assert.deepEqual(
+    METRICS.map((m) => m.id),
+    ["trajectory", "task_success", "answer_match", "grounded", "tool_recall", "tool_precision", "rubric_judge", "ops"],
+  );
+  assert.deepEqual(
+    METRICS.map((m) => m.group),
+    [
+      "TOOL CHOICE",
+      "RESULT",
+      "REPLY TEXT",
+      "NO MADE-UP NUMBERS",
+      "TOOL CHOICE",
+      "TOOL CHOICE",
+      "SECOND OPINION",
+      "SPEED",
+    ],
+  );
 });
 
 check("perfectRun passes all 7 deterministic metrics on every case", () => {
@@ -183,12 +268,16 @@ check("rubric_judge: score 5 passes, score 2 fails", () => {
 });
 
 check("bug table: all 5 bugs x 6 cases fail and pass exactly the listed metrics", () => {
-  assert.deepEqual(BUGS.map((b) => b.id), Object.keys(BUG_TABLE));
+  assert.deepEqual(
+    BUGS.map((b) => b.id),
+    Object.keys(BUG_TABLE),
+  );
   for (const [bugId, row] of Object.entries(BUG_TABLE)) {
     for (const c of CASES) {
       const scores = scoreRun(c, injectBug(c, perfectRun(c), bugId));
       for (const id of row.fails) assert.equal(scores[id].pass, false, `${bugId} ${c.id} should fail ${id}`);
-      for (const id of row.passes) assert.equal(scores[id].pass, true, `${bugId} ${c.id} should pass ${id}: ${scores[id].reason}`);
+      for (const id of row.passes)
+        assert.equal(scores[id].pass, true, `${bugId} ${c.id} should pass ${id}: ${scores[id].reason}`);
       assert.equal(row.fails.length + row.passes.length, DETERMINISTIC.length);
     }
   }
@@ -329,7 +418,8 @@ check("parseJudge", () => {
 check("judgePrompt asks for 0-5, carries query and reply, hides the expected answer", () => {
   const c = caseById.C01;
   const { system, user } = judgePrompt(c, perfectRun(c));
-  for (const word of ["relevance", "groundedness", "clarity", "0", "5", "integer"]) assert.ok(system.includes(word), word);
+  for (const word of ["relevance", "groundedness", "clarity", "0", "5", "integer"])
+    assert.ok(system.includes(word), word);
   assert.ok(user.includes(c.query));
   assert.ok(user.includes(`Use ${CARDS[c.expected.card].name}`));
   assert.ok(!user.includes("expected"));
@@ -363,7 +453,11 @@ check("a run with no final answer fails the answer metrics without throwing", ()
 
 check("answer_match treats 'Power Plus' and 'Power+' as the same card, and still rejects a wrong card", () => {
   const c = caseById.C06;
-  const withReply = (reply) => { const run = perfectRun(c); run.steps.at(-1).reply = reply; return scoreRun(c, run).answer_match.pass; };
+  const withReply = (reply) => {
+    const run = perfectRun(c);
+    run.steps.at(-1).reply = reply;
+    return scoreRun(c, run).answer_match.pass;
+  };
   assert.equal(withReply("The best credit card for an Airtel phone bill is the IDFC First Power Plus card."), true);
   assert.equal(withReply("Use IDFC First Power+ for Airtel."), true);
   assert.equal(withReply("Use idfc_first_power_plus."), true);

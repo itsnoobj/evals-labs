@@ -14,5 +14,7 @@ const failed = files.filter((f) => {
   if (status !== 0) console.error(stderr);
   return status !== 0;
 });
-console.log(failed.length ? `${failed.length} of ${files.length} files have syntax errors` : `${files.length} files OK`);
+console.log(
+  failed.length ? `${failed.length} of ${files.length} files have syntax errors` : `${files.length} files OK`,
+);
 process.exit(failed.length ? 1 : 0);

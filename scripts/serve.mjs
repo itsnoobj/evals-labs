@@ -7,8 +7,13 @@ import { fileURLToPath } from "node:url";
 
 const SITE_ROOT = fileURLToPath(new URL("../evals-lab/", import.meta.url));
 const MIME = {
-  ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8",
-  ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png",
+  ".html": "text/html; charset=utf-8",
+  ".js": "text/javascript; charset=utf-8",
+  ".mjs": "text/javascript; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".svg": "image/svg+xml",
+  ".png": "image/png",
 };
 
 // Maps a URL path to a file inside root. Returns null when the path would leave root.
@@ -28,7 +33,10 @@ async function handle(req, res) {
   const file = resolveSafe(SITE_ROOT, req.url);
   if (!file) return res.writeHead(403).end("Forbidden");
   try {
-    res.writeHead(200, { "content-type": MIME[extname(file)] ?? "application/octet-stream", "cache-control": "no-cache" });
+    res.writeHead(200, {
+      "content-type": MIME[extname(file)] ?? "application/octet-stream",
+      "cache-control": "no-cache",
+    });
     res.end(await readFile(file));
   } catch {
     res.writeHead(404).end("Not found");

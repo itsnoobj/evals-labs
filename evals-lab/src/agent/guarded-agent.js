@@ -28,9 +28,13 @@ function checkRules(c, run) {
   if (!classify) rules[1].push("The agent never looked up the merchant's category with classify_merchant.");
   else if (classify.output?.error) rules[1].push("classify_merchant returned an error.");
   else {
-    const merchant = String(classify.args?.merchant ?? "").trim().toLowerCase();
+    const merchant = String(classify.args?.merchant ?? "")
+      .trim()
+      .toLowerCase();
     if (!merchant || !questionLower.includes(merchant)) {
-      rules[1].push(`The merchant "${classify.args?.merchant ?? ""}" passed to classify_merchant is not in the question.`);
+      rules[1].push(
+        `The merchant "${classify.args?.merchant ?? ""}" passed to classify_merchant is not in the question.`,
+      );
     }
   }
 
@@ -42,7 +46,10 @@ function checkRules(c, run) {
       rules[2].push(`The amount passed to rank_cards (${rank.args?.amount}) is not the amount in the question.`);
     }
     const category = classify && !classify.output?.error ? classify.output?.category : undefined;
-    if (!category) rules[2].push("The category passed to rank_cards could not be checked because classify_merchant gave no category.");
+    if (!category)
+      rules[2].push(
+        "The category passed to rank_cards could not be checked because classify_merchant gave no category.",
+      );
     else if (rank.args?.category !== category) {
       rules[2].push("The category passed to rank_cards does not match what classify_merchant returned.");
     }
@@ -54,7 +61,8 @@ function checkRules(c, run) {
   else if (!top) rules[3].push("The final answer cannot be checked because there is no ranking from rank_cards.");
   else {
     const tied = rank.output.ranked.filter((row) => row.reward_inr === top.reward_inr).map((row) => row.card);
-    if (!tied.includes(final.card)) rules[3].push("The card in the final answer is not the top-ranked card from rank_cards.");
+    if (!tied.includes(final.card))
+      rules[3].push("The card in the final answer is not the top-ranked card from rank_cards.");
     if (!(Math.abs(Number(final.reward_inr) - top.reward_inr) <= 0.5)) {
       rules[3].push("The reward in the final answer does not match the top-ranked card's reward from rank_cards.");
     }
@@ -68,7 +76,9 @@ function checkRules(c, run) {
     }
     const loose = numbersIn(final.reply).filter((n) => !allowed.some((a) => Math.abs(a - n) < 0.005));
     if (loose.length) {
-      rules[4].push(`The reply mentions numbers that are not in the question or in any tool result: ${[...new Set(loose)].join(", ")}.`);
+      rules[4].push(
+        `The reply mentions numbers that are not in the question or in any tool result: ${[...new Set(loose)].join(", ")}.`,
+      );
     }
   }
 
@@ -80,7 +90,8 @@ function checkRules(c, run) {
     if (toolSteps.filter((s) => s.tool === name).length > 1) rules[5].push(`The agent called ${name} more than once.`);
   }
   const unreadable = run.steps.filter((s) => s.kind === "invalid").length;
-  if (unreadable) rules[5].push(`${unreadable} ${unreadable === 1 ? "reply was" : "replies were"} not readable as a step.`);
+  if (unreadable)
+    rules[5].push(`${unreadable} ${unreadable === 1 ? "reply was" : "replies were"} not readable as a step.`);
 
   // Output guardrails run on the final answer the model gave. A failure is a problem for this try,
   // so retry, fallback and refuse apply. They read the question's amount, never an answer key.
@@ -124,12 +135,28 @@ function fallbackFinal(checked) {
     `Use ${CARDS[top.card].name} for ${classify.args.merchant}. ` +
     `It returns ${top.rate_pct}% on ${classify.output.category}, so you earn ₹${top.reward_inr} on ₹${amount}.`;
   const final = { card: top.card, reward_inr: top.reward_inr, reply };
-  return { kind: "final", ...final, raw: JSON.stringify({ final }), ms: 0, tokens: 0, validJson: true, source: "fallback" };
+  return {
+    kind: "final",
+    ...final,
+    raw: JSON.stringify({ final }),
+    ms: 0,
+    tokens: 0,
+    validJson: true,
+    source: "fallback",
+  };
 }
 
 function refusedFinal() {
   const final = { card: null, reward_inr: null, reply: REFUSAL_REPLY };
-  return { kind: "final", ...final, raw: JSON.stringify({ final }), ms: 0, tokens: 0, validJson: true, source: "refused" };
+  return {
+    kind: "final",
+    ...final,
+    raw: JSON.stringify({ final }),
+    ms: 0,
+    tokens: 0,
+    validJson: true,
+    source: "refused",
+  };
 }
 
 // chat: same contract as runCase. Returns { run, attempts, outcome, events }.
@@ -146,8 +173,24 @@ export async function runGuarded(chat, c, opts = {}) {
   const input = checkInput(c.query);
   if (!input.ok) {
     emit("guard_in_fail", 0, input.reason, { rule: input.rule });
-    const run = { caseId: c.id, model, temperature, seed, steps: [], totalMs: 0, totalTokens: 0, attemptCount: 0, source: "blocked" };
-    return { run, attempts: [{ run, verdict: null }], outcome: "blocked", events, blocked: { rule: input.rule, reason: input.reason } };
+    const run = {
+      caseId: c.id,
+      model,
+      temperature,
+      seed,
+      steps: [],
+      totalMs: 0,
+      totalTokens: 0,
+      attemptCount: 0,
+      source: "blocked",
+    };
+    return {
+      run,
+      attempts: [{ run, verdict: null }],
+      outcome: "blocked",
+      events,
+      blocked: { rule: input.rule, reason: input.reason },
+    };
   }
   emit("guard_in_ok", 0, `Input guardrails passed: ${INPUT_RULES.length} rules`);
 
@@ -158,7 +201,10 @@ export async function runGuarded(chat, c, opts = {}) {
   for (let k = 0; k < maxAttempts; k++) {
     emit("attempt_start", k, `Starting attempt ${k + 1} of ${maxAttempts}.`);
     const run = await runCase(chat, c, {
-      model, seed: seed + k * 100, temperature, constrain: true,
+      model,
+      seed: seed + k * 100,
+      temperature,
+      constrain: true,
       onStep: (steps) => onStep?.(steps, k),
     });
     const checked = checkRules(c, run);
@@ -185,17 +231,28 @@ export async function runGuarded(chat, c, opts = {}) {
     let usable = -1;
     for (let k = attempts.length - 1; k >= 0; k--) {
       const { rules } = checks[k];
-      if (!rules[1].length && !rules[2].length) { usable = k; break; }
+      if (!rules[1].length && !rules[2].length) {
+        usable = k;
+        break;
+      }
     }
     const last = attempts.length - 1;
     if (usable >= 0) {
       chosen = withFinal(attempts[usable].run, fallbackFinal(checks[usable]));
       outcome = "fixed_by_fallback";
-      emit("fallback", last, "All tries failed the checker, but the tools ran correctly, so the answer is built from the rank_cards result.");
+      emit(
+        "fallback",
+        last,
+        "All tries failed the checker, but the tools ran correctly, so the answer is built from the rank_cards result.",
+      );
     } else {
       chosen = withFinal(attempts[last].run, refusedFinal());
       outcome = "refused";
-      emit("refused", last, "The tools never ran correctly, so there is nothing to build an answer from. Refusing instead of guessing.");
+      emit(
+        "refused",
+        last,
+        "The tools never ran correctly, so there is nothing to build an answer from. Refusing instead of guessing.",
+      );
     }
   }
 
@@ -215,7 +272,10 @@ export function makeReplayChat(runs) {
   let runIndex = -1;
   let stepIndex = 0;
   return async function chat({ messages }) {
-    if (messages.length === 2) { runIndex += 1; stepIndex = 0; }
+    if (messages.length === 2) {
+      runIndex += 1;
+      stepIndex = 0;
+    }
     const step = runs[runIndex]?.steps[stepIndex];
     stepIndex += 1;
     return step ? { text: step.raw, tokens: step.tokens, ms: step.ms } : { text: "{}", tokens: 0, ms: 0 };

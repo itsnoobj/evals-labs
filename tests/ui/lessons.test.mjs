@@ -5,20 +5,36 @@ import { METRICS, BUGS, scoreRun, injectBug } from "../../evals-lab/src/evals/en
 import { STAGES, METRIC_STAGE, BUG_STAGE, BUG_LESSON, MISSIONS, stageStates } from "../../evals-lab/src/ui/lessons.js";
 
 let n = 0;
-const ok = (name, fn) => { fn(); n += 1; console.log(`ok  ${name}`); };
+const ok = (name, fn) => {
+  fn();
+  n += 1;
+  console.log(`ok  ${name}`);
+};
 const c = CASES[0];
 const perfect = perfectRun(c);
 
 ok("every metric and bug has teaching copy", () => {
   for (const m of METRICS) assert.ok(METRIC_STAGE[m.id]?.length, m.id);
-  for (const b of BUGS) { assert.ok(BUG_STAGE[b.id], b.id); assert.ok(BUG_LESSON[b.id], b.id); }
-  for (const stages of Object.values(METRIC_STAGE)) for (const s of stages) assert.ok(STAGES.some((x) => x.id === s), s);
+  for (const b of BUGS) {
+    assert.ok(BUG_STAGE[b.id], b.id);
+    assert.ok(BUG_LESSON[b.id], b.id);
+  }
+  for (const stages of Object.values(METRIC_STAGE))
+    for (const s of stages)
+      assert.ok(
+        STAGES.some((x) => x.id === s),
+        s,
+      );
 });
 
 ok("mission task ids are unique and every mission has a required task", () => {
   const ids = MISSIONS.flatMap((m) => m.tasks.map((t) => t.id));
   assert.equal(new Set(ids).size, ids.length);
-  for (const m of MISSIONS) assert.ok(m.tasks.some((t) => !t.bonus), m.id);
+  for (const m of MISSIONS)
+    assert.ok(
+      m.tasks.some((t) => !t.bonus),
+      m.id,
+    );
 });
 
 ok("perfect run: every stage ok, no extras", () => {

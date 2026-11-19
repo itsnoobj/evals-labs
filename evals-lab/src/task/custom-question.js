@@ -34,8 +34,12 @@ function guessMerchant(text) {
 export function makeCustomCase(text) {
   const query = String(text ?? "").trim();
   return {
-    id: "CUSTOM", query, custom: true,
-    merchant: guessMerchant(query), amount: guessAmount(query),
-    expected: null, expectedTrajectory: null,
+    id: "CUSTOM",
+    query,
+    custom: true,
+    merchant: guessMerchant(query),
+    amount: guessAmount(query),
+    expected: null,
+    expectedTrajectory: null,
   };
 }
