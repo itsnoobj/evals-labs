@@ -132,7 +132,7 @@ const scoreRows = (metrics, scores) => list(metrics.map((m) => `${mark(scores?.[
 const autoFails = (metrics, scores) => metrics.filter((m) => m.id !== "rubric_judge" && scores?.[m.id]?.pass !== true);
 
 // The AI grader (LLM as judge) has its own node. In the 8 checks panels it gets one sentence and a pointer.
-const graderNote = () => '<p class="wd-sub">AI grader (LLM as judge): NOT RUN here, and not part of the ship bar. Click the AI grader box to see how it works.</p>';
+const graderNote = () => '<p class="muted">AI grader (LLM as judge): not run here, and not part of the ship bar. Click the AI grader box to see how it works.</p>';
 
 // The visual for the grader node: what it reads, the prompt it gets (built from this run), 5 asks, result. Never asked here.
 function graderPanel(c, side, scores) {
@@ -211,7 +211,9 @@ export function buildDetails(kind, side, shared) {
       (fail ? list(metrics.filter((m) => side.scores[m.id]?.pass === false).map((m) => e(m.label))) : "")
     : "<p>The scorecard is filled when the 8 checks have run.</p>");
   const bad = autoFails(metrics, side.scores);
+  const failed = bad.filter((m) => side.scores?.[m.id]?.pass === false);
   d.gate = panel("gate", !done ? "<p>Not decided yet.</p>"
+    : !failed.length && bad.length ? `<p>${mark(null)} <b>Cannot decide.</b> Your own question has no answer key, so these checks did not run:</p>${list(bad.map((m) => e(m.label)))}<p class="muted">Pick one of the test questions to get a ship or block decision.</p>`
     : bad.length ? `<p>${mark(false)} <b>Blocked.</b> These checks did not pass:</p>${list(bad.map((m) => e(m.label)))}`
       : `<p>${mark(true)} <b>Ship.</b> All automatic checks passed. One run proves little, so a real team gates on the whole test set.</p>`);
   return d;

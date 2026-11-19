@@ -65,6 +65,11 @@ const bad = { ...scores, task_success: { pass: false, reason: 'wrong' } };
 const g = buildDetails('careful', { ...side, scores: bad }, shared).gate;
 has(g, 'Blocked'); has(g, 'Correct final answer');
 
+// a typed question (checks not run, none failed) is "Cannot decide", not "Blocked"
+const nk = { ...scores, task_success: { pass: null, reason: 'no answer key for your own question' } };
+const g2 = buildDetails('careful', { ...side, scores: nk }, shared).gate;
+has(g2, 'Cannot decide'); lacks(g2, 'Blocked');
+
 // pending: nothing invented
 const pend = buildDetails('careful', { ...side, steps: [], attempts: [{ steps: [], verdict: null }], pending: true, scores: null }, shared);
 has(pend.t1, 'Not reached yet'); has(pend.c3, 'reads the run when this try ends'); has(pend.gate, 'Not decided yet');

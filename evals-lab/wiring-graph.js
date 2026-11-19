@@ -181,8 +181,10 @@ export function wiringStates(kind, { steps = [], verdict = null, attempts = 1, o
     st.judge = 'notrun';
     st.trace = finished ? 'done' : 'idle';
     st.eval = st.card = finished && hasScores ? 'done' : 'idle';
+    // A check that could not run (a typed question has no answer key) is not a pass, but it is not a fail either.
+    const gated = Object.entries(scores ?? {}).filter(([id]) => id !== 'rubric_judge').map(([, s]) => s?.pass);
     st.gate = !finished || !hasScores ? 'idle'
-      : Object.entries(scores).every(([id, s]) => id === 'rubric_judge' || s?.pass === true) ? 'pass' : 'fail';
+      : gated.includes(false) ? 'fail' : gated.every((p) => p === true) ? 'pass' : 'notrun';
   }
   return st;
 }

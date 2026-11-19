@@ -89,6 +89,10 @@ check(() => assert.equal(bad.refuse, "used"));
 // A bad score sinks the gate.
 const failScores = { ...perfectScores, task_success: { ...perfectScores.task_success, pass: false } };
 check(() => assert.equal(wiringStates("careful", { steps: good.steps, scores: failScores }).gate, "fail"));
+// A check that could not run (typed question, no answer key) gives 'notrun', not 'fail'. A real fail still wins.
+const noKey = { ...perfectScores, task_success: { pass: null, score: null, reason: "no answer key for your own question" } };
+check(() => assert.equal(wiringStates("careful", { steps: good.steps, scores: noKey }).gate, "notrun"));
+check(() => assert.equal(wiringStates("careful", { steps: good.steps, scores: { ...noKey, grounded: { pass: false } } }).gate, "fail"));
 // The AI grader alone does not decide the gate.
 check(() => assert.equal(wiringStates("careful", { steps: good.steps, scores: { ...perfectScores, rubric_judge: { pass: false } } }).gate, "pass"));
 
