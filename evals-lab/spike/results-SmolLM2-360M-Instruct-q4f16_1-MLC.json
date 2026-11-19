@@ -1,0 +1,1937 @@
+{
+  "meta": {
+    "chrome": "Chrome/157.0.8103.79",
+    "machine": "Apple M4 Max, 64 GB, macOS 26.x",
+    "mode": "headless",
+    "webllm": {
+      "url": "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.79/+esm",
+      "version": "0.2.79"
+    },
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"
+  },
+  "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+  "engine": "web-worker (CreateWebWorkerMLCEngine)",
+  "loadMs": 63332,
+  "download": {
+    "storageEstimateDeltaBytes": 210627328,
+    "resourceTimingTransferBytes": 0,
+    "resourceTimingEntries": 1,
+    "used": "storage.estimate() usage delta before/after load; resource timing is listed for reference and misses worker fetches and cache hits",
+    "note": "A delta near 0 means the weights were already cached in this browser profile."
+  },
+  "gpu": {
+    "webgpu": true,
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "device": "",
+    "description": "",
+    "shaderF16": true,
+    "maxBufferSize": 4294967292,
+    "maxStorageBufferBindingSize": 4294967292
+  },
+  "benchmark": {
+    "cases": 12,
+    "runsPerCase": 5,
+    "temperature": 0.7,
+    "seeds": "1000 + runIndex",
+    "wallMs": 219899,
+    "date": "2026-11-19T08:18:45.379Z"
+  },
+  "summary": {
+    "nRuns": 60,
+    "taskSuccess": 0,
+    "metricPassRates": {
+      "trajectory": 0,
+      "task_success": 0,
+      "answer_match": 0,
+      "grounded": 0.6666666666666666,
+      "tool_recall": 0,
+      "tool_precision": 0.9,
+      "ops": 0.6666666666666666
+    },
+    "jsonValidity": 0.5462184873949579,
+    "stepsTotal": 119,
+    "parseFailures": 44,
+    "shapeFailures": 10,
+    "perStepAccuracy": 0,
+    "meanRunMs": 3665.0333333333333,
+    "meanRunTokens": 165.2,
+    "meanStepsPerRun": 1.9833333333333334,
+    "failureKinds": {
+      "wrong_tool": 36,
+      "invalid_json": 13,
+      "invalid_shape": 7,
+      "no_final_answer": 4
+    },
+    "topFailureReasons": [
+      {
+        "reason": "trajectory: # of # tool steps match",
+        "count": 60,
+        "example": "0 of 2 tool steps match"
+      },
+      {
+        "reason": "tool_recall: missing: classify_merchant, rank_cards",
+        "count": 60,
+        "example": "missing: classify_merchant, rank_cards"
+      },
+      {
+        "reason": "ops: # ms, # tokens, # invalid JSON step(s)",
+        "count": 20,
+        "example": "5475 ms, 232 tokens, 1 invalid JSON step(s)"
+      },
+      {
+        "reason": "task_success: no final answer",
+        "count": 17,
+        "example": "no final answer"
+      },
+      {
+        "reason": "answer_match: no final answer",
+        "count": 17,
+        "example": "no final answer"
+      }
+    ],
+    "perCaseTaskSuccess": {
+      "C01": 0,
+      "C02": 0,
+      "C03": 0,
+      "C04": 0,
+      "C05": 0,
+      "C06": 0,
+      "C07": 0,
+      "C08": 0,
+      "C09": 0,
+      "C10": 0,
+      "C11": 0,
+      "C12": 0
+    },
+    "failureExamples": [
+      {
+        "caseId": "C01",
+        "seed": 1000,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"final\": {\n    \"card\": \"Mystery Card\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1001,
+        "kind": "invalid_json",
+        "raws": [
+          "{\n  \"final\": {\"card\":\"<card id>\",\"reward_inr\":0.00000000000000000025000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\": {\"tool\":{\"....}}} or { \"\n       \n\n: \"Final answer: \"\n\n, \"card\": \"card\" , \"reward_inr\": \"reward_inr\"\n\n}\n\n, \"amount\": \"amount\"\n\n}\n\n, \"category\": \"category\"\n\n}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1002,
+        "kind": "invalid_json",
+        "raws": [
+          "{\n  \"final\": {\n    \"card\":\"My First Card\",\n    \"reward_inr\":1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\": {\n    \"tool\":\"my_cardsome_tool\",\n    \"args\": {\n      \"card\":\"My First Card\",\n      \"reward_inr\":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\": {\n    \"tool\":\"my_cardsome_tool\",\n    \"args\": {\n      \"card\":\"My First Card\",\n      \"reward_inr\":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\": {\n    \"tool\":\"my_cardsome_tool\",\n    \"args\": {\n      \"card\":\"My First Card\",\n      \"rewards\":[1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1003,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"final\": {\n    \"card\": \"Card X, Rank 1\",\n    \"rating\": \"7.5/10\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1004,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"final\": {\n    \"card\": {\n      \"id\": \"Card1\",\n      \"title\": \"Card1\",\n      \"amount\": \"15000\"\n    }\n  },\n  \"final\": {\n    \"card\": {\n      \"id\": \"Card2\",\n      \"title\": \"Card2\",\n      \"amount\": \"15000\"\n    }\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1000,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"card\":\"My Current Card\",\"final\":{\"amount\":\"$800\",\"name\":\"My Current Bike\"},\"change\":\"0\",\"amount\":null,\"answer\":\"My Current Bike\"}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1001,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"final\":\n  {\n    \"card\":\n  \"best card for order ₹800 of food on Swiggy: \"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1002,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"final\": {\n    \"card_id\": \"Card1\",\n    \"price\": \"Card1\",\n    \"reward\": \"Card1\",\n    \"answer\": \"Card1\",\n    \"name\": \"Card1\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1003,
+        "kind": "invalid_json",
+        "raws": [
+          "{\n  \"final\": {\n    \"card\": \"Card\",\n    \"reward_inr\": 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\": {\n    \"card\": \"Card\",\n    \"reward_inr\": 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\": {\n    \"card\": \"Card\",\n    \"reward_inr\": 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\": {\n    \"card\": \"Card\",\n    \"reward_inr\": 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1004,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"final\": {\n    \"final\": \"Card #10000000000000000000000000000000\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1000,
+        "kind": "invalid_json",
+        "raws": [
+          "{\n  \"final\": {\n    \"card\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"reward\": 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\": {\n    \"tool\": \"DMart\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"",
+          "{\n  \"final\": {\n    \"tool\": \"DMart\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"",
+          "{\n  \"final\": {\n    \"tool\": \"DMart\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \""
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1001,
+        "kind": "invalid_json",
+        "raws": [
+          "{\n  \"final\":\n  {\n    \"card\": 2000,\n    \"rewards\": \"0.00\",\n    \"rewards_amount\": \"0.20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\":\n  {\n    \"vendor\": \"DMart\",\n    \"rewards\": \"0.00\",\n    \"rewards_amount\": \"0.200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\":\n  {\n    \"vendor\": \"DMart\",\n    \"rewards\": \"0.00\",\n    \"rewards_amount\": \"0.200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\n  \"final\":\n  {\n    \"vendor\": \"DMart\",\n    \"rewards\": \"0.00\",\n    \"rewards_amount\": \"0.200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      }
+    ]
+  },
+  "runs": [
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Mystery Card",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Mystery Card\"\n  }\n}",
+          "ms": 702,
+          "tokens": 19,
+          "validJson": true
+        }
+      ],
+      "totalMs": 702,
+      "totalTokens": 19
+    },
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\"card\":\"<card id>\",\"reward_inr\":0.00000000000000000025000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3483,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "final",
+          "raw": "{\n  \"final\": {\"tool\":{\"....}}} or { \"\n       \n\n: \"Final answer: \"\n\n, \"card\": \"card\" , \"reward_inr\": \"reward_inr\"\n\n}\n\n, \"amount\": \"amount\"\n\n}\n\n, \"category\": \"category\"\n\n}",
+          "ms": 1992,
+          "tokens": 73,
+          "validJson": true
+        }
+      ],
+      "totalMs": 5475,
+      "totalTokens": 232
+    },
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\":\"My First Card\",\n    \"reward_inr\":1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 4057,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\":\"my_cardsome_tool\",\n    \"args\": {\n      \"card\":\"My First Card\",\n      \"reward_inr\":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 5097,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\":\"my_cardsome_tool\",\n    \"args\": {\n      \"card\":\"My First Card\",\n      \"reward_inr\":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3388,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\":\"my_cardsome_tool\",\n    \"args\": {\n      \"card\":\"My First Card\",\n      \"rewards\":[1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 4196,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 16738,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Card X, Rank 1",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card X, Rank 1\",\n    \"rating\": \"7.5/10\"\n  }\n}",
+          "ms": 997,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 997,
+      "totalTokens": 34
+    },
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": {
+            "id": "Card2",
+            "title": "Card2",
+            "amount": "15000"
+          },
+          "raw": "{\n  \"final\": {\n    \"card\": {\n      \"id\": \"Card1\",\n      \"title\": \"Card1\",\n      \"amount\": \"15000\"\n    }\n  },\n  \"final\": {\n    \"card\": {\n      \"id\": \"Card2\",\n      \"title\": \"Card2\",\n      \"amount\": \"15000\"\n    }\n  }\n}",
+          "ms": 2206,
+          "tokens": 85,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2206,
+      "totalTokens": 85
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\n  \"card\":\"My Current Card\",\"final\":{\"amount\":\"$800\",\"name\":\"My Current Bike\"},\"change\":\"0\",\"amount\":null,\"answer\":\"My Current Bike\"}",
+          "ms": 1177,
+          "tokens": 42,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1177,
+      "totalTokens": 42
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "best card for order ₹800 of food on Swiggy: ",
+          "raw": "{\n  \"final\":\n  {\n    \"card\":\n  \"best card for order ₹800 of food on Swiggy: \"\n  }\n}",
+          "ms": 1268,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1268,
+      "totalTokens": 34
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\n  \"final\": {\n    \"card_id\": \"Card1\",\n    \"price\": \"Card1\",\n    \"reward\": \"Card1\",\n    \"answer\": \"Card1\",\n    \"name\": \"Card1\"\n  }\n}",
+          "ms": 1550,
+          "tokens": 52,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1550,
+      "totalTokens": 52
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card\",\n    \"reward_inr\": 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3168,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card\",\n    \"reward_inr\": 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3195,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card\",\n    \"reward_inr\": 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 2973,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card\",\n    \"reward_inr\": 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 2991,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 12327,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\n  \"final\": {\n    \"final\": \"Card #10000000000000000000000000000000\"\n  }\n}",
+          "ms": 1117,
+          "tokens": 50,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1117,
+      "totalTokens": 50
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"reward\": 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3193,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\": \"DMart\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"",
+          "ms": 3633,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\": \"DMart\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"",
+          "ms": 2969,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\": \"DMart\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"rewards\": \"rewards\",\n    \"",
+          "ms": 3374,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 13169,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\":\n  {\n    \"card\": 2000,\n    \"rewards\": \"0.00\",\n    \"rewards_amount\": \"0.20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3774,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\":\n  {\n    \"vendor\": \"DMart\",\n    \"rewards\": \"0.00\",\n    \"rewards_amount\": \"0.200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3529,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\":\n  {\n    \"vendor\": \"DMart\",\n    \"rewards\": \"0.00\",\n    \"rewards_amount\": \"0.200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3409,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\":\n  {\n    \"vendor\": \"DMart\",\n    \"rewards\": \"0.00\",\n    \"rewards_amount\": \"0.200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3507,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 14219,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\n  \"final\": {\n    \"card_id\": \"Card1\",\n    \"reward_amount\": \"1000\",\n    \"answer\": \"Best Rewards Card\"\n  }\n}",
+          "ms": 922,
+          "tokens": 42,
+          "validJson": true
+        }
+      ],
+      "totalMs": 922,
+      "totalTokens": 42
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Card I v2.0",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card I v2.0\",\n    \"repo\": \"The Big Vendor\",\n    \"amount\": \"1000\"\n  }\n}",
+          "ms": 883,
+          "tokens": 42,
+          "validJson": true
+        }
+      ],
+      "totalMs": 883,
+      "totalTokens": 42
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": {
+            "id": "Card1",
+            "name": "Card1",
+            "amount": "100",
+            "rewards": null,
+            "points": null
+          },
+          "raw": "{\n  \"final\": {\n    \"card\": {\n      \"id\": \"Card1\",\n      \"name\": \"Card1\",\n      \"amount\": \"100\",\n      \"rewards\": null,\n      \"points\": null\n    }\n  }\n}",
+          "ms": 1301,
+          "tokens": 54,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1301,
+      "totalTokens": 54
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\n  \"card\":\"Ricair Ultra High Speed 10GB Data Card\",\n  \"final\":{\"cover\":\"<cover amount>\",\n  \"rewards\":\"<amount of rewards>\",\n  \"rewards:type\":[\"BTW\", \"<rewards type>\"],\"Rewards:cost\":{\"cost\":[ \"<cost of the card\"]}}}",
+          "ms": 1709,
+          "tokens": 75,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1709,
+      "totalTokens": 75
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": {
+            "name": "Airtel Pay-As-You-Go 3000",
+            "price": "1",
+            "amount": "₹500"
+          },
+          "raw": "{\n  \"final\":\n  {\n    \"card\": {\n      \"name\": \"Airtel Pay-As-You-Go 3000\",\n      \"price\": \"1\",\n      \"amount\": \"₹500\"\n    }\n  }\n}",
+          "ms": 1548,
+          "tokens": 56,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1548,
+      "totalTokens": 56
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "reward_inr": "1000",
+          "reply": "Card1 pays your airtel bill",
+          "raw": "{\n  \"final\": {\n    \"card_id\": \"Card1\",\n    \"reward_inr\": \"1000\",\n    \"reply\": \"Card1 pays your airtel bill\"\n  }\n}",
+          "ms": 1172,
+          "tokens": 46,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1172,
+      "totalTokens": 46
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Card5",
+          "reward_inr": "1000000",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card5\",\n    \"reward_inr\": \"1000000\"\n  }\n}",
+          "ms": 836,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 836,
+      "totalTokens": 34
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Diners",
+          "reward_inr": 10000000,
+          "reply": "Your reward in ₹499.90",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Diners\",\n    \"reward_inr\": 10000000,\n    \"reply\": \"Your reward in ₹499.90\"\n  }\n}",
+          "ms": 1293,
+          "tokens": 52,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1293,
+      "totalTokens": 52
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Card1",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"rewardsType\": \"Card1\",\n    \"amount\": \"3000\"\n  }\n}",
+          "ms": 860,
+          "tokens": 47,
+          "validJson": true
+        }
+      ],
+      "totalMs": 860,
+      "totalTokens": 47
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "IndianOil",
+          "raw": "{\n  \"final\": {\"card\":\"IndianOil\",\"comment\":\"Filling up your fuel\"}\n}",
+          "ms": 652,
+          "tokens": 21,
+          "validJson": true
+        }
+      ],
+      "totalMs": 652,
+      "totalTokens": 21
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\": \"IndianOil\", \"amount\": \"₹3000\"\n}",
+          "ms": 413,
+          "tokens": 22,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        },
+        {
+          "kind": "final",
+          "raw": "{\n  \"final\": {\n    \"tool\": \"IndianOil\",\n    \"amount\": \"₹3000\"\n  }\n}",
+          "ms": 624,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1037,
+      "totalTokens": 52
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\": \"IndianOil\",\n  \"amount\": \"$3000\"\n}",
+          "ms": 421,
+          "tokens": 21,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        },
+        {
+          "kind": "final",
+          "raw": "{\n  \"final\": {\"amount\": \"100000\"}\n}",
+          "ms": 590,
+          "tokens": 18,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1011,
+      "totalTokens": 39
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\": \"IndianOil\",\n  \"price\": 3000,\n  \"description\": \"IndianOil\",\n  \"category\": \"Public transport\",\n  \"rewards\": [\n    {\n      \"rewards\": [\n        \"₹10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3567,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"tool\": \"IndianOil\",\n  \"price\": 3000,\n  \"description\": \"IndianOil\",\n  \"category\": \"Public transport\",\n  \"rewards\": [\n    {\n      \"rewards\": [\n        \"₹10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3258,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"tool\": \"IndianOil\",\n  \"price\": 3000,\n  \"description\": \"IndianOil\",\n  \"category\": \"Public transport\",\n  \"rewards\": [\n    {\n      \"rewards\": [\n        \"₹10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3359,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"tool\": \"IndianOil\",\n  \"price\": 3000,\n  \"description\": \"IndianOil\",\n  \"category\": \"Public transport\",\n  \"rewards\": [\n    {\n      \"rewards\": [\n        \"₹10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3203,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 13387,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card1\",\n    \"rewards\": \"Card1\",\n    \"reward\": 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3078,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\": \"open_browser\",\n    \"args\": [\"http://www.google.com\", \"http://www.google.com/search?]\"\n \t  \t  ,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"rewards\" \t\t,\"re",
+          "ms": 3210,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\":\"github\",\n    \"args\": [\"github:github:clang\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:",
+          "ms": 3336,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\":\"github\",\n    \"args\": [\"github:github:clang\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:aws\",\"github:github:",
+          "ms": 3292,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 12916,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\": \"Iswala Card\",\n  \"amount\": \"₹3000\"\n}",
+          "ms": 640,
+          "tokens": 25,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        },
+        {
+          "kind": "final",
+          "card": "<card id>",
+          "reward_inr": "<number>",
+          "raw": "{\n  \"final\": {\n    \"card\":\"<card id>\",\"reward_inr\": \"<number>\"\n  }\n}",
+          "ms": 490,
+          "tokens": 27,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1130,
+      "totalTokens": 52
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\": \"Card#1 | ₹3000\",\n  \"rewards\": \"Card#2 | ₹3000\"\n}",
+          "ms": 830,
+          "tokens": 36,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        },
+        {
+          "kind": "tool",
+          "tool": "Card#1 | ₹3000",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Card#1 | ₹3000"
+          },
+          "raw": "{\n  \"tool\": \"Card#1 | ₹3000\",\n  \"rewards\": \"Card#2 | ₹3000\"\n}",
+          "ms": 833,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "Card#2 | ₹3000",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Card#2 | ₹3000"
+          },
+          "raw": "{\n  \"tool\": \"Card#2 | ₹3000\",\n  \"rewards\": \"Card#1 | ₹3000\"\n}",
+          "ms": 805,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "Card#1 | ₹3000",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Card#1 | ₹3000"
+          },
+          "raw": "{\n  \"tool\": \"Card#1 | ₹3000\",\n  \"rewards\": \"Card#2 | ₹3000\"\n}",
+          "ms": 898,
+          "tokens": 36,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3366,
+      "totalTokens": 144
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\": \"Barbeque Nation\",\n  \"response\": \"Card 1\"\n}",
+          "ms": 542,
+          "tokens": 22,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        },
+        {
+          "kind": "final",
+          "card": "Card1",
+          "raw": "{\n  \"tool\": \"Card1\",\n  \"final\": {\n    \"card\": \"Card1\",\n    \"rewardInRd\": 2000\n  }\n}",
+          "ms": 819,
+          "tokens": 38,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1361,
+      "totalTokens": 60
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\": \"Card100\",\n  \"name\": \"Card100\",\n  \"description\": \"Card100 pays 100 for your dinner\",\n  \"admin\": \"Card100\",\n  \"price\": \"100\",\n  \"description\": \"Card100 pays 100 for your dinner at Barbeque Nation\",\n  \"admin\": \"Card100\",\n  \"price\": \"100\",\n  \"description\": \"Card100 pays 100 for your dinner at Barbeque Nation\",\n  \"admin\": \"Card100\",\n  \"price\": \"100\",\n  \"description\": \"Card100 pays 100 for your dinner at",
+          "ms": 3706,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "tool",
+          "tool": "Card200: Classify Card200",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Card200: Classify Card200"
+          },
+          "raw": "{\n  \"tool\": \"Card200: Classify Card200\",\n  \"args\": \"\"\n}",
+          "ms": 514,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "Card200: Classify Card200",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Card200: Classify Card200"
+          },
+          "raw": "{\n  \"tool\": \"Card200: Classify Card200\",\n  \"args\": \"\"\n}",
+          "ms": 551,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "Card200: Classify Card200",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Card200: Classify Card200"
+          },
+          "raw": "{\n  \"tool\": \"Card200: Classify Card200\",\n  \"args\": \"\"\n}",
+          "ms": 611,
+          "tokens": 25,
+          "validJson": true
+        }
+      ],
+      "totalMs": 5382,
+      "totalTokens": 234
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\":\"Spanair Trip Card\",\n  \"amount\":10000,\n  \"link\":\"http://travel.spanair.com/trip/trip-planning/thrspsg0/thrspsg0/thrspsg0/thrspsg0/thrspsg0/thrspsg0/thrspsg0/thrspsg0/\"\n}",
+          "ms": 2104,
+          "tokens": 93,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"tool\": {\"tool\":\"Spanair\",\"args\":{\"amount\":10000,\"name\":\"trip\"},\"final\":{\"trip\":\"<trip id>\",\"iver\":100000,\"reward\":\"<reward amount>\"}}}",
+          "ms": 1085,
+          "tokens": 55,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"tool\": {\"tool\":\"Spanair\",\"args\":{\"amount\":10000,\"name\":\"trip\"},\"final\":{\"trip\":\"<trip id>\",\"iver\":100000,\"reward\":\"<reward amount>\"}}}",
+          "ms": 1225,
+          "tokens": 55,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"tool\": {\"tool\":\"Spanair\",\"args\":{\"amount\":10000,\"name\":\"trip\"},\"final\":{\"trip\":\"<trip id>\",\"iver\":100000,\"reward\":\"<reward amount>\"}}}",
+          "ms": 1359,
+          "tokens": 55,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        }
+      ],
+      "totalMs": 5773,
+      "totalTokens": 258
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "buy_trip",
+          "args": {},
+          "output": {
+            "error": "unknown tool: buy_trip"
+          },
+          "raw": "{\n  \"tool\":\"buy_trip\",\"args\":[\"trip\",\"10000\",\"make_trip\"]}",
+          "ms": 779,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "buy_trip",
+          "args": {},
+          "output": {
+            "error": "unknown tool: buy_trip"
+          },
+          "raw": "{\n  \"tool\":\"buy_trip\",\"json\":\"trip\",\"amount\":10000,\"use\":\"make_trip\"}",
+          "ms": 731,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "buy_trip",
+          "args": {},
+          "output": {
+            "error": "unknown tool: buy_trip"
+          },
+          "raw": "{\n  \"tool\":\"buy_trip\",\"json\":\"trip\",\"trip\":10000,\"use\":\"use\"}",
+          "ms": 570,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "buy_trip",
+          "args": {},
+          "output": {
+            "error": "unknown tool: buy_trip"
+          },
+          "raw": "{\n  \"tool\":\"buy_trip\",\"json\":\"trip\",\"amount\":10000,\"use\":\"use\"}",
+          "ms": 712,
+          "tokens": 25,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2792,
+      "totalTokens": 102
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "makeitrippaycbk",
+          "args": {
+            "trip": "10000",
+            "currency": "₹10000"
+          },
+          "output": {
+            "error": "unknown tool: makeitrippaycbk"
+          },
+          "raw": "{\n  \"tool\":\"makeitrippaycbk\",\"args\":{\"trip\":\"10000\",\"currency\":\"₹10000\"}\n}",
+          "ms": 720,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "makeitrippaycbk",
+          "args": {
+            "trip": "10000",
+            "currency": "₹10000"
+          },
+          "output": {
+            "error": "unknown tool: makeitrippaycbk"
+          },
+          "raw": "{\n  \"tool\":\"makeitrippaycbk\",\"args\":{\"trip\":\"10000\",\"currency\":\"₹10000\"}\n}",
+          "ms": 825,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "makeitrippaycbk",
+          "args": {
+            "trip": "10000",
+            "currency": "₹10000"
+          },
+          "output": {
+            "error": "unknown tool: makeitrippaycbk"
+          },
+          "raw": "{\n  \"tool\":\"makeitrippaycbk\",\"args\":{\"trip\":\"10000\",\"currency\":\"₹10000\"}\n}",
+          "ms": 856,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "makeittripcbk",
+          "args": {
+            "trip": "10000",
+            "price": "₹10000"
+          },
+          "output": {
+            "error": "unknown tool: makeittripcbk"
+          },
+          "raw": "{\n  \"tool\":\"makeittripcbk\",\"args\":{\"trip\":\"10000\",\"price\":\"₹10000\"}\n}",
+          "ms": 923,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3324,
+      "totalTokens": 139
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "makeittrip",
+          "args": {
+            "amount": 10000,
+            "modes": [
+              "long",
+              "short"
+            ],
+            "name": "trip"
+          },
+          "output": {
+            "error": "unknown tool: makeittrip"
+          },
+          "raw": "{\n  \"tool\":\"makeittrip\",\"args\":{\"amount\":10000,\"modes\":[\"long\",\"short\"],\"name\":\"trip\"}\n}",
+          "ms": 1040,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "makeittrip",
+          "args": {
+            "amount": 10000,
+            "modes": [
+              "long",
+              "short"
+            ],
+            "name": "trip"
+          },
+          "output": {
+            "error": "unknown tool: makeittrip"
+          },
+          "raw": "{\n  \"tool\":\"makeittrip\",\"args\":{\"amount\":10000,\"modes\":[\"long\",\"short\"],\"name\":\"trip\"}\n}",
+          "ms": 652,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "makeittrip",
+          "args": {
+            "amount": 10000,
+            "modes": [
+              "long",
+              "short"
+            ],
+            "name": "trip"
+          },
+          "output": {
+            "error": "unknown tool: makeittrip"
+          },
+          "raw": "{\n  \"tool\":\"makeittrip\",\"args\":{\"amount\":10000,\"modes\":[\"long\",\"short\"],\"name\":\"trip\"}\n}",
+          "ms": 750,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "makeittrip",
+          "args": {
+            "amount": 10000,
+            "modes": [
+              "long",
+              "short"
+            ],
+            "name": "trip"
+          },
+          "output": {
+            "error": "unknown tool: makeittrip"
+          },
+          "raw": "{\n  \"tool\":\"makeittrip\",\"args\":{\"amount\":10000,\"modes\":[\"long\",\"short\"],\"name\":\"trip\"}\n}",
+          "ms": 868,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3310,
+      "totalTokens": 136
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "makeittrip",
+          "args": {
+            "trip": "India",
+            "amount": 10000
+          },
+          "output": {
+            "error": "unknown tool: makeittrip"
+          },
+          "raw": "{\n  \"tool\":\"makeittrip\",\"args\":{\"trip\":\"India\",\"amount\":10000}}",
+          "ms": 506,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "makeittrip",
+          "args": {
+            "trip": "India",
+            "amount": 10000
+          },
+          "output": {
+            "error": "unknown tool: makeittrip"
+          },
+          "raw": "{\n  \"tool\":\"makeittrip\",\"args\":{\"trip\":\"India\",\"amount\":10000}}",
+          "ms": 446,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "makeittrip",
+          "args": {
+            "trip": "India",
+            "amount": 10000
+          },
+          "output": {
+            "error": "unknown tool: makeittrip"
+          },
+          "raw": "{\n  \"tool\":\"makeittrip\",\"args\":{\"trip\":\"India\",\"amount\":10000}}",
+          "ms": 483,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "makeittrip",
+          "args": {
+            "trip": "India",
+            "amount": 10000
+          },
+          "output": {
+            "error": "unknown tool: makeittrip"
+          },
+          "raw": "{\n  \"tool\":\"makeittrip\",\"args\":{\"trip\":\"India\",\"amount\":10000}}",
+          "ms": 549,
+          "tokens": 24,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1984,
+      "totalTokens": 96
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"final\":{\"card\":\"Luckiest\"},\"final\":{\"amount\":\"10000\"},\"reply\":{\"cards\":[{\"card\":\"Luckiest\",\"amount\":\"10000\"}]},\"final\":{\"card\":\"Luckiest\"},\"final\":{\"amount\":\"10000\"},\"reply\":{\"cards\":[{\"card\":\"Luckiest\",\"amount\":\"10000\"}]},\"final\":{\"card\":\"Luckiest\"},\"final\":{\"amount\":\"10000\"},\"reply\":{\"cards\":[{\"card\":\"Luckiest\",\"amount\":\"10000\"}]},\"final\":{\"amount\":\"10000\"},\"reply\":{\"cards\":[{\"card\":\"Luckiest\",\"amount\":\"1000",
+          "ms": 3427,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"final\":{\"cards\":[{\"card\":\"Luckiest\",\"amount\":\"10000\"}]},\"final\":{\"amount\":\"10000\"},\"reply\":{\"comp\":{\"cards\":[{\"card\":\"Luckiest\",\"amount\":\"10000\"}]},\"final\":{\"amount\":\"10000\"},\"comp\":{\"comp\":{\"comp\":{\"comp\":{\"comp\":{\"comp\":{\"comp\":{\"cards\":[{\"card\":\"Luckiest\",\"amount\":\"10000\"}]},\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"amount\":{\"",
+          "ms": 3182,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "final",
+          "raw": "{\"final\":{\"comp\":{\"comp\":{}}},\"final\":{\"amount\":\"10000\"},\"reply\":{\"comp\":{\"comp\":{}}},\"final\":{\"amount\":\"10000\"},\"comp\":{},\"final\":{\"amount\":\"10000\"},\"reply\":{\"comp\":{\"comp\":{}}},\"final\":{\"amount\":\"10000\"},\"reply\":{\"comp\":{}}}",
+          "ms": 1892,
+          "tokens": 93,
+          "validJson": true
+        }
+      ],
+      "totalMs": 8501,
+      "totalTokens": 411
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "<card id>",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"rewards_amount\":8000}}",
+          "ms": 603,
+          "tokens": 21,
+          "validJson": true
+        }
+      ],
+      "totalMs": 603,
+      "totalTokens": 21
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "<card id>, ",
+          "raw": "{\"final\":{\"card\":\"<card id>, \"    }}",
+          "ms": 400,
+          "tokens": 14,
+          "validJson": true
+        }
+      ],
+      "totalMs": 400,
+      "totalTokens": 14
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3036,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3111,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3469,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3049,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 12665,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "<card id>",
+          "reward_inr": 8000,
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":8000}}",
+          "ms": 590,
+          "tokens": 21,
+          "validJson": true
+        }
+      ],
+      "totalMs": 590,
+      "totalTokens": 21
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "BSC-E3000",
+          "reward_inr": 2400,
+          "reply": "Yes, you should use BESCOM as your BESCOM card. Check their website for the latest 3000 bill details.",
+          "raw": "{\n  \"card\":\"BSC-E3000\",\n  \"final\":{\"card\":\"BSC-E3000\",\"reward_inr\":2400,\"reply\":\"Yes, you should use BESCOM as your BESCOM card. Check their website for the latest 3000 bill details.\"}\n}",
+          "ms": 1436,
+          "tokens": 74,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1436,
+      "totalTokens": 74
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\": {\n    \"name\": \"SA-10000-1000000000000000000_1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3569,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\":\"SA-10000-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3573,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\":\"SA-10000-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3258,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\":\"SA-10000-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3291,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 13691,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\":\"Savings Card\",\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\"replies\":[{\n        \"replies\":[\"I would like to know what cards I can use and what I can use them for.\"] }]}]}]}]}]}]}},{\"replies",
+          "ms": 3760,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\":\"get_bandsit\",\"args\":{\"bandsit\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":{\"bandsits\":\"Spotify\"}},\"bandsit\":{\"bandsit\":{\"bandsit\":{\"bandsit\":{\"bandsit\":\"Google Play\"}},\"bandsit\":{\"bandsit\":{\"bandsit\":{\"bandsit\":{\"bandsit\":\"The ",
+          "ms": 3335,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\":\"check_sure\",\"args\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure\":{\"sure",
+          "ms": 3317,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\":\"soundtrack\",\"args\":{\"soundtrack\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\" soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"soundtracks\":{\"",
+          "ms": 3420,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 13832,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Card VSOA00000",
+          "reply": "This card is currently not available.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card VSOA00000\",\n    \"amount\": \"2400\",\n    \"reward\": \"0\",\n    \"reply\": \"This card is currently not available.\"\n  }\n}",
+          "ms": 1401,
+          "tokens": 54,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1401,
+      "totalTokens": 54
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Savstar",
+          "reward_inr": "2000",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Savstar\",\n    \"reward_inr\": \"2000\"\n  }\n}",
+          "ms": 845,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 845,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"card\": \"http://webserviceb.api.yfinance.com/webservicesapiservice/getShowingInfo?currencyCode=INR&currencyCodeInquiry=10000000&currencyCodeInquiryInquiry[]\"\n}",
+          "ms": 1711,
+          "tokens": 61,
+          "validJson": false,
+          "why": "JSON has neither tool nor final"
+        },
+        {
+          "kind": "final",
+          "raw": "{\n  \"final\": {\"tool\": \"getShoppingInfo\", \"args\": {\"bid\": \"10000000\"}},\n  \"final\": {\"tool\": \"...\", \"final\": \"RRP-10000000\"}\n}",
+          "ms": 1192,
+          "tokens": 58,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2903,
+      "totalTokens": 119
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": 1,
+          "reward_inr": 1200,
+          "reply": "Great! Here's the full alternative answer: ",
+          "raw": "{\n  \"final\":\n  {\n    \"card\": 1,\n    \"reward_inr\": 1200,\n    \"reply\": \"Great! Here's the full alternative answer: \"\n  }\n}",
+          "ms": 1143,
+          "tokens": 46,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1143,
+      "totalTokens": 46
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"card\":\"India International Card\",\"reward_inr\":100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3069,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\": \"India International 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3347,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\": \"India International 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3090,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\n  \"final\": {\n    \"tool\": \"India International 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 3209,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 12715,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Card071",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card071\",\n    \"reward_amount\": \"1200\"\n  }\n}",
+          "ms": 807,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 807,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": {
+            "id": "Card1",
+            "amount": "₹12000",
+            "rewards": "yes",
+            "current": "True"
+          },
+          "raw": "{\n  \"final\": {\n    \"card\": {\n      \"id\": \"Card1\",\n      \"amount\": \"₹12000\",\n      \"rewards\": \"yes\",\n      \"current\": \"True\"\n    }\n  }\n}",
+          "ms": 1139,
+          "tokens": 53,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1139,
+      "totalTokens": 53
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "NEF:000001",
+          "reward_inr": 2000,
+          "raw": "{\"final\":{\"card\":\"NEF:000001\",\"reward_inr\":2000}}",
+          "ms": 704,
+          "tokens": 26,
+          "validJson": true
+        }
+      ],
+      "totalMs": 704,
+      "totalTokens": 26
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "HP Petrol Pump",
+          "raw": "{\"final\":{\"card\":\"HP Petrol Pump\",\"answer\":{\"amount\":2000}}}",
+          "ms": 474,
+          "tokens": 22,
+          "validJson": true
+        }
+      ],
+      "totalMs": 474,
+      "totalTokens": 22
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "HP Petrol Shop",
+          "raw": "{\"final\":{\"card\":\"HP Petrol Shop\",\"amount\":2000}}",
+          "ms": 521,
+          "tokens": 18,
+          "validJson": true
+        }
+      ],
+      "totalMs": 521,
+      "totalTokens": 18
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "HP Petrol Pump",
+          "raw": "{\"final\":{\"card\":\"HP Petrol Pump\",\"reward_amount\":2000}}",
+          "ms": 514,
+          "tokens": 20,
+          "validJson": true
+        }
+      ],
+      "totalMs": 514,
+      "totalTokens": 20
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "HP Petrol Pump",
+          "raw": "{\"final\":{\"card\":\"HP Petrol Pump\",\"amount\":2000}}",
+          "ms": 429,
+          "tokens": 18,
+          "validJson": true
+        }
+      ],
+      "totalMs": 429,
+      "totalTokens": 18
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Jio 600000000_Jio14900000000000000000000000000001",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Jio 600000000_Jio14900000000000000000000000000001\"\n  }\n}",
+          "ms": 1544,
+          "tokens": 63,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1544,
+      "totalTokens": 63
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Jio",
+          "raw": "{\n  \"final\": {\"card\":\"Jio\",\"amount\":700}\n}",
+          "ms": 480,
+          "tokens": 19,
+          "validJson": true
+        }
+      ],
+      "totalMs": 480,
+      "totalTokens": 19
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Aadhaar",
+          "reward_inr": "1000",
+          "raw": "{\n  \"final\": {\n    \"card\":\"Aadhaar\",\n    \"reward_inr\": \"1000\"\n  }\n}",
+          "ms": 796,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 796,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "JIO Spring Bike",
+          "raw": "{\n  \"final\": {\n    \"card\": \"JIO Spring Bike\",\n    \"rewardInR\": \"700\"\n  }\n}",
+          "ms": 815,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 815,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Card 1",
+          "reward_inr": "₹700",
+          "raw": "{\n  \"final\": {\n    \"card\": \"Card 1\",\n    \"reward_inr\": \"₹700\"\n  },\n  \"first\": [\n    {\n      \"card\": \"Card 2\",\n      \"reward_inr\": \"₹1000\"\n    },\n    {\n      \"card\": \"Card 3\",\n      \"reward_inr\": \"₹1500\"\n    }\n  ]\n}",
+          "ms": 2060,
+          "tokens": 96,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2060,
+      "totalTokens": 96
+    }
+  ]
+}

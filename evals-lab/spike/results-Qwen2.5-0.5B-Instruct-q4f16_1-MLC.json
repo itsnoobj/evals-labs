@@ -1,0 +1,1405 @@
+{
+  "meta": {
+    "chrome": "Chrome/157.0.8103.79",
+    "machine": "Apple M4 Max, 64 GB, macOS 26.x",
+    "mode": "headless",
+    "webllm": {
+      "url": "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.79/+esm",
+      "version": "0.2.79"
+    },
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"
+  },
+  "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+  "engine": "web-worker (CreateWebWorkerMLCEngine)",
+  "loadMs": 34931,
+  "download": {
+    "storageEstimateDeltaBytes": 288927232,
+    "resourceTimingTransferBytes": 0,
+    "resourceTimingEntries": 1,
+    "used": "storage.estimate() usage delta before/after load; resource timing is listed for reference and misses worker fetches and cache hits",
+    "note": "A delta near 0 means the weights were already cached in this browser profile."
+  },
+  "gpu": {
+    "webgpu": true,
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "device": "",
+    "description": "",
+    "shaderF16": true,
+    "maxBufferSize": 4294967292,
+    "maxStorageBufferBindingSize": 4294967292
+  },
+  "benchmark": {
+    "cases": 12,
+    "runsPerCase": 5,
+    "temperature": 0.7,
+    "seeds": "1000 + runIndex",
+    "wallMs": 53967,
+    "date": "2026-11-19T08:20:40.014Z"
+  },
+  "summary": {
+    "nRuns": 60,
+    "taskSuccess": 0,
+    "metricPassRates": {
+      "trajectory": 0,
+      "task_success": 0,
+      "answer_match": 0,
+      "grounded": 0.26666666666666666,
+      "tool_recall": 0,
+      "tool_precision": 1,
+      "ops": 1
+    },
+    "jsonValidity": 1,
+    "stepsTotal": 60,
+    "parseFailures": 0,
+    "shapeFailures": 0,
+    "perStepAccuracy": 0,
+    "meanRunMs": 899.4333333333333,
+    "meanRunTokens": 33.25,
+    "meanStepsPerRun": 1,
+    "failureKinds": {
+      "wrong_tool": 60
+    },
+    "topFailureReasons": [
+      {
+        "reason": "trajectory: # of # tool steps match",
+        "count": 60,
+        "example": "0 of 2 tool steps match"
+      },
+      {
+        "reason": "tool_recall: missing: classify_merchant, rank_cards",
+        "count": 60,
+        "example": "missing: classify_merchant, rank_cards"
+      },
+      {
+        "reason": "grounded: not in any tool output: #",
+        "count": 41,
+        "example": "not in any tool output: 1500"
+      },
+      {
+        "reason": "answer_match: reply does not name IDFC First Power+",
+        "count": 20,
+        "example": "reply does not name IDFC First Power+"
+      },
+      {
+        "reason": "answer_match: reply does not name HDFC Swiggy",
+        "count": 15,
+        "example": "reply does not name HDFC Swiggy"
+      }
+    ],
+    "perCaseTaskSuccess": {
+      "C01": 0,
+      "C02": 0,
+      "C03": 0,
+      "C04": 0,
+      "C05": 0,
+      "C06": 0,
+      "C07": 0,
+      "C08": 0,
+      "C09": 0,
+      "C10": 0,
+      "C11": 0,
+      "C12": 0
+    },
+    "failureExamples": [
+      {
+        "caseId": "C01",
+        "seed": 1000,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"MasterCard\",\"reward_inr\":1500,\"reply\":\"I should use MasterCard\"}}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1001,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"Credit Card 1\",\"reward_inr\":0,\"reply\":\"I should use Credit Card 1\"}}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1002,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"VISA\",\"reward_inr\":1500,\"reply\":\"I should use Visa as it is the best option for you.\"}}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1003,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"VISA\",\"reward_inr\":249,\"reply\":\"I should use Visa as it is the best card for my spending\"}}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1004,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"DINCI 500\",\"reward_inr\":1500,\"reply\":\"I should use the card with the highest reward\"}}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1000,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":32,\"reply\":\"You can buy food on Swiggy using your credit card.\"}}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1001,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"SBI Bank Card\",\"reward_inr\":800,\"reply\":\"You can use this card to buy food on Swiggy for ₹800.\"}}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1002,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"Swiggy\",\"reward_inr\":800,\"reply\":\"I bought food on Swiggy and received ₹800 as reward.\"}}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1003,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"Swiggy\",\"reward_inr\":100,\"reply\":\"I chose Swiggy because it is the best option for ordering food on Swiggy. It has a high reward of ₹100 for ordering food, which is very good.\"}}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1004,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"Swiggy\",\"reward_inr\":0,\"reply\":\"I don't have any card assigned to me.\"}}"
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1000,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"DMart 100\",\"reward_inr\":200,\"reply\":\"You get ₹200 back from DMart.\"}}"
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1001,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"final\":{\"card\":\"Mastercard\",\"reward_inr\":200,\"reply\":\"After spending ₹2,000, you will receive ₹200 as a reward\"}}"
+        ]
+      }
+    ]
+  },
+  "runs": [
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "MasterCard",
+          "reward_inr": 1500,
+          "reply": "I should use MasterCard",
+          "raw": "{\"final\":{\"card\":\"MasterCard\",\"reward_inr\":1500,\"reply\":\"I should use MasterCard\"}}",
+          "ms": 1878,
+          "tokens": 25,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1878,
+      "totalTokens": 25
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Credit Card 1",
+          "reward_inr": 0,
+          "reply": "I should use Credit Card 1",
+          "raw": "{\"final\":{\"card\":\"Credit Card 1\",\"reward_inr\":0,\"reply\":\"I should use Credit Card 1\"}}",
+          "ms": 739,
+          "tokens": 26,
+          "validJson": true
+        }
+      ],
+      "totalMs": 739,
+      "totalTokens": 26
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "VISA",
+          "reward_inr": 1500,
+          "reply": "I should use Visa as it is the best option for you.",
+          "raw": "{\"final\":{\"card\":\"VISA\",\"reward_inr\":1500,\"reply\":\"I should use Visa as it is the best option for you.\"}}",
+          "ms": 987,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 987,
+      "totalTokens": 33
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "VISA",
+          "reward_inr": 249,
+          "reply": "I should use Visa as it is the best card for my spending",
+          "raw": "{\"final\":{\"card\":\"VISA\",\"reward_inr\":249,\"reply\":\"I should use Visa as it is the best card for my spending\"}}",
+          "ms": 792,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 792,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "DINCI 500",
+          "reward_inr": 1500,
+          "reply": "I should use the card with the highest reward",
+          "raw": "{\"final\":{\"card\":\"DINCI 500\",\"reward_inr\":1500,\"reply\":\"I should use the card with the highest reward\"}}",
+          "ms": 929,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 929,
+      "totalTokens": 34
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "<card id>",
+          "reward_inr": 32,
+          "reply": "You can buy food on Swiggy using your credit card.",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":32,\"reply\":\"You can buy food on Swiggy using your credit card.\"}}",
+          "ms": 1053,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1053,
+      "totalTokens": 33
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "SBI Bank Card",
+          "reward_inr": 800,
+          "reply": "You can use this card to buy food on Swiggy for ₹800.",
+          "raw": "{\"final\":{\"card\":\"SBI Bank Card\",\"reward_inr\":800,\"reply\":\"You can use this card to buy food on Swiggy for ₹800.\"}}",
+          "ms": 1068,
+          "tokens": 39,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1068,
+      "totalTokens": 39
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Swiggy",
+          "reward_inr": 800,
+          "reply": "I bought food on Swiggy and received ₹800 as reward.",
+          "raw": "{\"final\":{\"card\":\"Swiggy\",\"reward_inr\":800,\"reply\":\"I bought food on Swiggy and received ₹800 as reward.\"}}",
+          "ms": 890,
+          "tokens": 36,
+          "validJson": true
+        }
+      ],
+      "totalMs": 890,
+      "totalTokens": 36
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Swiggy",
+          "reward_inr": 100,
+          "reply": "I chose Swiggy because it is the best option for ordering food on Swiggy. It has a high reward of ₹100 for ordering food, which is very good.",
+          "raw": "{\"final\":{\"card\":\"Swiggy\",\"reward_inr\":100,\"reply\":\"I chose Swiggy because it is the best option for ordering food on Swiggy. It has a high reward of ₹100 for ordering food, which is very good.\"}}",
+          "ms": 1692,
+          "tokens": 58,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1692,
+      "totalTokens": 58
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Swiggy",
+          "reward_inr": 0,
+          "reply": "I don't have any card assigned to me.",
+          "raw": "{\"final\":{\"card\":\"Swiggy\",\"reward_inr\":0,\"reply\":\"I don't have any card assigned to me.\"}}",
+          "ms": 747,
+          "tokens": 28,
+          "validJson": true
+        }
+      ],
+      "totalMs": 747,
+      "totalTokens": 28
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "DMart 100",
+          "reward_inr": 200,
+          "reply": "You get ₹200 back from DMart.",
+          "raw": "{\"final\":{\"card\":\"DMart 100\",\"reward_inr\":200,\"reply\":\"You get ₹200 back from DMart.\"}}",
+          "ms": 807,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 807,
+      "totalTokens": 34
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Mastercard",
+          "reward_inr": 200,
+          "reply": "After spending ₹2,000, you will receive ₹200 as a reward",
+          "raw": "{\"final\":{\"card\":\"Mastercard\",\"reward_inr\":200,\"reply\":\"After spending ₹2,000, you will receive ₹200 as a reward\"}}",
+          "ms": 1108,
+          "tokens": 38,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1108,
+      "totalTokens": 38
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Diners Club",
+          "reward_inr": 0,
+          "reply": "I don't know which card gives the most back as the amount is small.",
+          "raw": "{\"final\":{\"card\":\"Diners Club\",\"reward_inr\":0,\"reply\":\"I don't know which card gives the most back as the amount is small.\"}}",
+          "ms": 833,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 833,
+      "totalTokens": 34
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Diners Club",
+          "reward_inr": 20,
+          "reply": "I will use Diners Club for my groceries purchase.",
+          "raw": "{\"final\":{\"card\":\"Diners Club\",\"reward_inr\":20,\"reply\":\"I will use Diners Club for my groceries purchase.\"}}",
+          "ms": 769,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 769,
+      "totalTokens": 30
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "VISA",
+          "reward_inr": 200,
+          "reply": "I will use my Visa card to buy groceries at DMart.",
+          "raw": "{\"final\":{\"card\":\"VISA\",\"reward_inr\":200,\"reply\":\"I will use my Visa card to buy groceries at DMart.\"}}",
+          "ms": 750,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 750,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Airtel Visa",
+          "reward_inr": 0,
+          "reply": "I should use Airtel Visa",
+          "raw": "{\"final\":{\"card\":\"Airtel Visa\",\"reward_inr\":0,\"reply\":\"I should use Airtel Visa\"}}",
+          "ms": 664,
+          "tokens": 26,
+          "validJson": true
+        }
+      ],
+      "totalMs": 664,
+      "totalTokens": 26
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "VISA",
+          "reward_inr": 500,
+          "reply": "You should use Visa card",
+          "raw": "{\"final\":{\"card\":\"VISA\",\"reward_inr\":500,\"reply\":\"You should use Visa card\"}}",
+          "ms": 580,
+          "tokens": 24,
+          "validJson": true
+        }
+      ],
+      "totalMs": 580,
+      "totalTokens": 24
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Airtel",
+          "reward_inr": 0,
+          "reply": "I will use my Airtel card to pay my bill.",
+          "raw": "{\"final\":{\"card\":\"Airtel\",\"reward_inr\":0,\"reply\":\"I will use my Airtel card to pay my bill.\"}}",
+          "ms": 900,
+          "tokens": 31,
+          "validJson": true
+        }
+      ],
+      "totalMs": 900,
+      "totalTokens": 31
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Airtel Credit Card",
+          "reward_inr": 0,
+          "reply": "I don't have any credit card available for Airtel. I suggest using my debit or credit card for this transaction.",
+          "raw": "{\"final\":{\"card\":\"Airtel Credit Card\",\"reward_inr\":0,\"reply\":\"I don't have any credit card available for Airtel. I suggest using my debit or credit card for this transaction.\"}}",
+          "ms": 1226,
+          "tokens": 45,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1226,
+      "totalTokens": 45
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Airtel Card",
+          "reward_inr": 0,
+          "reply": "I should use Airtel Card for this purchase.",
+          "raw": "{\"final\":{\"card\":\"Airtel Card\",\"reward_inr\":0,\"reply\":\"I should use Airtel Card for this purchase.\"}}",
+          "ms": 971,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 971,
+      "totalTokens": 30
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "SBI",
+          "reward_inr": 300,
+          "reply": "I will use SBI as my preferred card to buy fuel.",
+          "raw": "{\"final\":{\"card\":\"SBI\",\"reward_inr\":300,\"reply\":\"I will use SBI as my preferred card to buy fuel.\"}}",
+          "ms": 851,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 851,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "card 1",
+          "reward_inr": 300,
+          "reply": "Filling up ₹3,000 of fuel at IndianOil is the best choice.",
+          "raw": "{\"final\":{\"card\":\"card 1\",\"reward_inr\":300,\"reply\":\"Filling up ₹3,000 of fuel at IndianOil is the best choice.\"}}",
+          "ms": 1023,
+          "tokens": 39,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1023,
+      "totalTokens": 39
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "<card id>",
+          "reward_inr": 0,
+          "reply": "Fuel filled successfully.",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":0,\"reply\":\"Fuel filled successfully.\"}}",
+          "ms": 582,
+          "tokens": 23,
+          "validJson": true
+        }
+      ],
+      "totalMs": 582,
+      "totalTokens": 23
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "<card id>",
+          "reward_inr": 300,
+          "reply": "Fill up ₹3,000 of fuel at IndianOil.",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":300,\"reply\":\"Fill up ₹3,000 of fuel at IndianOil.\"}}",
+          "ms": 992,
+          "tokens": 35,
+          "validJson": true
+        }
+      ],
+      "totalMs": 992,
+      "totalTokens": 35
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "IndianOil",
+          "reward_inr": 3000,
+          "reply": "I will buy fuel at IndianOil.",
+          "raw": "{\"final\":{\"card\":\"IndianOil\",\"reward_inr\":3000,\"reply\":\"I will buy fuel at IndianOil.\"}}",
+          "ms": 718,
+          "tokens": 28,
+          "validJson": true
+        }
+      ],
+      "totalMs": 718,
+      "totalTokens": 28
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "DINING CARD",
+          "reward_inr": 3000,
+          "reply": "I should swipe the Dining for ₹3,000 card.",
+          "raw": "{\"final\":{\"card\":\"DINING CARD\",\"reward_inr\":3000,\"reply\":\"I should swipe the Dining for ₹3,000 card.\"}}",
+          "ms": 912,
+          "tokens": 36,
+          "validJson": true
+        }
+      ],
+      "totalMs": 912,
+      "totalTokens": 36
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Barbeque Nation",
+          "reward_inr": 3000,
+          "reply": "I should swipe Barbeque Nation",
+          "raw": "{\"final\":{\"card\":\"Barbeque Nation\",\"reward_inr\":3000,\"reply\":\"I should swipe Barbeque Nation\"}}",
+          "ms": 740,
+          "tokens": 29,
+          "validJson": true
+        }
+      ],
+      "totalMs": 740,
+      "totalTokens": 29
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Dinner for ₹3,000 at Barbeque Nation",
+          "reward_inr": 3000,
+          "reply": "I should swipe the card for ₹3,000 at Barbeque Nation.",
+          "raw": "{\"final\":{\"card\":\"Dinner for ₹3,000 at Barbeque Nation\",\"reward_inr\":3000,\"reply\":\"I should swipe the card for ₹3,000 at Barbeque Nation.\"}}",
+          "ms": 1295,
+          "tokens": 50,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1295,
+      "totalTokens": 50
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Dinner for ₹3,000 at Barbeque Nation",
+          "reward_inr": 3000,
+          "reply": "Barbeque Nation",
+          "raw": "{\"final\":{\"card\":\"Dinner for ₹3,000 at Barbeque Nation\",\"reward_inr\":3000,\"reply\":\"Barbeque Nation\"}}",
+          "ms": 1152,
+          "tokens": 36,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1152,
+      "totalTokens": 36
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Dinner for ₹3,000 at Barbeque Nation",
+          "reward_inr": 3000,
+          "reply": "I will swipe the card with the highest reward in my current list.",
+          "raw": "{\"final\":{\"card\":\"Dinner for ₹3,000 at Barbeque Nation\",\"reward_inr\":3000,\"reply\":\"I will swipe the card with the highest reward in my current list.\"}}",
+          "ms": 1561,
+          "tokens": 46,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1561,
+      "totalTokens": 46
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "MakeMyTrip",
+          "reward_inr": 0,
+          "reply": "You should use MakeMyTrip to book your trip. It's the best option.",
+          "raw": "{\"final\":{\"card\":\"MakeMyTrip\",\"reward_inr\":0,\"reply\":\"You should use MakeMyTrip to book your trip. It's the best option.\"}}",
+          "ms": 868,
+          "tokens": 35,
+          "validJson": true
+        }
+      ],
+      "totalMs": 868,
+      "totalTokens": 35
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "card 1",
+          "reward_inr": 0,
+          "reply": "You should use card 1 as it will provide ₹10,000 in reward.",
+          "raw": "{\"final\":{\"card\":\"card 1\",\"reward_inr\":0,\"reply\":\"You should use card 1 as it will provide ₹10,000 in reward.\"}}",
+          "ms": 1002,
+          "tokens": 38,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1002,
+      "totalTokens": 38
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "MakeMyTrip",
+          "reward_inr": 0,
+          "reply": "You can use any card for this purchase.",
+          "raw": "{\"final\":{\"card\":\"MakeMyTrip\",\"reward_inr\":0,\"reply\":\"You can use any card for this purchase.\"}}",
+          "ms": 633,
+          "tokens": 27,
+          "validJson": true
+        }
+      ],
+      "totalMs": 633,
+      "totalTokens": 27
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "MakeMyTrip",
+          "reward_inr": 1000,
+          "reply": "I should use MakeMyTrip for this trip as it is the best option.",
+          "raw": "{\"final\":{\"card\":\"MakeMyTrip\",\"reward_inr\":1000,\"reply\":\"I should use MakeMyTrip for this trip as it is the best option.\"}}",
+          "ms": 1101,
+          "tokens": 37,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1101,
+      "totalTokens": 37
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "MakeMyTrip 2022-05-01 00:00:00",
+          "reward_inr": 10000,
+          "reply": "You should use MakeMyTrip 2022-05-01 00:00:00 for your booking.",
+          "raw": "{\"final\":{\"card\":\"MakeMyTrip 2022-05-01 00:00:00\",\"reward_inr\":10000,\"reply\":\"You should use MakeMyTrip 2022-05-01 00:00:00 for your booking.\"}}",
+          "ms": 2003,
+          "tokens": 72,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2003,
+      "totalTokens": 72
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "DZ",
+          "reward_inr": 10,
+          "reply": "I will use the DZ card to buy the phone because it is the best option for a purchase.",
+          "raw": "{\"final\":{\"card\":\"DZ\",\"reward_inr\":10,\"reply\":\"I will use the DZ card to buy the phone because it is the best option for a purchase.\"}}",
+          "ms": 957,
+          "tokens": 39,
+          "validJson": true
+        }
+      ],
+      "totalMs": 957,
+      "totalTokens": 39
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "TATA 100",
+          "reward_inr": 100,
+          "reply": "I'll buy this card for ₹100 for my purchase.",
+          "raw": "{\"final\":{\"card\":\"TATA 100\",\"reward_inr\":100,\"reply\":\"I'll buy this card for ₹100 for my purchase.\"}}",
+          "ms": 973,
+          "tokens": 37,
+          "validJson": true
+        }
+      ],
+      "totalMs": 973,
+      "totalTokens": 37
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Flipkart 123",
+          "reward_inr": 20,
+          "reply": "I will buy this card",
+          "raw": "{\"final\":{\"card\":\"Flipkart 123\",\"reward_inr\":20,\"reply\":\"I will buy this card\"}}",
+          "ms": 647,
+          "tokens": 27,
+          "validJson": true
+        }
+      ],
+      "totalMs": 647,
+      "totalTokens": 27
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Flipkart",
+          "reward_inr": 440,
+          "reply": "You can use Flipkart for your purchase.",
+          "raw": "{\"final\":{\"card\":\"Flipkart\",\"reward_inr\":440,\"reply\":\"You can use Flipkart for your purchase.\",\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Flipkart\"}}}",
+          "ms": 1205,
+          "tokens": 41,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1205,
+      "totalTokens": 41
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "VISA",
+          "reward_inr": 1500,
+          "reply": "You can use your VISA card for a purchase of ₹8,000 on Flipkart.",
+          "raw": "{\"final\":{\"card\":\"VISA\",\"reward_inr\":1500,\"reply\":\"You can use your VISA card for a purchase of ₹8,000 on Flipkart.\"}}",
+          "ms": 1009,
+          "tokens": 41,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1009,
+      "totalTokens": 41
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Diners Club",
+          "reward_inr": 0,
+          "reply": "I should use Diners Club to pay my electricity bill",
+          "raw": "{\"final\":{\"card\":\"Diners Club\",\"reward_inr\":0,\"reply\":\"I should use Diners Club to pay my electricity bill\"}}",
+          "ms": 708,
+          "tokens": 29,
+          "validJson": true
+        }
+      ],
+      "totalMs": 708,
+      "totalTokens": 29
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Airtel",
+          "reward_inr": 200,
+          "reply": "I should use Airtel as it offers the best deal for electricity bills.",
+          "raw": "{\"final\":{\"card\":\"Airtel\",\"reward_inr\":200,\"reply\":\"I should use Airtel as it offers the best deal for electricity bills.\"}}",
+          "ms": 875,
+          "tokens": 36,
+          "validJson": true
+        }
+      ],
+      "totalMs": 875,
+      "totalTokens": 36
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "VISA",
+          "reward_inr": 240,
+          "reply": "You should use your Visa card for this purchase.",
+          "raw": "{\"final\":{\"card\":\"VISA\",\"reward_inr\":240,\"reply\":\"You should use your Visa card for this purchase.\"}}",
+          "ms": 693,
+          "tokens": 29,
+          "validJson": true
+        }
+      ],
+      "totalMs": 693,
+      "totalTokens": 29
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "VISA",
+          "reward_inr": 240,
+          "reply": "I should use Visa because it is the best option for this transaction.",
+          "raw": "{\"final\":{\"card\":\"VISA\",\"reward_inr\":240,\"reply\":\"I should use Visa because it is the best option for this transaction.\"}}",
+          "ms": 773,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 773,
+      "totalTokens": 33
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Banco Indica",
+          "reward_inr": 240,
+          "reply": "I will use the BIC card because it is cheaper than the Indian Express card.",
+          "raw": "{\"final\":{\"card\":\"Banco Indica\",\"reward_inr\":240,\"reply\":\"I will use the BIC card because it is cheaper than the Indian Express card.\"}}",
+          "ms": 1068,
+          "tokens": 38,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1068,
+      "totalTokens": 38
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "<card id>",
+          "reward_inr": 100,
+          "reply": "Zomato",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":100,\"reply\":\"Zomato\"}}",
+          "ms": 558,
+          "tokens": 24,
+          "validJson": true
+        }
+      ],
+      "totalMs": 558,
+      "totalTokens": 24
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "<card id>",
+          "reward_inr": 0,
+          "reply": "<one sentence>",
+          "raw": "{\"final\":{\"card\":\"<card id>\",\"reward_inr\":0,\"reply\":\"<one sentence>\"}}",
+          "ms": 585,
+          "tokens": 23,
+          "validJson": true
+        }
+      ],
+      "totalMs": 585,
+      "totalTokens": 23
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Zomato",
+          "reward_inr": 0,
+          "reply": "Zomato",
+          "raw": "{\"final\":{\"card\":\"Zomato\",\"reward_inr\":0,\"reply\":\"Zomato\"}}",
+          "ms": 515,
+          "tokens": 21,
+          "validJson": true
+        }
+      ],
+      "totalMs": 515,
+      "totalTokens": 21
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Zomato",
+          "reward_inr": 100,
+          "reply": "Zomato",
+          "raw": "{\"final\":{\"card\":\"Zomato\",\"reward_inr\":100,\"reply\":\"Zomato\"}}",
+          "ms": 563,
+          "tokens": 23,
+          "validJson": true
+        }
+      ],
+      "totalMs": 563,
+      "totalTokens": 23
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Zomato Card",
+          "reward_inr": 0,
+          "reply": "Zomato Card",
+          "raw": "{\"final\":{\"card\":\"Zomato Card\",\"reward_inr\":0.0,\"reply\":\"Zomato Card\"}}",
+          "ms": 622,
+          "tokens": 25,
+          "validJson": true
+        }
+      ],
+      "totalMs": 622,
+      "totalTokens": 25
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "HP Petrol Pump",
+          "reward_inr": 0,
+          "reply": "I should use the Petrol Pump to buy petrol.",
+          "raw": "{\"final\":{\"card\":\"HP Petrol Pump\",\"reward_inr\":0.0,\"reply\":\"I should use the Petrol Pump to buy petrol.\"}}",
+          "ms": 756,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 756,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "HP Petrol Pump",
+          "reward_inr": 2000,
+          "reply": "I should use the HP Petrol Pump.",
+          "raw": "{\"final\":{\"card\":\"HP Petrol Pump\",\"reward_inr\":2000,\"reply\":\"I should use the HP Petrol Pump.\"}}",
+          "ms": 869,
+          "tokens": 31,
+          "validJson": true
+        }
+      ],
+      "totalMs": 869,
+      "totalTokens": 31
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "HP Petrol Pump",
+          "reward_inr": 2000,
+          "reply": "Use the HP Petrol Pump for this purchase.",
+          "raw": "{\"final\":{\"card\":\"HP Petrol Pump\",\"reward_inr\":2000,\"reply\":\"Use the HP Petrol Pump for this purchase.\"}}",
+          "ms": 780,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 780,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "HP Petrol Pump",
+          "reward_inr": 2000,
+          "reply": "I should use the HP Petrol Pump as it is the best option for this transaction.",
+          "raw": "{\"final\":{\"card\":\"HP Petrol Pump\",\"reward_inr\":2000,\"reply\":\"I should use the HP Petrol Pump as it is the best option for this transaction.\"}}",
+          "ms": 923,
+          "tokens": 40,
+          "validJson": true
+        }
+      ],
+      "totalMs": 923,
+      "totalTokens": 40
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "HP Petrol Pump",
+          "reward_inr": 2000,
+          "reply": "I should use the HP Petrol Pump.",
+          "raw": "{\"final\":{\"card\":\"HP Petrol Pump\",\"reward_inr\":2000,\"reply\":\"I should use the HP Petrol Pump.\"}}",
+          "ms": 753,
+          "tokens": 31,
+          "validJson": true
+        }
+      ],
+      "totalMs": 753,
+      "totalTokens": 31
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Jio 01",
+          "reward_inr": 700,
+          "reply": "Jio 01",
+          "raw": "{\"final\":{\"card\":\"Jio 01\",\"reward_inr\":700,\"reply\":\"Jio 01\"}}",
+          "ms": 614,
+          "tokens": 27,
+          "validJson": true
+        }
+      ],
+      "totalMs": 614,
+      "totalTokens": 27
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Jio",
+          "reward_inr": 700,
+          "reply": "You should recharge your Jio account for ₹700.",
+          "raw": "{\"final\":{\"card\":\"Jio\",\"reward_inr\":700,\"reply\":\"You should recharge your Jio account for ₹700.\"}}",
+          "ms": 778,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 778,
+      "totalTokens": 32
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Jio One",
+          "reward_inr": 700,
+          "reply": "Jio One",
+          "raw": "{\"final\":{\"card\":\"Jio One\",\"reward_inr\":700,\"reply\":\"Jio One\"}}",
+          "ms": 693,
+          "tokens": 23,
+          "validJson": true
+        }
+      ],
+      "totalMs": 693,
+      "totalTokens": 23
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Jio 200",
+          "reward_inr": 700,
+          "reply": "Jio 200",
+          "raw": "{\"final\":{\"card\":\"Jio 200\",\"reward_inr\":700,\"reply\":\"Jio 200\"}}",
+          "ms": 743,
+          "tokens": 29,
+          "validJson": true
+        }
+      ],
+      "totalMs": 743,
+      "totalTokens": 29
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Jio",
+          "reward_inr": 700,
+          "reply": "Jio",
+          "raw": "{\"final\":{\"card\":\"Jio\",\"reward_inr\":700,\"reply\":\"Jio\"}}",
+          "ms": 490,
+          "tokens": 21,
+          "validJson": true
+        }
+      ],
+      "totalMs": 490,
+      "totalTokens": 21
+    }
+  ]
+}

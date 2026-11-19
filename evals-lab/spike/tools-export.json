@@ -1,0 +1,241 @@
+{
+  "cards": {
+    "hdfc_infinia": {
+      "name": "HDFC Infinia",
+      "rates": {
+        "amazon": 3.33,
+        "online_shopping": 3.33,
+        "swiggy": 3.33,
+        "fuel_hpcl": 0,
+        "utilities": 3.33,
+        "telecom": 3.33
+      }
+    },
+    "idfc_first_power_plus": {
+      "name": "IDFC First Power+",
+      "rates": {
+        "amazon": 0.5,
+        "online_shopping": 0.5,
+        "swiggy": 0.5,
+        "fuel_hpcl": 5,
+        "utilities": 5,
+        "telecom": 5
+      }
+    },
+    "icici_amazon_pay": {
+      "name": "ICICI Amazon Pay",
+      "rates": {
+        "amazon": 5,
+        "online_shopping": 1,
+        "swiggy": 1,
+        "fuel_hpcl": 0,
+        "utilities": 0,
+        "telecom": 0
+      }
+    },
+    "hdfc_swiggy": {
+      "name": "HDFC Swiggy",
+      "rates": {
+        "amazon": 5,
+        "online_shopping": 5,
+        "swiggy": 10,
+        "fuel_hpcl": 0,
+        "utilities": 0,
+        "telecom": 0
+      }
+    }
+  },
+  "categories": [
+    "amazon",
+    "online_shopping",
+    "swiggy",
+    "fuel_hpcl",
+    "utilities",
+    "telecom"
+  ],
+  "merchants": {
+    "amazon": "amazon",
+    "flipkart": "online_shopping",
+    "swiggy": "swiggy",
+    "hp petrol pump": "fuel_hpcl",
+    "bescom": "utilities",
+    "airtel": "telecom"
+  },
+  "cases": [
+    {
+      "id": "C01",
+      "query": "I'm a Prime member spending ₹15,000 on Amazon. Which card should I use?",
+      "merchant": "Amazon",
+      "amount": 15000,
+      "expected": {
+        "category": "amazon",
+        "card": "hdfc_swiggy",
+        "accept": [
+          "hdfc_swiggy",
+          "icici_amazon_pay"
+        ],
+        "reward_inr": 750
+      },
+      "expectedTrajectory": [
+        {
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          }
+        },
+        {
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "amazon"
+          }
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "query": "Ordering ₹800 of food on Swiggy. Which card is best?",
+      "merchant": "Swiggy",
+      "amount": 800,
+      "expected": {
+        "category": "swiggy",
+        "card": "hdfc_swiggy",
+        "accept": [
+          "hdfc_swiggy"
+        ],
+        "reward_inr": 80
+      },
+      "expectedTrajectory": [
+        {
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy"
+          }
+        },
+        {
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "swiggy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "query": "I'm buying an ₹8,000 phone on Flipkart. Which card is best?",
+      "merchant": "Flipkart",
+      "amount": 8000,
+      "expected": {
+        "category": "online_shopping",
+        "card": "hdfc_swiggy",
+        "accept": [
+          "hdfc_swiggy"
+        ],
+        "reward_inr": 400
+      },
+      "expectedTrajectory": [
+        {
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart"
+          }
+        },
+        {
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "online_shopping"
+          }
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "query": "Petrol worth ₹2,000 at an HP Petrol Pump. Which card should I use?",
+      "merchant": "HP Petrol Pump",
+      "amount": 2000,
+      "expected": {
+        "category": "fuel_hpcl",
+        "card": "idfc_first_power_plus",
+        "accept": [
+          "idfc_first_power_plus"
+        ],
+        "reward_inr": 100
+      },
+      "expectedTrajectory": [
+        {
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump"
+          }
+        },
+        {
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel_hpcl"
+          }
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "query": "Paying my ₹1,800 BESCOM electricity bill directly. Which card should I use?",
+      "merchant": "BESCOM",
+      "amount": 1800,
+      "expected": {
+        "category": "utilities",
+        "card": "idfc_first_power_plus",
+        "accept": [
+          "idfc_first_power_plus"
+        ],
+        "reward_inr": 90
+      },
+      "expectedTrajectory": [
+        {
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM"
+          }
+        },
+        {
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1800,
+            "category": "utilities"
+          }
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "query": "Paying my ₹500 Airtel phone bill directly. Which card is best?",
+      "merchant": "Airtel",
+      "amount": 500,
+      "expected": {
+        "category": "telecom",
+        "card": "idfc_first_power_plus",
+        "accept": [
+          "idfc_first_power_plus"
+        ],
+        "reward_inr": 25
+      },
+      "expectedTrajectory": [
+        {
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel"
+          }
+        },
+        {
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          }
+        }
+      ]
+    }
+  ]
+}

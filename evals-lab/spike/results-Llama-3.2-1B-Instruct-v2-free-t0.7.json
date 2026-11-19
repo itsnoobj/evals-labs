@@ -1,0 +1,3612 @@
+{
+  "meta": {
+    "chrome": "Chrome/157.0.8103.79",
+    "machine": "Apple M4 Max, 64 GB, macOS 26.x",
+    "mode": "headless",
+    "webllm": {
+      "url": "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.79/+esm",
+      "version": "0.2.79"
+    },
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"
+  },
+  "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+  "engine": "web-worker (CreateWebWorkerMLCEngine)",
+  "loadMs": 1423,
+  "download": {
+    "storageEstimateDeltaBytes": 0,
+    "resourceTimingTransferBytes": 1656711,
+    "resourceTimingEntries": 1,
+    "used": "storage.estimate() usage delta before/after load; resource timing is listed for reference and misses worker fetches and cache hits",
+    "note": "A delta near 0 means the weights were already cached in this browser profile."
+  },
+  "gpu": {
+    "webgpu": true,
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "device": "",
+    "description": "",
+    "shaderF16": true,
+    "maxBufferSize": 4294967292,
+    "maxStorageBufferBindingSize": 4294967292
+  },
+  "benchmark": {
+    "cases": 12,
+    "runsPerCase": 5,
+    "temperature": 0.7,
+    "seeds": "1000 + runIndex",
+    "prompt": "v2",
+    "jsonMode": true,
+    "constrain": false,
+    "responseFormat": {
+      "type": "json_object"
+    },
+    "wallMs": 95201,
+    "date": "2026-11-19T13:13:41.212Z"
+  },
+  "summary": {
+    "nRuns": 60,
+    "taskSuccess": 0.03333333333333333,
+    "metricPassRates": {
+      "trajectory": 0,
+      "task_success": 0.03333333333333333,
+      "answer_match": 0,
+      "grounded": 0.15,
+      "tool_recall": 0.38333333333333336,
+      "tool_precision": 0.8,
+      "ops": 0.9333333333333333
+    },
+    "jsonValidity": 0.967948717948718,
+    "stepsTotal": 156,
+    "parseFailures": 5,
+    "shapeFailures": 0,
+    "perStepAccuracy": 0.10362694300518134,
+    "meanRunMs": 1586.7333333333333,
+    "meanRunTokens": 81.65,
+    "meanStepsPerRun": 2.6,
+    "failureKinds": {
+      "wrong_tool": 36,
+      "wrong_args": 8,
+      "invalid_json": 4,
+      "no_final_answer": 10
+    },
+    "topFailureReasons": [
+      {
+        "reason": "trajectory: # of # tool steps match",
+        "count": 60,
+        "example": "0 of 2 tool steps match"
+      },
+      {
+        "reason": "tool_recall: missing: rank_cards",
+        "count": 36,
+        "example": "missing: rank_cards"
+      },
+      {
+        "reason": "grounded: not in any tool output: #",
+        "count": 28,
+        "example": "not in any tool output: 6000"
+      },
+      {
+        "reason": "answer_match: reply does not name IDFC First Power+",
+        "count": 16,
+        "example": "reply does not name IDFC First Power+"
+      },
+      {
+        "reason": "task_success: no final answer",
+        "count": 13,
+        "example": "no final answer"
+      }
+    ],
+    "perCaseTaskSuccess": {
+      "C01": 0,
+      "C02": 0,
+      "C03": 0.4,
+      "C04": 0,
+      "C05": 0,
+      "C06": 0,
+      "C07": 0,
+      "C08": 0,
+      "C09": 0,
+      "C10": 0,
+      "C11": 0,
+      "C12": 0
+    },
+    "failureExamples": [
+      {
+        "caseId": "C01",
+        "seed": 1000,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\",\"category\":\"online shopping\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":15000,\"category\":\"online_shopping\"},\"final\":{\"card\":\"Visa Credit Card\",\"reward_inr\":6000.00,\"reply\":\"Buy online and get up to 6000 INR rewards on Amazon\"}}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1001,
+        "kind": "wrong_args",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\",\"category\":\"Online Shopping\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":15000,\"category\":\"online_shopping\"}}",
+          "{\"final\":{\"card:\":\", \"},\"reward_inr\": 2250}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1002,
+        "kind": "invalid_json",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\",\"category\":\"online shopping\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":15000,\"category\":\"online_shopping\"}}",
+          "{\"final\":{\"card:\"\t\t:{ \"name\" : \"idfc_first_power_plus\", \"reward_inr\": 2250, \"name\":\"IDFC INFOMAICs\", \"name\": \"IDFC First Power Plus\", \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC First Power Plus\", \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC",
+          "{\"tool\": \"classify_merchant\",\"args\":{\"merchant\":\"Amazon\"}}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1003,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\"}}",
+          "{\"final\":{\"card\":\"Amazon Pay Card\",\"reward_inr\":1.2,\"reply\":\"Get 1.2 INR rewards per ₹1 spent on Amazon purchases\"}}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1004,
+        "kind": "wrong_args",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\",\"brand\":\"Amazon Prime\",\"category\":\"Online Shopping\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":10000,\"category\":\"online_shopping\"}}",
+          "{\"tool\":\"calculate_rewards\",\"args\":{\"cards\":[{\"card\":\"idfc_first_power_plus\",\"reward_inr\":1500}],\"cards\":[{\"card\":\"hdfc_swiggy\",\"reward_inr\":500}]},\"final\":{\"reward_inr\":2500,\"reward_type\":\"Cash Back\",\"reply\":\"Use HDFC Infinia card for ₹2500 reward on Amazon purchase of ₹15,000\"}}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1000,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Swiggy\",\"category\":\"Food Delivery\"}}",
+          "{\"final\":{\"card\":\"Ola Money Card\",\"reward_inr\":3.20,\"reply\":\"Get 3.20 INR reward on your order\"}}"
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1001,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery\",\"amount\":2000}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"}}",
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"groceries\",\"amount\":2000}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\",\"reward_inr\":30.0}}"
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1003,
+        "kind": "invalid_json",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery store\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"},\"final\":{\"card\":\"hdfc_swiggy\",\"reward_inr\":20,\"reply\":\"Exclusive Offer for HDFC Swiggy Card holders. Earn 20 INR as a reward for using HDFC Swiggy card for this purchase. }}})    {\"},    \"hdfc_swiggy\"                                                                                ",
+          "{\"tool\": \"rank_cards\", \"args\": {\"amount\": 2000, \"category\": \"groceries\"}}"
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1004,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery store\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"}}",
+          "{\"tool\":\"calculate_reward\",\"args\":{\"amount\":2000,\"reward_inr\":30,\"cards\":[{\"name\":\"idfc_first_power_plus\"},{\"name\":\"hdfc_infinia\"},{\"name\":\"hdfc_swiggy\"},{\"name\":\"icici_amazon_pay\"}]}}",
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery store\"}}"
+        ]
+      },
+      {
+        "caseId": "C04",
+        "seed": 1000,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Airtel\",\"category\":\"bill payment\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"IDFC First Power Plus\",\"category\":\"bill payment\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}"
+        ]
+      },
+      {
+        "caseId": "C04",
+        "seed": 1004,
+        "kind": "wrong_args",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Airtel\",\"category\":\"bill payment\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "{\"tool\":\"calculate_rewards\",\"args\":{\"amount\":500,\"category\":\"telecom\"},\"final\":{\"reward_inr\":13.75,\"card\":\"hdfc_swiggy\",\"reply\":\"Clear your Airtel bill with HDFC Swiggy\"}}"
+        ]
+      },
+      {
+        "caseId": "C09",
+        "seed": 1002,
+        "kind": "invalid_json",
+        "raws": [
+          "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"BESCOM electricity bills\",\"category\":\"electricity\"}}",
+          "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2400,\"category\":\"electricity\"}}",
+          "{\"final\":{\"card\":\"\",\"reward_inr\":0,\"reply\":\"You should not use any card for this payment. BESCOM electricity bills are a prepaid bill, and you are paying more than the current bill. Consider switching to a prepaid bill or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid",
+          "{\"final\":{\"card\":\"\",\"reward_inr\":0,\"reply\":\"You should not use any card for this payment. BESCOM electricity bills are a prepaid bill, and you are paying more than the current bill. Consider switching to a prepaid bill or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid"
+        ]
+      }
+    ]
+  },
+  "runs": [
+    {
+      "caseId": "C01",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon",
+            "category": "online shopping"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\",\"category\":\"online shopping\"}}",
+          "ms": 872,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Visa Credit Card",
+          "reward_inr": 6000,
+          "reply": "Buy online and get up to 6000 INR rewards on Amazon",
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":15000,\"category\":\"online_shopping\"},\"final\":{\"card\":\"Visa Credit Card\",\"reward_inr\":6000.00,\"reply\":\"Buy online and get up to 6000 INR rewards on Amazon\"}}",
+          "ms": 693,
+          "tokens": 54,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1565,
+      "totalTokens": 72
+    },
+    {
+      "caseId": "C01",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon",
+            "category": "Online Shopping"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\",\"category\":\"Online Shopping\"}}",
+          "ms": 288,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 2250
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":15000,\"category\":\"online_shopping\"}}",
+          "ms": 238,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "raw": "{\"final\":{\"card:\":\", \"},\"reward_inr\": 2250}",
+          "ms": 192,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 718,
+      "totalTokens": 53
+    },
+    {
+      "caseId": "C01",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon",
+            "category": "online shopping"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\",\"category\":\"online shopping\"}}",
+          "ms": 273,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 2250
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":15000,\"category\":\"online_shopping\"}}",
+          "ms": 237,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"final\":{\"card:\"\t\t:{ \"name\" : \"idfc_first_power_plus\", \"reward_inr\": 2250, \"name\":\"IDFC INFOMAICs\", \"name\": \"IDFC First Power Plus\", \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC First Power Plus\", \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC First Power Plus\", \"reward_inr\": 2250, \"name\": \"IDFC",
+          "ms": 1801,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"args\":{\"merchant\":\"Amazon\"}}",
+          "ms": 202,
+          "tokens": 14,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2513,
+      "totalTokens": 210
+    },
+    {
+      "caseId": "C01",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\"}}",
+          "ms": 218,
+          "tokens": 13,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Amazon Pay Card",
+          "reward_inr": 1.2,
+          "reply": "Get 1.2 INR rewards per ₹1 spent on Amazon purchases",
+          "raw": "{\"final\":{\"card\":\"Amazon Pay Card\",\"reward_inr\":1.2,\"reply\":\"Get 1.2 INR rewards per ₹1 spent on Amazon purchases\"}}",
+          "ms": 453,
+          "tokens": 35,
+          "validJson": true
+        }
+      ],
+      "totalMs": 671,
+      "totalTokens": 48
+    },
+    {
+      "caseId": "C01",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon",
+            "brand": "Amazon Prime",
+            "category": "Online Shopping"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Amazon\",\"brand\":\"Amazon Prime\",\"category\":\"Online Shopping\"}}",
+          "ms": 372,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 10000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 1500
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 500
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 100
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 100
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":10000,\"category\":\"online_shopping\"}}",
+          "ms": 409,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "reward_inr": 2500,
+          "reply": "Use HDFC Infinia card for ₹2500 reward on Amazon purchase of ₹15,000",
+          "raw": "{\"tool\":\"calculate_rewards\",\"args\":{\"cards\":[{\"card\":\"idfc_first_power_plus\",\"reward_inr\":1500}],\"cards\":[{\"card\":\"hdfc_swiggy\",\"reward_inr\":500}]},\"final\":{\"reward_inr\":2500,\"reward_type\":\"Cash Back\",\"reply\":\"Use HDFC Infinia card for ₹2500 reward on Amazon purchase of ₹15,000\"}}",
+          "ms": 1911,
+          "tokens": 83,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2692,
+      "totalTokens": 125
+    },
+    {
+      "caseId": "C02",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy",
+            "category": "Food Delivery"
+          },
+          "output": {
+            "category": "food_delivery"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Swiggy\",\"category\":\"Food Delivery\"}}",
+          "ms": 562,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Ola Money Card",
+          "reward_inr": 3.2,
+          "reply": "Get 3.20 INR reward on your order",
+          "raw": "{\"final\":{\"card\":\"Ola Money Card\",\"reward_inr\":3.20,\"reply\":\"Get 3.20 INR reward on your order\"}}",
+          "ms": 654,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1216,
+      "totalTokens": 52
+    },
+    {
+      "caseId": "C02",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy",
+            "category": "Food ordering"
+          },
+          "output": {
+            "category": "food_delivery"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Swiggy\",\"category\":\"Food ordering\"}}",
+          "ms": 449,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Digi Digi Adrenaline Card",
+          "reward_inr": 1225,
+          "reply": "Get 1225 points for every ₹1000 spent on Swiggy",
+          "raw": "{\"final\":{\"card\":\"Digi Digi Adrenaline Card\",\"reward_inr\":1225.0,\"reply\":\"Get 1225 points for every ₹1000 spent on Swiggy\"}}",
+          "ms": 741,
+          "tokens": 41,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1190,
+      "totalTokens": 61
+    },
+    {
+      "caseId": "C02",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy",
+            "category": "Food Delivery"
+          },
+          "output": {
+            "category": "food_delivery"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Swiggy\",\"category\":\"Food Delivery\"}}",
+          "ms": 400,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Digi Digi Rewards Card",
+          "reward_inr": 5000,
+          "reply": "Get ₹5000 reward in ₹50,000 reward amount",
+          "raw": "{\"final\":{\"card\":\"Digi Digi Rewards Card\",\"reward_inr\":5000,\"reply\":\"Get ₹5000 reward in ₹50,000 reward amount\"}}",
+          "ms": 516,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 916,
+      "totalTokens": 54
+    },
+    {
+      "caseId": "C02",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy",
+            "category": "Food Delivery"
+          },
+          "output": {
+            "category": "food_delivery"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Swiggy\",\"category\":\"Food Delivery\"}}",
+          "ms": 371,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "DigiDining Card",
+          "reward_inr": 2400,
+          "reply": "Get ₹2400 reward in ₹2400 cashback on DigiDining purchases made in the first 3 months of membership with DigiDining",
+          "raw": "{\"final\":{\"card\":\"DigiDining Card\",\"reward_inr\":2400,\"reply\":\"Get ₹2400 reward in ₹2400 cashback on DigiDining purchases made in the first 3 months of membership with DigiDining\"}}",
+          "ms": 826,
+          "tokens": 52,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1197,
+      "totalTokens": 72
+    },
+    {
+      "caseId": "C02",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy",
+            "category": "Food Delivery"
+          },
+          "output": {
+            "category": "food_delivery"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Swiggy\",\"category\":\"Food Delivery\"}}",
+          "ms": 395,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Paytm Premium Card",
+          "reward_inr": 199,
+          "reply": "Earn ₹199.00 reward in your next order with Paytm Premium Card",
+          "raw": "{\"final\":{\"card\":\"Paytm Premium Card\",\"reward_inr\":199.00,\"reply\":\"Earn ₹199.00 reward in your next order with Paytm Premium Card\"}}",
+          "ms": 717,
+          "tokens": 36,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1112,
+      "totalTokens": 56
+    },
+    {
+      "caseId": "C03",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "DMart",
+            "category": "grocery store"
+          },
+          "output": {
+            "category": "groceries"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery store\"}}",
+          "ms": 415,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"}}",
+          "ms": 320,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 30,
+          "reply": "The card with the highest reward is HDFC Infinia with a reward of ₹20. However, HDFC Swiggy also offers a ₹20 reward. The card with the highest reward is HDFC Infinia.",
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"},\"final\":{\"card\":\"idfc_first_power_plus\",\"reward_inr\":30,\"reply\":\"The card with the highest reward is HDFC Infinia with a reward of ₹20. However, HDFC Swiggy also offers a ₹20 reward. The card with the highest reward is HDFC Infinia.\"}}",
+          "ms": 1498,
+          "tokens": 83,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2233,
+      "totalTokens": 121
+    },
+    {
+      "caseId": "C03",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "DMart",
+            "category": "grocery",
+            "amount": 2000
+          },
+          "output": {
+            "category": "groceries"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery\",\"amount\":2000}}",
+          "ms": 399,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"}}",
+          "ms": 263,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "DMart",
+            "category": "groceries",
+            "amount": 2000
+          },
+          "output": {
+            "category": "groceries"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"groceries\",\"amount\":2000}}",
+          "ms": 367,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries",
+            "reward_inr": 30
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\",\"reward_inr\":30.0}}",
+          "ms": 367,
+          "tokens": 26,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1396,
+      "totalTokens": 92
+    },
+    {
+      "caseId": "C03",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "DMart",
+            "category": "grocery store"
+          },
+          "output": {
+            "category": "groceries"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery store\"}}",
+          "ms": 372,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"}}",
+          "ms": 277,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 30,
+          "reply": "A great value for your groceries",
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"},\"final\":{\"card\":\"idfc_first_power_plus\",\"reward_inr\":30,\"reply\":\"A great value for your groceries\"}}",
+          "ms": 733,
+          "tokens": 43,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1382,
+      "totalTokens": 81
+    },
+    {
+      "caseId": "C03",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "DMart",
+            "category": "grocery store"
+          },
+          "output": {
+            "category": "groceries"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery store\"}}",
+          "ms": 404,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"}}",
+          "ms": 451,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"},\"final\":{\"card\":\"hdfc_swiggy\",\"reward_inr\":20,\"reply\":\"Exclusive Offer for HDFC Swiggy Card holders. Earn 20 INR as a reward for using HDFC Swiggy card for this purchase. }}})    {\"},    \"hdfc_swiggy\"                                                                                ",
+          "ms": 2068,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\"tool\": \"rank_cards\", \"args\": {\"amount\": 2000, \"category\": \"groceries\"}}",
+          "ms": 398,
+          "tokens": 24,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3321,
+      "totalTokens": 221
+    },
+    {
+      "caseId": "C03",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "DMart",
+            "category": "grocery store"
+          },
+          "output": {
+            "category": "groceries"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery store\"}}",
+          "ms": 429,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2000,\"category\":\"groceries\"}}",
+          "ms": 317,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "calculate_reward",
+          "args": {
+            "amount": 2000,
+            "reward_inr": 30,
+            "cards": [
+              {
+                "name": "idfc_first_power_plus"
+              },
+              {
+                "name": "hdfc_infinia"
+              },
+              {
+                "name": "hdfc_swiggy"
+              },
+              {
+                "name": "icici_amazon_pay"
+              }
+            ]
+          },
+          "output": {
+            "error": "unknown tool: calculate_reward"
+          },
+          "raw": "{\"tool\":\"calculate_reward\",\"args\":{\"amount\":2000,\"reward_inr\":30,\"cards\":[{\"name\":\"idfc_first_power_plus\"},{\"name\":\"hdfc_infinia\"},{\"name\":\"hdfc_swiggy\"},{\"name\":\"icici_amazon_pay\"}]}}",
+          "ms": 1143,
+          "tokens": 57,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "DMart",
+            "category": "grocery store"
+          },
+          "output": {
+            "category": "groceries"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"DMart\",\"category\":\"grocery store\"}}",
+          "ms": 391,
+          "tokens": 20,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2280,
+      "totalTokens": 115
+    },
+    {
+      "caseId": "C04",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel",
+            "category": "bill payment"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Airtel\",\"category\":\"bill payment\"}}",
+          "ms": 552,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 10
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "ms": 282,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "IDFC First Power Plus",
+            "category": "bill payment"
+          },
+          "output": {
+            "error": "unknown merchant: IDFC First Power Plus"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"IDFC First Power Plus\",\"category\":\"bill payment\"}}",
+          "ms": 387,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 10
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "ms": 274,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1495,
+      "totalTokens": 76
+    },
+    {
+      "caseId": "C04",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel",
+            "category": "bill"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Airtel\",\"category\":\"bill\"}}",
+          "ms": 366,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 10
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "ms": 286,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "ICIC iCO insurance",
+            "category": "telecom"
+          },
+          "output": {
+            "error": "unknown merchant: ICIC iCO insurance"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"ICIC iCO insurance\",\"category\":\"telecom\"}}",
+          "ms": 409,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 10
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "ms": 310,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1371,
+      "totalTokens": 75
+    },
+    {
+      "caseId": "C04",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel",
+            "category": "bill repayment"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Airtel\",\"category\":\"bill repayment\"}}",
+          "ms": 433,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 10
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "ms": 339,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "icici_amazon_pay",
+            "category": "bill repayment"
+          },
+          "output": {
+            "error": "unknown merchant: icici_amazon_pay"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"icici_amazon_pay\",\"category\":\"bill repayment\"}}",
+          "ms": 483,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 10
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "ms": 342,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1597,
+      "totalTokens": 76
+    },
+    {
+      "caseId": "C04",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel",
+            "category": "bill payment"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Airtel\",\"category\":\"bill payment\"}}",
+          "ms": 462,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 10
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "ms": 339,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "ICICI AMOUNT PAY",
+            "category": "bill payment"
+          },
+          "output": {
+            "error": "unknown merchant: ICICI AMOUNT PAY"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"ICICI AMOUNT PAY\",\"category\":\"bill payment\"}}",
+          "ms": 507,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 10
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "ms": 340,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1648,
+      "totalTokens": 76
+    },
+    {
+      "caseId": "C04",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel",
+            "category": "bill payment"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Airtel\",\"category\":\"bill payment\"}}",
+          "ms": 457,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 10
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"telecom\"}}",
+          "ms": 486,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 13.75,
+          "reply": "Clear your Airtel bill with HDFC Swiggy",
+          "raw": "{\"tool\":\"calculate_rewards\",\"args\":{\"amount\":500,\"category\":\"telecom\"},\"final\":{\"reward_inr\":13.75,\"card\":\"hdfc_swiggy\",\"reply\":\"Clear your Airtel bill with HDFC Swiggy\"}}",
+          "ms": 872,
+          "tokens": 51,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1815,
+      "totalTokens": 88
+    },
+    {
+      "caseId": "C05",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "IndianOil",
+            "merchantCategory": "fuel"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"IndianOil\",\"merchantCategory\":\"fuel\"}}",
+          "ms": 376,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Diners Club",
+          "reward_inr": " ₹100 discount for every ₹500 spent on fuel at IndianOil",
+          "reply": "Fill up ₹3,000 of fuel at IndianOil.",
+          "raw": "{\"final\":{\"card:\" :\"reward_inr:\"  , \"reply\":\"Fill up ₹3,000 of fuel at IndianOil. }}\"  ,\"final\":{\"card\":\"Visa\",\"reward_inr\":\" ₹100 discount for every ₹500 spent on fuel at IndianOil\",\"reply\":\"Fill up ₹3,000 of fuel at IndianOil.\"}}  ,\"final\":{\"card\":\"Diners Club\",\"reward_inr\":\" ₹100 discount for every ₹500 spent on fuel at IndianOil\",\"reply\":\"Fill up ₹3,000 of fuel at IndianOil.\"}}",
+          "ms": 2464,
+          "tokens": 116,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2840,
+      "totalTokens": 135
+    },
+    {
+      "caseId": "C05",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "IndianOil",
+            "category": "fuel purchase"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"IndianOil\",\"category\":\"fuel purchase\"}}",
+          "ms": 436,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Digi-Dig",
+          "reward_inr": 5000,
+          "reply": "Please note that card details are based on Digi-Dig card and are subject to change. It is always best to verify the details with the merchant before making the purchase.",
+          "raw": "{\"final\":{\"card\":\"Digi-Dig\",\"reward_inr\":5000,\"reply\":\"Fill up your fuel tank at IndianOil with Digi-Dig rewards for ₹5000 reward inr\",\"reply\":\"Please note that card details are based on Digi-Dig card and are subject to change. It is always best to verify the details with the merchant before making the purchase.\"}}",
+          "ms": 1683,
+          "tokens": 79,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2119,
+      "totalTokens": 98
+    },
+    {
+      "caseId": "C05",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "IndianOil",
+            "category": "fuel purchase"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"IndianOil\",\"category\":\"fuel purchase\"}}",
+          "ms": 624,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Diners Club Infinite",
+          "reward_inr": 2400,
+          "reply": "Fill up ₹2,800 of fuel at IndianOil",
+          "raw": "{\"final\":{\"card\":\"Diners Club Infinite\",\"reward_inr\":2400,\"reply\":\"Fill up ₹2,800 of fuel at IndianOil\"}}",
+          "ms": 671,
+          "tokens": 31,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1295,
+      "totalTokens": 50
+    },
+    {
+      "caseId": "C05",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "IndianOil",
+            "amount": 3000,
+            "category": "fuel"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"IndianOil\",\"amount\":3000,\"category\":\"fuel\"}}",
+          "ms": 527,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Diners Club Mastercard",
+          "reward_inr": 3,
+          "reply": "Earn 3 points on all purchases, including fuel at IndianOil.",
+          "raw": "{\"final\":{\"card\":\"Diners Club Mastercard\",\"reward_inr\":3, \"reply\":\"Earn 3 points on all purchases, including fuel at IndianOil.\"}}",
+          "ms": 750,
+          "tokens": 35,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1277,
+      "totalTokens": 58
+    },
+    {
+      "caseId": "C05",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "IndianOil",
+            "category": "fuel purchase"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"IndianOil\",\"category\":\"fuel purchase\"}}",
+          "ms": 490,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Diners Club Cash Back Credit Card",
+          "reward_inr": 0.75,
+          "reply": "Earn 0.75 INR for every ₹1 spent on fuel purchase",
+          "raw": "{\"final\":{\"card\":\"Diners Club Cash Back Credit Card\",\"reward_inr\":0.75,\"reply\":\"Earn 0.75 INR for every ₹1 spent on fuel purchase\"}}",
+          "ms": 816,
+          "tokens": 39,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1306,
+      "totalTokens": 58
+    },
+    {
+      "caseId": "C06",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Barbeque Nation",
+            "category": "Restaurant",
+            "amount": 3000
+          },
+          "output": {
+            "category": "dining"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Barbeque Nation\",\"category\":\"Restaurant\",\"amount\":3000}}",
+          "ms": 578,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Dining Card",
+          "reward_inr": 500,
+          "reply": "Dining card rewards 500 INR for purchases made in the dining category",
+          "raw": "{\"final\":{\"card\":\"Dining Card\",\"reward_inr\":500,\"reply\":\"Dining card rewards 500 INR for purchases made in the dining category\"}}",
+          "ms": 738,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1316,
+      "totalTokens": 58
+    },
+    {
+      "caseId": "C06",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Barbeque Nation",
+            "category": "food delivery services"
+          },
+          "output": {
+            "category": "dining"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Barbeque Nation\",\"category\":\"food delivery services\"}}",
+          "ms": 511,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 3000,
+            "category": "dining"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 150
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 45
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 30
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 30
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":3000,\"category\":\"dining\"}}",
+          "ms": 346,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 3000,
+            "category": "dining"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 150
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 45
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 30
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 30
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":3000,\"category\":\"dining\"}}",
+          "ms": 399,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 3000,
+            "category": "dining"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 150
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 45
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 30
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 30
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":3000,\"category\":\"dining\"}}",
+          "ms": 398,
+          "tokens": 18,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1654,
+      "totalTokens": 76
+    },
+    {
+      "caseId": "C06",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Barbeque Nation",
+            "category": "Dining out",
+            "amount": 3000
+          },
+          "output": {
+            "category": "dining"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Barbeque Nation\",\"category\":\"Dining out\",\"amount\":3000}}",
+          "ms": 723,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Dining out ₹3,000",
+          "reward_inr": 0,
+          "reply": "Dining out ₹3,000",
+          "raw": "{\"final\":{\"card\":\"Dining out ₹3,000\",\"reward_inr\":0,\"reply\":\"Dining out ₹3,000\"}}",
+          "ms": 533,
+          "tokens": 29,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1256,
+      "totalTokens": 56
+    },
+    {
+      "caseId": "C06",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Barbeque Nation",
+            "category": "dining"
+          },
+          "output": {
+            "category": "dining"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Barbeque Nation\",\"category\":\"dining\"}}",
+          "ms": 463,
+          "tokens": 21,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Dining Card",
+          "reward_inr": 4500,
+          "reply": "Dining card rewards ₹4500 for ₹3000 purchase",
+          "raw": "{\"final\":{\"card\":\"Dining Card\",\"reward_inr\":4500,\"reply\":\"Dining card rewards ₹4500 for ₹3000 purchase\"}}",
+          "ms": 664,
+          "tokens": 31,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1127,
+      "totalTokens": 52
+    },
+    {
+      "caseId": "C06",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Barbeque Nation",
+            "category": "Restaurant",
+            "amount": 3000
+          },
+          "output": {
+            "category": "dining"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Barbeque Nation\",\"category\":\"Restaurant\",\"amount\":3000}}",
+          "ms": 654,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Dining ₹500",
+          "reward_inr": 0.02,
+          "reply": "Enjoy your dinner at Barbeque Nation with a 2% discount on all orders.",
+          "raw": "{\"final\":{\"card\":\"Dining ₹500\", \"reward_inr\": 0.02, \"reply\": \"Enjoy your dinner at Barbeque Nation with a 2% discount on all orders.\"}}",
+          "ms": 1112,
+          "tokens": 43,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1766,
+      "totalTokens": 68
+    },
+    {
+      "caseId": "C07",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "MakeMyTrip"
+          },
+          "output": {
+            "category": "travel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"MakeMyTrip\"}}",
+          "ms": 478,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Dinners and Delights ₹10,000 Travel Card",
+          "reward_inr": 3000,
+          "reply": "Book a ₹10,000 trip on MakeMyTrip",
+          "raw": "{\"final\":{\"card\":\"Dinners and Delights ₹10,000 Travel Card\",\"reward_inr\":3000,\"reply\":\"Book a ₹10,000 trip on MakeMyTrip\"}}",
+          "ms": 1103,
+          "tokens": 39,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1581,
+      "totalTokens": 54
+    },
+    {
+      "caseId": "C07",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "MakeMyTrip",
+            "merchant_id": "258369"
+          },
+          "output": {
+            "category": "travel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"MakeMyTrip\",\"merchant_id\":\"258369\"}}",
+          "ms": 579,
+          "tokens": 21,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "DigiDigi card",
+          "reward_inr": 4500,
+          "reply": "Booked a ₹10,000 trip on MakeMyTrip",
+          "raw": "{\"final\":{\"card\":\"DigiDigi card\",\"reward_inr\":4500,\"reply\":\"Booked a ₹10,000 trip on MakeMyTrip\"}}",
+          "ms": 778,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1357,
+      "totalTokens": 54
+    },
+    {
+      "caseId": "C07",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "MakeMyTrip",
+            "rating": 4.5,
+            "brand": "MakeMyTrip"
+          },
+          "output": {
+            "category": "travel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"MakeMyTrip\",\"rating\":4.5,\"brand\":\"MakeMyTrip\"}}",
+          "ms": 660,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Dinners And Luxuries Card",
+          "reward_inr": 5000,
+          "reply": "Book in Diners And Luxuries section",
+          "raw": "{\"final\":{\"card\":\"Dinners And Luxuries Card\",\"reward_inr\":5000,\"reply\":\"Book in Diners And Luxuries section\"}}",
+          "ms": 895,
+          "tokens": 31,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1555,
+      "totalTokens": 58
+    },
+    {
+      "caseId": "C07",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "MakeMyTrip",
+            "merchant_id": "<merchant id of MakeMyTrip>",
+            "merchant_type": "Online Shopping"
+          },
+          "output": {
+            "category": "travel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"MakeMyTrip\",\"merchant_id\":\"<merchant id of MakeMyTrip>\",\"merchant_type\":\"Online Shopping\"}}",
+          "ms": 707,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "DigiDhanu Platinum Card",
+          "reward_inr": 2000,
+          "reply": "Earn 2000 INR as a reward for making a successful trip",
+          "raw": "{\"final\":{\"card\":\"DigiDhanu Platinum Card\",\"reward_inr\":2000,\"reply\":\"Earn 2000 INR as a reward for making a successful trip\"}}",
+          "ms": 796,
+          "tokens": 37,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1503,
+      "totalTokens": 70
+    },
+    {
+      "caseId": "C07",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "MakeMyTrip",
+            "rating": 4.5
+          },
+          "output": {
+            "category": "travel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"MakeMyTrip\",\"rating\":4.5}}",
+          "ms": 444,
+          "tokens": 21,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Diners Club Card",
+          "reward_inr": 50,
+          "reply": "Get 50,000 bonus points when you spend ₹50,000 or more on DMCs",
+          "raw": "{\"final\":{\"card\":\"Diners Club Card\",\"reward_inr\":50, \"reply\":\"Get 50,000 bonus points when you spend ₹50,000 or more on DMCs\"}}",
+          "ms": 951,
+          "tokens": 40,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1395,
+      "totalTokens": 61
+    },
+    {
+      "caseId": "C08",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart",
+            "merchant_category": "E-commerce"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Flipkart\",\"merchant_category\":\"E-commerce\"}}",
+          "ms": 504,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Amazon Pay Card",
+          "reward_inr": 1200,
+          "reply": "Pay for ₹8,000",
+          "raw": "{\"final\":{\"card\":\"Amazon Pay Card\",\"reward_inr\":1200.00,\"reply\":\"Pay for ₹8,000\"}}",
+          "ms": 548,
+          "tokens": 27,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1052,
+      "totalTokens": 47
+    },
+    {
+      "caseId": "C08",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart",
+            "category": "Online Shopping"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Flipkart\",\"category\":\"Online Shopping\"}}",
+          "ms": 474,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Digi Digi Amatsu Card",
+          "reward_inr": 0,
+          "reply": "Earn 0.5% cashback on all purchases",
+          "raw": "{\"final\":{\"card\":\"Digi Digi Amatsu Card\",\"reward_inr\":0,\"reply\":\"Earn 0.5% cashback on all purchases\"}}",
+          "ms": 714,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1188,
+      "totalTokens": 52
+    },
+    {
+      "caseId": "C08",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart",
+            "category": "E-commerce"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Flipkart\",\"category\":\"E-commerce\"}}",
+          "ms": 425,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Paytm Cash Card",
+          "reward_inr": 9000,
+          "reply": "Get cashback of ₹9000 on your purchase",
+          "raw": "{\"final\":{\"card\":\"Paytm Cash Card\",\"reward_inr\":9000,\"reply\":\"Get cashback of ₹9000 on your purchase\"}}",
+          "ms": 687,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1112,
+      "totalTokens": 49
+    },
+    {
+      "caseId": "C08",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart",
+            "category": "E-commerce"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Flipkart\",\"category\":\"E-commerce\"}}",
+          "ms": 358,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Digi Dhan",
+          "reward_inr": 0.25,
+          "reply": "Best card for online shopping on Flipkart",
+          "raw": "{\"final\":{\"card\":\"Digi Dhan\", \"reward_inr\":0.25,\"reply\":\"Best card for online shopping on Flipkart\"}}",
+          "ms": 432,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 790,
+      "totalTokens": 49
+    },
+    {
+      "caseId": "C08",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart",
+            "category": "E-commerce"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Flipkart\",\"category\":\"E-commerce\"}}",
+          "ms": 347,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "DionChoice Platinum Card",
+          "reward_inr": 1800,
+          "reply": "Earn 1,800 INR as a reward for making online purchases on Flipkart and other Flipkart merchants.",
+          "raw": "{\"final\":{\"card\":\"DionChoice Platinum Card\",\"reward_inr\":1800,\"reply\":\"Earn 1,800 INR as a reward for making online purchases on Flipkart and other Flipkart merchants.\"}}",
+          "ms": 678,
+          "tokens": 44,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1025,
+      "totalTokens": 63
+    },
+    {
+      "caseId": "C09",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM",
+            "category": "electricity bill"
+          },
+          "output": {
+            "category": "utilities"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"BESCOM\",\"category\":\"electricity bill\"}}",
+          "ms": 387,
+          "tokens": 21,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "DigiDhanak",
+          "reward_inr": 2000,
+          "reply": "Pay ₹2000 with DigiDhanak",
+          "raw": "{\"final\":{\"card\":\"DigiDhanak\",\"reward_inr\":2000,\"reply\":\"Pay ₹2000 with DigiDhanak\"}}",
+          "ms": 458,
+          "tokens": 31,
+          "validJson": true
+        }
+      ],
+      "totalMs": 845,
+      "totalTokens": 52
+    },
+    {
+      "caseId": "C09",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM electricity bill",
+            "category": "Utility bills"
+          },
+          "output": {
+            "error": "unknown merchant: BESCOM electricity bill"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"BESCOM electricity bill\",\"category\":\"Utility bills\"}}",
+          "ms": 397,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2400,
+            "category": "Utility bills"
+          },
+          "output": {
+            "error": "unknown category: Utility bills"
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2400,\"category\":\"Utility bills\"}}",
+          "ms": 276,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "",
+          "reward_inr": 0,
+          "reply": "Does not have a card reward policy for this category",
+          "raw": "{\"final\":{\"card\":\"\",\"reward_inr\":0,\"reply\":\"Does not have a card reward policy for this category\",\"merchant\":\"BESCOM electricity bill\"}}",
+          "ms": 525,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1198,
+      "totalTokens": 72
+    },
+    {
+      "caseId": "C09",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM electricity bills",
+            "category": "electricity"
+          },
+          "output": {
+            "error": "unknown merchant: BESCOM electricity bills"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"BESCOM electricity bills\",\"category\":\"electricity\"}}",
+          "ms": 433,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2400,
+            "category": "electricity"
+          },
+          "output": {
+            "error": "unknown category: electricity"
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2400,\"category\":\"electricity\"}}",
+          "ms": 317,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"final\":{\"card\":\"\",\"reward_inr\":0,\"reply\":\"You should not use any card for this payment. BESCOM electricity bills are a prepaid bill, and you are paying more than the current bill. Consider switching to a prepaid bill or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid",
+          "ms": 2778,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"final\":{\"card\":\"\",\"reward_inr\":0,\"reply\":\"You should not use any card for this payment. BESCOM electricity bills are a prepaid bill, and you are paying more than the current bill. Consider switching to a prepaid bill or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid card or paying more than the current bill if you want to keep the card. This is not a good idea. Please consider using a prepaid",
+          "ms": 2696,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 6224,
+      "totalTokens": 358
+    },
+    {
+      "caseId": "C09",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM",
+            "category": "electricity bill repayment"
+          },
+          "output": {
+            "category": "utilities"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"BESCOM\",\"category\":\"electricity bill repayment\"}}",
+          "ms": 451,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2400,
+            "category": "utilities"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 48
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 36
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 24
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 24
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2400,\"category\":\"utilities\"}}",
+          "ms": 326,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2400,
+            "category": "utilities"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 48
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 36
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 24
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 24
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2400,\"category\":\"utilities\"}}",
+          "ms": 531,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "final",
+          "args": {},
+          "output": {
+            "error": "unknown tool: final"
+          },
+          "raw": "{\"tool\":\"final\",\"card\":\"icici_amazon_pay\",\"reward_inr\":48,\"reward_description\":\"I. e. Pay Bills On Time\"}",
+          "ms": 596,
+          "tokens": 31,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1904,
+      "totalTokens": 87
+    },
+    {
+      "caseId": "C09",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM electricity bills",
+            "category": "electricity bills"
+          },
+          "output": {
+            "error": "unknown merchant: BESCOM electricity bills"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"BESCOM electricity bills\",\"category\":\"electricity bills\"}}",
+          "ms": 451,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2400,
+            "category": "electricity bills"
+          },
+          "output": {
+            "error": "unknown category: electricity bills"
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":2400,\"category\":\"electricity bills\"}}",
+          "ms": 321,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "",
+          "reward_inr": 0,
+          "reply": "Please provide the card details to proceed",
+          "raw": "{\"final\":{\"card\":\"\",\"reward_inr\":0,\"reply\":\"Please provide the card details to proceed\"}}",
+          "ms": 377,
+          "tokens": 21,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1149,
+      "totalTokens": 63
+    },
+    {
+      "caseId": "C10",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Zomato",
+            "amount": 1200,
+            "category": "Food delivery services"
+          },
+          "output": {
+            "category": "food_delivery"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Zomato\",\"amount\":1200,\"category\":\"Food delivery services\"}}",
+          "ms": 533,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Ola Cabbie",
+          "reward_inr": 2000,
+          "reply": "The Ola Cabbie card is the best back for this purchase as it offers a 2000 INR reward, making it the most back for this purchase.",
+          "raw": "{\"final\":{\"card\":\"Ola Cabbie\",\"reward_inr\":2000,\"reply\":\"The Ola Cabbie card is the best back for this purchase as it offers a 2000 INR reward, making it the most back for this purchase.\"}}",
+          "ms": 1169,
+          "tokens": 55,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1702,
+      "totalTokens": 81
+    },
+    {
+      "caseId": "C10",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Zomato",
+            "category": "Food delivery services"
+          },
+          "output": {
+            "category": "food_delivery"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Zomato\",\"category\":\"Food delivery services\"}}",
+          "ms": 503,
+          "tokens": 21,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1000,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 50
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 15
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 10
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 10
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":1000,\"category\":\"food_delivery\"}}",
+          "ms": 363,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 25
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":500,\"category\":\"food_delivery\"}}",
+          "ms": 354,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 750,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 37.5
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 11.25
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 7.5
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":750,\"category\":\"food_delivery\"}}",
+          "ms": 360,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1580,
+      "totalTokens": 73
+    },
+    {
+      "caseId": "C10",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Zomato",
+            "amount": 1200,
+            "category": "Food and Entertainment"
+          },
+          "output": {
+            "category": "food_delivery"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Zomato\",\"amount\":1200,\"category\":\"Food and Entertainment\"}}",
+          "ms": 537,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1200,
+            "category": "food_delivery",
+            "reward_inr": 500,
+            "category_type": "Food Delivery",
+            "category_description": "Fast and reliable food delivery services"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 60
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 18
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 12
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":1200,\"category\":\"food_delivery\",\"reward_inr\":500,\"category_type\":\"Food Delivery\",\"category_description\":\"Fast and reliable food delivery services\"}}",
+          "ms": 872,
+          "tokens": 40,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1200,
+            "category": "food_delivery",
+            "reward_inr": 60,
+            "category_type": "Food Delivery",
+            "category_description": "Fast and reliable food delivery services"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 60
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 18
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 12
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":1200,\"category\":\"food_delivery\",\"reward_inr\":60,\"category_type\":\"Food Delivery\",\"category_description\":\"Fast and reliable food delivery services\"}}",
+          "ms": 644,
+          "tokens": 40,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1200,
+            "category": "food_delivery",
+            "reward_inr": 60,
+            "category_type": "Food Delivery",
+            "category_description": "Fast and reliable food delivery services"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 60
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 18
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 12
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":1200,\"category\":\"food_delivery\",\"reward_inr\":60,\"category_type\":\"Food Delivery\",\"category_description\":\"Fast and reliable food delivery services\"}}",
+          "ms": 672,
+          "tokens": 40,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2725,
+      "totalTokens": 146
+    },
+    {
+      "caseId": "C10",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Zomato\",\"category\":\"Food Delivery Services\",\"amount\":1200,\"tool\":\"rank_cards\",\"args\":{\"amount\":1200,\"category\":\"Food Delivery Services\"}} \n  \n\n\n  \n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n  \n\n\n\n ",
+          "ms": 2036,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "final",
+          "card": "Diners Club Card",
+          "reward_inr": 800,
+          "raw": "{\"final\": {\"reward_inr\": 800, \"card\": \"Diners Club Card\"}}",
+          "ms": 500,
+          "tokens": 20,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2536,
+      "totalTokens": 179
+    },
+    {
+      "caseId": "C10",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Zomato",
+            "amount": 1200,
+            "category": "Food Delivery Services"
+          },
+          "output": {
+            "category": "food_delivery"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Zomato\",\"amount\":1200,\"category\":\"Food Delivery Services\"}}",
+          "ms": 693,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Dinera",
+          "reward_inr": 50,
+          "reply": "Dinera offers a 50% reward on orders of ₹1000 or more. Redeem your reward at checkout.",
+          "raw": "{\"final\":{\"card\":\"Dinera\",\"reward_inr\":50.00,\"reply\":\"Dinera offers a 50% reward on orders of ₹1000 or more. Redeem your reward at checkout.\"}}",
+          "ms": 1118,
+          "tokens": 45,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1811,
+      "totalTokens": 71
+    },
+    {
+      "caseId": "C11",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump",
+            "merchant_type": "Pump"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"HP Petrol Pump\",\"merchant_type\":\"Pump\"}}",
+          "ms": 425,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "reward_inr": 1200,
+          "reply": "Use the TC Rewards Card for a purchase",
+          "raw": "{\"final\":{\"card:\" \n\n  \t: \"TC Rewards Card\" \n  ,\"reward_inr\":1200 \n  ,\"reply\":\"Use the TC Rewards Card for a purchase\"}}",
+          "ms": 559,
+          "tokens": 39,
+          "validJson": true
+        }
+      ],
+      "totalMs": 984,
+      "totalTokens": 61
+    },
+    {
+      "caseId": "C11",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump",
+            "category": "Fuel"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"HP Petrol Pump\",\"category\":\"Fuel\"}}",
+          "ms": 411,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "reward_inr": "0",
+          "reply": "You can use any credit card but a good one is advisable.",
+          "raw": "{\"final\":{\"card:\":\", \"  \n\n\n  , \"reward_inr\": \"0\", \"reply\": \"You can use any credit card but a good one is advisable.\"}}",
+          "ms": 636,
+          "tokens": 36,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1047,
+      "totalTokens": 56
+    },
+    {
+      "caseId": "C11",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump",
+            "category": "Fuel"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"HP Petrol Pump\",\"category\":\"Fuel\"}}",
+          "ms": 452,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Diners Club",
+          "reward_inr": 1990,
+          "reply": "Use Diners Club for this purchase",
+          "raw": "{\"final\":{\"card\":\"Diners Club\",\"reward_inr\":1990,\"reply\":\"Use Diners Club for this purchase\"}}",
+          "ms": 484,
+          "tokens": 26,
+          "validJson": true
+        }
+      ],
+      "totalMs": 936,
+      "totalTokens": 46
+    },
+    {
+      "caseId": "C11",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump",
+            "category": "fuel"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"HP Petrol Pump\",\"category\":\"fuel\"}}",
+          "ms": 452,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Mastercard",
+          "reward_inr": 2000,
+          "reply": "Purchase fuel at an HP Petrol Pump successfully",
+          "raw": "{\"final\":{\"card\":\"Mastercard\",\"reward_inr\":2000,\"reply\":\"Purchase fuel at an HP Petrol Pump successfully\"}}",
+          "ms": 547,
+          "tokens": 27,
+          "validJson": true
+        }
+      ],
+      "totalMs": 999,
+      "totalTokens": 47
+    },
+    {
+      "caseId": "C11",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump",
+            "category": "fuel"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"HP Petrol Pump\",\"category\":\"fuel\"}}",
+          "ms": 494,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Visa Infinite Card",
+          "reward_inr": 1500,
+          "reply": "Use your Visa card for fuel purchases.",
+          "raw": "{\"final\":{\"card\":\"Visa Infinite Card\",\"reward_inr\":1500,\"reply\":\"Use your Visa card for fuel purchases.\"}}",
+          "ms": 535,
+          "tokens": 28,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1029,
+      "totalTokens": 48
+    },
+    {
+      "caseId": "C12",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Jio",
+            "brand": "Bharti Seris Inc.",
+            "category": "Mobile Service",
+            "merchant_id": "Bharti Seris Inc.",
+            "brand_id": "Bharti Seris Inc."
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Jio\",\"brand\":\"Bharti Seris Inc.\",\"category\":\"Mobile Service\",\"merchant_id\":\"Bharti Seris Inc.\",\"brand_id\":\"Bharti Seris Inc.\"}}",
+          "ms": 1314,
+          "tokens": 49,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 700,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 14
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 10.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 7
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 7
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":700,\"category\":\"telecom\"}}",
+          "ms": 336,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 10.5,
+          "reply": "Maximum ₹700 can be recharged with this card",
+          "raw": "{\"final\":{\"card\":\"idfc_first_power_plus\",\"reward_inr\":10.5,\"reply\":\"Maximum ₹700 can be recharged with this card\",\"reward_details\":\"This card offers a maximum ₹700 limit for recharging.\"}}",
+          "ms": 889,
+          "tokens": 48,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2539,
+      "totalTokens": 114
+    },
+    {
+      "caseId": "C12",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Jio",
+            "category": "Mobile Services"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Jio\",\"category\":\"Mobile Services\"}}",
+          "ms": 401,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 700,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 2,
+                "reward_inr": 14
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 10.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 7
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 7
+              }
+            ]
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":700,\"category\":\"telecom\"}}",
+          "ms": 306,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 10.5,
+          "reply": "Offer ₹10.5 reward in ₹10.5 for the first ₹700 recharge",
+          "raw": "{\"final\":{\"card\":\"idfc_first_power_plus\",\"reward_inr\":10.5,\"reply\":\"Offer ₹10.5 reward in ₹10.5 for the first ₹700 recharge\"}}",
+          "ms": 705,
+          "tokens": 39,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1412,
+      "totalTokens": 75
+    },
+    {
+      "caseId": "C12",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Jio",
+            "amount": 700,
+            "category": "prepaid"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Jio\",\"amount\":700,\"category\":\"prepaid\"}}",
+          "ms": 442,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Airtel",
+          "reward_inr": 9.99,
+          "reply": "Pay for data with Airtel",
+          "raw": "{\"final\":{\"card\":\"Airtel\",\"reward_inr\":9.99,\"reply\":\"Pay for data with Airtel\"}}",
+          "ms": 450,
+          "tokens": 27,
+          "validJson": true
+        }
+      ],
+      "totalMs": 892,
+      "totalTokens": 50
+    },
+    {
+      "caseId": "C12",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Jio Services Ltd.",
+            "amount": 700,
+            "category": "Prepaid Card"
+          },
+          "output": {
+            "error": "unknown merchant: Jio Services Ltd."
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Jio Services Ltd.\",\"amount\":700,\"category\":\"Prepaid Card\"}}",
+          "ms": 538,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 700,
+            "category": "Prepaid Card"
+          },
+          "output": {
+            "error": "unknown category: Prepaid Card"
+          },
+          "raw": "{\"tool\":\"rank_cards\",\"args\":{\"amount\":700,\"category\":\"Prepaid Card\"}}",
+          "ms": 375,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Mastercard, ₹700 Reward Inr, Reward Period",
+          "reward_inr": 700,
+          "reply": "Charge ₹700 on Jio prepaid plans",
+          "raw": "{\"final\":{\"card\":\"Mastercard, ₹700 Reward Inr, Reward Period\",\"reward_inr\":700,\"reply\":\"Charge ₹700 on Jio prepaid plans\"}}",
+          "ms": 757,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1670,
+      "totalTokens": 78
+    },
+    {
+      "caseId": "C12",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Jio",
+            "amount": 700,
+            "category": "recharge"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\":\"classify_merchant\",\"args\":{\"merchant\":\"Jio\",\"amount\":700,\"category\":\"recharge\"}}",
+          "ms": 484,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "Digi Cash Card",
+          "reward_inr": 10,
+          "reply": "Pay ₹700 with Digi Cash Card",
+          "raw": "{\"final\":{\"card\":\"Digi Cash Card\",\"reward_inr\":10.00,\"reply\":\"Pay ₹700 with Digi Cash Card\"}}",
+          "ms": 696,
+          "tokens": 29,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1180,
+      "totalTokens": 52
+    }
+  ]
+}

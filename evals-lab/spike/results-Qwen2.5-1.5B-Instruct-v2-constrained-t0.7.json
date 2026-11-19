@@ -1,0 +1,2240 @@
+{
+  "meta": {
+    "chrome": "Chrome/157.0.8103.79",
+    "machine": "Apple M4 Max, 64 GB, macOS 26.7.2",
+    "mode": "headless",
+    "webllm": {
+      "url": "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.79/+esm",
+      "version": "0.2.79"
+    },
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"
+  },
+  "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+  "engine": "web-worker (CreateWebWorkerMLCEngine)",
+  "loadMs": 2099,
+  "download": {
+    "storageEstimateDeltaBytes": 0,
+    "resourceTimingTransferBytes": 1656711,
+    "resourceTimingEntries": 1,
+    "used": "storage.estimate() usage delta before/after load; resource timing is listed for reference and misses worker fetches and cache hits",
+    "note": "A delta near 0 means the weights were already cached in this browser profile."
+  },
+  "gpu": {
+    "webgpu": true,
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "device": "",
+    "description": "",
+    "shaderF16": true,
+    "maxBufferSize": 4294967292,
+    "maxStorageBufferBindingSize": 4294967292
+  },
+  "benchmark": {
+    "cases": 6,
+    "runsPerCase": 5,
+    "temperature": 0.7,
+    "seeds": "1000 + runIndex",
+    "prompt": "v2",
+    "jsonMode": true,
+    "constrain": true,
+    "responseFormat": {
+      "type": "json_object",
+      "schema": "{\"anyOf\":[{\"type\":\"object\",\"properties\":{\"tool\":{\"enum\":[\"classify_merchant\",\"rank_cards\"]},\"args\":{\"anyOf\":[{\"type\":\"object\",\"properties\":{\"merchant\":{\"type\":\"string\"}},\"required\":[\"merchant\"],\"additionalProperties\":false},{\"type\":\"object\",\"properties\":{\"amount\":{\"type\":\"number\"},\"category\":{\"enum\":[\"amazon\",\"online_shopping\",\"swiggy\",\"fuel_hpcl\",\"utilities\",\"telecom\"]}},\"required\":[\"amount\",\"category\"],\"additionalProperties\":false}]}},\"required\":[\"tool\",\"args\"],\"additionalProperties\":false},{\"type\":\"object\",\"properties\":{\"final\":{\"type\":\"object\",\"properties\":{\"card\":{\"enum\":[\"hdfc_infinia\",\"idfc_first_power_plus\",\"icici_amazon_pay\",\"hdfc_swiggy\"]},\"reward_inr\":{\"type\":\"number\"},\"reply\":{\"type\":\"string\"}},\"required\":[\"card\",\"reward_inr\",\"reply\"],\"additionalProperties\":false}},\"required\":[\"final\"],\"additionalProperties\":false}]}"
+    },
+    "wallMs": 67939,
+    "date": "2026-11-19T19:18:46.768Z"
+  },
+  "summary": {
+    "nRuns": 30,
+    "taskSuccess": 0.8666666666666667,
+    "metricPassRates": {
+      "trajectory": 1,
+      "task_success": 0.8666666666666667,
+      "answer_match": 0.8666666666666667,
+      "grounded": 1,
+      "tool_recall": 1,
+      "tool_precision": 1,
+      "ops": 1
+    },
+    "jsonValidity": 1,
+    "stepsTotal": 90,
+    "parseFailures": 0,
+    "shapeFailures": 0,
+    "perStepAccuracy": 0.9555555555555556,
+    "meanRunMs": 2264.766666666667,
+    "meanRunTokens": 130.2,
+    "meanStepsPerRun": 3,
+    "failureKinds": {
+      "wrong_card": 4
+    },
+    "topFailureReasons": [
+      {
+        "reason": "task_success: got hdfc_infinia / #, accepted: hdfc_swiggy or icici_amazon_pay (reward #)",
+        "count": 2,
+        "example": "got hdfc_infinia / 499.5, accepted: hdfc_swiggy or icici_amazon_pay (reward 750)"
+      },
+      {
+        "reason": "answer_match: reply names none of the accepted cards, accepted: HDFC Swiggy or ICICI Amazon Pay",
+        "count": 2,
+        "example": "reply names none of the accepted cards, accepted: HDFC Swiggy or ICICI Amazon Pay"
+      },
+      {
+        "reason": "answer_match: reply names none of the accepted cards, accepted: HDFC Swiggy",
+        "count": 2,
+        "example": "reply names none of the accepted cards, accepted: HDFC Swiggy"
+      },
+      {
+        "reason": "task_success: got hdfc_infinia / #, accepted: hdfc_swiggy (reward #)",
+        "count": 1,
+        "example": "got hdfc_infinia / 266.4, accepted: hdfc_swiggy (reward 400)"
+      },
+      {
+        "reason": "task_success: got icici_amazon_pay / #, accepted: hdfc_swiggy (reward #)",
+        "count": 1,
+        "example": "got icici_amazon_pay / 80, accepted: hdfc_swiggy (reward 400)"
+      }
+    ],
+    "perCaseTaskSuccess": {
+      "C01": 0.6,
+      "C02": 1,
+      "C03": 0.6,
+      "C04": 1,
+      "C05": 1,
+      "C06": 1
+    },
+    "failureExamples": [
+      {
+        "caseId": "C01",
+        "seed": 1001,
+        "kind": "wrong_card",
+        "raws": [
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"amazon\"\n  }\n}",
+          "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 499.5,\n    \"reply\": \"For your purchase amount, the HDFC Infinite card offers a reward of ₹499.5. This card is also a Prime partner, which means you'll get additional benefits.\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1003,
+        "kind": "wrong_card",
+        "raws": [
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"amazon\"\n  }\n}",
+          "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 499.5,\n    \"reply\": \"The HDFC Infinia card offers a better reward of ₹499.5 for your purchase. It's suitable for your Prime member status and the large amount spent on Amazon.\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1003,
+        "kind": "wrong_card",
+        "raws": [
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Flipkart\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 266.4,\n    \"reply\": \"The HDFC Infinia card is best for your purchase as it offers a reward of ₹266.4 on a ₹8,000 purchase.\"\n  }\n}"
+        ]
+      }
+    ]
+  },
+  "runs": [
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          },
+          "output": {
+            "category": "amazon"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "ms": 1083,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "amazon"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 499.5
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 75
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"amazon\"\n  }\n}",
+          "ms": 416,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 750,
+          "reply": "For ₹15,000 purchase on Amazon, the HDFC Swiggy card offers a reward of ₹750.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 750,\n    \"reply\": \"For ₹15,000 purchase on Amazon, the HDFC Swiggy card offers a reward of ₹750.\"\n  }\n}",
+          "ms": 1199,
+          "tokens": 65,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2698,
+      "totalTokens": 125
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          },
+          "output": {
+            "category": "amazon"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "ms": 373,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "amazon"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 499.5
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 75
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"amazon\"\n  }\n}",
+          "ms": 416,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_infinia",
+          "reward_inr": 499.5,
+          "reply": "For your purchase amount, the HDFC Infinite card offers a reward of ₹499.5. This card is also a Prime partner, which means you'll get additional benefits.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 499.5,\n    \"reply\": \"For your purchase amount, the HDFC Infinite card offers a reward of ₹499.5. This card is also a Prime partner, which means you'll get additional benefits.\"\n  }\n}",
+          "ms": 1583,
+          "tokens": 76,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2372,
+      "totalTokens": 136
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          },
+          "output": {
+            "category": "amazon"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "ms": 359,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "amazon"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 499.5
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 75
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"amazon\"\n  }\n}",
+          "ms": 425,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 750,
+          "reply": "For your Amazon purchase, you should use the HDFC Swiggy card. It offers a reward of ₹750.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 750,\n    \"reply\": \"For your Amazon purchase, you should use the HDFC Swiggy card. It offers a reward of ₹750.\"\n  }\n}",
+          "ms": 1168,
+          "tokens": 63,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1952,
+      "totalTokens": 123
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          },
+          "output": {
+            "category": "amazon"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "ms": 362,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "amazon"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 499.5
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 75
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"amazon\"\n  }\n}",
+          "ms": 427,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_infinia",
+          "reward_inr": 499.5,
+          "reply": "The HDFC Infinia card offers a better reward of ₹499.5 for your purchase. It's suitable for your Prime member status and the large amount spent on Amazon.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 499.5,\n    \"reply\": \"The HDFC Infinia card offers a better reward of ₹499.5 for your purchase. It's suitable for your Prime member status and the large amount spent on Amazon.\"\n  }\n}",
+          "ms": 1595,
+          "tokens": 77,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2384,
+      "totalTokens": 137
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          },
+          "output": {
+            "category": "amazon"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "ms": 363,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "amazon"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 499.5
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 75
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"amazon\"\n  }\n}",
+          "ms": 427,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 750,
+          "reply": "The HDFC Swiggy card is the best option for you as it offers a reward of ₹750 with a rate of 5%. This reward is very substantial for your purchase amount.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 750,\n    \"reply\": \"The HDFC Swiggy card is the best option for you as it offers a reward of ₹750 with a rate of 5%. This reward is very substantial for your purchase amount.\"\n  }\n}",
+          "ms": 1599,
+          "tokens": 77,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2389,
+      "totalTokens": 137
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy"
+          },
+          "output": {
+            "category": "swiggy"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Swiggy\"\n  }\n}",
+          "ms": 417,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "swiggy"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 10,
+                "reward_inr": 80
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 26.64
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 4
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"swiggy\"\n  }\n}",
+          "ms": 426,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 80,
+          "reply": "The best card for a purchase of ₹800 on Swiggy is the HDFC Swiggy card. It offers a reward of ₹80.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 80,\n    \"reply\": \"The best card for a purchase of ₹800 on Swiggy is the HDFC Swiggy card. It offers a reward of ₹80.\"\n  }\n}",
+          "ms": 1311,
+          "tokens": 69,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2154,
+      "totalTokens": 131
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy"
+          },
+          "output": {
+            "category": "swiggy"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Swiggy\"\n  }\n}",
+          "ms": 408,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "swiggy"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 10,
+                "reward_inr": 80
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 26.64
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 4
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"swiggy\"\n  }\n}",
+          "ms": 439,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 80,
+          "reply": "The best card for ordering ₹800 worth of food on Swiggy is the HDFC Swiggy card. It offers a reward of ₹80.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 80,\n    \"reply\": \"The best card for ordering ₹800 worth of food on Swiggy is the HDFC Swiggy card. It offers a reward of ₹80.\"\n  }\n}",
+          "ms": 1443,
+          "tokens": 70,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2290,
+      "totalTokens": 132
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy"
+          },
+          "output": {
+            "category": "swiggy"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Swiggy\"\n  }\n}",
+          "ms": 401,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "swiggy"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 10,
+                "reward_inr": 80
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 26.64
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 4
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"swiggy\"\n  }\n}",
+          "ms": 427,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 80,
+          "reply": "The best credit card for Swiggy is HDFC Swiggy with a reward of ₹80.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 80,\n    \"reply\": \"The best credit card for Swiggy is HDFC Swiggy with a reward of ₹80.\"\n  }\n}",
+          "ms": 1066,
+          "tokens": 58,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1894,
+      "totalTokens": 120
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy"
+          },
+          "output": {
+            "category": "swiggy"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Swiggy\"\n  }\n}",
+          "ms": 539,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "swiggy"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 10,
+                "reward_inr": 80
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 26.64
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 4
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"swiggy\"\n  }\n}",
+          "ms": 443,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 80,
+          "reply": "The best credit card for a purchase of ₹800 on Swiggy is the HDFC Swiggy card. It offers a reward of ₹80.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 80,\n    \"reply\": \"The best credit card for a purchase of ₹800 on Swiggy is the HDFC Swiggy card. It offers a reward of ₹80.\"\n  }\n}",
+          "ms": 1325,
+          "tokens": 70,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2307,
+      "totalTokens": 132
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Swiggy"
+          },
+          "output": {
+            "category": "swiggy"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Swiggy\"\n  }\n}",
+          "ms": 415,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "swiggy"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 10,
+                "reward_inr": 80
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 26.64
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 4
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"swiggy\"\n  }\n}",
+          "ms": 455,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 80,
+          "reply": "The best credit card for purchasing ₹800 worth of food on Swiggy is the HDFC Swiggy card. It offers a reward of ₹80.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 80,\n    \"reply\": \"The best credit card for purchasing ₹800 worth of food on Swiggy is the HDFC Swiggy card. It offers a reward of ₹80.\"\n  }\n}",
+          "ms": 1503,
+          "tokens": 71,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2373,
+      "totalTokens": 133
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Flipkart\"\n  }\n}",
+          "ms": 381,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 400
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 266.4
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 80
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 40
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 434,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 400,
+          "reply": "The HDFC Swiggy card is the best option for a purchase of ₹8,000. It offers a reward of ₹400.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 400,\n    \"reply\": \"The HDFC Swiggy card is the best option for a purchase of ₹8,000. It offers a reward of ₹400.\"\n  }\n}",
+          "ms": 1319,
+          "tokens": 69,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2134,
+      "totalTokens": 131
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Flipkart\"\n  }\n}",
+          "ms": 522,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 400
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 266.4
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 80
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 40
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 466,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 400,
+          "reply": "The HDFC Swiggy card is the best option for a purchase of ₹8,000 on Flipkart. It offers a reward of ₹400.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 400,\n    \"reply\": \"The HDFC Swiggy card is the best option for a purchase of ₹8,000 on Flipkart. It offers a reward of ₹400.\"\n  }\n}",
+          "ms": 1363,
+          "tokens": 72,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2351,
+      "totalTokens": 134
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Flipkart\"\n  }\n}",
+          "ms": 385,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 400
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 266.4
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 80
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 40
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 457,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 400,
+          "reply": "The best card for a purchase of ₹8,000 on Flipkart is the HDFC Swiggy card. It offers a reward of ₹400.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 400,\n    \"reply\": \"The best card for a purchase of ₹8,000 on Flipkart is the HDFC Swiggy card. It offers a reward of ₹400.\"\n  }\n}",
+          "ms": 1527,
+          "tokens": 72,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2369,
+      "totalTokens": 134
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Flipkart\"\n  }\n}",
+          "ms": 432,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 400
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 266.4
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 80
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 40
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 456,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_infinia",
+          "reward_inr": 266.4,
+          "reply": "The HDFC Infinia card is best for your purchase as it offers a reward of ₹266.4 on a ₹8,000 purchase.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 266.4,\n    \"reply\": \"The HDFC Infinia card is best for your purchase as it offers a reward of ₹266.4 on a ₹8,000 purchase.\"\n  }\n}",
+          "ms": 1379,
+          "tokens": 73,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2267,
+      "totalTokens": 135
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Flipkart"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Flipkart\"\n  }\n}",
+          "ms": 576,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 400
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 266.4
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 80
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0.5,
+                "reward_inr": 40
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 444,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "icici_amazon_pay",
+          "reward_inr": 80,
+          "reply": "The best card for purchasing an ₹8,000 phone on Flipkart is the ICICI AMZ PAY. It offers a reward of ₹80.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"icici_amazon_pay\",\n    \"reward_inr\": 80,\n    \"reply\": \"The best card for purchasing an ₹8,000 phone on Flipkart is the ICICI AMZ PAY. It offers a reward of ₹80.\"\n  }\n}",
+          "ms": 1291,
+          "tokens": 68,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2311,
+      "totalTokens": 130
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump"
+          },
+          "output": {
+            "category": "fuel_hpcl"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"HP Petrol Pump\"\n  }\n}",
+          "ms": 431,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel_hpcl"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 100
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel_hpcl\"\n  }\n}",
+          "ms": 593,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 100,
+          "reply": "You should use the IDFC First Power Plus credit card. It offers a reward of ₹100 for every ₹2,000 spent at an HP Petrol Pump.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 100,\n    \"reply\": \"You should use the IDFC First Power Plus credit card. It offers a reward of ₹100 for every ₹2,000 spent at an HP Petrol Pump.\"\n  }\n}",
+          "ms": 1402,
+          "tokens": 73,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2426,
+      "totalTokens": 137
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump"
+          },
+          "output": {
+            "category": "fuel_hpcl"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"HP Petrol Pump\"\n  }\n}",
+          "ms": 437,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel_hpcl"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 100
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel_hpcl\"\n  }\n}",
+          "ms": 455,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 100,
+          "reply": "Use the IDFC First Power Plus card for a purchase. It offers a 5% reward rate with a reward amount of ₹100.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 100,\n    \"reply\": \"Use the IDFC First Power Plus card for a purchase. It offers a 5% reward rate with a reward amount of ₹100.\"\n  }\n}",
+          "ms": 1372,
+          "tokens": 66,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2264,
+      "totalTokens": 130
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump"
+          },
+          "output": {
+            "category": "fuel_hpcl"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"HP Petrol Pump\"\n  }\n}",
+          "ms": 422,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel_hpcl"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 100
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel_hpcl\"\n  }\n}",
+          "ms": 427,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 100,
+          "reply": "You should use the IDFC First Power Plus credit card. It offers a reward of ₹100.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 100,\n    \"reply\": \"You should use the IDFC First Power Plus credit card. It offers a reward of ₹100.\"\n  }\n}",
+          "ms": 1051,
+          "tokens": 58,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1900,
+      "totalTokens": 122
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump"
+          },
+          "output": {
+            "category": "fuel_hpcl"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"HP Petrol Pump\"\n  }\n}",
+          "ms": 433,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel_hpcl"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 100
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel_hpcl\"\n  }\n}",
+          "ms": 438,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 100,
+          "reply": "Use the IDFC First Power Plus card. It offers a reward of ₹100.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 100,\n    \"reply\": \"Use the IDFC First Power Plus card. It offers a reward of ₹100.\"\n  }\n}",
+          "ms": 1150,
+          "tokens": 55,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2021,
+      "totalTokens": 119
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HP Petrol Pump"
+          },
+          "output": {
+            "category": "fuel_hpcl"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"HP Petrol Pump\"\n  }\n}",
+          "ms": 426,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel_hpcl"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 100
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel_hpcl\"\n  }\n}",
+          "ms": 434,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 100,
+          "reply": "You should use the IDFC First Power Plus card as it offers a reward of ₹100 with a purchase of ₹2,000 at an HP Petrol Pump.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 100,\n    \"reply\": \"You should use the IDFC First Power Plus card as it offers a reward of ₹100 with a purchase of ₹2,000 at an HP Petrol Pump.\"\n  }\n}",
+          "ms": 1407,
+          "tokens": 73,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2267,
+      "totalTokens": 137
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM"
+          },
+          "output": {
+            "category": "utilities"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"BESCOM\"\n  }\n}",
+          "ms": 568,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1800,
+            "category": "utilities"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 90
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 59.94
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1800,\n    \"category\": \"utilities\"\n  }\n}",
+          "ms": 450,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 90,
+          "reply": "Use the IDFC First Power Plus credit card for your BESCOM electricity bill. It offers a 5% rate and rewards you with ₹90.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 90,\n    \"reply\": \"Use the IDFC First Power Plus credit card for your BESCOM electricity bill. It offers a 5% rate and rewards you with ₹90.\"\n  }\n}",
+          "ms": 1272,
+          "tokens": 67,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2290,
+      "totalTokens": 128
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM"
+          },
+          "output": {
+            "category": "utilities"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"BESCOM\"\n  }\n}",
+          "ms": 424,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1800,
+            "category": "utilities"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 90
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 59.94
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1800,\n    \"category\": \"utilities\"\n  }\n}",
+          "ms": 430,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 90,
+          "reply": "Use the IDFC First Power Plus credit card for your BESCOM electricity bill. It offers a reward of ₹90.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 90,\n    \"reply\": \"Use the IDFC First Power Plus credit card for your BESCOM electricity bill. It offers a reward of ₹90.\"\n  }\n}",
+          "ms": 1297,
+          "tokens": 61,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2151,
+      "totalTokens": 122
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM"
+          },
+          "output": {
+            "category": "utilities"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"BESCOM\"\n  }\n}",
+          "ms": 442,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1800,
+            "category": "utilities"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 90
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 59.94
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1800,\n    \"category\": \"utilities\"\n  }\n}",
+          "ms": 458,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 90,
+          "reply": "For your ₹1,800 BESCOM electricity bill, I recommend using the 'IDFC First Power Plus' card. It offers a reward of ₹90.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 90,\n    \"reply\": \"For your ₹1,800 BESCOM electricity bill, I recommend using the 'IDFC First Power Plus' card. It offers a reward of ₹90.\"\n  }\n}",
+          "ms": 1391,
+          "tokens": 71,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2291,
+      "totalTokens": 132
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM"
+          },
+          "output": {
+            "category": "utilities"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"BESCOM\"\n  }\n}",
+          "ms": 576,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1800,
+            "category": "utilities"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 90
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 59.94
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1800,\n    \"category\": \"utilities\"\n  }\n}",
+          "ms": 455,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 90,
+          "reply": "You should use the 'IDFC First Power Plus' card. It offers a reward of ₹90 for a ₹1,800 purchase.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 90,\n    \"reply\": \"You should use the 'IDFC First Power Plus' card. It offers a reward of ₹90 for a ₹1,800 purchase.\"\n  }\n}",
+          "ms": 1243,
+          "tokens": 66,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2274,
+      "totalTokens": 127
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM"
+          },
+          "output": {
+            "category": "utilities"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"BESCOM\"\n  }\n}",
+          "ms": 422,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1800,
+            "category": "utilities"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 90
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 59.94
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1800,\n    \"category\": \"utilities\"\n  }\n}",
+          "ms": 428,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 90,
+          "reply": "Use the 'IDFC First Power Plus' card for a ₹1,800 BESCOM electricity bill. It offers a reward of ₹90.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 90,\n    \"reply\": \"Use the 'IDFC First Power Plus' card for a ₹1,800 BESCOM electricity bill. It offers a reward of ₹90.\"\n  }\n}",
+          "ms": 1440,
+          "tokens": 68,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2290,
+      "totalTokens": 129
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Airtel\"\n  }\n}",
+          "ms": 417,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 25
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 16.65
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"telecom\"\n  }\n}",
+          "ms": 439,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 25,
+          "reply": "The best credit card for paying an Airtel phone bill of ₹500 is the 'IDFC First Power Plus' card. It offers a reward of ₹25.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 25,\n    \"reply\": \"The best credit card for paying an Airtel phone bill of ₹500 is the 'IDFC First Power Plus' card. It offers a reward of ₹25.\"\n  }\n}",
+          "ms": 1384,
+          "tokens": 72,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2240,
+      "totalTokens": 133
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Airtel\"\n  }\n}",
+          "ms": 587,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 25
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 16.65
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"telecom\"\n  }\n}",
+          "ms": 432,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 25,
+          "reply": "The best credit card for a purchase is the IDFC First Power Plus card. It offers a 5% rate of interest and a reward of ₹25.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 25,\n    \"reply\": \"The best credit card for a purchase is the IDFC First Power Plus card. It offers a 5% rate of interest and a reward of ₹25.\"\n  }\n}",
+          "ms": 1294,
+          "tokens": 68,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2313,
+      "totalTokens": 129
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Airtel\"\n  }\n}",
+          "ms": 408,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 25
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 16.65
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"telecom\"\n  }\n}",
+          "ms": 435,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 25,
+          "reply": "The best credit card for paying an Airtel phone bill of ₹500 directly is the IDFC First Power Plus. It offers a reward of ₹25.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 25,\n    \"reply\": \"The best credit card for paying an Airtel phone bill of ₹500 directly is the IDFC First Power Plus. It offers a reward of ₹25.\"\n  }\n}",
+          "ms": 1520,
+          "tokens": 70,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2363,
+      "totalTokens": 131
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Airtel\"\n  }\n}",
+          "ms": 401,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 25
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 16.65
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"telecom\"\n  }\n}",
+          "ms": 428,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 25,
+          "reply": "The best credit card for a purchase of ₹500 on Airtel is the IDFC First Power Plus card. It offers a reward of ₹25.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 25,\n    \"reply\": \"The best credit card for a purchase of ₹500 on Airtel is the IDFC First Power Plus card. It offers a reward of ₹25.\"\n  }\n}",
+          "ms": 1345,
+          "tokens": 69,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2174,
+      "totalTokens": 130
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Airtel"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Airtel\"\n  }\n}",
+          "ms": 645,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "telecom"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 5,
+                "reward_inr": 25
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 3.33,
+                "reward_inr": 16.65
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"telecom\"\n  }\n}",
+          "ms": 442,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 25,
+          "reply": "The best card for your ₹500 Airtel phone bill is the 'IDFC First Power Plus' card. It offers a reward of ₹25.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 25,\n    \"reply\": \"The best card for your ₹500 Airtel phone bill is the 'IDFC First Power Plus' card. It offers a reward of ₹25.\"\n  }\n}",
+          "ms": 1347,
+          "tokens": 69,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2434,
+      "totalTokens": 130
+    }
+  ]
+}

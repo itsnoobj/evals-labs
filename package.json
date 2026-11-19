@@ -1,0 +1,9 @@
+{
+  "name": "ai-pune-2026-agent-evals",
+  "private": true,
+  "type": "module",
+  "description": "Evals Lab: a browser page that teaches agent evals with a small in-browser model.",
+  "scripts": {
+    "test": "node evals-lab/run-all-tests.mjs"
+  }
+}

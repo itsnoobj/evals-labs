@@ -1,0 +1,3194 @@
+{
+  "meta": {
+    "chrome": "Chrome/157.0.8103.79",
+    "machine": "Apple M4 Max, 64 GB, macOS 26.x",
+    "mode": "headless",
+    "webllm": {
+      "url": "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.79/+esm",
+      "version": "0.2.79"
+    },
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"
+  },
+  "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+  "engine": "web-worker (CreateWebWorkerMLCEngine)",
+  "loadMs": 1467,
+  "download": {
+    "storageEstimateDeltaBytes": 0,
+    "resourceTimingTransferBytes": 1656711,
+    "resourceTimingEntries": 1,
+    "used": "storage.estimate() usage delta before/after load; resource timing is listed for reference and misses worker fetches and cache hits",
+    "note": "A delta near 0 means the weights were already cached in this browser profile."
+  },
+  "gpu": {
+    "webgpu": true,
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "device": "",
+    "description": "",
+    "shaderF16": true,
+    "maxBufferSize": 4294967292,
+    "maxStorageBufferBindingSize": 4294967292
+  },
+  "benchmark": {
+    "cases": 12,
+    "runsPerCase": 3,
+    "temperature": 1,
+    "seeds": "1000 + runIndex",
+    "prompt": "v2",
+    "jsonMode": true,
+    "constrain": true,
+    "responseFormat": {
+      "type": "json_object",
+      "schema": "{\"anyOf\":[{\"type\":\"object\",\"properties\":{\"tool\":{\"enum\":[\"classify_merchant\",\"rank_cards\"]},\"args\":{\"anyOf\":[{\"type\":\"object\",\"properties\":{\"merchant\":{\"type\":\"string\"}},\"required\":[\"merchant\"],\"additionalProperties\":false},{\"type\":\"object\",\"properties\":{\"amount\":{\"type\":\"number\"},\"category\":{\"enum\":[\"online_shopping\",\"food_delivery\",\"dining\",\"groceries\",\"fuel\",\"travel\",\"utilities\",\"telecom\"]}},\"required\":[\"amount\",\"category\"],\"additionalProperties\":false}]}},\"required\":[\"tool\",\"args\"],\"additionalProperties\":false},{\"type\":\"object\",\"properties\":{\"final\":{\"type\":\"object\",\"properties\":{\"card\":{\"enum\":[\"hdfc_infinia\",\"idfc_first_power_plus\",\"icici_amazon_pay\",\"hdfc_swiggy\"]},\"reward_inr\":{\"type\":\"number\"},\"reply\":{\"type\":\"string\"}},\"required\":[\"card\",\"reward_inr\",\"reply\"],\"additionalProperties\":false}},\"required\":[\"final\"],\"additionalProperties\":false}]}"
+    },
+    "wallMs": 64276,
+    "date": "2026-11-19T13:20:24.861Z"
+  },
+  "summary": {
+    "nRuns": 36,
+    "taskSuccess": 0.16666666666666666,
+    "metricPassRates": {
+      "trajectory": 0,
+      "task_success": 0.16666666666666666,
+      "answer_match": 0.08333333333333333,
+      "grounded": 0.3055555555555556,
+      "tool_recall": 0.5555555555555556,
+      "tool_precision": 0.4722222222222222,
+      "ops": 1
+    },
+    "jsonValidity": 1,
+    "stepsTotal": 113,
+    "parseFailures": 0,
+    "shapeFailures": 0,
+    "perStepAccuracy": 0.14960629921259844,
+    "meanRunMs": 1785.388888888889,
+    "meanRunTokens": 106.69444444444444,
+    "meanStepsPerRun": 3.138888888888889,
+    "failureKinds": {
+      "no_final_answer": 19,
+      "wrong_tool": 9,
+      "wrong_args": 2
+    },
+    "topFailureReasons": [
+      {
+        "reason": "trajectory: # of # tool steps match",
+        "count": 36,
+        "example": "0 of 4 tool steps match"
+      },
+      {
+        "reason": "task_success: no final answer",
+        "count": 19,
+        "example": "no final answer"
+      },
+      {
+        "reason": "answer_match: no final answer",
+        "count": 19,
+        "example": "no final answer"
+      },
+      {
+        "reason": "grounded: no final answer",
+        "count": 19,
+        "example": "no final answer"
+      },
+      {
+        "reason": "tool_precision: # extra tool step(s)",
+        "count": 19,
+        "example": "2 extra tool step(s)"
+      }
+    ],
+    "perCaseTaskSuccess": {
+      "C01": 0,
+      "C02": 0.3333333333333333,
+      "C03": 0.6666666666666666,
+      "C04": 0,
+      "C05": 0,
+      "C06": 0,
+      "C07": 0.6666666666666666,
+      "C08": 0,
+      "C09": 0,
+      "C10": 0.3333333333333333,
+      "C11": 0,
+      "C12": 0
+    },
+    "failureExamples": [
+      {
+        "caseId": "C01",
+        "seed": 1000,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"groceries\"\n  }\n}",
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1001,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"groceries\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"groceries\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"groceries\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1002,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"online_shopping\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1002,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 8,\n    \"reply\": \"Great reward for a great transaction\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C05",
+        "seed": 1000,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 3000,\n    \"category\": \"fuel\"\n  }\n}",
+          "{\n  \"final\": {\n    \"card\": \"icici_amazon_pay\",\n    \"reward_inr\": 0,\n    \"reply\": \"No purchase needed for fuel purchase.\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C05",
+        "seed": 1001,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"IndianOil\"\n  }\n}",
+          "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 5000,\n    \"reply\": \"Fuel your car with HDFC Infinia credit card\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C07",
+        "seed": 1001,
+        "kind": "wrong_args",
+        "raws": [
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question> involves Booking a ₹10,000 trip on MakeMyTrip\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1000,\n    \"category\": \"travel\"\n  }\n}",
+          "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 150,\n    \"reply\": \"Will be able to get ₹25,000 reward points\"\n  }\n}"
+        ]
+      },
+      {
+        "caseId": "C09",
+        "seed": 1002,
+        "kind": "wrong_args",
+        "raws": [
+          "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<electricity bill merchant name>\"\n  }\n}",
+          "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2400,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 120,\n    \"reply\": \"Best HDFC swipe purchase\"\n  }\n}"
+        ]
+      }
+    ]
+  },
+  "runs": [
+    {
+      "caseId": "C01",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 225
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 928,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "ms": 232,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 2250
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 287,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Amazon"
+          },
+          "output": {
+            "category": "online_shopping"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Amazon\"\n  }\n}",
+          "ms": 215,
+          "tokens": 25,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1662,
+      "totalTokens": 117
+    },
+    {
+      "caseId": "C01",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 285,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 225
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 245,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 225
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 272,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 225
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 289,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1091,
+      "totalTokens": 128
+    },
+    {
+      "caseId": "C01",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 306,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 2250
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 290,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 2250
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 288,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 15000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 2250
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 750
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 150
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 150
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 15000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 306,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1190,
+      "totalTokens": 131
+    },
+    {
+      "caseId": "C02",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 385,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 40
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 12
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "ms": 527,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 40
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 12
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "ms": 619,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 40
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 12
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "ms": 704,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2235,
+      "totalTokens": 128
+    },
+    {
+      "caseId": "C02",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 40
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 12
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "ms": 674,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 40,
+          "reply": "Ordering ₹800 of food on Swiggy will reward you with a ₹40 reimbursement.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 40,\n    \"reply\": \"Ordering ₹800 of food on Swiggy will reward you with a ₹40 reimbursement.\"\n  }\n}",
+          "ms": 1017,
+          "tokens": 54,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1691,
+      "totalTokens": 87
+    },
+    {
+      "caseId": "C02",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 40
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 12
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 8
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 8
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 800,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "ms": 454,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_infinia",
+          "reward_inr": 8,
+          "reply": "Great reward for a great transaction",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 8,\n    \"reply\": \"Great reward for a great transaction\"\n  }\n}",
+          "ms": 604,
+          "tokens": 42,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1058,
+      "totalTokens": 74
+    },
+    {
+      "caseId": "C03",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 431,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 313,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 374,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 425,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1543,
+      "totalTokens": 128
+    },
+    {
+      "caseId": "C03",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 516,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 30,
+          "reply": "the card 'idfc_first_power_plus' gives the most back",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 30,\n    \"reply\": \"the card 'idfc_first_power_plus' gives the most back\"\n  }\n}",
+          "ms": 599,
+          "tokens": 48,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1115,
+      "totalTokens": 81
+    },
+    {
+      "caseId": "C03",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 353,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 30,
+          "reply": "And that's a great deal of savings, you'll be saving ₹30/₟2,000",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 30,\n    \"reply\": \"And that's a great deal of savings, you'll be saving ₹30/₟2,000\"\n  }\n}",
+          "ms": 809,
+          "tokens": 56,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1162,
+      "totalTokens": 89
+    },
+    {
+      "caseId": "C04",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 75
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 25
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 408,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "idfc_first_power_plus"
+          },
+          "output": {
+            "error": "unknown merchant: idfc_first_power_plus"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"idfc_first_power_plus\"\n  }\n}",
+          "ms": 416,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 75
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 25
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 350,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "hdfc_swiggy"
+          },
+          "output": {
+            "error": "unknown merchant: hdfc_swiggy"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"hdfc_swiggy\"\n  }\n}",
+          "ms": 473,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1647,
+      "totalTokens": 125
+    },
+    {
+      "caseId": "C04",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 483,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 433,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 734,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 544,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2194,
+      "totalTokens": 125
+    },
+    {
+      "caseId": "C04",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 758,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 699,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 697,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 500,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 7.5
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 5
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 5
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 500,\n    \"category\": \"groceries\"\n  }\n}",
+          "ms": 658,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2812,
+      "totalTokens": 125
+    },
+    {
+      "caseId": "C05",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 3000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 3000,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 688,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "icici_amazon_pay",
+          "reward_inr": 0,
+          "reply": "No purchase needed for fuel purchase.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"icici_amazon_pay\",\n    \"reward_inr\": 0,\n    \"reply\": \"No purchase needed for fuel purchase.\"\n  }\n}",
+          "ms": 978,
+          "tokens": 41,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1666,
+      "totalTokens": 73
+    },
+    {
+      "caseId": "C05",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "IndianOil"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"IndianOil\"\n  }\n}",
+          "ms": 563,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_infinia",
+          "reward_inr": 5000,
+          "reply": "Fuel your car with HDFC Infinia credit card",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 5000,\n    \"reply\": \"Fuel your car with HDFC Infinia credit card\"\n  }\n}",
+          "ms": 1013,
+          "tokens": 49,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1576,
+      "totalTokens": 75
+    },
+    {
+      "caseId": "C05",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "IndianOil"
+          },
+          "output": {
+            "category": "fuel"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"IndianOil\"\n  }\n}",
+          "ms": 748,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 0,
+          "reply": "Credible and rewarding card",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 0,\n    \"reply\": \"Credible and rewarding card\"\n  }\n}",
+          "ms": 749,
+          "tokens": 47,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1497,
+      "totalTokens": 73
+    },
+    {
+      "caseId": "C06",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Barbeque Nation"
+          },
+          "output": {
+            "category": "dining"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Barbeque Nation\"\n  }\n}",
+          "ms": 443,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_infinia",
+          "reward_inr": 25,
+          "reply": "Spends ₹200 out of ₹300 on the first purchase.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 25,\n    \"reply\": \"Spends ₹200 out of ₹300 on the first purchase.\"\n  }\n}",
+          "ms": 837,
+          "tokens": 50,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1280,
+      "totalTokens": 78
+    },
+    {
+      "caseId": "C06",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 3000,
+            "category": "dining"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 150
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 45
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 30
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 30
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 3000,\n    \"category\": \"dining\"\n  }\n}",
+          "ms": 507,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "idfc_first_power_plus"
+          },
+          "output": {
+            "error": "unknown merchant: idfc_first_power_plus"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"idfc_first_power_plus\"\n  }\n}",
+          "ms": 517,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "icici_amazon_pay"
+          },
+          "output": {
+            "error": "unknown merchant: icici_amazon_pay"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"icici_amazon_pay\"\n  }\n}",
+          "ms": 500,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "hdfc_infinia"
+          },
+          "output": {
+            "error": "unknown merchant: hdfc_infinia"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"hdfc_infinia\"\n  }\n}",
+          "ms": 531,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2055,
+      "totalTokens": 121
+    },
+    {
+      "caseId": "C06",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 3000,
+            "category": "dining"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 150
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 45
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 30
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 30
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 3000,\n    \"category\": \"dining\"\n  }\n}",
+          "ms": 476,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": " hdfc_swiggy"
+          },
+          "output": {
+            "error": "unknown merchant:  hdfc_swiggy"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \" hdfc_swiggy\"\n  }\n}",
+          "ms": 712,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "idfc_first_power_plus"
+          },
+          "output": {
+            "error": "unknown merchant: idfc_first_power_plus"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"idfc_first_power_plus\"\n  }\n}",
+          "ms": 531,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "hdfc_infinia"
+          },
+          "output": {
+            "error": "unknown merchant: hdfc_infinia"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"hdfc_infinia\"\n  }\n}",
+          "ms": 552,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2271,
+      "totalTokens": 121
+    },
+    {
+      "caseId": "C07",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 541,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 10000,
+            "category": "travel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 1500
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 100
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 100
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 100
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 10000,\n    \"category\": \"travel\"\n  }\n}",
+          "ms": 437,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 1500,
+          "reply": "Book the ₹10,000 trip on MakeMyTrip and get a reward of ₹1,500 in cash",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 1500,\n    \"reply\": \"Book the ₹10,000 trip on MakeMyTrip and get a reward of ₹1,500 in cash\"\n  }\n}",
+          "ms": 1185,
+          "tokens": 58,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2163,
+      "totalTokens": 119
+    },
+    {
+      "caseId": "C07",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question> involves Booking a ₹10,000 trip on MakeMyTrip"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question> involves Booking a ₹10,000 trip on MakeMyTrip"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question> involves Booking a ₹10,000 trip on MakeMyTrip\"\n  }\n}",
+          "ms": 777,
+          "tokens": 43,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1000,
+            "category": "travel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 150
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 10
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 10
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 10
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1000,\n    \"category\": \"travel\"\n  }\n}",
+          "ms": 358,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 150,
+          "reply": "Will be able to get ₹25,000 reward points",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 150,\n    \"reply\": \"Will be able to get ₹25,000 reward points\"\n  }\n}",
+          "ms": 847,
+          "tokens": 46,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1982,
+      "totalTokens": 121
+    },
+    {
+      "caseId": "C07",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 10000,
+            "category": "travel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 1500
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 100
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 100
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 100
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 10000,\n    \"category\": \"travel\"\n  }\n}",
+          "ms": 338,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 1500,
+          "reply": "booked a ₹10,000 trip on MakeMyTrip using the IDFC First Power Plus card",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 1500,\n    \"reply\": \"booked a ₹10,000 trip on MakeMyTrip using the IDFC First Power Plus card\"\n  }\n}",
+          "ms": 907,
+          "tokens": 56,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1245,
+      "totalTokens": 88
+    },
+    {
+      "caseId": "C08",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 80
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 431,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HDFC Infinia"
+          },
+          "output": {
+            "error": "unknown merchant: HDFC Infinia"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"HDFC Infinia\"\n  }\n}",
+          "ms": 472,
+          "tokens": 30,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "ShopGear"
+          },
+          "output": {
+            "error": "unknown merchant: ShopGear"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"ShopGear\"\n  }\n}",
+          "ms": 353,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Nintendo Switch"
+          },
+          "output": {
+            "error": "unknown merchant: Nintendo Switch"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Nintendo Switch\"\n  }\n}",
+          "ms": 358,
+          "tokens": 26,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1614,
+      "totalTokens": 115
+    },
+    {
+      "caseId": "C08",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>elijke ₹8,000 phone on Flipkart"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>elijke ₹8,000 phone on Flipkart"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>elijke ₹8,000 phone on Flipkart\"\n  }\n}",
+          "ms": 708,
+          "tokens": 40,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Error: unknown merchant: <merchant name from the question>liche ₹8,000 phone on Flipkart"
+          },
+          "output": {
+            "error": "unknown merchant: Error: unknown merchant: <merchant name from the question>liche ₹8,000 phone on Flipkart"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Error: unknown merchant: <merchant name from the question>liche ₹8,000 phone on Flipkart\"\n  }\n}",
+          "ms": 804,
+          "tokens": 46,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 419,
+          "tokens": 30,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 595,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2526,
+      "totalTokens": 146
+    },
+    {
+      "caseId": "C08",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 378,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 1200
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 400
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 80
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 80
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 357,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 1200
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 400
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 80
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 80
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 398,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 8000,
+            "category": "online_shopping"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 1200
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 400
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 80
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 80
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 8000,\n    \"category\": \"online_shopping\"\n  }\n}",
+          "ms": 423,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1556,
+      "totalTokens": 131
+    },
+    {
+      "caseId": "C09",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2400,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 24
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2400,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 475,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "hdfc_infinia"
+          },
+          "output": {
+            "error": "unknown merchant: hdfc_infinia"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"hdfc_infinia\"\n  }\n}",
+          "ms": 554,
+          "tokens": 30,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "icici_amazon_pay"
+          },
+          "output": {
+            "error": "unknown merchant: icici_amazon_pay"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"icici_amazon_pay\"\n  }\n}",
+          "ms": 539,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": " hdfc_swiggy"
+          },
+          "output": {
+            "error": "unknown merchant:  hdfc_swiggy"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \" hdfc_swiggy\"\n  }\n}",
+          "ms": 564,
+          "tokens": 29,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2132,
+      "totalTokens": 120
+    },
+    {
+      "caseId": "C09",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "BESCOM"
+          },
+          "output": {
+            "category": "utilities"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"BESCOM\"\n  }\n}",
+          "ms": 550,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "utilities"
+          },
+          "output": {
+            "error": "unknown merchant: utilities"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"utilities\"\n  }\n}",
+          "ms": 661,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "unknown merchant"
+          },
+          "output": {
+            "error": "unknown merchant: unknown merchant"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"unknown merchant\"\n  }\n}",
+          "ms": 386,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "unknown merchant"
+          },
+          "output": {
+            "error": "unknown merchant: unknown merchant"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"unknown merchant\"\n  }\n}",
+          "ms": 359,
+          "tokens": 27,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1956,
+      "totalTokens": 108
+    },
+    {
+      "caseId": "C09",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<electricity bill merchant name>"
+          },
+          "output": {
+            "error": "unknown merchant: <electricity bill merchant name>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<electricity bill merchant name>\"\n  }\n}",
+          "ms": 450,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2400,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 120
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 36
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 24
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 24
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2400,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "ms": 396,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 120,
+          "reply": "Best HDFC swipe purchase",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 120,\n    \"reply\": \"Best HDFC swipe purchase\"\n  }\n}",
+          "ms": 591,
+          "tokens": 41,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1437,
+      "totalTokens": 105
+    },
+    {
+      "caseId": "C10",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>"
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>\"\n  }\n}",
+          "ms": 549,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1200,
+            "category": "travel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 180
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 12
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1200,\n    \"category\": \"travel\"\n  }\n}",
+          "ms": 509,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1200,
+            "category": "travel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 180
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 12
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1200,\n    \"category\": \"travel\"\n  }\n}",
+          "ms": 831,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1200,
+            "category": "travel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 15,
+                "reward_inr": 180
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 12
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1200,\n    \"category\": \"travel\"\n  }\n}",
+          "ms": 713,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2602,
+      "totalTokens": 125
+    },
+    {
+      "caseId": "C10",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1200,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 60
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 18
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 12
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1200,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "ms": 1067,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_swiggy",
+          "reward_inr": 60,
+          "reply": "The card hdfc_swiggy offers a 5% reward in ₹60.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_swiggy\",\n    \"reward_inr\": 60,\n    \"reply\": \"The card hdfc_swiggy offers a 5% reward in ₹60.\"\n  }\n}",
+          "ms": 1080,
+          "tokens": 52,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2147,
+      "totalTokens": 86
+    },
+    {
+      "caseId": "C10",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 1200,
+            "category": "food_delivery"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 5,
+                "reward_inr": 60
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 18
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 12
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 12
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 1200,\n    \"category\": \"food_delivery\"\n  }\n}",
+          "ms": 463,
+          "tokens": 34,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_infinia",
+          "reward_inr": 12,
+          "reply": "The HDFC Infinia card is a good option for anyone looking for a hassle-free travel experience.",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 12,\n    \"reply\": \"The HDFC Infinia card is a good option for anyone looking for a hassle-free travel experience.\"\n  }\n}",
+          "ms": 868,
+          "tokens": 56,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1331,
+      "totalTokens": 90
+    },
+    {
+      "caseId": "C11",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 393,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "HDFC Infinia"
+          },
+          "output": {
+            "error": "unknown merchant: HDFC Infinia"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"HDFC Infinia\"\n  }\n}",
+          "ms": 494,
+          "tokens": 30,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Unknown"
+          },
+          "output": {
+            "error": "unknown merchant: Unknown"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Unknown\"\n  }\n}",
+          "ms": 371,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Government of India"
+          },
+          "output": {
+            "error": "unknown merchant: Government of India"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Government of India\"\n  }\n}",
+          "ms": 451,
+          "tokens": 27,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1709,
+      "totalTokens": 114
+    },
+    {
+      "caseId": "C11",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<merchant name from the question>,, <petrol pump merchant name>."
+          },
+          "output": {
+            "error": "unknown merchant: <merchant name from the question>,, <petrol pump merchant name>."
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<merchant name from the question>,, <petrol pump merchant name>.\"\n  }\n}",
+          "ms": 855,
+          "tokens": 39,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 514,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 869,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 622,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2860,
+      "totalTokens": 135
+    },
+    {
+      "caseId": "C11",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "<petrol pump merchant name>"
+          },
+          "output": {
+            "error": "unknown merchant: <petrol pump merchant name>"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"<petrol pump merchant name>\"\n  }\n}",
+          "ms": 865,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 556,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 604,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 2000,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 732,
+          "tokens": 32,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2757,
+      "totalTokens": 125
+    },
+    {
+      "caseId": "C12",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 700,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 7
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\n  \"tool\": \"rank_cards\",\n  \"args\": {\n    \"amount\": 700,\n    \"category\": \"fuel\"\n  }\n}",
+          "ms": 789,
+          "tokens": 31,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_infinia",
+          "reward_inr": 7,
+          "reply": "Prepaid version of the HDFC Infinia card for ₹700",
+          "raw": "{\n  \"final\": {\n    \"card\": \"hdfc_infinia\",\n    \"reward_inr\": 7,\n    \"reply\": \"Prepaid version of the HDFC Infinia card for ₹700\"\n  }\n}",
+          "ms": 1264,
+          "tokens": 50,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2053,
+      "totalTokens": 81
+    },
+    {
+      "caseId": "C12",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Jio"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Jio\"\n  }\n}",
+          "ms": 458,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 8000,
+          "reply": "Have a great recharge",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 8000,\n    \"reply\": \"Have a great recharge\"\n  }\n}",
+          "ms": 718,
+          "tokens": 48,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1176,
+      "totalTokens": 74
+    },
+    {
+      "caseId": "C12",
+      "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+      "temperature": 1,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Jio"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\n  \"tool\": \"classify_merchant\",\n  \"args\": {\n    \"merchant\": \"Jio\"\n  }\n}",
+          "ms": 413,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "idfc_first_power_plus",
+          "reward_inr": 7800,
+          "reply": " Jio's best credit card for paying ₹700",
+          "raw": "{\n  \"final\": {\n    \"card\": \"idfc_first_power_plus\",\n    \"reward_inr\": 7800,\n    \"reply\": \" Jio's best credit card for paying ₹700\"\n  }\n}",
+          "ms": 870,
+          "tokens": 53,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1283,
+      "totalTokens": 79
+    }
+  ]
+}

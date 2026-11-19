@@ -1,0 +1,22 @@
+# Decisions
+
+- Scope is evals and metrics only, not the whole harness.
+- Static site, vanilla JS ES modules, no framework, no build, no server.
+- Tiny model runs in the browser through WebLLM in JSON mode with our own tool-call parser (native function calling is WIP upstream).
+- Seeded, deterministic metrics in a pure `engine.js` that runs in node for tests.
+- UI follows the square flat style of `entain/ai/incident-review`, with a welcome layer added.
+- Deviation from the global worktree rule: slices write to disjoint files in `evals-lab/` in the main checkout, because this folder is untracked in a shared repo with unrelated dirty files.
+- Parallel subagents own disjoint files; the engine contract in `docs/specs/engine-contract.md` is the only shared interface.
+- Model: Qwen2.5-1.5B-Instruct (about 880 MB). 360M and 0.5B score 0% on this task even with schema-constrained decoding (`evals-lab/spike/RESULTS.md`).
+- WebLLM 0.2.79 pinned: `anyOf` is enforced by the grammar, top-level `oneOf` is not.
+- Guardrail (schema) toggle defaults off so free-form failures stay visible; it lifts the pass rate from 77% (23 of 30) to 87% (26 of 30) on the 6-case key with Infinia at 3.33% (older keys: 72% to 83%, 80% to 97%).
+- Measured, not assumed: the 1.5B model as a rubric judge gives 5 of 5 to every run, including a reply claiming 10x the reward. The page shows this; the Judge lab (v1.1) will calibrate it against your labels.
+- Default screen is Start (task diagram + 4 missions). Teaching copy lives in `lessons.js`; `ui.js` stays free of engine imports.
+- Load button is enabled from `isSecureContext` before any await, and the GPU check times out after 5 s, so a hung `requestAdapter` cannot leave it disabled.
+- Plain words only on screen: checks (not metrics), test set (golden set in a gloss), errors add up (not compounding), AI grader (not judge), safety net (not guardrail), text pieces (not tokens). Ids in code stay unchanged.
+- Scope widened on request: the Compare screen shows guardrails (safety net, checker, retry, fallback, refuse) as a demo. The checker never reads the answer key; only the question text and tool results.
+- Replay of the careful agent re-uses real recorded runs as retries (`makeReplayChat`), so every number on the page comes from real runs or code.
+- Answer key now uses cited real card rates (merchant-specific categories, one source note per rate cell in `cases.js`), not flat invented rates. Audit: `docs/answer-key-audit.md`.
+- Golden set shrank from 12 to 6 verified cases: cases whose winner depends on an unverified merchant code, a tie at low confidence, or no winner were dropped.
+- Ties are accepted: `expected.accept` lists every card with the top reward, and `task_success`, `answer_match`, the checker and the result strip all accept any of them.
+- Re-recorded all real model runs (Qwen2.5-1.5B, 6 cases x 5 runs, free and constrained) on the fixed 6-case key; old 12-case result files were overwritten by the 2026-11-20 re-record (not recoverable; the 12-case numbers remain in RESULTS.md marked OLD KEY).

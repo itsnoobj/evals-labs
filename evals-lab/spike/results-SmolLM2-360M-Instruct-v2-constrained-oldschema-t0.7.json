@@ -1,0 +1,3376 @@
+{
+  "meta": {
+    "chrome": "Chrome/157.0.8103.79",
+    "machine": "Apple M4 Max, 64 GB, macOS 26.x",
+    "mode": "headless",
+    "webllm": {
+      "url": "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.79/+esm",
+      "version": "0.2.79"
+    },
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"
+  },
+  "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+  "engine": "web-worker (CreateWebWorkerMLCEngine)",
+  "loadMs": 105351,
+  "download": {
+    "storageEstimateDeltaBytes": 210627328,
+    "resourceTimingTransferBytes": 0,
+    "resourceTimingEntries": 1,
+    "used": "storage.estimate() usage delta before/after load; resource timing is listed for reference and misses worker fetches and cache hits",
+    "note": "A delta near 0 means the weights were already cached in this browser profile."
+  },
+  "gpu": {
+    "webgpu": true,
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "device": "",
+    "description": "",
+    "shaderF16": true,
+    "maxBufferSize": 4294967292,
+    "maxStorageBufferBindingSize": 4294967292
+  },
+  "benchmark": {
+    "cases": 12,
+    "runsPerCase": 5,
+    "temperature": 0.7,
+    "seeds": "1000 + runIndex",
+    "prompt": "v2",
+    "jsonMode": true,
+    "constrain": true,
+    "wallMs": 293924,
+    "date": "2026-11-19T12:32:41.836Z"
+  },
+  "summary": {
+    "nRuns": 60,
+    "taskSuccess": 0,
+    "metricPassRates": {
+      "trajectory": 0,
+      "task_success": 0,
+      "answer_match": 0,
+      "grounded": 0.25,
+      "tool_recall": 0,
+      "tool_precision": 0.38333333333333336,
+      "ops": 0.8
+    },
+    "jsonValidity": 0.8072916666666666,
+    "stepsTotal": 192,
+    "parseFailures": 37,
+    "shapeFailures": 0,
+    "perStepAccuracy": 0,
+    "meanRunMs": 4898.7,
+    "meanRunTokens": 201.18333333333334,
+    "meanStepsPerRun": 3.2,
+    "failureKinds": {
+      "no_final_answer": 32,
+      "wrong_tool": 16,
+      "invalid_json": 12
+    },
+    "topFailureReasons": [
+      {
+        "reason": "trajectory: # of # tool steps match",
+        "count": 60,
+        "example": "0 of 4 tool steps match"
+      },
+      {
+        "reason": "tool_recall: missing: classify_merchant, rank_cards",
+        "count": 57,
+        "example": "missing: classify_merchant, rank_cards"
+      },
+      {
+        "reason": "task_success: no final answer",
+        "count": 44,
+        "example": "no final answer"
+      },
+      {
+        "reason": "answer_match: no final answer",
+        "count": 44,
+        "example": "no final answer"
+      },
+      {
+        "reason": "grounded: no final answer",
+        "count": 44,
+        "example": "no final answer"
+      }
+    ],
+    "perCaseTaskSuccess": {
+      "C01": 0,
+      "C02": 0,
+      "C03": 0,
+      "C04": 0,
+      "C05": 0,
+      "C06": 0,
+      "C07": 0,
+      "C08": 0,
+      "C09": 0,
+      "C10": 0,
+      "C11": 0,
+      "C12": 0
+    },
+    "failureExamples": [
+      {
+        "caseId": "C01",
+        "seed": 1000,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\"tool\": \"excel_bracket\",\"args\": {\"amount\": 15000}}",
+          "{\"tool\": \"excel_bracket\",\"args\": {\"amount\": 15000}}",
+          "{\"tool\": \"excel_bracket_init\",\"args\": {\"amount\": 15000}}",
+          "{\"tool\": \"excel_bracket_init_fixed_limit\",\"args\": {\"amount\": 15000}}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1001,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"tool\": \"processCard\",\"args\": {\"ammo\": \"15000\"},\"final\": {\"card\": \"myCard\",\"rewardInR\": \"0x10000\",\"reply\": \"Card 1\"}}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1002,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"tool\": \"CardRankCardRankCard Buckets\",\"args\": {\"amount\": \"15000\"},\"final\": {\"Card\": \"Card\",\"Card\": \"Card\"},\"Card\": \"Card\"}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1003,
+        "kind": "wrong_tool",
+        "raws": [
+          "{\"tool\": \"AmazonCardCard\",\"args\": {\"bill number\": \"15000\"},\"final\": {\"card\": \"MyCard\",\"reward_inr\": 15000,\"reply\": \"MyCard\"},\"reward\": null}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1004,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\"tool\": \"get_best_deal\",\"args\": {\"amount\": 15000}}",
+          "{\"tool\": \"get_best_deal\",\"args\": {\"amount\": 15000}}",
+          "{\"tool\": \"get_best_deal\",\"args\": {\"amount\": 15000}}",
+          "{\"tool\": \"get_best_deal\",\"args\": {\"amount\": 15000}}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1000,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\"tool\": \"calculate_budget\",\"args\": {\"amount\": 800}}",
+          "{\"tool\": \"best_cards\",\"args\": {\"categories\": [\"fast, medium, fast, medium, medium, medium, medium\"]}}",
+          "{\"tool\": \"rank_cards\",\"args\": {\"amount\": 800,\"category\": [\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\"]}}",
+          "{\"tool\": \"best_cards\",\"args\": {\"amount\": 800,\"category\": [\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\"]}}"
+        ]
+      },
+      {
+        "caseId": "C02",
+        "seed": 1001,
+        "kind": "invalid_json",
+        "raws": [
+          "{\"tool\": \"search\",\"args\": {\"food_amount\": \"₹800\"},\"final\": {\"card\": \"5000000000.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\"tool\": \"search\",\"args\": {},\"final\": {\"card\": \"10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\"tool\": \"search\",\"args\": {},\"final\": {\"card\": \"10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\"tool\": \"search\",\"args\": {},\"final\": {\"card\": \"10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1000,
+        "kind": "invalid_json",
+        "raws": [
+          "{\"tool\": \"json_trainer\",\"args\": {\"amount\": \"2000\"},\"final\": [\"Card: MXR3000\",\"Card: DMC10000\",\"Card: 0000\",\"Card: 0001\",\"Card: 0002\",\"Card: 0003\",\"Card: 0004\",\"Card: 0005\",\"Card: 0006\",\"Card: 0007\",\"Card: 0008\",\"Card: 0009\",\"Card: 0010\",\"Card: 0011\",\"Card: 0012\",\"Card: 0013\",\"Card: 00",
+          "{\"tool\": \"train\",\"args\": {\"amount\": \"2000\"},\"final\": [\"Card: MXR3000\",\"Card: DMC10000\",\"Card: 0000\",\"Card: 0001\",\"Card: 0002\",\"Card: 0003\",\"Card: 0004\",\"Card: 0005\",\"Card: 0006\",\"Card: 0007\",\"Card: 0008\",\"Card: 0009\",\"Card: 0010\",\"Card: 0011\",\"Card: 0012\",\"Card: 0013\",\"Card: 0014\",\"",
+          "{\"tool\": \"train\",\"args\": {\"amount\": \"2000\"},\"final\": [\"Card: MXR3000\",\"Card: DMC10000\",\"Card: 0000\",\"Card: 0001\",\"Card: 0002\",\"Card: 0003\",\"Card: 0004\",\"Card: 0005\",\"Card: 0006\",\"Card: 0007\",\"Card: 0008\",\"Card: 0009\",\"Card: 0010\",\"Card: 0011\",\"Card: 0012\",\"Card: 0013\",\"Card: 0014\",\"",
+          "{\"tool\": \"train\",\"args\": {\"amount\": \"2000\"},\"final\": [\"Card: MXR3000\",\"Card: DMC10000\",\"Card: 0000\",\"Card: 0001\",\"Card: 0002\",\"Card: 0003\",\"Card: 0004\",\"Card: 0005\",\"Card: 0006\",\"Card: 0007\",\"Card: 0008\",\"Card: 0009\",\"Card: 0010\",\"Card: 0011\",\"Card: 0012\",\"Card: 0013\",\"Card: 0014\",\""
+        ]
+      },
+      {
+        "caseId": "C05",
+        "seed": 1001,
+        "kind": "invalid_json",
+        "raws": [
+          "{\"tool\": \"traveler\",\"args\": {\"carNumber\": \"0\",\"carType\": \"full tank\",\"driver\": \"customer\"},\"final\": {\"amount\": 3000.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\"tool\": \"customer\",\"args\": {\"agreement\": \"buy_your_passport\",\"amount\": 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "{\"tool\": \"train\",\"args\": {\"trainNumber\": \"code\",\"trainLength\": \"initial\",\"passenger\": \"driver\"},\"final\": {\"train\": \"train_passengers\",\"passenger\": \"driver\",\"trainLength\": \"initial\",\"passenger\": \"train\",\"passenger\": \"train\",\"trainLength\": \"initial\",\"trainLength\": \"initial\",\"trainLength\": \"initial\",\"passenger\": \"train\",\"passenger\": \"train\",\"trainLength\": \"train\",\"trainLength\": \"train\",\"trainLength\": \"train\",\"trainLength\": \"train\",\"passenger\": \"train\",\"passenger\": \"train\",\"trainLength\": \"passenger\",\"trainLength\": \"pass",
+          "{\"tool\": \"customer\",\"args\": {\"amount\": 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      }
+    ]
+  },
+  "runs": [
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "excel_bracket",
+          "args": {
+            "amount": 15000
+          },
+          "output": {
+            "error": "unknown tool: excel_bracket"
+          },
+          "raw": "{\"tool\": \"excel_bracket\",\"args\": {\"amount\": 15000}}",
+          "ms": 431,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "excel_bracket",
+          "args": {
+            "amount": 15000
+          },
+          "output": {
+            "error": "unknown tool: excel_bracket"
+          },
+          "raw": "{\"tool\": \"excel_bracket\",\"args\": {\"amount\": 15000}}",
+          "ms": 323,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "excel_bracket_init",
+          "args": {
+            "amount": 15000
+          },
+          "output": {
+            "error": "unknown tool: excel_bracket_init"
+          },
+          "raw": "{\"tool\": \"excel_bracket_init\",\"args\": {\"amount\": 15000}}",
+          "ms": 393,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "excel_bracket_init_fixed_limit",
+          "args": {
+            "amount": 15000
+          },
+          "output": {
+            "error": "unknown tool: excel_bracket_init_fixed_limit"
+          },
+          "raw": "{\"tool\": \"excel_bracket_init_fixed_limit\",\"args\": {\"amount\": 15000}}",
+          "ms": 428,
+          "tokens": 28,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1575,
+      "totalTokens": 96
+    },
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "myCard",
+          "reply": "Card 1",
+          "raw": "{\"tool\": \"processCard\",\"args\": {\"ammo\": \"15000\"},\"final\": {\"card\": \"myCard\",\"rewardInR\": \"0x10000\",\"reply\": \"Card 1\"}}",
+          "ms": 829,
+          "tokens": 54,
+          "validJson": true
+        }
+      ],
+      "totalMs": 829,
+      "totalTokens": 54
+    },
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\"tool\": \"CardRankCardRankCard Buckets\",\"args\": {\"amount\": \"15000\"},\"final\": {\"Card\": \"Card\",\"Card\": \"Card\"},\"Card\": \"Card\"}",
+          "ms": 682,
+          "tokens": 46,
+          "validJson": true
+        }
+      ],
+      "totalMs": 682,
+      "totalTokens": 46
+    },
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "MyCard",
+          "reward_inr": 15000,
+          "reply": "MyCard",
+          "raw": "{\"tool\": \"AmazonCardCard\",\"args\": {\"bill number\": \"15000\"},\"final\": {\"card\": \"MyCard\",\"reward_inr\": 15000,\"reply\": \"MyCard\"},\"reward\": null}",
+          "ms": 879,
+          "tokens": 55,
+          "validJson": true
+        }
+      ],
+      "totalMs": 879,
+      "totalTokens": 55
+    },
+    {
+      "caseId": "C01",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "get_best_deal",
+          "args": {
+            "amount": 15000
+          },
+          "output": {
+            "error": "unknown tool: get_best_deal"
+          },
+          "raw": "{\"tool\": \"get_best_deal\",\"args\": {\"amount\": 15000}}",
+          "ms": 334,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "get_best_deal",
+          "args": {
+            "amount": 15000
+          },
+          "output": {
+            "error": "unknown tool: get_best_deal"
+          },
+          "raw": "{\"tool\": \"get_best_deal\",\"args\": {\"amount\": 15000}}",
+          "ms": 374,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "get_best_deal",
+          "args": {
+            "amount": 15000
+          },
+          "output": {
+            "error": "unknown tool: get_best_deal"
+          },
+          "raw": "{\"tool\": \"get_best_deal\",\"args\": {\"amount\": 15000}}",
+          "ms": 315,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "get_best_deal",
+          "args": {
+            "amount": 15000
+          },
+          "output": {
+            "error": "unknown tool: get_best_deal"
+          },
+          "raw": "{\"tool\": \"get_best_deal\",\"args\": {\"amount\": 15000}}",
+          "ms": 316,
+          "tokens": 23,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1339,
+      "totalTokens": 92
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "calculate_budget",
+          "args": {
+            "amount": 800
+          },
+          "output": {
+            "error": "unknown tool: calculate_budget"
+          },
+          "raw": "{\"tool\": \"calculate_budget\",\"args\": {\"amount\": 800}}",
+          "ms": 273,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_cards",
+          "args": {
+            "categories": [
+              "fast, medium, fast, medium, medium, medium, medium"
+            ]
+          },
+          "output": {
+            "error": "unknown tool: best_cards"
+          },
+          "raw": "{\"tool\": \"best_cards\",\"args\": {\"categories\": [\"fast, medium, fast, medium, medium, medium, medium\"]}}",
+          "ms": 472,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 800,
+            "category": [
+              "fast",
+              "fast",
+              "fast",
+              "fast",
+              "fast",
+              "fast",
+              "fast",
+              "fast"
+            ]
+          },
+          "output": {
+            "error": "unknown category: fast,fast,fast,fast,fast,fast,fast,fast"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"args\": {\"amount\": 800,\"category\": [\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\"]}}",
+          "ms": 623,
+          "tokens": 45,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_cards",
+          "args": {
+            "amount": 800,
+            "category": [
+              "fast",
+              "fast",
+              "fast",
+              "fast",
+              "fast",
+              "fast",
+              "fast",
+              "fast",
+              "fast"
+            ]
+          },
+          "output": {
+            "error": "unknown tool: best_cards"
+          },
+          "raw": "{\"tool\": \"best_cards\",\"args\": {\"amount\": 800,\"category\": [\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\",\"fast\"]}}",
+          "ms": 759,
+          "tokens": 48,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2127,
+      "totalTokens": 140
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"search\",\"args\": {\"food_amount\": \"₹800\"},\"final\": {\"card\": \"5000000000.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 2494,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"search\",\"args\": {},\"final\": {\"card\": \"10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 2323,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"search\",\"args\": {},\"final\": {\"card\": \"10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 2511,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"search\",\"args\": {},\"final\": {\"card\": \"10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 2409,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 9737,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "price_check",
+          "args": {
+            "amount": 800
+          },
+          "output": {
+            "error": "unknown tool: price_check"
+          },
+          "raw": "{\"tool\": \"price_check\",\"args\": {\"amount\": 800}}",
+          "ms": 270,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "calculate_bill",
+          "args": {
+            "amount": 800
+          },
+          "output": {
+            "error": "unknown tool: calculate_bill"
+          },
+          "raw": "{\"tool\": \"calculate_bill\",\"args\": {\"amount\": 800}}",
+          "ms": 268,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "sort_cards",
+          "args": {
+            "cards": [
+              "<your best card name>"
+            ]
+          },
+          "output": {
+            "error": "unknown tool: sort_cards"
+          },
+          "raw": "{\"tool\": \"sort_cards\",\"args\": {\"cards\": [\"<your best card name>\"]}}",
+          "ms": 318,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_best-cards",
+          "args": {
+            "cards": [
+              "<your best card name>"
+            ]
+          },
+          "output": {
+            "error": "unknown tool: use_best-cards"
+          },
+          "raw": "{\"tool\": \"use_best-cards\",\"args\": {\"cards\": [\"<your best card name>\"]}}",
+          "ms": 427,
+          "tokens": 24,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1283,
+      "totalTokens": 82
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Poway Ring",
+          "raw": "{\"tool\": \"customer_profile\",\"args\": {\"accountNumber\": \"1234\"},\"final\": {\"card\": \"Poway Ring\",\"rewardInr\": \"20000\"},\"rating\": \"2.1\"}",
+          "ms": 774,
+          "tokens": 53,
+          "validJson": true
+        }
+      ],
+      "totalMs": 774,
+      "totalTokens": 53
+    },
+    {
+      "caseId": "C02",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "use_swiggy_name",
+          "args": {
+            "name": "Swiggy",
+            "amount": "₹800,"
+          },
+          "output": {
+            "error": "unknown tool: use_swiggy_name"
+          },
+          "raw": "{\"tool\": \"use_swiggy_name\",\"args\": {\"name\": \"Swiggy\",\"amount\": \"₹800,\"}}",
+          "ms": 581,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_swiggy_name",
+          "args": {
+            "name": "Swiggy",
+            "amount": "₹800"
+          },
+          "output": {
+            "error": "unknown tool: use_swiggy_name"
+          },
+          "raw": "{\"tool\": \"use_swiggy_name\",\"args\": {\"name\": \"Swiggy\",\"amount\": \"₹800\"}}",
+          "ms": 451,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_swiggy_name",
+          "args": {
+            "name": "Swiggy",
+            "amount": "₹800"
+          },
+          "output": {
+            "error": "unknown tool: use_swiggy_name"
+          },
+          "raw": "{\"tool\": \"use_swiggy_name\",\"args\": {\"name\": \"Swiggy\",\"amount\": \"₹800\"}}",
+          "ms": 462,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_swiggy_name",
+          "args": {
+            "name": "Swiggy",
+            "amount": "₹₹800"
+          },
+          "output": {
+            "error": "unknown tool: use_swiggy_name"
+          },
+          "raw": "{\"tool\": \"use_swiggy_name\",\"args\": {\"name\": \"Swiggy\",\"amount\": \"₹₹800\"}}",
+          "ms": 545,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2039,
+      "totalTokens": 130
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"json_trainer\",\"args\": {\"amount\": \"2000\"},\"final\": [\"Card: MXR3000\",\"Card: DMC10000\",\"Card: 0000\",\"Card: 0001\",\"Card: 0002\",\"Card: 0003\",\"Card: 0004\",\"Card: 0005\",\"Card: 0006\",\"Card: 0007\",\"Card: 0008\",\"Card: 0009\",\"Card: 0010\",\"Card: 0011\",\"Card: 0012\",\"Card: 0013\",\"Card: 00",
+          "ms": 2349,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"train\",\"args\": {\"amount\": \"2000\"},\"final\": [\"Card: MXR3000\",\"Card: DMC10000\",\"Card: 0000\",\"Card: 0001\",\"Card: 0002\",\"Card: 0003\",\"Card: 0004\",\"Card: 0005\",\"Card: 0006\",\"Card: 0007\",\"Card: 0008\",\"Card: 0009\",\"Card: 0010\",\"Card: 0011\",\"Card: 0012\",\"Card: 0013\",\"Card: 0014\",\"",
+          "ms": 2540,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"train\",\"args\": {\"amount\": \"2000\"},\"final\": [\"Card: MXR3000\",\"Card: DMC10000\",\"Card: 0000\",\"Card: 0001\",\"Card: 0002\",\"Card: 0003\",\"Card: 0004\",\"Card: 0005\",\"Card: 0006\",\"Card: 0007\",\"Card: 0008\",\"Card: 0009\",\"Card: 0010\",\"Card: 0011\",\"Card: 0012\",\"Card: 0013\",\"Card: 0014\",\"",
+          "ms": 2441,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"train\",\"args\": {\"amount\": \"2000\"},\"final\": [\"Card: MXR3000\",\"Card: DMC10000\",\"Card: 0000\",\"Card: 0001\",\"Card: 0002\",\"Card: 0003\",\"Card: 0004\",\"Card: 0005\",\"Card: 0006\",\"Card: 0007\",\"Card: 0008\",\"Card: 0009\",\"Card: 0010\",\"Card: 0011\",\"Card: 0012\",\"Card: 0013\",\"Card: 0014\",\"",
+          "ms": 2515,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 9845,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "DMart",
+          "reply": "I got it",
+          "raw": "{\"tool\": \"excel_tool\",\"args\": {\"groceries\": {\"price\": \"2000\",\"quantity\": \"1\"},\"reward\": {\"amount\": \"infinite\",\"category\": \"rewards\"},\"course\": \"buy\"},\"final\": {\"card\": \"DMart\",\"reward\": {\"amount\": \"2000\"},\"reply\": \"I got it\"},\"course\": \"course\"}",
+          "ms": 1351,
+          "tokens": 88,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1351,
+      "totalTokens": 88
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\"tool\": \"gift_gift Economics\",\"args\": {\"amount\": 2000,\"category\": \"gift card\",\"currency\": \"Dolar\"},\"final\": {\"gift\": {\"gift_id\": \"0001\",\"name\": \"DMart Gift Card 2000\"},\"gift_amount\": 2000}}",
+          "ms": 1187,
+          "tokens": 79,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1187,
+      "totalTokens": 79
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "best_buy",
+          "args": {
+            "item1": "DMart",
+            "max_amount": "2000",
+            "description": "A card that's best for this purchase."
+          },
+          "output": {
+            "error": "unknown tool: best_buy"
+          },
+          "raw": "{\"tool\": \"best_buy\",\"args\": {\"item1\": \"DMart\",\"max_amount\": \"2000\",\"description\": \"A card that's best for this purchase.\"}}",
+          "ms": 739,
+          "tokens": 44,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_buy",
+          "args": {
+            "item1": "DMart",
+            "max_amount": "2000",
+            "description": "A card that's best for this purchase."
+          },
+          "output": {
+            "error": "unknown tool: best_buy"
+          },
+          "raw": "{\"tool\": \"best_buy\",\"args\": {\"item1\": \"DMart\",\"max_amount\": \"2000\",\"description\": \"A card that's best for this purchase.\"}}",
+          "ms": 643,
+          "tokens": 44,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_buy",
+          "args": {
+            "item1": "DMart",
+            "max_amount": "2000",
+            "description": "A card that's best for this purchase."
+          },
+          "output": {
+            "error": "unknown tool: best_buy"
+          },
+          "raw": "{\"tool\": \"best_buy\",\"args\": {\"item1\": \"DMart\",\"max_amount\": \"2000\",\"description\": \"A card that's best for this purchase.\"}}",
+          "ms": 718,
+          "tokens": 44,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_buy",
+          "args": {
+            "item1": "DMart",
+            "max_amount": "2000",
+            "description": "A card that's best for this purchase."
+          },
+          "output": {
+            "error": "unknown tool: best_buy"
+          },
+          "raw": "{\"tool\": \"best_buy\",\"args\": {\"item1\": \"DMart\",\"max_amount\": \"2000\",\"description\": \"A card that's best for this purchase.\"}}",
+          "ms": 635,
+          "tokens": 44,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2735,
+      "totalTokens": 176
+    },
+    {
+      "caseId": "C03",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "parse_xml",
+          "args": {},
+          "output": {
+            "error": "unknown tool: parse_xml"
+          },
+          "raw": "{\"tool\": \"parse_xml\",\"}{\": {\"name\": \"Card\",\"description\": \"A card that you use to make payments.\",\"type\": \"debit card\",\"amount\": 100,\"amount_unit\": \"₹10000\",\"category\": \"grocery\",\"use\": \"buy groceries\",\"price\": \"DMart\",\"product\": \"Toothbrush\",\"use\": \"toothbrush\",\"passport\": \"passport\",\"store\": \"DMart\",\"amount\": \"DAPI10000\",\"use\": \"DAPI\",\"description\": \"DAPI\"}}",
+          "ms": 2107,
+          "tokens": 137,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "get_amount_",
+          "args": {},
+          "output": {
+            "error": "unknown tool: get_amount_"
+          },
+          "raw": "{\"tool\": \"get_amount_\"}",
+          "ms": 148,
+          "tokens": 9,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "parse_xml",
+          "args": {},
+          "output": {
+            "error": "unknown tool: parse_xml"
+          },
+          "raw": "{\"tool\": \"parse_xml\"}",
+          "ms": 130,
+          "tokens": 8,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "get_amount_",
+          "args": {},
+          "output": {
+            "error": "unknown tool: get_amount_"
+          },
+          "raw": "{\"tool\": \"get_amount_\"}",
+          "ms": 151,
+          "tokens": 9,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2536,
+      "totalTokens": 163
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\"tool\": \"preparation\",\"args\": {\"amount\": \"500\"},\"final\": {\"alert\": \"No Airtel bill\"},\"rewards\": null}",
+          "ms": 628,
+          "tokens": 37,
+          "validJson": true
+        }
+      ],
+      "totalMs": 628,
+      "totalTokens": 37
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "T-Mobile",
+          "raw": "{\"tool\": \"apply_card_to_bill\",\"args\": {\"bill\": \"61000\",\"card\": \"T-Mobile\",\"amount\": \"60006000\",\"currency\": \"INR\",\"category\": \"India Union 2018\"},\"final\": {\"card\": \"T-Mobile\",\"rewards\": \"60000000\",\"comment\": \"In this case it's Tmobile. They have the best rewards in the country.\"},\"rating\": \"★★★★★\"}",
+          "ms": 1945,
+          "tokens": 127,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1945,
+      "totalTokens": 127
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_cards",
+          "args": {},
+          "output": {
+            "error": "unknown tool: classify_cards"
+          },
+          "raw": "{\"tool\": \"classify_cards\",\"amount\": 500,\"category\": \"airtel\",\"use\": \"purchase\"}",
+          "ms": 425,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "sort_cards",
+          "args": {},
+          "output": {
+            "error": "unknown tool: sort_cards"
+          },
+          "raw": "{\"tool\": \"sort_cards\",\"amount\": 500,\"category\": \"airtel\"}",
+          "ms": 306,
+          "tokens": 21,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "calculate_bill",
+          "args": {},
+          "output": {
+            "error": "unknown tool: calculate_bill"
+          },
+          "raw": "{\"tool\": \"calculate_bill\",\"amount\": 500,\"category\": \"airtel\",\"use\": \"purchase\"}",
+          "ms": 463,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "bill_amount",
+          "args": {},
+          "output": {
+            "error": "unknown tool: bill_amount"
+          },
+          "raw": "{\"tool\": \"bill_amount\"}",
+          "ms": 131,
+          "tokens": 8,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1325,
+      "totalTokens": 84
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "use_airtel",
+          "args": {
+            "gas_bill": "10",
+            "bill_amount": "1000000000",
+            "department": "gas",
+            "bill_type": "bill",
+            "name": "gas"
+          },
+          "output": {
+            "error": "unknown tool: use_airtel"
+          },
+          "raw": "{\"tool\": \"use_airtel\",\"args\": {\"gas_bill\": \"10\",\"bill_amount\": \"1000000000\",\"department\": \"gas\",\"bill_type\": \"bill\",\"name\": \"gas\"}}",
+          "ms": 920,
+          "tokens": 59,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_airtel",
+          "args": {
+            "gas_bill": "10",
+            "bill_amount": "1000000000",
+            "department": "gas",
+            "bill_type": "bill",
+            "name": "gas"
+          },
+          "output": {
+            "error": "unknown tool: use_airtel"
+          },
+          "raw": "{\"tool\": \"use_airtel\",\"args\": {\"gas_bill\": \"10\",\"bill_amount\": \"1000000000\",\"department\": \"gas\",\"bill_type\": \"bill\",\"name\": \"gas\"}}",
+          "ms": 933,
+          "tokens": 59,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_airtel",
+          "args": {
+            "gas_bill": "10",
+            "bill_amount": "1000000000",
+            "department": "gas",
+            "bill_type": "bill",
+            "name": "gas"
+          },
+          "output": {
+            "error": "unknown tool: use_airtel"
+          },
+          "raw": "{\"tool\": \"use_airtel\",\"args\": {\"gas_bill\": \"10\",\"bill_amount\": \"1000000000\",\"department\": \"gas\",\"bill_type\": \"bill\",\"name\": \"gas\"}}",
+          "ms": 965,
+          "tokens": 59,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_airtel",
+          "args": {
+            "gas_bill": "10",
+            "bill_amount": "1000000000",
+            "department": "gas",
+            "bill_type": "bill",
+            "name": "gas"
+          },
+          "output": {
+            "error": "unknown tool: use_airtel"
+          },
+          "raw": "{\"tool\": \"use_airtel\",\"args\": {\"gas_bill\": \"10\",\"bill_amount\": \"1000000000\",\"department\": \"gas\",\"bill_type\": \"bill\",\"name\": \"gas\"}}",
+          "ms": 861,
+          "tokens": 59,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3679,
+      "totalTokens": 236
+    },
+    {
+      "caseId": "C04",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "use_airtelbill",
+          "args": {
+            "bill": "bill amount",
+            "device": "device name"
+          },
+          "output": {
+            "error": "unknown tool: use_airtelbill"
+          },
+          "raw": "{\"tool\": \"use_airtelbill\",\"args\": {\"bill\": \"bill amount\",\"device\": \"device name\"}}",
+          "ms": 479,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_airtelbill",
+          "args": {
+            "bill": "bill amount",
+            "device": "device name"
+          },
+          "output": {
+            "error": "unknown tool: use_airtelbill"
+          },
+          "raw": "{\"tool\": \"use_airtelbill\",\"args\": {\"bill\": \"bill amount\",\"device\": \"device name\"}}",
+          "ms": 437,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_airtelbill",
+          "args": {
+            "bill": "bill amount",
+            "device": "device name"
+          },
+          "output": {
+            "error": "unknown tool: use_airtelbill"
+          },
+          "raw": "{\"tool\": \"use_airtelbill\",\"args\": {\"bill\": \"bill amount\",\"device\": \"device name\"}}",
+          "ms": 425,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_airtelbill",
+          "args": {
+            "bill": "bill amount",
+            "device": "device name"
+          },
+          "output": {
+            "error": "unknown tool: use_airtelbill"
+          },
+          "raw": "{\"tool\": \"use_airtelbill\",\"args\": {\"bill\": \"bill amount\",\"device\": \"device name\"}}",
+          "ms": 483,
+          "tokens": 28,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1824,
+      "totalTokens": 112
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "bank_fast",
+          "args": {
+            "amount": 3000
+          },
+          "output": {
+            "error": "unknown tool: bank_fast"
+          },
+          "raw": "{\"tool\": \"bank_fast\",\"args\": {\"amount\": 3000}}",
+          "ms": 298,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "invoice",
+          "args": {
+            "amount": 3000
+          },
+          "output": {
+            "error": "unknown tool: invoice"
+          },
+          "raw": "{\"tool\": \"invoice\",\"args\": {\"amount\": 3000}}",
+          "ms": 268,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "mpg",
+          "args": {
+            "amount": 3000
+          },
+          "output": {
+            "error": "unknown tool: mpg"
+          },
+          "raw": "{\"tool\": \"mpg\",\"args\": {\"amount\": 3000}}",
+          "ms": 273,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "debitcard",
+          "args": {
+            "amount": 3000
+          },
+          "output": {
+            "error": "unknown tool: debitcard"
+          },
+          "raw": "{\"tool\": \"debitcard\",\"args\": {\"amount\": 3000}}",
+          "ms": 342,
+          "tokens": 19,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1181,
+      "totalTokens": 74
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"traveler\",\"args\": {\"carNumber\": \"0\",\"carType\": \"full tank\",\"driver\": \"customer\"},\"final\": {\"amount\": 3000.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 2166,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"customer\",\"args\": {\"agreement\": \"buy_your_passport\",\"amount\": 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 2157,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"train\",\"args\": {\"trainNumber\": \"code\",\"trainLength\": \"initial\",\"passenger\": \"driver\"},\"final\": {\"train\": \"train_passengers\",\"passenger\": \"driver\",\"trainLength\": \"initial\",\"passenger\": \"train\",\"passenger\": \"train\",\"trainLength\": \"initial\",\"trainLength\": \"initial\",\"trainLength\": \"initial\",\"passenger\": \"train\",\"passenger\": \"train\",\"trainLength\": \"train\",\"trainLength\": \"train\",\"trainLength\": \"train\",\"trainLength\": \"train\",\"passenger\": \"train\",\"passenger\": \"train\",\"trainLength\": \"passenger\",\"trainLength\": \"pass",
+          "ms": 2384,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"customer\",\"args\": {\"amount\": 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 2216,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 8923,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid\": \"gas\",\"aid",
+          "ms": 2610,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "tool",
+          "tool": "car_picker",
+          "args": {},
+          "output": {
+            "error": "unknown tool: car_picker"
+          },
+          "raw": "{\"tool\": \"car_picker\",\"aid\": \"tool category\",\"aid\": \"tool name,\"}",
+          "ms": 348,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "tool_search",
+          "args": {},
+          "output": {
+            "error": "unknown tool: tool_search"
+          },
+          "raw": "{\"tool\": \"tool_search\",\"aid\": \"tool name,\"}",
+          "ms": 333,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "car_picker",
+          "args": {},
+          "output": {
+            "error": "unknown tool: car_picker"
+          },
+          "raw": "{\"tool\": \"car_picker\",\"aid\": \"tool category\",\"aid\": \"tool name\"}",
+          "ms": 355,
+          "tokens": 21,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3646,
+      "totalTokens": 217
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "best_card",
+          "args": {
+            "kinds": [
+              "buy_gas",
+              "own_car"
+            ],
+            "amount": 3000
+          },
+          "output": {
+            "error": "unknown tool: best_card"
+          },
+          "raw": "{\"tool\": \"best_card\",\"args\": {\"kinds\": [\"buy_gas\",\"own_car\"],\"amount\": 3000}}",
+          "ms": 520,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_card",
+          "args": {
+            "kinds": [
+              "buy_gas",
+              "own_car"
+            ],
+            "amount": 3000
+          },
+          "output": {
+            "error": "unknown tool: best_card"
+          },
+          "raw": "{\"tool\": \"best_card\",\"args\": {\"kinds\": [\"buy_gas\",\"own_car\"],\"amount\": 3000}}",
+          "ms": 587,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_card",
+          "args": {
+            "kinds": [
+              "buy_gas",
+              "own_car"
+            ],
+            "amount": 3000
+          },
+          "output": {
+            "error": "unknown tool: best_card"
+          },
+          "raw": "{\"tool\": \"best_card\",\"args\": {\"kinds\": [\"buy_gas\",\"own_car\"],\"amount\": 3000}}",
+          "ms": 546,
+          "tokens": 33,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_card",
+          "args": {
+            "kinds": [
+              "buy_gas",
+              "own_car"
+            ],
+            "amount": 3000
+          },
+          "output": {
+            "error": "unknown tool: best_card"
+          },
+          "raw": "{\"tool\": \"best_card\",\"args\": {\"kinds\": [\"buy_gas\",\"own_car\"],\"amount\": 3000}}",
+          "ms": 504,
+          "tokens": 33,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2157,
+      "totalTokens": 132
+    },
+    {
+      "caseId": "C05",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\"tool\": \"car\",\"args\": {\"input\": \"car\",\"amount\": \"₹3000\"},\"final\": {\"new_car\": \"7\",\"final\": {\"order\": \"car_import\",\"rewards\": \"₹3000\"},\"final\": {\"rewards\": \"car_import\",\"rewards\": \"₹3000\"},\"rewards\": \"car_import\"}}",
+          "ms": 1548,
+          "tokens": 94,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1548,
+      "totalTokens": 94
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "chain_loyalty",
+          "args": {
+            "customer_name": "Diners",
+            "amount": {
+              "price": 4999999999999999
+            }
+          },
+          "output": {
+            "error": "unknown tool: chain_loyalty"
+          },
+          "raw": "{\"tool\": \"chain_loyalty\",\"args\": {\"customer_name\": \"Diners\",\"amount\": {\"price\": 4999999999999999}}}",
+          "ms": 766,
+          "tokens": 45,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "badge_download",
+          "args": {
+            "screen_name": "Diners",
+            "amount": 4999999999999990
+          },
+          "output": {
+            "error": "unknown tool: badge_download"
+          },
+          "raw": "{\"tool\": \"badge_download\",\"args\": {\"screen_name\": \"Diners\",\"amount\": 4999999999999990}}",
+          "ms": 618,
+          "tokens": 40,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "buy_passport",
+          "args": {
+            "passport": {
+              "passport_holder": {
+                "passport_holder_name": "Diners",
+                "passport_holder_amount": 30000000000000000
+              }
+            }
+          },
+          "output": {
+            "error": "unknown tool: buy_passport"
+          },
+          "raw": "{\"tool\": \"buy_passport\",\"args\": {\"passport\": {\"passport_holder\": {\"passport_holder_name\": \"Diners\",\"passport_holder_amount\": 30000000000000000}}}}",
+          "ms": 974,
+          "tokens": 60,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "customer_search",
+          "args": {
+            "customer_id": "Diners",
+            "customer": {
+              "customer_name": "Diners",
+              "customer_amount": 30000000000000000
+            }
+          },
+          "output": {
+            "error": "unknown tool: customer_search"
+          },
+          "raw": "{\"tool\": \"customer_search\",\"args\": {\"customer_id\": \"Diners\",\"customer\": {\"customer_name\": \"Diners\",\"customer_amount\": 30000000000000000}}}",
+          "ms": 899,
+          "tokens": 54,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3257,
+      "totalTokens": 199
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"type\",\"args\": {\"name\": \"Dinner\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"DinerCard\",\"}]};# Step 1: Identify the right card for dinner.  Step 2: Find the best card for the amount.  Step 3: Swipe the best card.  Step 4: Check the answer.  Step 5: Send it in as your response.  Step 6: Classify the answer.  Step 7: Rank the answer.  Step 8: Classify the answer.  Step 9: Classify the answer.  Step 10: Classify the answer.  Step 11: Classify the answer. ",
+          "ms": 2636,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"rank_cards\",\"final\": {\"card\": \"DinerCard\",\"reward\": \"₹3000\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"Barbeque Nation\",\"reward\": \"₹3000\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"BBNCard\",\"reward\": \"₹3000\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"JobsCard\",\"reward\": \"₹3000\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"MerchantCard\",\"reward\": \"₹30",
+          "ms": 2594,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"rank_cards\",\"final\": {\"card\": \"DinerCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"BBNCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"JobsCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"MerchantCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"Barbeque Nation\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"BBNCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"JobsCard\",\"amount\": \"₹30",
+          "ms": 2652,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"rank_cards\",\"final\": {\"card\": \"DinerCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"BBNCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"JobsCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"MerchantCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"Barbeque Nation\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"BBNCard\",\"amount\": \"₹3000\"},\"final\": {\"card\": \"JobsCard\",\"amount\": \"₹30",
+          "ms": 2554,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 10436,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "Swipe the 1 Business Card for 1000 Rupees.",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Swipe the 1 Business Card for 1000 Rupees."
+          },
+          "raw": "{\"tool\": \"Swipe the 1 Business Card for 1000 Rupees.\"}",
+          "ms": 480,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "Card 1: Swipe the 1 Business Card for 1000 Rupees.",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Card 1: Swipe the 1 Business Card for 1000 Rupees."
+          },
+          "raw": "{\"tool\": \"Card 1: Swipe the 1 Business Card for 1000 Rupees.\"}",
+          "ms": 438,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "Card 1: Swipe the 1 Business Card for 1000 Rupees.",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Card 1: Swipe the 1 Business Card for 1000 Rupees."
+          },
+          "raw": "{\"tool\": \"Card 1: Swipe the 1 Business Card for 1000 Rupees.\"}",
+          "ms": 444,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "Card 1: Swipe the 1 Business Card for 1000 Rupees.",
+          "args": {},
+          "output": {
+            "error": "unknown tool: Card 1: Swipe the 1 Business Card for 1000 Rupees."
+          },
+          "raw": "{\"tool\": \"Card 1: Swipe the 1 Business Card for 1000 Rupees.\"}",
+          "ms": 522,
+          "tokens": 26,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1884,
+      "totalTokens": 100
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "customer_preferences",
+          "args": {
+            "clientInfo": {
+              "name": "Berge",
+              "location": "India",
+              "rating": "0.0",
+              "priceRange": "$$",
+              "price": "$$",
+              "ratingAvg": "0.0",
+              "ratingRating": "low"
+            },
+            "priceRange": "$$",
+            "price": "$$",
+            "ratingRating": "low"
+          },
+          "output": {
+            "error": "unknown tool: customer_preferences"
+          },
+          "raw": "{\"tool\": \"customer_preferences\",\"args\": {\"clientInfo\": {\"name\": \"Berge\",\"location\": \"India\",\"rating\": \"0.0\",\"priceRange\": \"$$\",\"price\": \"$$\",\"ratingAvg\": \"0.0\",\"ratingRating\": \"low\"},\"priceRange\": \"$$\",\"price\": \"$$\",\"ratingRating\": \"low\"},\"group\": {\"group\": \"casual\",\"name\": \"casual\",\"rating\": \"low\",\"price\": \"$$\",\"priceRange\": \"$$\",\"group\": \"casual\",\"price\": \"$$\"}}",
+          "ms": 2262,
+          "tokens": 135,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "customer_preferences",
+          "args": {
+            "clientInfo": {
+              "name": "Berge",
+              "location": "India",
+              "rating": "0.0",
+              "priceRange": "$$",
+              "price": "$$",
+              "ratingAvg": "0.0",
+              "ratingRating": "low"
+            },
+            "priceRange": "$$",
+            "price": "$$",
+            "ratingRating": "low"
+          },
+          "output": {
+            "error": "unknown tool: customer_preferences"
+          },
+          "raw": "{\"tool\": \"customer_preferences\",\"args\": {\"clientInfo\": {\"name\": \"Berge\",\"location\": \"India\",\"rating\": \"0.0\",\"priceRange\": \"$$\",\"price\": \"$$\",\"ratingAvg\": \"0.0\",\"ratingRating\": \"low\"},\"priceRange\": \"$$\",\"price\": \"$$\",\"ratingRating\": \"low\"},\"group\": {\"group\": \"casual\",\"name\": \"casual\",\"rating\": \"low\",\"price\": \"$$\",\"priceRange\": \"$$\",\"group\": \"casual\",\"price\": \"$$\"}}",
+          "ms": 2309,
+          "tokens": 135,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "customer_preferences",
+          "args": {
+            "clientInfo": {
+              "name": "Berge",
+              "location": "India",
+              "rating": "0.0",
+              "priceRange": "$$",
+              "price": "$$",
+              "ratingAvg": "0.0",
+              "ratingRating": "low"
+            },
+            "priceRange": "$$",
+            "price": "$$",
+            "ratingRating": "low"
+          },
+          "output": {
+            "error": "unknown tool: customer_preferences"
+          },
+          "raw": "{\"tool\": \"customer_preferences\",\"args\": {\"clientInfo\": {\"name\": \"Berge\",\"location\": \"India\",\"rating\": \"0.0\",\"priceRange\": \"$$\",\"price\": \"$$\",\"ratingAvg\": \"0.0\",\"ratingRating\": \"low\"},\"priceRange\": \"$$\",\"price\": \"$$\",\"ratingRating\": \"low\"},\"group\": {\"group\": \"casual\",\"name\": \"casual\",\"rating\": \"low\",\"price\": \"$$\",\"priceRange\": \"$$\",\"group\": \"casual\",\"price\": \"$$\"}}",
+          "ms": 2313,
+          "tokens": 135,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "customer_preferences",
+          "args": {
+            "clientInfo": {
+              "name": "Berge",
+              "location": "India",
+              "rating": "0.0",
+              "priceRange": "$$",
+              "price": "$$",
+              "ratingAvg": "0.0",
+              "ratingRating": "low"
+            },
+            "priceRange": "$$",
+            "price": "$$",
+            "ratingRating": "low"
+          },
+          "output": {
+            "error": "unknown tool: customer_preferences"
+          },
+          "raw": "{\"tool\": \"customer_preferences\",\"args\": {\"clientInfo\": {\"name\": \"Berge\",\"location\": \"India\",\"rating\": \"0.0\",\"priceRange\": \"$$\",\"price\": \"$$\",\"ratingAvg\": \"0.0\",\"ratingRating\": \"low\"},\"priceRange\": \"$$\",\"price\": \"$$\",\"ratingRating\": \"low\"},\"group\": {\"group\": \"casual\",\"name\": \"casual\",\"rating\": \"low\",\"price\": \"$$\",\"priceRange\": \"$$\",\"group\": \"casual\",\"price\": \"$$\"}}",
+          "ms": 2305,
+          "tokens": 135,
+          "validJson": true
+        }
+      ],
+      "totalMs": 9189,
+      "totalTokens": 540
+    },
+    {
+      "caseId": "C06",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"get_bid_cod\",\"args\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\":",
+          "ms": 2733,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"get_bid_cod\",\"args\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\":",
+          "ms": 2660,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"get_bid_cod\",\"args\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\":",
+          "ms": 2570,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"get_bid_cod\",\"args\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\":",
+          "ms": 2569,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 10532,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "chef",
+          "args": {
+            "trip": {
+              "amount": 10000
+            }
+          },
+          "output": {
+            "error": "unknown tool: chef"
+          },
+          "raw": "{\"tool\": \"chef\",\"args\": {\"trip\": {\"amount\": 10000}}}",
+          "ms": 458,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "processor",
+          "args": {
+            "trip": {
+              "amount": 10000
+            }
+          },
+          "output": {
+            "error": "unknown tool: processor"
+          },
+          "raw": "{\"tool\": \"processor\",\"args\": {\"trip\": {\"amount\": 10000}}}",
+          "ms": 338,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "cookie",
+          "args": {
+            "cookie": {
+              "amount": 10000
+            }
+          },
+          "output": {
+            "error": "unknown tool: cookie"
+          },
+          "raw": "{\"tool\": \"cookie\",\"args\": {\"cookie\": {\"amount\": 10000}}}",
+          "ms": 344,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "compiler",
+          "args": {
+            "trip": {
+              "amount": 10000
+            }
+          },
+          "output": {
+            "error": "unknown tool: compiler"
+          },
+          "raw": "{\"tool\": \"compiler\",\"args\": {\"trip\": {\"amount\": 10000}}}",
+          "ms": 351,
+          "tokens": 22,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1491,
+      "totalTokens": 89
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "booktrip",
+          "args": {
+            "trip": {
+              "amount": 10000
+            }
+          },
+          "output": {
+            "error": "unknown tool: booktrip"
+          },
+          "raw": "{\"tool\": \"booktrip\",\"args\": {\"trip\": {\"amount\": 10000}}}",
+          "ms": 470,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "carrier",
+          "args": {},
+          "output": {
+            "error": "unknown tool: carrier"
+          },
+          "raw": "{\"tool\": \"carrier\",\"args\": [\"<carrier name from the question>\"]}",
+          "ms": 368,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "holder",
+          "args": {},
+          "output": {
+            "error": "unknown tool: holder"
+          },
+          "raw": "{\"tool\": \"holder\",\"args\": [\"<holder name from the question>\"]}",
+          "ms": 293,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "booking",
+          "args": {},
+          "output": {
+            "error": "unknown tool: booking"
+          },
+          "raw": "{\"tool\": \"booking\",\"args\": [\"<trip name from the question>\"]}",
+          "ms": 308,
+          "tokens": 18,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1439,
+      "totalTokens": 77
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"mymitrip\",\"}). 10000. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will",
+          "ms": 2864,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"makeitrip\",\"}). 10000. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use",
+          "ms": 2780,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"makeitrip\",\"}). 10000. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use",
+          "ms": 2688,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"makeitrip\",\"}). 10000. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use it as the 10000 trip. I will use",
+          "ms": 2842,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 11174,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "apply_trip_bid",
+          "args": {
+            "travel": {
+              "trip": {
+                "tripname": "New Trip",
+                "tripdate": {
+                  "tripmonth": 10,
+                  "tripyear": 2022
+                }
+              }
+            },
+            "amount": 10000
+          },
+          "output": {
+            "error": "unknown tool: apply_trip_bid"
+          },
+          "raw": "{\"tool\": \"apply_trip_bid\",\"args\": {\"travel\": {\"trip\": {\"tripname\": \"New Trip\",\"tripdate\": {\"tripmonth\": 10,\"tripyear\": 2022}}},\"amount\": 10000}}",
+          "ms": 1041,
+          "tokens": 57,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "use_travel_spent_bid",
+          "args": {
+            "trip": {
+              "tripname": "New Trip",
+              "tripdate": {
+                "tripmonth": 10,
+                "tripyear": 2022
+              }
+            }
+          },
+          "output": {
+            "error": "unknown tool: use_travel_spent_bid"
+          },
+          "raw": "{\"tool\": \"use_travel_spent_bid\",\"args\": {\"trip\": {\"tripname\": \"New Trip\",\"tripdate\": {\"tripmonth\": 10,\"tripyear\": 2022}}},\"amount\": 10000}",
+          "ms": 925,
+          "tokens": 57,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "apply_trip",
+          "args": {
+            "trip": {
+              "tripname": "New Trip",
+              "tripprice": 10000
+            }
+          },
+          "output": {
+            "error": "unknown tool: apply_trip"
+          },
+          "raw": "{\"tool\": \"apply_trip\",\"args\": {\"trip\": {\"tripname\": \"New Trip\",\"tripprice\": 10000}}}",
+          "ms": 599,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "apply_trip_bid_spent",
+          "args": {
+            "trip": {
+              "tripname": "New Trip",
+              "tripprice": 10000
+            }
+          },
+          "output": {
+            "error": "unknown tool: apply_trip_bid_spent"
+          },
+          "raw": "{\"tool\": \"apply_trip_bid_spent\",\"args\": {\"trip\": {\"tripname\": \"New Trip\",\"tripprice\": 10000}}}",
+          "ms": 611,
+          "tokens": 37,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3176,
+      "totalTokens": 183
+    },
+    {
+      "caseId": "C07",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "check_trip_pricing",
+          "args": {
+            "trip": {
+              "trip_type": "trip",
+              "trip_amount": {
+                "amount": {
+                  "amount": "₹10,000"
+                },
+                "currency": "INR"
+              }
+            }
+          },
+          "output": {
+            "error": "unknown tool: check_trip_pricing"
+          },
+          "raw": "{\"tool\": \"check_trip_pricing\",\"args\": {\"trip\": {\"trip_type\": \"trip\",\"trip_amount\": {\"amount\": {\"amount\": \"₹10,000\"},\"currency\": \"INR\"}}}}",
+          "ms": 997,
+          "tokens": 55,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "calculate_trip",
+          "args": {
+            "trip": {
+              "trip_type": "trip",
+              "trip_amount": {
+                "amount": {
+                  "amount": {
+                    "amount": "₹10,000"
+                  }
+                },
+                "currency": "INR"
+              }
+            }
+          },
+          "output": {
+            "error": "unknown tool: calculate_trip"
+          },
+          "raw": "{\"tool\": \"calculate_trip\",\"args\": {\"trip\": {\"trip_type\": \"trip\",\"trip_amount\": {\"amount\": {\"amount\": {\"amount\": \"₹10,000\"}},\"currency\": \"INR\"}}}}",
+          "ms": 904,
+          "tokens": 55,
+          "validJson": true
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"plan\",\"args\": {\"plan\": {\"plan_type\": \"plan\",\"plan_description\": {\"plan_name\": \"First plan\",\"plan_amount\": {\"amount\": {\"amount\": \"₹10,000\"}},\"plan_description\": {\"plan_category\": \"First trip\",\"plan_amount\": {\"amount\": {\"amount\": \"₹10,000\"}},\"plan_description\": {\"plan_description\": {\"plan_amount\": {\"amount\": {\"amount\": \"₹10,000\"}},\"plan_category\": \"First trip\",\"plan_description\": {\"plan_description\": {\"plan_amount\": {\"amount\": {\"amount\": \"₹10,0",
+          "ms": 2704,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"use_current_trip\",\"args\": {\"trip\": {\"trip_type\": \"trip\",\"trip_amount\": {\"amount\": {\"amount\": \"₹10,000\"}},\"trip_category\": \"First trip\",\"trip_amount\": {\"amount\": {\"amount\": \"₹10,000\"}},\"trip_description\": {\"trip_description\": {\"trip_amount\": {\"amount\": {\"amount\": \"₹10,000\"}},\"trip_category\": \"First trip\",\"trip_description\": {\"trip_amount\": {\"amount\": {\"amount\": \"₹10,000\"}},\"trip_description\": {\"trip_category\": \"First trip\",\"trip",
+          "ms": 2788,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 7393,
+      "totalTokens": 428
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\"tool\": \"fetch_ticker\",\"args\": {\"ticker\": \"Phone\"},\"final\": {\"ticker\": \"+'Phone'\",\"start_price\": \"₹8000\",\"currency\": \"₹8000\"},\"totals\": {\"price\": \"₹8000\"},\"reward\": \"₹8000\"}",
+          "ms": 1292,
+          "tokens": 75,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1292,
+      "totalTokens": 75
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "reclassify_price",
+          "args": {
+            "price": "₹8000"
+          },
+          "output": {
+            "error": "unknown tool: reclassify_price"
+          },
+          "raw": "{\"tool\": \"reclassify_price\",\"args\": {\"price\": \"₹8000\"}}",
+          "ms": 511,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "reclassify_price",
+          "args": {
+            "price": "₹8000"
+          },
+          "output": {
+            "error": "unknown tool: reclassify_price"
+          },
+          "raw": "{\"tool\": \"reclassify_price\",\"args\": {\"price\": \"₹8000\"}}",
+          "ms": 424,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "reclassify_price",
+          "args": {
+            "price": "₹8000"
+          },
+          "output": {
+            "error": "unknown tool: reclassify_price"
+          },
+          "raw": "{\"tool\": \"reclassify_price\",\"args\": {\"price\": \"₹8000\"}}",
+          "ms": 431,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "reclassify_price",
+          "args": {
+            "price": "₹8000"
+          },
+          "output": {
+            "error": "unknown tool: reclassify_price"
+          },
+          "raw": "{\"tool\": \"reclassify_price\",\"args\": {\"price\": \"₹8000\"}}",
+          "ms": 514,
+          "tokens": 25,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1880,
+      "totalTokens": 99
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "customer_phone",
+          "reward_inr": "₹10000",
+          "raw": "{\"tool\": \"card_best_buy:flipkart\",\"args\": {\"amount\": \"8000\"},\"final\": {\"card\": \"customer_phone\",\"reward_inr\": \"₹10000\"}}",
+          "ms": 902,
+          "tokens": 53,
+          "validJson": true
+        }
+      ],
+      "totalMs": 902,
+      "totalTokens": 53
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "buy_phone",
+          "args": {
+            "sanyu": {
+              "price": 40000
+            }
+          },
+          "output": {
+            "error": "unknown tool: buy_phone"
+          },
+          "raw": "{\"tool\": \"buy_phone\",\"args\": {\"sanyu\": {\"price\": 40000}}}",
+          "ms": 475,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"get_best_offer\",\"args\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\":",
+          "ms": 2888,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"get_best_offer\",\"args\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\":",
+          "ms": 3095,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"get_best_offer\",\"args\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\": {\"bid\":",
+          "ms": 3413,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 9871,
+      "totalTokens": 504
+    },
+    {
+      "caseId": "C08",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "buy_phone",
+          "args": {
+            "bid": "₹8000"
+          },
+          "output": {
+            "error": "unknown tool: buy_phone"
+          },
+          "raw": "{\"tool\": \"buy_phone\",\"args\": {\"bid\": \"₹8000\"}}",
+          "ms": 595,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "get_customer profile",
+          "args": {
+            "customer": "customer name"
+          },
+          "output": {
+            "error": "unknown tool: get_customer profile"
+          },
+          "raw": "{\"tool\": \"get_customer profile\",\"args\": {\"customer\": \"customer name\"}}",
+          "ms": 556,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "get_customer profile",
+          "args": {
+            "customer": "customer name"
+          },
+          "output": {
+            "error": "unknown tool: get_customer profile"
+          },
+          "raw": "{\"tool\": \"get_customer profile\",\"args\": {\"customer\": \"customer name\"},\"reuse\": {\"search_type\": \"name\",\"use\": \"y\"}}",
+          "ms": 1058,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "get_customer profile",
+          "args": {
+            "customer": "customer name"
+          },
+          "output": {
+            "error": "unknown tool: get_customer profile"
+          },
+          "raw": "{\"tool\": \"get_customer profile\",\"args\": {\"customer\": \"customer name\"},\"reuse\": {\"search_type\": \"name\",\"use\": \"y\"},\"base\": {\"bid\": \"₹8000\"},\"bid\": \"₹10000\"}",
+          "ms": 1663,
+          "tokens": 61,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3872,
+      "totalTokens": 139
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "convert_money",
+          "args": {
+            "amount": "₹2400"
+          },
+          "output": {
+            "error": "unknown tool: convert_money"
+          },
+          "raw": "{\"tool\": \"convert_money\",\"args\": {\"amount\": \"₹2400\"},\"output\": \"1. Classify the BESCOM bill and the amount into a 10-digit numerical code to use as part of the BESCOM billing's computer code.\"}",
+          "ms": 1887,
+          "tokens": 62,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "format_bill",
+          "args": {
+            "amount": "₹2400"
+          },
+          "output": {
+            "error": "unknown tool: format_bill"
+          },
+          "raw": "{\"tool\": \"format_bill\",\"args\": {\"amount\": \"₹2400\"},\"output\": \"2400\"}",
+          "ms": 785,
+          "tokens": 31,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "sort_cards",
+          "args": {
+            "cards": [
+              "<cards name from the question>"
+            ]
+          },
+          "output": {
+            "error": "unknown tool: sort_cards"
+          },
+          "raw": "{\"tool\": \"sort_cards\",\"args\": {\"cards\": [\"<cards name from the question>\"]}}",
+          "ms": 697,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "finalize_bill",
+          "args": {
+            "one_card": "Card#:"
+          },
+          "output": {
+            "error": "unknown tool: finalize_bill"
+          },
+          "raw": "{\"tool\": \"finalize_bill\",\"args\": {\"one_card\": \"Card#:\"}}",
+          "ms": 791,
+          "tokens": 22,
+          "validJson": true
+        }
+      ],
+      "totalMs": 4160,
+      "totalTokens": 139
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"parse_bill\",\"args\": {\"amount\": 2400},\"final\": {\"card\": \"cheese1\",\"reward_inr\": 1010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 4876,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"use_cheese1b\",\"args\": {\"amount\": 2400},\"final\": {\"card\": \"cheese1\"},\"reward_inr\": 10100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 4891,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"use_cheese1b\",\"args\": {\"amount\": 2400},\"final\": {\"card\": \"cheese1\"},\"reward_inr\": 10100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 7286,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"use_cheese1b\",\"args\": {\"amount\": 2400},\"final\": {\"card\": \"cheese1\"},\"reward_inr\": 10100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "ms": 9962,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 27015,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "price_check",
+          "args": {
+            "amount": "₹2400"
+          },
+          "output": {
+            "error": "unknown tool: price_check"
+          },
+          "raw": "{\"tool\": \"price_check\",\"name\": \"BESCOM\",\"args\": {\"amount\": \"₹2400\"},\"final\": \"The card that pays the 2400 BESCOM bill is BESCOM Card 2400.\"}",
+          "ms": 4137,
+          "tokens": 60,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "tool_name",
+          "args": {
+            "passwords": {
+              "pass1": "pass1",
+              "pass2": "pass2"
+            }
+          },
+          "output": {
+            "error": "unknown tool: tool_name"
+          },
+          "raw": "{\"tool\": \"tool_name\",\"name\": \"reinstate_passwords\",\"function\": \"update_passwords\",\"args\": {\"passwords\": {\"pass1\": \"pass1\",\"pass2\": \"pass2\"}},\"final\": \"The function is updating the 2-passwords for the 2022-2022-02-20 11:00-11:00.\"}",
+          "ms": 5626,
+          "tokens": 98,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "reinstate_passwords",
+          "args": {},
+          "output": {
+            "error": "unknown tool: reinstate_passwords"
+          },
+          "raw": "{\"tool\": \"reinstate_passwords\",\"name\": \"use_passwords\",\"function\": \"use_passwords\",\"function_args\": {\"pass1\": \"pass1\",\"pass2\": \"pass2\"}}",
+          "ms": 3152,
+          "tokens": 51,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "tool_name",
+          "args": {},
+          "output": {
+            "error": "unknown tool: tool_name"
+          },
+          "raw": "{\"tool\": \"tool_name\",\"name\": \"use_passwords\",\"function\": \"use_passwords\",\"function_args\": {\"pass1\": \"pass1\",\"pass2\": \"pass2\"}}",
+          "ms": 2997,
+          "tokens": 48,
+          "validJson": true
+        }
+      ],
+      "totalMs": 15912,
+      "totalTokens": 257
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "bank_amount",
+          "args": {
+            "ammnt": "24000"
+          },
+          "output": {
+            "error": "unknown tool: bank_amount"
+          },
+          "raw": "{\"tool\": \"bank_amount\",\"args\": {\"ammnt\": \"24000\"},\"course\": \"electricity\"}",
+          "ms": 2021,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "bisect_cards_by_category",
+          "args": {
+            "category": "electricity"
+          },
+          "output": {
+            "error": "unknown tool: bisect_cards_by_category"
+          },
+          "raw": "{\"tool\": \"bisect_cards_by_category\",\"args\": {\"category\": \"electricity\"},\"course\": \"cards\"}",
+          "ms": 2392,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "fast_payment,",
+          "args": {},
+          "output": {
+            "error": "unknown tool: fast_payment,"
+          },
+          "raw": "{\"tool\": \"fast_payment,\",\"course\": \"fast_payment\"}",
+          "ms": 1181,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "fast_payment,",
+          "args": {},
+          "output": {
+            "error": "unknown tool: fast_payment,"
+          },
+          "raw": "{\"tool\": \"fast_payment,\",\"course\": \"fast_payment\"}",
+          "ms": 1144,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 6738,
+      "totalTokens": 89
+    },
+    {
+      "caseId": "C09",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "card_select",
+          "args": {
+            "bill": {
+              "amount": 2400
+            },
+            "category": "electricity"
+          },
+          "output": {
+            "error": "unknown tool: card_select"
+          },
+          "raw": "{\"tool\": \"card_select\",\"args\": {\"bill\": {\"amount\": 2400},\"category\": \"electricity\"},\"clues\": []}",
+          "ms": 2387,
+          "tokens": 35,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rewards_mapping",
+          "args": {
+            "bill": {
+              "amount": 2400
+            },
+            "category": "electricity"
+          },
+          "output": {
+            "error": "unknown tool: rewards_mapping"
+          },
+          "raw": "{\"tool\": \"rewards_mapping\",\"args\": {\"bill\": {\"amount\": 2400},\"category\": \"electricity\"},\"clue\": \"What's more important to you: your bill amount or your electricity bill's price?\"}",
+          "ms": 3549,
+          "tokens": 53,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "reward_score",
+          "args": {
+            "bill": {
+              "amount": 2400
+            },
+            "category": "electricity"
+          },
+          "output": {
+            "error": "unknown tool: reward_score"
+          },
+          "raw": "{\"tool\": \"reward_score\",\"args\": {\"bill\": {\"amount\": 2400},\"category\": \"electricity\"},\"clue\": \"What's your total revenue for the next 8 days?\"}",
+          "ms": 2888,
+          "tokens": 47,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "bill_rewards_score",
+          "args": {
+            "bill": {
+              "amount": 2400
+            },
+            "category": "electricity"
+          },
+          "output": {
+            "error": "unknown tool: bill_rewards_score"
+          },
+          "raw": "{\"tool\": \"bill_rewards_score\",\"args\": {\"bill\": {\"amount\": 2400},\"category\": \"electricity\"},\"clue\": \"How much did your bill amount last week?\"}",
+          "ms": 3321,
+          "tokens": 47,
+          "validJson": true
+        }
+      ],
+      "totalMs": 12145,
+      "totalTokens": 182
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "ranking_rewards",
+          "args": {
+            "amount": "1000"
+          },
+          "output": {
+            "error": "unknown tool: ranking_rewards"
+          },
+          "raw": "{\"tool\": \"ranking_rewards\",\"args\": {\"amount\": \"1000\"},\"category\": [\"customer\"]}",
+          "ms": 2139,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_tool",
+          "args": {
+            "category": [
+              "customer"
+            ]
+          },
+          "output": {
+            "error": "unknown tool: best_tool"
+          },
+          "raw": "{\"tool\": \"best_tool\",\"args\": {\"category\": [\"customer\"]}}",
+          "ms": 1063,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "top_rewards",
+          "args": {
+            "amount": "1000"
+          },
+          "output": {
+            "error": "unknown tool: top_rewards"
+          },
+          "raw": "{\"tool\": \"top_rewards\",\"args\": {\"amount\": \"1000\"},\"category\": [\"customer\"]}",
+          "ms": 1708,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "best_rewards_tool",
+          "args": {
+            "amount": "1000"
+          },
+          "output": {
+            "error": "unknown tool: best_rewards_tool"
+          },
+          "raw": "{\"tool\": \"best_rewards_tool\",\"args\": {\"amount\": \"1000\"},\"category\": [\"customer\"]}",
+          "ms": 1834,
+          "tokens": 29,
+          "validJson": true
+        }
+      ],
+      "totalMs": 6744,
+      "totalTokens": 100
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "name",
+          "args": {
+            "name": "Zomato",
+            "amount": 1200
+          },
+          "output": {
+            "error": "unknown tool: name"
+          },
+          "raw": "{\"tool\": \"name\",\"args\": {\"name\": \"Zomato\",\"amount\": 1200}}",
+          "ms": 1654,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"website\",\"args\": {\"w\": \"http://www.google.com\",\"m\": \"http://www.google.com/search\",\"type\": \"http://www.googleapis.com/services/search\",\"google_site\": \"http://www.googleapis.com/utils/search/home\",\"google_site\": \"http://www.googleapis.com/utils/site/home\",\"google_site\": \"http://www.googleapis.com/utils/search/search\",\"google_site\": \"http://www.googleapis.com/utils/search/home\",\"google_site\": \"http://www.googleapis.com/utils/search/search\",\"google_site\": \"http://www.google",
+          "ms": 9873,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "tool",
+          "tool": "category",
+          "args": {
+            "category": "Integrate an app",
+            "amount": 500
+          },
+          "output": {
+            "error": "unknown tool: category"
+          },
+          "raw": "{\"tool\": \"category\",\"args\": {\"category\": \"Integrate an app\",\"amount\": 500}}",
+          "ms": 1313,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"repository\",\"args\": {\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository\": \"github\",\"repository",
+          "ms": 8340,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 21180,
+      "totalTokens": 366
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Zomato",
+          "reward_inr": "₹1200",
+          "raw": "{\"tool\": \"bank_account_get/{bank_name}\",\"args\": {\"bank_name\": \"Zomato\"},\"final\": {\"card\": \"Zomato\",\"reward_inr\": \"₹1200\"},\"comment\": \"1000000\"}",
+          "ms": 3253,
+          "tokens": 63,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3253,
+      "totalTokens": 63
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "CardRank",
+          "args": {
+            "amount": [
+              1200
+            ]
+          },
+          "output": {
+            "error": "unknown tool: CardRank"
+          },
+          "raw": "{\"tool\": \"CardRank\",\"args\": {\"amount\": [1200]}}",
+          "ms": 884,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "CardRank",
+          "args": {
+            "amount": [
+              1200
+            ]
+          },
+          "output": {
+            "error": "unknown tool: CardRank"
+          },
+          "raw": "{\"tool\": \"CardRank\",\"args\": {\"amount\": [1200]}}",
+          "ms": 1041,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "CardRank",
+          "args": {
+            "amount": [
+              1200
+            ]
+          },
+          "output": {
+            "error": "unknown tool: CardRank"
+          },
+          "raw": "{\"tool\": \"CardRank\",\"args\": {\"amount\": [1200]}}",
+          "ms": 966,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "CardRank",
+          "args": {
+            "amount": [
+              1200
+            ]
+          },
+          "output": {
+            "error": "unknown tool: CardRank"
+          },
+          "raw": "{\"tool\": \"CardRank\",\"args\": {\"amount\": [1200]}}",
+          "ms": 929,
+          "tokens": 20,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3820,
+      "totalTokens": 80
+    },
+    {
+      "caseId": "C10",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "₹1,200",
+          "reward_inr": "₹12,000",
+          "raw": "{\"tool\": \"apply_bid\",\"args\": {\"bid\": {\"amount\": 1200,\"category\": \"₹12,000\"}},\"final\": {\"card\": \"₹1,200\",\"reward_inr\": \"₹12,000\"},\"answer\": \"The card with the more amount back is the Zomato card with 12000.00. \"}",
+          "ms": 4195,
+          "tokens": 97,
+          "validJson": true
+        }
+      ],
+      "totalMs": 4195,
+      "totalTokens": 97
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "suggest_or_buy_petrol",
+          "args": {
+            "petrol": "₹2,000",
+            "petrol_purchase": true
+          },
+          "output": {
+            "error": "unknown tool: suggest_or_buy_petrol"
+          },
+          "raw": "{\"tool\": \"suggest_or_buy_petrol\",\"args\": {\"petrol\": \"₹2,000\",\"petrol_purchase\": true}}",
+          "ms": 1623,
+          "tokens": 37,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "suggest_or_buy_petrol",
+          "args": {
+            "petrol": "₹2,000",
+            "petrol_purchase": true
+          },
+          "output": {
+            "error": "unknown tool: suggest_or_buy_petrol"
+          },
+          "raw": "{\"tool\": \"suggest_or_buy_petrol\",\"args\": {\"petrol\": \"₹2,000\",\"petrol_purchase\": true}}",
+          "ms": 1380,
+          "tokens": 37,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "suggest_or_buy_petrol",
+          "args": {
+            "petrol": "₹2,000",
+            "petrol_purchase": true
+          },
+          "output": {
+            "error": "unknown tool: suggest_or_buy_petrol"
+          },
+          "raw": "{\"tool\": \"suggest_or_buy_petrol\",\"args\": {\"petrol\": \"₹2,000\",\"petrol_purchase\": true}}",
+          "ms": 1681,
+          "tokens": 37,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "suggest_or_buy_petrol",
+          "args": {
+            "petrol": "₹2,000",
+            "petrol_purchase": true
+          },
+          "output": {
+            "error": "unknown tool: suggest_or_buy_petrol"
+          },
+          "raw": "{\"tool\": \"suggest_or_buy_petrol\",\"args\": {\"petrol\": \"₹2,000\",\"petrol_purchase\": true}}",
+          "ms": 1481,
+          "tokens": 37,
+          "validJson": true
+        }
+      ],
+      "totalMs": 6165,
+      "totalTokens": 148
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "petrol_price",
+          "args": {
+            "petrol": "₹2000"
+          },
+          "output": {
+            "error": "unknown tool: petrol_price"
+          },
+          "raw": "{\"tool\": \"petrol_price\",\"args\": {\"petrol\": \"₹2000\"}}",
+          "ms": 779,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "greeting",
+          "args": {
+            "name": "Greeting Card"
+          },
+          "output": {
+            "error": "unknown tool: greeting"
+          },
+          "raw": "{\"tool\": \"greeting\",\"args\": {\"name\": \"Greeting Card\"}}",
+          "ms": 703,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "trophy",
+          "args": {
+            "trophy": "Fake Trophy Card"
+          },
+          "output": {
+            "error": "unknown tool: trophy"
+          },
+          "raw": "{\"tool\": \"trophy\",\"args\": {\"trophy\": \"Fake Trophy Card\"}}",
+          "ms": 841,
+          "tokens": 21,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "a_lot",
+          "args": {
+            "a_lot": "Fake A Lot Card"
+          },
+          "output": {
+            "error": "unknown tool: a_lot"
+          },
+          "raw": "{\"tool\": \"a_lot\",\"args\": {\"a_lot\": \"Fake A Lot Card\"}}",
+          "ms": 787,
+          "tokens": 23,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3110,
+      "totalTokens": 89
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "final",
+          "raw": "{\"tool\": \"analyze_markup:keywords\",\"args\": {\"petrol\": {\"amount\": {\"amount\": 2000},\"category\": {\"category\": \"petrol\"}}},\"final\": {\"petrol\": 2000},\"reward\": \"petrol\"}",
+          "ms": 1926,
+          "tokens": 62,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1926,
+      "totalTokens": 62
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "bank_name",
+          "args": {
+            "petrolAmount": 2000
+          },
+          "output": {
+            "error": "unknown tool: bank_name"
+          },
+          "raw": "{\"tool\": \"bank_name\",\"args\": {\"petrolAmount\": 2000},\"category\": \"petrol\"}",
+          "ms": 901,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "department",
+          "args": {
+            "petrolAmount": 2000
+          },
+          "output": {
+            "error": "unknown tool: department"
+          },
+          "raw": "{\"tool\": \"department\",\"args\": {\"petrolAmount\": 2000},\"category\": \"petrol\"}",
+          "ms": 955,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "service",
+          "args": {
+            "petrolAmount": 2000
+          },
+          "output": {
+            "error": "unknown tool: service"
+          },
+          "raw": "{\"tool\": \"service\",\"args\": {\"petrolAmount\": 2000},\"category\": \"petrol\"}",
+          "ms": 1026,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "machine",
+          "args": {
+            "petrolAmount": 2000
+          },
+          "output": {
+            "error": "unknown tool: machine"
+          },
+          "raw": "{\"tool\": \"machine\",\"args\": {\"petrolAmount\": 2000},\"category\": \"petrol\"}",
+          "ms": 748,
+          "tokens": 26,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3630,
+      "totalTokens": 106
+    },
+    {
+      "caseId": "C11",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "passenger",
+          "args": {
+            "name": "HP Petrol Pump",
+            "amount": "₹2000"
+          },
+          "output": {
+            "error": "unknown tool: passenger"
+          },
+          "raw": "{\"tool\": \"passenger\",\"args\": {\"name\": \"HP Petrol Pump\",\"amount\": \"₹2000\"}}",
+          "ms": 926,
+          "tokens": 31,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "driver",
+          "args": {
+            "referral": {
+              "referral": {
+                "referralReason": "Unknown reason"
+              },
+              "driver": {
+                "driverName": "HP Petrol Pump",
+                "driver": "driver Id2"
+              }
+            }
+          },
+          "output": {
+            "error": "unknown tool: driver"
+          },
+          "raw": "{\"tool\": \"driver\",\"args\": {\"referral\": {\"referralCode\": \"HP.PPPPPPPPPPPPPPPPPPPLL\",\"referralAmount\": \"₹100000000000000000000000\"},\"referral\": {\"referral\": {\"referralReason\": \"Unknown reason\"},\"driver\": {\"driverName\": \"HP Petrol Pump\",\"driver\": \"driver Id1\",\"driver\": \"driver Id2\"}}}}",
+          "ms": 3672,
+          "tokens": 119,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "driver",
+          "args": {
+            "referral": {
+              "referral": {
+                "referralReason": "Unknown reason"
+              },
+              "driver": {
+                "driverName": "HP Petrol Pump",
+                "driver": "driver Id2"
+              }
+            }
+          },
+          "output": {
+            "error": "unknown tool: driver"
+          },
+          "raw": "{\"tool\": \"driver\",\"args\": {\"referral\": {\"referralCode\": \"HP.PPPPPPPPPPPPPPPPPPPPPLL\",\"referralAmount\": \"₹100000000000000000000000\"},\"referral\": {\"referral\": {\"referralReason\": \"Unknown reason\"},\"driver\": {\"driverName\": \"HP Petrol Pump\",\"driver\": \"driver Id1\",\"driver\": \"driver Id2\"}}}}",
+          "ms": 4303,
+          "tokens": 120,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "driver",
+          "args": {
+            "referral": {
+              "referral": {
+                "referralReason": "Unknown reason"
+              },
+              "driver": {
+                "driverName": "HP Petrol Pump",
+                "driver": "driver Id2"
+              }
+            }
+          },
+          "output": {
+            "error": "unknown tool: driver"
+          },
+          "raw": "{\"tool\": \"driver\",\"args\": {\"referral\": {\"referralCode\": \"HP.PPPPPPPPPPPPPPPPPPPPPPL\",\"referralAmount\": \"₹100000000000000000000000\"},\"referral\": {\"referral\": {\"referralReason\": \"Unknown reason\"},\"driver\": {\"driverName\": \"HP Petrol Pump\",\"driver\": \"driver Id1\",\"driver\": \"driver Id2\"}}}}",
+          "ms": 3583,
+          "tokens": 120,
+          "validJson": true
+        }
+      ],
+      "totalMs": 12484,
+      "totalTokens": 390
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "sort_rechargers",
+          "args": {
+            "jio": "₹700"
+          },
+          "output": {
+            "error": "unknown tool: sort_rechargers"
+          },
+          "raw": "{\"tool\": \"sort_rechargers\",\"args\": {\"jio\": \"₹700\"}}",
+          "ms": 784,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "filter_rechargers",
+          "args": {
+            "jio": "₹700"
+          },
+          "output": {
+            "error": "unknown tool: filter_rechargers"
+          },
+          "raw": "{\"tool\": \"filter_rechargers\",\"args\": {\"jio\": \"₹700\"}}",
+          "ms": 1087,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "search_cards",
+          "args": {
+            "jio": "₹700"
+          },
+          "output": {
+            "error": "unknown tool: search_cards"
+          },
+          "raw": "{\"tool\": \"search_cards\",\"args\": {\"jio\": \"₹700\"}}",
+          "ms": 682,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 700,
+            "category": "Jio Money"
+          },
+          "output": {
+            "error": "unknown category: Jio Money"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"args\": {\"amount\": 700,\"category\": \"Jio Money\"}}",
+          "ms": 688,
+          "tokens": 26,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3241,
+      "totalTokens": 96
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "JioCard",
+          "raw": "{\"tool\": \"buyCard\",\"args\": {\"product\": \"Jio\",\"amount\": \"700\"},\"final\": {\"card\": \"JioCard\",\"regenerate\": \"True\"}}",
+          "ms": 1377,
+          "tokens": 44,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1377,
+      "totalTokens": 44
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant,",
+          "args": {},
+          "output": {
+            "error": "unknown tool: classify_merchant,"
+          },
+          "raw": "{\"tool\": \"classify_merchant,\"}",
+          "ms": 349,
+          "tokens": 11,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "Jio"
+          },
+          "output": {
+            "category": "telecom"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"args\": {\"merchant\": \"Jio\"},\"final\": \"Card: 101010101000100000000000\"}",
+          "ms": 1402,
+          "tokens": 52,
+          "validJson": true
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"rank_cards\",\"args\": {\"amount\": 1000000000000000,\",\": true,\",\": true,\"},\": [\"Card 1\",\"Card 2\",\"Card 3\",\"Card 4\",\"Card 5\",\"Card 6\",\"Card 7\",\"Card 8\",\"Card 9\",\"Card 10\",\"Card 11\",\"Card 12\",\"Card 13\",\"Card 14\",\"Card 15\",\"Card 16\",\"Card 17\",\"Card 18\",\"Card 19\",\"Card 20\",\"Card 21\",\"Card 22\",\"Card 23\",\"Card 24\",\"Card 25",
+          "ms": 4533,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_midpoint",
+          "args": {},
+          "output": {
+            "error": "unknown tool: classify_midpoint"
+          },
+          "raw": "{\"tool\": \"classify_midpoint\",\" args\": {\"midpoints\": [10000,100000000,-1000,-100000000],\"\": true,\"\": true,\"\": true,\"\": true,\"\": true}}",
+          "ms": 1920,
+          "tokens": 69,
+          "validJson": true
+        }
+      ],
+      "totalMs": 8204,
+      "totalTokens": 291
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "pick_best_card",
+          "args": {
+            "quantity": 1000,
+            ",": {
+              ",": {
+                "name": "Jio",
+                "price": "₹700"
+              }
+            }
+          },
+          "output": {
+            "error": "unknown tool: pick_best_card"
+          },
+          "raw": "{\"tool\": \"pick_best_card\",\"args\": {\"quantity\": 1000,\",\": {\",\": {\"name\": \"Jio\",\"price\": \"₹700\"}}}}",
+          "ms": 1191,
+          "tokens": 44,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "recharge_jio",
+          "args": {
+            "amount": 1000
+          },
+          "output": {
+            "error": "unknown tool: recharge_jio"
+          },
+          "raw": "{\"tool\": \"recharge_jio\",\"args\": {\"amount\": 1000}}",
+          "ms": 616,
+          "tokens": 21,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "recharge_jeeplabel_for_jio",
+          "args": {
+            "amount": 3000
+          },
+          "output": {
+            "error": "unknown tool: recharge_jeeplabel_for_jio"
+          },
+          "raw": "{\"tool\": \"recharge_jeeplabel_for_jio\",\"args\": {\"amount\": 3000}}",
+          "ms": 880,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "jio_jealrg",
+          "args": {
+            "amount": 1000
+          },
+          "output": {
+            "error": "unknown tool: jio_jealrg"
+          },
+          "raw": "{\"tool\": \"jio_jealrg\",\"args\": {\"amount\": 1000}}",
+          "ms": 620,
+          "tokens": 22,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3307,
+      "totalTokens": 114
+    },
+    {
+      "caseId": "C12",
+      "model": "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "final",
+          "card": "Jio",
+          "reply": "One sentence",
+          "raw": "{\"tool\": \"best_card\",\"args\": {\"amount\": 700,\"category\": \"Jio\"},\"final\": {\"card\": \"Jio\",\"rewards\": \"Recharged\",\"reply\": \"One sentence\"}}",
+          "ms": 1754,
+          "tokens": 53,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1754,
+      "totalTokens": 53
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+# TODOs
+
+## Next
+- [ ] You verify 4 answer-key cells (see chat message: C03 Flipkart 5%, C05/C06 merchant codes, Infinia Rs 1 per point, C01 Amazon) (10 min)
+- [ ] Live-model path of the careful agent (WebGPU, retry/fallback with the wiring graph on) is unverified in a real browser session (5 min)
+- [ ] You open `http://localhost:8000/evals-lab/` (hard refresh, footer must say `build ux7`), click Load model, run one case live (5 min)
+- [ ] Confirm live-model path in the real page (load, run, constrain, judge x5): test running, result below (5 min)
+- [ ] You open `evals-lab/` in Chrome via `cd evals-lab && python3 -m http.server 8000` and click through once (5 min)
+- [ ] S8 polish: GitHub Pages deploy, QR code, timed 2-minute stage walkthrough (15 min)
+
+## Later
+- [ ] Compare screen: "score both over the whole test set" button (12 x 5 per agent) to show a pass rate for each, not one run (20 min)
+- [ ] Compare screen: live-model check of the careful agent (retry and fallback paths ran only on recorded runs) (5 min)
+- [ ] v1.1 Judge lab: calibration vs your labels, order-bias swap (25 min)
+- [ ] Add-your-own case on the golden screen (15 min)
+- [ ] `maxTokens` 160 truncates long replies in about 5% of free runs: raise to 256 and re-measure (10 min)
+- [ ] Update `outline.md` section 6: replace the mutation demo with the Evals Lab walkthrough (5 min)
+- [ ] More cards and cases, other scenarios, shareable URL state
+
+## Done
+- [x] Git repo started in this folder (own `.git`, branch main). `npm test` (= `node evals-lab/run-all-tests.mjs`) runs 13 test files plus the agent-step self-check. First commit made.
+- [x] ux11: typed question next to every dropdown (Side by side, Run); guardrails (`guardrails.js`: 4 input rules, 5 output rules) in the careful agent with outcome `blocked`, new wiring node `guard`, chat bubble, chip; OSS tool lists (`stage-tools.js`, 33 URLs checked with curl on 2026-11-20) in every wiring panel and Start box; AI grader visual (`judge-flow.js`) on Checks screen and as a wiring node. Headless replay checked, live model not.
+- [x] ux11: typed question. Text field + 4 example buttons beside the Run and Side by side question lists (typed text wins; picking from the list clears it). Typed case has no answer key: result/score blocks say so, Checks screen shows key-based checks NOT RUN. Replay mode cannot run it (note shown); a blocked question still runs the careful agent. Headless replay checked, no console errors. Live model path not checked in a browser.
+- [x] ux11: Guardrails practice chip (careful ON, simple OFF), outcome `blocked` wording ("was stopped by a guardrail before the model ran"), "What is a guardrail?" gloss, bonus mission task.
+- [x] ux11: example open-source tool list (`stage-tools.js`) under each Start flow box click panel; stays open across re-render. Footer `build ux11`.
+- [x] Infinia rate corrected to 3.33% (Rs 1 per point; 1% as statement credit noted in each cell). Winners unchanged. Real runs re-recorded: free 23/30 = 76.7%, constrained 26/30 = 86.7% (was 80% / 96.7% on the 1% key). Careful agent over 30 recorded runs: 26 first try, 4 passed after retry, 0 fallback, 0 refused. Audit regenerated. Page text updated. Demo seeds unchanged (42 + C03, 3 + C01). The old 12-case result files were overwritten by the recorder by mistake; the numbers survive in RESULTS.md only.
+- [x] ux9: Load model / Use recorded runs on the Side by side screen (shares handlers with the Run screen).- [x] ux8: Side by side wiring: clicking "8 checks" or "The 8 checks" (careful agent) shows the AI grader (LLM as judge) system prompt and the user message built from the run (`graderSection` in `wiring-details.js`, 97 checks). Says it is NOT RUN there (needs live model + Checks screen button) and is not part of the ship bar.
+- [x] Fix `answer_match` false FAIL: reply "IDFC First Power Plus" did not match card name "IDFC First Power+" (plain substring). Now compares plain words (`+` = plus, punctuation ignored). Test added (engine 35 checks). Answer key check said MATCH while the check said FAIL, which is what exposed it.
+- [x] ux7: Checks screen tiles are clickable; each opens a detail panel (how it is checked, result). "AI grader" shows the exact grader prompt (system + user, built from the current run by `judgePrompt`) and the 5 grades once asked. `check-details.js` + test (9 checks). Headless replay checked, no console errors. Not yet: grader node on the Side by side wiring graph.
+- [x] ux6: Side by side chats show the system prompt (collapsible, says it holds no card rates; rates live in the lookup tools). Lookup error bubble now shows the real error (e.g. `unknown category: Utilities`). Cause of the BESCOM failure: free-reply model writes `Utilities`, `rank_cards` is case-strict, model repeats it until 4 steps run out. Real model behaviour, recorded: free C05 passes 4/5.
+- [x] Wiring graph on Side by side (ux5): `wiring-graph.js` + `wiring-details.js` (92 checks) + `wiring.css`; two rows (simple, careful), chat left, graph right, stacks under 1100 px; lit live per step; click any node for real run data; careful Prompt node has "Our prompt" and "DSPy prompt" tabs. DSPy prompt (`dspy-prompt.json`, real DSPy 3.5.0, fake model) is shown as illustration only, never as what the live agent sent. Failed try stays visible (FAIL on the check node) until the next try starts. Headless replay checked at 1280 and 500 px, no console errors.
+- [x] Answer key fixed: 6 verified cases, ties accepted (`accept` list). Runs re-recorded into `recorded-runs.json`. Demo: seed 42 + C03 (simple wrong, careful right), seed 3 + C01 (simple wrong, careful right after 1 retry).
+- [x] S10 Compare screen (docs/specs/compare-agents.md): two chat windows, "Show the wiring" switch, checker + retry + fallback + refuse in `guarded-agent.js` (56 checks), chat renderer `chat-ui.js` (82 checks). Built by 2 subagents, wired by me. Replay path checked headless; live path not run yet. Build tag `ux4`.
+- [x] S9b visuals (built by 2 subagents, wired by me): card rate matrix on Start and step 2 (selected category and BEST card marked), reward bars for rank_cards results, time-per-step bar. Build tag is now `ux2`.
+- [x] S9 UX guided flow: Start screen + task diagram, self-ticking missions, diagram lit by runs and bugs, answer key vs agent answer, clickable golden cells, what-if slider, insecure-origin banner. Replay path checked in headless Chrome at 1280 and 500 px, no console errors. Live path not re-run after the rewrite.
+- [x] S0 docs scaffold, engine contract, UI style spec
+- [x] S2 engine: `cases.js`, `engine.js`, `engine.test.mjs` (25 checks green)
+- [x] S3-S6 static UI: `index.html`, `styles.css`, `ui.js`, `preview-data.js` (square flat style, 1280 and 500 px checked)
+- [x] S1 gate: Qwen2.5-1.5B lands at 72% free and 83% constrained (`evals-lab/spike/RESULTS.md`); 0.5B and smaller score 0%
+- [x] Wiring: `llm.js`, `app.js`, controls in `index.html`; replay mode and `recorded-runs.json` (S7) verified end to end in headless Chrome

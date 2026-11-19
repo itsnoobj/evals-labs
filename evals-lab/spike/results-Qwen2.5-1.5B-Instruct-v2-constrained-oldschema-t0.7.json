@@ -1,0 +1,3635 @@
+{
+  "meta": {
+    "chrome": "Chrome/157.0.8103.79",
+    "machine": "Apple M4 Max, 64 GB, macOS 26.x",
+    "mode": "headless",
+    "webllm": {
+      "url": "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.79/+esm",
+      "version": "0.2.79"
+    },
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"
+  },
+  "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+  "engine": "web-worker (CreateWebWorkerMLCEngine)",
+  "loadMs": 424060,
+  "download": {
+    "storageEstimateDeltaBytes": 879897856,
+    "resourceTimingTransferBytes": 0,
+    "resourceTimingEntries": 1,
+    "used": "storage.estimate() usage delta before/after load; resource timing is listed for reference and misses worker fetches and cache hits",
+    "note": "A delta near 0 means the weights were already cached in this browser profile."
+  },
+  "gpu": {
+    "webgpu": true,
+    "vendor": "apple",
+    "architecture": "metal-3",
+    "device": "",
+    "description": "",
+    "shaderF16": true,
+    "maxBufferSize": 4294967292,
+    "maxStorageBufferBindingSize": 4294967292
+  },
+  "benchmark": {
+    "cases": 12,
+    "runsPerCase": 5,
+    "temperature": 0.7,
+    "seeds": "1000 + runIndex",
+    "prompt": "v2",
+    "jsonMode": true,
+    "constrain": true,
+    "wallMs": 270190,
+    "date": "2026-11-19T12:24:22.757Z"
+  },
+  "summary": {
+    "nRuns": 60,
+    "taskSuccess": 0.016666666666666666,
+    "metricPassRates": {
+      "trajectory": 0,
+      "task_success": 0.016666666666666666,
+      "answer_match": 0.016666666666666666,
+      "grounded": 0.016666666666666666,
+      "tool_recall": 0.25,
+      "tool_precision": 0.08333333333333333,
+      "ops": 0.9166666666666666
+    },
+    "jsonValidity": 0.9288702928870293,
+    "stepsTotal": 239,
+    "parseFailures": 17,
+    "shapeFailures": 0,
+    "perStepAccuracy": 0.016736401673640166,
+    "meanRunMs": 4503.1,
+    "meanRunTokens": 118.2,
+    "meanStepsPerRun": 3.9833333333333334,
+    "failureKinds": {
+      "no_final_answer": 54,
+      "invalid_json": 5
+    },
+    "topFailureReasons": [
+      {
+        "reason": "trajectory: # of # tool steps match",
+        "count": 60,
+        "example": "0 of 4 tool steps match"
+      },
+      {
+        "reason": "task_success: no final answer",
+        "count": 59,
+        "example": "no final answer"
+      },
+      {
+        "reason": "answer_match: no final answer",
+        "count": 59,
+        "example": "no final answer"
+      },
+      {
+        "reason": "grounded: no final answer",
+        "count": 59,
+        "example": "no final answer"
+      },
+      {
+        "reason": "tool_precision: # extra tool step(s)",
+        "count": 55,
+        "example": "3 extra tool step(s)"
+      }
+    ],
+    "perCaseTaskSuccess": {
+      "C01": 0,
+      "C02": 0,
+      "C03": 0,
+      "C04": 0,
+      "C05": 0.2,
+      "C06": 0,
+      "C07": 0,
+      "C08": 0,
+      "C09": 0,
+      "C10": 0,
+      "C11": 0,
+      "C12": 0
+    },
+    "failureExamples": [
+      {
+        "caseId": "C01",
+        "seed": 1000,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\"tool\": \"classify_merchant\",\"} {\": \"Amazon\"}",
+          "{\"tool\": \"classify_merchant\",\"} {\": \"Electronics Store\"}",
+          "{\"tool\": \"classify_merchant\",\"} {\": \"Grocery Store\"}",
+          "{\"tool\": \"classify_merchant\",\"} {\": \"Sports Store\"}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1001,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}"
+        ]
+      },
+      {
+        "caseId": "C01",
+        "seed": 1002,
+        "kind": "no_final_answer",
+        "raws": [
+          "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "{\"tool\": \"classify_merchant\",\": \": \"other\"}",
+          "{\"tool\": \"classify_merchant\",\": \": \"electronics\"}",
+          "{\"tool\": \"classify_merchant\",\": \": \"electronics\"}"
+        ]
+      },
+      {
+        "caseId": "C03",
+        "seed": 1000,
+        "kind": "invalid_json",
+        "raws": [
+          "{\"tool\": \"classify_merchant\",\"title\": \"classify_merchant\",\"args\": {\"merchant\": \"DMart\"}}",
+          "{\"tool\": \"rank_cards\",\"title\": \"rank_cards\",\"args\": {\"amount\": 2000,\"category\": \"groceries\"}}",
+          "{\"final\": {\"card\": \"icici_amazon_pay\",\"reward_inr\": 20,\"}} The ICICI Amazon Pay card gives the most reward back at 1% on purchases, totaling ₹20 back. It offers a 1% reward on all purchases. The other cards also offer a 1% reward but with a lower reward amount of ₹20. The ICICI Amazon Pay card is a good choice for maximizing rewards. The reward amount is higher compared to the other cards. Therefore, the ICICI Amazon Pay card is the best option for maximizing rewards. It offers a 1% reward on all purchases. The reward amount is higher compared to the other cards. Therefore, the ICICI Amazon Pay card is the best option for maximizing rewards. It",
+          "{\"tool\": \"classify_merchant\",\"title\": \"classify_merchant\",\"args\": {\"merchant\": \"DMart\"}}"
+        ]
+      },
+      {
+        "caseId": "C04",
+        "seed": 1000,
+        "kind": "invalid_json",
+        "raws": [
+          "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\",\"} {\": \"Mobile Bill Payment\",\"} {\": \"Phone Credit\",\"} {\": \"Credit Card\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up",
+          "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\",\"} {\": \"Mobile Bill Payment\",\"} {\": \"Phone Credit\",\"} {\": \"Credit Card\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"}",
+          "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\",\"} {\": \"Mobile Bill Payment\",\"} {\": \"Phone Credit\",\"} {\": \"Credit Card\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"}",
+          "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\",\"} {\": \"Mobile Bill Payment\",\"} {\": \"Phone Credit\",\"} {\": \"Credit Card\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"}"
+        ]
+      },
+      {
+        "caseId": "C06",
+        "seed": 1003,
+        "kind": "invalid_json",
+        "raws": [
+          "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",",
+          "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",",
+          "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",",
+          "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\","
+        ]
+      }
+    ]
+  },
+  "runs": [
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Amazon\"}",
+          "ms": 579,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Electronics Store\"}",
+          "ms": 301,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Grocery Store\"}",
+          "ms": 314,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Sports Store\"}",
+          "ms": 291,
+          "tokens": 15,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1485,
+      "totalTokens": 61
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "ms": 302,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "ms": 268,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "ms": 273,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "ms": 281,
+          "tokens": 14,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1124,
+      "totalTokens": 56
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "ms": 316,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"other\"}",
+          "ms": 284,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"electronics\"}",
+          "ms": 278,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"electronics\"}",
+          "ms": 283,
+          "tokens": 15,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1161,
+      "totalTokens": 59
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"args\",\"}{\": {\"merchant\": \"Amazon\"}}",
+          "ms": 709,
+          "tokens": 31,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"args\",\"}{\": {\"merchant\": \"Amazon\",\"}}{\": \"error\"},\"reply\": \"Sorry, I couldn't determine the merchant. Please provide more details.\"}",
+          "ms": 1030,
+          "tokens": 56,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"args\",\"}{\": {\"merchant\": \"Amazon\"}}",
+          "ms": 575,
+          "tokens": 31,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"args\",\"}{\": {\"merchant\": \"Amazon\"}}",
+          "ms": 607,
+          "tokens": 31,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2921,
+      "totalTokens": 149
+    },
+    {
+      "caseId": "C01",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Amazon\"}}",
+          "ms": 363,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Amazon\"}}",
+          "ms": 329,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Amazon\"}}",
+          "ms": 327,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Amazon\"}}",
+          "ms": 342,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1361,
+      "totalTokens": 68
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"path\": \"classify_merchant\",\"data\": {\"merchant\": \"Swiggy\"}}",
+          "ms": 522,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"path\": \"rank_cards\",\"data\": {\"amount\": 800,\">category\": \"Swiggy\"}}",
+          "ms": 558,
+          "tokens": 31,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"path\": \"classify_merchant\",\"data\": {\"merchant\": \"Swiggy\"}}",
+          "ms": 607,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"path\": \"classify_merchant\",\"data\": {\"merchant\": \"Swiggy\"}}",
+          "ms": 497,
+          "tokens": 25,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2184,
+      "totalTokens": 106
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Swiggy\"}",
+          "ms": 332,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"800\",\": \": \"category\"}",
+          "ms": 386,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"800\",\": \": \"category\"}",
+          "ms": 396,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Swiggy\"}",
+          "ms": 317,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1431,
+      "totalTokens": 76
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Swiggy\"}",
+          "ms": 337,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"800\",\": \": \"category\"}",
+          "ms": 401,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"800\",\": \": \"category\"}",
+          "ms": 434,
+          "tokens": 22,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Swiggy\"}",
+          "ms": 433,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1605,
+      "totalTokens": 76
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"Swiggy\"}",
+          "ms": 338,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"Swiggy\"}",
+          "ms": 310,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"Swiggy\"}",
+          "ms": 319,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"Swiggy\"}",
+          "ms": 319,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1286,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C02",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"title\": \"Swiggy\"}",
+          "ms": 340,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"title\": \"Swiggy\",\"amount\": 800,\"category\": \"food\"}",
+          "ms": 490,
+          "tokens": 27,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"title\": \"Swiggy\"}",
+          "ms": 298,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"title\": \"Swiggy\"}",
+          "ms": 311,
+          "tokens": 15,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1439,
+      "totalTokens": 72
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "DMart"
+          },
+          "output": {
+            "category": "groceries"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"title\": \"classify_merchant\",\"args\": {\"merchant\": \"DMart\"}}",
+          "ms": 543,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 2000,
+            "category": "groceries"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 1.5,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 1,
+                "reward_inr": 20
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 1,
+                "reward_inr": 20
+              }
+            ]
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"title\": \"rank_cards\",\"args\": {\"amount\": 2000,\"category\": \"groceries\"}}",
+          "ms": 660,
+          "tokens": 31,
+          "validJson": true
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"final\": {\"card\": \"icici_amazon_pay\",\"reward_inr\": 20,\"}} The ICICI Amazon Pay card gives the most reward back at 1% on purchases, totaling ₹20 back. It offers a 1% reward on all purchases. The other cards also offer a 1% reward but with a lower reward amount of ₹20. The ICICI Amazon Pay card is a good choice for maximizing rewards. The reward amount is higher compared to the other cards. Therefore, the ICICI Amazon Pay card is the best option for maximizing rewards. It offers a 1% reward on all purchases. The reward amount is higher compared to the other cards. Therefore, the ICICI Amazon Pay card is the best option for maximizing rewards. It",
+          "ms": 3727,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {
+            "merchant": "DMart"
+          },
+          "output": {
+            "category": "groceries"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"title\": \"classify_merchant\",\"args\": {\"merchant\": \"DMart\"}}",
+          "ms": 620,
+          "tokens": 25,
+          "validJson": true
+        }
+      ],
+      "totalMs": 5550,
+      "totalTokens": 240
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"DMart\"}",
+          "ms": 325,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"2,000\",\": \": \"groceries\",\": \": \"category\"}",
+          "ms": 538,
+          "tokens": 30,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"DMart\"}",
+          "ms": 295,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"2,000\",\": \": \"groceries\",\": \": \"category\",\": \": \"2,000\"}",
+          "ms": 746,
+          "tokens": 40,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1904,
+      "totalTokens": 100
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"DMart\"}",
+          "ms": 315,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"2000\",\": \": \"groceries\",\": \": \"DMart\"}",
+          "ms": 652,
+          "tokens": 30,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"DMart\",\": \": \"groceries\",\": \": \"2000\"}",
+          "ms": 583,
+          "tokens": 31,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"groceries\",\": \": \"2000\",\": \": \"DMart\"}",
+          "ms": 596,
+          "tokens": 30,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2146,
+      "totalTokens": 106
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}args\": {\"merchant\": \"DMart\"}}",
+          "ms": 379,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}args\": {\"merchant\": \"DMart\"}}",
+          "ms": 349,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}args\": {\"merchant\": \"DMart\"}}",
+          "ms": 360,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}args\": {\"merchant\": \"DMart\"}}",
+          "ms": 380,
+          "tokens": 18,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1468,
+      "totalTokens": 72
+    },
+    {
+      "caseId": "C03",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"io_args\": {\"merchant\": \"DMart\"}}",
+          "ms": 392,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"io_args\": {\"merchant\": \"DMart\"}}",
+          "ms": 477,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"io_args\": {\"merchant\": \"DMart\"}}",
+          "ms": 365,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"io_args\": {\"merchant\": \"DMart\"}}",
+          "ms": 372,
+          "tokens": 18,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1606,
+      "totalTokens": 72
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\",\"} {\": \"Mobile Bill Payment\",\"} {\": \"Phone Credit\",\"} {\": \"Credit Card\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up",
+          "ms": 2961,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\",\"} {\": \"Mobile Bill Payment\",\"} {\": \"Phone Credit\",\"} {\": \"Credit Card\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"}",
+          "ms": 3441,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\",\"} {\": \"Mobile Bill Payment\",\"} {\": \"Phone Credit\",\"} {\": \"Credit Card\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"}",
+          "ms": 4039,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\",\"} {\": \"Mobile Bill Payment\",\"} {\": \"Phone Credit\",\"} {\": \"Credit Card\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"} {\": \"Mobile Credit Top-up\",\"} {\": \"500 INR\",\"} {\": \"Top-up\",\"}",
+          "ms": 4644,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 15085,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Airtel\"}",
+          "ms": 346,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Airtel\"}",
+          "ms": 325,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Airtel\"}",
+          "ms": 336,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Airtel\"}",
+          "ms": 341,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1348,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Airtel\"}",
+          "ms": 378,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Airtel\"}",
+          "ms": 358,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Airtel\"}",
+          "ms": 379,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Airtel\"}",
+          "ms": 402,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1517,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\"}",
+          "ms": 546,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\"}",
+          "ms": 701,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\"}",
+          "ms": 451,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Airtel\"}",
+          "ms": 397,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2095,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C04",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Airtel\"}}",
+          "ms": 488,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Airtel\"}}",
+          "ms": 436,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Airtel\"}}",
+          "ms": 430,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Airtel\"}}",
+          "ms": 418,
+          "tokens": 19,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1772,
+      "totalTokens": 76
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"type\": \"fuel\",\"merchant\": \"IndianOil\"}",
+          "ms": 503,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 3000,
+            "category": "fuel"
+          },
+          "output": {
+            "ranked": [
+              {
+                "card": "hdfc_infinia",
+                "rate_pct": 1,
+                "reward_inr": 30
+              },
+              {
+                "card": "hdfc_swiggy",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "icici_amazon_pay",
+                "rate_pct": 0,
+                "reward_inr": 0
+              },
+              {
+                "card": "idfc_first_power_plus",
+                "rate_pct": 0,
+                "reward_inr": 0
+              }
+            ]
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"args\": {\"amount\": 3000,\"category\": \"fuel\"}}",
+          "ms": 746,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "final",
+          "card": "hdfc_infinia",
+          "reward_inr": 30,
+          "reply": "The best card for a purchase of ₹3,000 from IndianOil is the HDFC Infinia. It offers a reward of ₹30.",
+          "raw": "{\"final\": {\"card\": \"hdfc_infinia\",\"reward_inr\": 30,\"reply\": \"The best card for a purchase of ₹3,000 from IndianOil is the HDFC Infinia. It offers a reward of ₹30.\"}}",
+          "ms": 1468,
+          "tokens": 60,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2717,
+      "totalTokens": 104
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"IndianOil\"}",
+          "ms": 361,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"IndianOil\"}",
+          "ms": 328,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"IndianOil\"}",
+          "ms": 347,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"IndianOil\"}",
+          "ms": 367,
+          "tokens": 15,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1403,
+      "totalTokens": 60
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"IndianOil\"}",
+          "ms": 416,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"IndianOil\"}",
+          "ms": 373,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"IndianOil\"}",
+          "ms": 500,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"IndianOil\"}",
+          "ms": 333,
+          "tokens": 15,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1622,
+      "totalTokens": 60
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"IndianOil\"}",
+          "ms": 363,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"IndianOil\"}",
+          "ms": 327,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"IndianOil\"}",
+          "ms": 325,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"IndianOil\"}",
+          "ms": 330,
+          "tokens": 15,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1345,
+      "totalTokens": 60
+    },
+    {
+      "caseId": "C05",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"title\": \"IndianOil\"}",
+          "ms": 364,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 3000,
+            ": ": "category"
+          },
+          "output": {
+            "error": "unknown category: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"title\": \"IndianOil\",\"args\": {\"amount\": 3000,\": \": \"category\"}}",
+          "ms": 632,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {
+            "amount": 3000,
+            "category": "Fuel"
+          },
+          "output": {
+            "error": "unknown category: Fuel"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"title\": \"IndianOil\",\"args\": {\"amount\": 3000,\"category\": \"Fuel\"}}",
+          "ms": 601,
+          "tokens": 30,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"title\": \"IndianOil\"}",
+          "ms": 461,
+          "tokens": 14,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2058,
+      "totalTokens": 90
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"path\": \"classify_merchant\",\"{\\\"merchant\\\":\\\"Barbeque Nation\\\"}\": {\"response\": \"Restaurant\"}}",
+          "ms": 723,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"path\": \"rank_cards\",\"{\\\"amount\\\":3000,\\\"category\\\":\\\"restaurant\\\"}\": {\"response\": \"Card1, Card2, Card3\"}}",
+          "ms": 898,
+          "tokens": 41,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"path\": \"classify_merchant\",\"{\\\"merchant\\\":\\\"Barbeque Nation\\\"}\": {\"response\": \"Restaurant\"}}",
+          "ms": 768,
+          "tokens": 32,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"{\\\"merchant\\\":\\\"Barbeque Nation\\\"}\": {\"response\": \"Restaurant\"}}",
+          "ms": 781,
+          "tokens": 25,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3170,
+      "totalTokens": 130
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Barbeque Nation\"}",
+          "ms": 496,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Barbeque Nation\"}",
+          "ms": 560,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Barbeque Nation\"}",
+          "ms": 376,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Barbeque Nation\"}",
+          "ms": 363,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1795,
+      "totalTokens": 68
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Barbeque Nation\"}",
+          "ms": 410,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Barbeque Nation\"}",
+          "ms": 384,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Barbeque Nation\"}",
+          "ms": 380,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Barbeque Nation\"}",
+          "ms": 384,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1558,
+      "totalTokens": 68
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",",
+          "ms": 3702,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",",
+          "ms": 4173,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",",
+          "ms": 4625,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",\"}{\": \"classify_merchant\",",
+          "ms": 4800,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 17300,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C06",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"io_args\": {\"merchant\": \"Barbeque Nation\"}}",
+          "ms": 433,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"io_args\": {\"merchant\": \"Barbeque Nation\"}}",
+          "ms": 423,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"io_args\": {\"merchant\": \"Barbeque Nation\"}}",
+          "ms": 456,
+          "tokens": 20,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"io_args\": {\"merchant\": \"Barbeque Nation\"}}",
+          "ms": 560,
+          "tokens": 20,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1872,
+      "totalTokens": 80
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"MakeMyTrip\"}}",
+          "ms": 962,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"MakeMyTrip\"}}",
+          "ms": 721,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"MakeMyTrip\"}}",
+          "ms": 676,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"MakeMyTrip\"}}",
+          "ms": 437,
+          "tokens": 19,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2796,
+      "totalTokens": 76
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"make_my_trip\"}",
+          "ms": 417,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"make_my_trip\"}",
+          "ms": 408,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"make_my_trip\"}",
+          "ms": 431,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"make_my_trip\"}",
+          "ms": 408,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 1664,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"MakeMyTrip\"}",
+          "ms": 475,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"MakeMyTrip\"}",
+          "ms": 437,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"MakeMyTrip\"}",
+          "ms": 463,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"MakeMyTrip\"}",
+          "ms": 644,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2019,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\"}",
+          "ms": 776,
+          "tokens": 26,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\"}",
+          "ms": 1453,
+          "tokens": 52,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\"}",
+          "ms": 1491,
+          "tokens": 53,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\",\"}{\": \"makeyoubetter\"}",
+          "ms": 2132,
+          "tokens": 61,
+          "validJson": true
+        }
+      ],
+      "totalMs": 5852,
+      "totalTokens": 192
+    },
+    {
+      "caseId": "C07",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"type\": \"hotel\"}",
+          "ms": 521,
+          "tokens": 13,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"type\": \"hotel\"}",
+          "ms": 559,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"type\": \"flight\"}",
+          "ms": 900,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"type\": \"flight\"}",
+          "ms": 878,
+          "tokens": 14,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2858,
+      "totalTokens": 55
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Flipkart\"}}",
+          "ms": 813,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Amazon\"}}",
+          "ms": 597,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Myntra\"}}",
+          "ms": 655,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Reliance Jio\"}}",
+          "ms": 724,
+          "tokens": 20,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2789,
+      "totalTokens": 74
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Flipkart\"}",
+          "ms": 881,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "ms": 1390,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "ms": 755,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Amazon\"}",
+          "ms": 818,
+          "tokens": 14,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3844,
+      "totalTokens": 57
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Flipkart\"}",
+          "ms": 1070,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"unknown\"}",
+          "ms": 798,
+          "tokens": 14,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"unclassified\"}",
+          "ms": 896,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"classified\"}",
+          "ms": 879,
+          "tokens": 14,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3643,
+      "totalTokens": 58
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"Flipkart\"}",
+          "ms": 1589,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"Flipkart\"}",
+          "ms": 1127,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"Flipkart\"}",
+          "ms": 998,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"}{\": \"Flipkart\"}",
+          "ms": 1058,
+          "tokens": 15,
+          "validJson": true
+        }
+      ],
+      "totalMs": 4772,
+      "totalTokens": 60
+    },
+    {
+      "caseId": "C08",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Flipkart\"}}",
+          "ms": 1378,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Amazon\"}}",
+          "ms": 902,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Amazon\"}}",
+          "ms": 1215,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Amazon\"}}",
+          "ms": 954,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 4449,
+      "totalTokens": 69
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"BESCOM\",\"} {\": \"electricity bill\"}",
+          "ms": 1420,
+          "tokens": 25,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"BESCOM\",\"} {\": \"electricity bill\"}",
+          "ms": 1531,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"BESCOM\",\"} {\": \"electricity bill\"}",
+          "ms": 1481,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"BESCOM\",\"} {\": \"electricity bill\"}",
+          "ms": 1453,
+          "tokens": 24,
+          "validJson": true
+        }
+      ],
+      "totalMs": 5885,
+      "totalTokens": 97
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1624,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1053,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1277,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1450,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 5404,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1131,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1321,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1339,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1644,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 5435,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1517,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1300,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1319,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"BESCOM\"}",
+          "ms": 1271,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 5407,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C09",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"BESCOM\",\"} {\": \"electricity bill\",\"} {\": \"purchase\",\"} {\": \"credit card\",\"} {\": \"utility bill\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"",
+          "ms": 11894,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"rank_cards\",\"} {\": \"2400\",\"} {\": \"electricity bill\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\":",
+          "ms": 10588,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"rank_cards\",\"} {\": \"2400\",\"} {\": \"electricity bill\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\":",
+          "ms": 12176,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"BESCOM\",\"} {\": \"electricity bill\",\"} {\": \"purchase\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"credit card\",\"} {\": \"",
+          "ms": 11833,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 46491,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Zomato\"}}",
+          "ms": 1628,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Zomato\"}}",
+          "ms": 1146,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Zomato\"}}",
+          "ms": 1053,
+          "tokens": 19,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"math_args\": {\"merchant\": \"Zomato\"}}",
+          "ms": 1139,
+          "tokens": 19,
+          "validJson": true
+        }
+      ],
+      "totalMs": 4966,
+      "totalTokens": 76
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Zomato\"}",
+          "ms": 1060,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"1,200\",\": \": \"Amount\",\": \": \"Category\"}",
+          "ms": 1820,
+          "tokens": 29,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"1200\",\": \": \"Amount\",\": \": \"Category\"}",
+          "ms": 1412,
+          "tokens": 28,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"1200\",\": \": \"Amount\",\": \": \"Category\",\": \": \"Category\"}",
+          "ms": 1936,
+          "tokens": 34,
+          "validJson": true
+        }
+      ],
+      "totalMs": 6228,
+      "totalTokens": 107
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Zomato\"}",
+          "ms": 792,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"1200\",\": \": \"Amount\",\": \": \"Category\",\": \": \"Zomato\"}",
+          "ms": 1809,
+          "tokens": 36,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"1200\",\": \": \"1200\",\": \": \"Amount\",\": \": \"Category\",\": \": \"Zomato\"}",
+          "ms": 1672,
+          "tokens": 45,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"1200\",\": \": \"1200\",\": \": \"Amount\",\": \": \"Category\",\": \": \"Zomato\",\": \": \"1200\"}",
+          "ms": 2718,
+          "tokens": 54,
+          "validJson": true
+        }
+      ],
+      "totalMs": 6991,
+      "totalTokens": 151
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Zomato\"}",
+          "ms": 987,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"1200\",\": \": \"category\"}",
+          "ms": 1195,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Zomato\",\": \": \"category\"}",
+          "ms": 1232,
+          "tokens": 23,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\": \": \"1200\",\": \": \"category\"}",
+          "ms": 1152,
+          "tokens": 23,
+          "validJson": true
+        }
+      ],
+      "totalMs": 4566,
+      "totalTokens": 85
+    },
+    {
+      "caseId": "C10",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Zomato\"}",
+          "ms": 928,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Zomato\"}",
+          "ms": 880,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Zomato\"}",
+          "ms": 836,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Zomato\"}",
+          "ms": 882,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3526,
+      "totalTokens": 68
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"Petrol Pump\"}",
+          "ms": 998,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"HP Petrol Pump\"}",
+          "ms": 826,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"HP Petrol Pump\"}",
+          "ms": 713,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"HP Petrol Pump\"}",
+          "ms": 630,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3167,
+      "totalTokens": 67
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 928,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 1025,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 655,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 730,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3338,
+      "totalTokens": 68
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Petrol Pump\"}",
+          "ms": 744,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 863,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Petrol Pump\"}",
+          "ms": 624,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 757,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2988,
+      "totalTokens": 66
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 913,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 876,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 840,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"HP Petrol Pump\"}",
+          "ms": 719,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3348,
+      "totalTokens": 68
+    },
+    {
+      "caseId": "C11",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"HP Petrol Pump\"}",
+          "ms": 1124,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"HP Petrol Pump\"}",
+          "ms": 840,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"HP Petrol Pump\"}",
+          "ms": 841,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"HP Petrol Pump\"}",
+          "ms": 861,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 3666,
+      "totalTokens": 68
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1000,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"io_args\": {\"merchant\": \"Jio\"}}",
+          "ms": 1042,
+          "tokens": 18,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"io_args\": {\"amount\": 700,\"description\": \"Jio\"}}",
+          "ms": 1156,
+          "tokens": 24,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"io_args\": {\"amount\": 700,\"description\": \"Jio\",\"category\": \"credit card\"}}",
+          "ms": 1382,
+          "tokens": 31,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "rank_cards",
+          "args": {},
+          "output": {
+            "error": "invalid amount: undefined"
+          },
+          "raw": "{\"tool\": \"rank_cards\",\"io_args\": {\"amount\": 700,\"description\": \"Jio\",\"category\": \"credit card\",\"reward_inr\": 180}}",
+          "ms": 1858,
+          "tokens": 40,
+          "validJson": true
+        }
+      ],
+      "totalMs": 5438,
+      "totalTokens": 113
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1001,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Jio\"}",
+          "ms": 847,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Jio\"}",
+          "ms": 1013,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Jio\"}",
+          "ms": 550,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Jio\"}",
+          "ms": 520,
+          "tokens": 15,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2930,
+      "totalTokens": 60
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1002,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Jio\"}",
+          "ms": 567,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Reliance Jio\"}",
+          "ms": 775,
+          "tokens": 17,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Reliance\"}",
+          "ms": 775,
+          "tokens": 15,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\": \": \"Reliance Jio\"}",
+          "ms": 804,
+          "tokens": 17,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2921,
+      "totalTokens": 64
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1003,
+      "steps": [
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",",
+          "ms": 5537,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",",
+          "ms": 6586,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",",
+          "ms": 6157,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        },
+        {
+          "kind": "invalid",
+          "raw": "{\"tool\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",\"} {\": \"classify_merchant\",",
+          "ms": 6445,
+          "tokens": 159,
+          "validJson": false,
+          "why": "not valid JSON"
+        }
+      ],
+      "totalMs": 24725,
+      "totalTokens": 636
+    },
+    {
+      "caseId": "C12",
+      "model": "Qwen2.5-1.5B-Instruct-q4f16_1-MLC",
+      "temperature": 0.7,
+      "seed": 1004,
+      "steps": [
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"path\": \"recharging_jio\"}",
+          "ms": 820,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"path\": \"recharging_jio\"}",
+          "ms": 621,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"path\": \"recharging_jio\"}",
+          "ms": 698,
+          "tokens": 16,
+          "validJson": true
+        },
+        {
+          "kind": "tool",
+          "tool": "classify_merchant",
+          "args": {},
+          "output": {
+            "error": "unknown merchant: undefined"
+          },
+          "raw": "{\"tool\": \"classify_merchant\",\"path\": \"recharging_jio\"}",
+          "ms": 613,
+          "tokens": 16,
+          "validJson": true
+        }
+      ],
+      "totalMs": 2752,
+      "totalTokens": 64
+    }
+  ]
+}
