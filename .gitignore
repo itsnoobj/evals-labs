@@ -1,7 +1,24 @@
+# OS and tooling
 .DS_Store
 node_modules/
 __pycache__/
 *.pyc
+*.log
+
+# secrets
 .env
 .env.*
-*.log
+
+# local agent and planning files (kept on disk, not published)
+.kiro/
+.lavish/
+docs/HANDOFF.md
+
+# private talk drafts (the abstract is in talk/abstract.md)
+/ideas.md
+/outline.md
+/slides.md
+/deck-prompt.md
+
+# recorded benchmark runs replaced by a newer run
+benchmarks/superseded/

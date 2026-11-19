@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Evals Lab</title>
-<link rel="icon" href="data:,">
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="cards.css">
-<link rel="stylesheet" href="run-visuals.css">
-<link rel="stylesheet" href="chat.css">
-<link rel="stylesheet" href="wiring.css">
+<meta name="description" content="A browser page that teaches how to measure an AI agent. Run a small model on one task, break it on purpose, and see which checks notice.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111827'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' font-weight='700' text-anchor='middle' fill='%23fff'%3EEL%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="src/styles/styles.css">
+<link rel="stylesheet" href="src/styles/cards.css">
+<link rel="stylesheet" href="src/styles/run-visuals.css">
+<link rel="stylesheet" href="src/styles/chat.css">
+<link rel="stylesheet" href="src/styles/wiring.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -226,43 +227,9 @@
 </main>
 
 <footer>
-  <p>This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were checked in November 2026; they change. Not financial advice. <span class="mono" id="build"></span></p>
+  <p>This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were checked in November 2026; they change. Not financial advice.</p>
 </footer>
 
-<script type="module">
-import * as ui from './ui.js';
-import { METRICS } from './engine.js';
-import { CARDS, CATEGORIES, CATEGORY_LABELS, ASSUMPTIONS } from './cases.js';
-import { cardsMatrixHtml } from './cards-view.js';
-
-document.getElementById('build').textContent = 'build ux11';
-ui.showScreenFromHash();
-ui.renderMissions(new Set());
-ui.renderFlow(document.getElementById('start-flow'), { metrics: METRICS });
-document.getElementById('start-cards').innerHTML = cardsMatrixHtml({
-  cards: CARDS, categories: CATEGORIES, labels: CATEGORY_LABELS,
-  caption: 'What each card earns back, as a percent of the amount spent. Longer bar = more reward.',
-});
-// The scenario the numbers were built on. The last assumption (not financial advice) is the closing line instead.
-const esc = (t) => String(t).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-document.getElementById('start-rules').innerHTML = `<h3 class="k">Rules of this demo</h3>` +
-  `<ul>${ASSUMPTIONS.filter((a) => !/financial advice/i.test(a)).map((a) => `<li>${esc(a)}</li>`).join('')}</ul>` +
-  `<p class="muted">Rates come from the banks' own pages and were checked in November 2026; they change. Not financial advice.</p>`;
-
-if (!new URLSearchParams(location.search).has('preview')) {
-  await import('./app.js');
-} else {
-  const d = await import('./preview-data.js');
-  const metricsRoot = document.getElementById('metrics-view');
-  const drawMetrics = (bugId) => ui.renderMetrics(metricsRoot, {
-    metrics: d.METRICS, bugs: d.BUGS, scores: d.scoresFor(bugId), activeBug: bugId,
-  });
-  ui.renderRun(document.getElementById('run-view'), { caseInfo: d.CASE_INFOS[0], run: d.RUN, scores: d.SCORES });
-  drawMetrics(d.ACTIVE_BUG);
-  metricsRoot.addEventListener('bug-selected', (ev) => drawMetrics(ev.detail.bugId));
-  ui.renderGrid(document.getElementById('grid-view'), { cases: d.CASE_INFOS, results: d.GRID_RESULTS, summary: d.SUMMARY });
-  ui.renderCurve(document.getElementById('curve-view'), d.CURVE);
-}
-</script>
+<script type="module" src="src/app/main.js"></script>
 </body>
 </html>

@@ -1,9 +1,24 @@
 {
-  "name": "ai-pune-2026-agent-evals",
+  "name": "evals-lab",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Evals Lab: a browser page that teaches agent evals with a small in-browser model.",
+  "description": "Evals Lab: a browser page that teaches how to evaluate an AI agent, using a small model that runs in your browser.",
+  "homepage": "https://itsnoobj.github.io/evals-labs/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsnoobj/evals-labs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itsnoobj/evals-labs/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "test": "node evals-lab/run-all-tests.mjs"
+    "start": "node scripts/serve.mjs",
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "check": "node scripts/check-syntax.mjs",
+    "benchmark:audit": "node scripts/audit-key.mjs"
   }
 }

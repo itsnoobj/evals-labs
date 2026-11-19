@@ -1,0 +1,207 @@
+{
+  "dspyVersion": "3.5.0",
+  "pythonVersion": "3.14.7",
+  "generatedBy": "scripts/make-dspy-prompt.py",
+  "signature": "question -> card: str, reward_inr: float, reply: str  # instructions: Pick the best credit card for the purchase. Use the tools. Only use numbers that come from tool results.",
+  "tools": [
+    {
+      "name": "classify_merchant",
+      "doc": "Look up the spending category of a merchant name, e.g. \"Amazon\" -> \"amazon\".\n\nReturns one of the known category names, or a string starting with \"error:\" if the merchant is unknown.\n"
+    },
+    {
+      "name": "rank_cards",
+      "doc": "Rank all credit cards for a purchase, best first.\n\nArgs:\n    amount: purchase amount in rupees, greater than 0.\n    category: a category returned by classify_merchant.\n\nReturns a list of {\"card\": card id, \"rate_pct\": reward rate in percent, \"reward_inr\": rupees earned},\nbest reward first, ties broken by card id. Returns an error string for a bad amount or category.\n"
+    },
+    {
+      "name": "submit",
+      "doc": "Submit the final outputs for the task."
+    }
+  ],
+  "variants": [
+    {
+      "id": "zero-shot-react",
+      "label": "Zero-shot: dspy.ReAct, first turn",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Your input fields are:\n1. `question` (Union[str, NoneType]): \n2. `history` (History): \n3. `tools` (list[Tool]): \n4. `turn_budget` (str): Your current turn and how many turns remain before you must submit.\nYour output fields are:\n1. `next_thought` (str): \n2. `tool_calls` (ToolCalls): \n    Type description of ToolCalls: Tool calls must be a JSON object with `tool_calls`, a list of calls. Each call must include `name` and `args`. Example: {\"tool_calls\": [{\"name\": \"search\", \"args\": {\"query\": \"cats\"}}]}\nOutput format (replace placeholders):\n<next_thought>\n{next_thought}\n</next_thought>\n\n<tool_calls>\n{tool_calls}        # note: the value you produce must adhere to the JSON schema: {\"type\": \"object\", \"$defs\": {\"ToolCall\": {\"type\": \"object\", \"properties\": {\"args\": {\"type\": \"object\", \"additionalProperties\": true, \"title\": \"Args\"}, \"name\": {\"type\": \"string\", \"title\": \"Name\"}}, \"required\": [\"name\", \"args\"], \"title\": \"ToolCall\"}}, \"properties\": {\"tool_calls\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/ToolCall\"}, \"title\": \"Tool Calls\"}}, \"required\": [\"tool_calls\"], \"title\": \"ToolCalls\"}\n</tool_calls>\nIn adhering to this structure, your objective is: \n        Pick the best credit card for the purchase. Use the tools. Only use numbers that come from tool results.\n        You are an Agent. Use the supplied tools to produce `card`, `reward_inr`, `reply` from `question`.\n        Call tools when more information is needed.\n        When the final answer is ready, call `submit` with `card`, `reward_inr`, `reply`.\n        The available tools are: `classify_merchant`, `rank_cards`, `submit`."
+        },
+        {
+          "role": "user",
+          "content": "<question>\nI'm a Prime member spending ₹15,000 on Amazon. Which card should I use?\n</question>\n\n<tools>\n[\"classify_merchant, whose description is <desc>Look up the spending category of a merchant name, e.g. \\\"Amazon\\\" -> \\\"amazon\\\".    Returns one of the known category names, or a string starting with \\\"error:\\\" if the merchant is unknown.  </desc>. It takes arguments {'merchant': {'type': 'string'}}.\", \"rank_cards, whose description is <desc>Rank all credit cards for a purchase, best first.    Args:      amount: purchase amount in rupees, greater than 0.      category: a category returned by classify_merchant.    Returns a list of {\\\"card\\\": card id, \\\"rate_pct\\\": reward rate in percent, \\\"reward_inr\\\": rupees earned},  best reward first, ties broken by card id. Returns an error string for a bad amount or category.  </desc>. It takes arguments {'amount': {'type': 'number'}, 'category': {'type': 'string'}}.\", \"submit, whose description is <desc>Submit the final outputs for the task.</desc>. It takes arguments {'card': {'type': 'string', 'description': '${card}'}, 'reward_inr': {'type': 'number', 'description': '${reward_inr}'}, 'reply': {'type': 'string', 'description': '${reply}'}}.\"]\n</tools>\n\n<turn_budget>\nTurn 1 of 4 (3 more after this one).\n</turn_budget>\n\nOutput format (replace placeholders):\n<next_thought>\n{next_thought}\n</next_thought>\n\n<tool_calls>\n{tool_calls}        # note: the value you produce must adhere to the JSON schema: {\"type\": \"object\", \"$defs\": {\"ToolCall\": {\"type\": \"object\", \"properties\": {\"args\": {\"type\": \"object\", \"additionalProperties\": true, \"title\": \"Args\"}, \"name\": {\"type\": \"string\", \"title\": \"Name\"}}, \"required\": [\"name\", \"args\"], \"title\": \"ToolCall\"}}, \"properties\": {\"tool_calls\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/ToolCall\"}, \"title\": \"Tool Calls\"}}, \"required\": [\"tool_calls\"], \"title\": \"ToolCalls\"}\n</tool_calls>\n\nUse this format for text outputs. Put field tags on separate lines. Write string values literally, without XML or JSON escaping."
+        }
+      ],
+      "secondTurnMessages": [
+        {
+          "role": "system",
+          "content": "Your input fields are:\n1. `question` (Union[str, NoneType]): \n2. `history` (History): \n3. `tools` (list[Tool]): \n4. `turn_budget` (str): Your current turn and how many turns remain before you must submit.\nYour output fields are:\n1. `next_thought` (str): \n2. `tool_calls` (ToolCalls): \n    Type description of ToolCalls: Tool calls must be a JSON object with `tool_calls`, a list of calls. Each call must include `name` and `args`. Example: {\"tool_calls\": [{\"name\": \"search\", \"args\": {\"query\": \"cats\"}}]}\nOutput format (replace placeholders):\n<next_thought>\n{next_thought}\n</next_thought>\n\n<tool_calls>\n{tool_calls}        # note: the value you produce must adhere to the JSON schema: {\"type\": \"object\", \"$defs\": {\"ToolCall\": {\"type\": \"object\", \"properties\": {\"args\": {\"type\": \"object\", \"additionalProperties\": true, \"title\": \"Args\"}, \"name\": {\"type\": \"string\", \"title\": \"Name\"}}, \"required\": [\"name\", \"args\"], \"title\": \"ToolCall\"}}, \"properties\": {\"tool_calls\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/ToolCall\"}, \"title\": \"Tool Calls\"}}, \"required\": [\"tool_calls\"], \"title\": \"ToolCalls\"}\n</tool_calls>\nIn adhering to this structure, your objective is: \n        Pick the best credit card for the purchase. Use the tools. Only use numbers that come from tool results.\n        You are an Agent. Use the supplied tools to produce `card`, `reward_inr`, `reply` from `question`.\n        Call tools when more information is needed.\n        When the final answer is ready, call `submit` with `card`, `reward_inr`, `reply`.\n        The available tools are: `classify_merchant`, `rank_cards`, `submit`."
+        },
+        {
+          "role": "user",
+          "content": "<question>\nI'm a Prime member spending ₹15,000 on Amazon. Which card should I use?\n</question>\n\n<turn_budget>\nTurn 1 of 4 (3 more after this one).\n</turn_budget>\n\nOutput format (replace placeholders):\n<next_thought>\n{next_thought}\n</next_thought>\n\n<tool_calls>\n{tool_calls}        # note: the value you produce must adhere to the JSON schema: {\"type\": \"object\", \"$defs\": {\"ToolCall\": {\"type\": \"object\", \"properties\": {\"args\": {\"type\": \"object\", \"additionalProperties\": true, \"title\": \"Args\"}, \"name\": {\"type\": \"string\", \"title\": \"Name\"}}, \"required\": [\"name\", \"args\"], \"title\": \"ToolCall\"}}, \"properties\": {\"tool_calls\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/ToolCall\"}, \"title\": \"Tool Calls\"}}, \"required\": [\"tool_calls\"], \"title\": \"ToolCalls\"}\n</tool_calls>\n\nUse this format for text outputs. Put field tags on separate lines. Write string values literally, without XML or JSON escaping."
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "<next_thought>\nFind the category.\n</next_thought>"
+            },
+            {
+              "type": "tool_call",
+              "id": "call_0_0",
+              "name": "classify_merchant",
+              "input": {
+                "merchant": "Amazon"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "type": "tool_result",
+              "id": "call_0_0",
+              "name": "classify_merchant",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "amazon"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": "<tools>\n[\"classify_merchant, whose description is <desc>Look up the spending category of a merchant name, e.g. \\\"Amazon\\\" -> \\\"amazon\\\".    Returns one of the known category names, or a string starting with \\\"error:\\\" if the merchant is unknown.  </desc>. It takes arguments {'merchant': {'type': 'string'}}.\", \"rank_cards, whose description is <desc>Rank all credit cards for a purchase, best first.    Args:      amount: purchase amount in rupees, greater than 0.      category: a category returned by classify_merchant.    Returns a list of {\\\"card\\\": card id, \\\"rate_pct\\\": reward rate in percent, \\\"reward_inr\\\": rupees earned},  best reward first, ties broken by card id. Returns an error string for a bad amount or category.  </desc>. It takes arguments {'amount': {'type': 'number'}, 'category': {'type': 'string'}}.\", \"submit, whose description is <desc>Submit the final outputs for the task.</desc>. It takes arguments {'card': {'type': 'string', 'description': '${card}'}, 'reward_inr': {'type': 'number', 'description': '${reward_inr}'}, 'reply': {'type': 'string', 'description': '${reply}'}}.\"]\n</tools>\n\n<turn_budget>\nTurn 2 of 4 (2 more after this one).\n</turn_budget>\n\nOutput format (replace placeholders):\n<next_thought>\n{next_thought}\n</next_thought>\n\n<tool_calls>\n{tool_calls}        # note: the value you produce must adhere to the JSON schema: {\"type\": \"object\", \"$defs\": {\"ToolCall\": {\"type\": \"object\", \"properties\": {\"args\": {\"type\": \"object\", \"additionalProperties\": true, \"title\": \"Args\"}, \"name\": {\"type\": \"string\", \"title\": \"Name\"}}, \"required\": [\"name\", \"args\"], \"title\": \"ToolCall\"}}, \"properties\": {\"tool_calls\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/ToolCall\"}, \"title\": \"Tool Calls\"}}, \"required\": [\"tool_calls\"], \"title\": \"ToolCalls\"}\n</tool_calls>\n\nUse this format for text outputs. Put field tags on separate lines. Write string values literally, without XML or JSON escaping."
+        }
+      ],
+      "finalTurnMessages": [
+        {
+          "role": "system",
+          "content": "Your input fields are:\n1. `question` (Union[str, NoneType]): \n2. `history` (History): \n3. `tools` (list[Tool]): \n4. `turn_budget` (str): Your current turn and how many turns remain before you must submit.\nYour output fields are:\n1. `next_thought` (str): \n2. `tool_calls` (ToolCalls): \n    Type description of ToolCalls: Tool calls must be a JSON object with `tool_calls`, a list of calls. Each call must include `name` and `args`. Example: {\"tool_calls\": [{\"name\": \"search\", \"args\": {\"query\": \"cats\"}}]}\nOutput format (replace placeholders):\n<next_thought>\n{next_thought}\n</next_thought>\n\n<tool_calls>\n{tool_calls}        # note: the value you produce must adhere to the JSON schema: {\"type\": \"object\", \"$defs\": {\"ToolCall\": {\"type\": \"object\", \"properties\": {\"args\": {\"type\": \"object\", \"additionalProperties\": true, \"title\": \"Args\"}, \"name\": {\"type\": \"string\", \"title\": \"Name\"}}, \"required\": [\"name\", \"args\"], \"title\": \"ToolCall\"}}, \"properties\": {\"tool_calls\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/ToolCall\"}, \"title\": \"Tool Calls\"}}, \"required\": [\"tool_calls\"], \"title\": \"ToolCalls\"}\n</tool_calls>\nIn adhering to this structure, your objective is: \n        Pick the best credit card for the purchase. Use the tools. Only use numbers that come from tool results.\n        You are an Agent. Use the supplied tools to produce `card`, `reward_inr`, `reply` from `question`.\n        Call tools when more information is needed.\n        When the final answer is ready, call `submit` with `card`, `reward_inr`, `reply`.\n        The available tools are: `classify_merchant`, `rank_cards`, `submit`."
+        },
+        {
+          "role": "user",
+          "content": "<question>\nI'm a Prime member spending ₹15,000 on Amazon. Which card should I use?\n</question>\n\n<turn_budget>\nTurn 1 of 4 (3 more after this one).\n</turn_budget>\n\nOutput format (replace placeholders):\n<next_thought>\n{next_thought}\n</next_thought>\n\n<tool_calls>\n{tool_calls}        # note: the value you produce must adhere to the JSON schema: {\"type\": \"object\", \"$defs\": {\"ToolCall\": {\"type\": \"object\", \"properties\": {\"args\": {\"type\": \"object\", \"additionalProperties\": true, \"title\": \"Args\"}, \"name\": {\"type\": \"string\", \"title\": \"Name\"}}, \"required\": [\"name\", \"args\"], \"title\": \"ToolCall\"}}, \"properties\": {\"tool_calls\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/ToolCall\"}, \"title\": \"Tool Calls\"}}, \"required\": [\"tool_calls\"], \"title\": \"ToolCalls\"}\n</tool_calls>\n\nUse this format for text outputs. Put field tags on separate lines. Write string values literally, without XML or JSON escaping."
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "<next_thought>\nFind the category.\n</next_thought>"
+            },
+            {
+              "type": "tool_call",
+              "id": "call_0_0",
+              "name": "classify_merchant",
+              "input": {
+                "merchant": "Amazon"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "type": "tool_result",
+              "id": "call_0_0",
+              "name": "classify_merchant",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "amazon"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": "<turn_budget>\nTurn 2 of 4 (2 more after this one).\n</turn_budget>\n\nOutput format (replace placeholders):\n<next_thought>\n{next_thought}\n</next_thought>\n\n<tool_calls>\n{tool_calls}        # note: the value you produce must adhere to the JSON schema: {\"type\": \"object\", \"$defs\": {\"ToolCall\": {\"type\": \"object\", \"properties\": {\"args\": {\"type\": \"object\", \"additionalProperties\": true, \"title\": \"Args\"}, \"name\": {\"type\": \"string\", \"title\": \"Name\"}}, \"required\": [\"name\", \"args\"], \"title\": \"ToolCall\"}}, \"properties\": {\"tool_calls\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/ToolCall\"}, \"title\": \"Tool Calls\"}}, \"required\": [\"tool_calls\"], \"title\": \"ToolCalls\"}\n</tool_calls>\n\nUse this format for text outputs. Put field tags on separate lines. Write string values literally, without XML or JSON escaping."
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "<next_thought>\nRank the cards.\n</next_thought>"
+            },
+            {
+              "type": "tool_call",
+              "id": "call_1_0",
+              "name": "rank_cards",
+              "input": {
+                "amount": 15000,
+                "category": "amazon"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "type": "tool_result",
+              "id": "call_1_0",
+              "name": "rank_cards",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "[{\"card\": \"hdfc_swiggy\", \"rate_pct\": 5, \"reward_inr\": 750.0}, {\"card\": \"icici_amazon_pay\", \"rate_pct\": 5, \"reward_inr\": 750.0}, {\"card\": \"hdfc_infinia\", \"rate_pct\": 3.33, \"reward_inr\": 499.5}, {\"card\": \"idfc_first_power_plus\", \"rate_pct\": 0.5, \"reward_inr\": 75.0}]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": "<tools>\n[\"classify_merchant, whose description is <desc>Look up the spending category of a merchant name, e.g. \\\"Amazon\\\" -> \\\"amazon\\\".    Returns one of the known category names, or a string starting with \\\"error:\\\" if the merchant is unknown.  </desc>. It takes arguments {'merchant': {'type': 'string'}}.\", \"rank_cards, whose description is <desc>Rank all credit cards for a purchase, best first.    Args:      amount: purchase amount in rupees, greater than 0.      category: a category returned by classify_merchant.    Returns a list of {\\\"card\\\": card id, \\\"rate_pct\\\": reward rate in percent, \\\"reward_inr\\\": rupees earned},  best reward first, ties broken by card id. Returns an error string for a bad amount or category.  </desc>. It takes arguments {'amount': {'type': 'number'}, 'category': {'type': 'string'}}.\", \"submit, whose description is <desc>Submit the final outputs for the task.</desc>. It takes arguments {'card': {'type': 'string', 'description': '${card}'}, 'reward_inr': {'type': 'number', 'description': '${reward_inr}'}, 'reply': {'type': 'string', 'description': '${reply}'}}.\"]\n</tools>\n\n<turn_budget>\nTurn 3 of 4 (1 more after this one).\n</turn_budget>\n\nOutput format (replace placeholders):\n<next_thought>\n{next_thought}\n</next_thought>\n\n<tool_calls>\n{tool_calls}        # note: the value you produce must adhere to the JSON schema: {\"type\": \"object\", \"$defs\": {\"ToolCall\": {\"type\": \"object\", \"properties\": {\"args\": {\"type\": \"object\", \"additionalProperties\": true, \"title\": \"Args\"}, \"name\": {\"type\": \"string\", \"title\": \"Name\"}}, \"required\": [\"name\", \"args\"], \"title\": \"ToolCall\"}}, \"properties\": {\"tool_calls\": {\"type\": \"array\", \"items\": {\"$ref\": \"#/$defs/ToolCall\"}, \"title\": \"Tool Calls\"}}, \"required\": [\"tool_calls\"], \"title\": \"ToolCalls\"}\n</tool_calls>\n\nUse this format for text outputs. Put field tags on separate lines. Write string values literally, without XML or JSON escaping."
+        }
+      ]
+    },
+    {
+      "id": "few-shot",
+      "label": "Few-shot: dspy.Predict + LabeledFewShot(k=3) (ReAct dropped the demos, see note)",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Your input fields are:\n1. `question` (str):\nYour output fields are:\n1. `card` (str): \n2. `reward_inr` (float): \n3. `reply` (str):\nOutput format (replace placeholders):\n<card>\n{card}\n</card>\n\n<reward_inr>\n{reward_inr}\n</reward_inr>\n\n<reply>\n{reply}\n</reply>\nIn adhering to this structure, your objective is: \n        Pick the best credit card for the purchase. Use the tools. Only use numbers that come from tool results."
+        },
+        {
+          "role": "user",
+          "content": "<question>\nI'm buying an ₹8,000 phone on Flipkart. Which card is best?\n</question>"
+        },
+        {
+          "role": "assistant",
+          "content": "<card>\nhdfc_swiggy\n</card>\n\n<reward_inr>\n400\n</reward_inr>\n\n<reply>\nUse HDFC Swiggy for Flipkart to earn ₹400 on ₹8000.\n</reply>"
+        },
+        {
+          "role": "user",
+          "content": "<question>\nPetrol worth ₹2,000 at an HP Petrol Pump. Which card should I use?\n</question>"
+        },
+        {
+          "role": "assistant",
+          "content": "<card>\nidfc_first_power_plus\n</card>\n\n<reward_inr>\n100\n</reward_inr>\n\n<reply>\nUse IDFC First Power+ for HP Petrol Pump to earn ₹100 on ₹2000.\n</reply>"
+        },
+        {
+          "role": "user",
+          "content": "<question>\nOrdering ₹800 of food on Swiggy. Which card is best?\n</question>"
+        },
+        {
+          "role": "assistant",
+          "content": "<card>\nhdfc_swiggy\n</card>\n\n<reward_inr>\n80\n</reward_inr>\n\n<reply>\nUse HDFC Swiggy for Swiggy to earn ₹80 on ₹800.\n</reply>"
+        },
+        {
+          "role": "user",
+          "content": "<question>\nI'm a Prime member spending ₹15,000 on Amazon. Which card should I use?\n</question>\n\nOutput format (replace placeholders):\n<card>\n{card}\n</card>\n\n<reward_inr>\n{reward_inr}\n</reward_inr>\n\n<reply>\n{reply}\n</reply>\n\nUse this format for text outputs. Put field tags on separate lines. Write string values literally, without XML or JSON escaping."
+        }
+      ]
+    }
+  ],
+  "note": "This is DSPy's real prompt format, generated with a recording fake model (dspy.utils.DummyLM); no optimizer was run against our 1.5B model. Our live agent does not use this prompt (it uses the shorter prompt in agent-step.js) unless a later change measures it. Target question is C01; few-shot demos come from C02, C03, C04 with reply sentences written from their expected values. DSPy 3.5.0 ReAct has no separate extract step: it calls a built-in submit tool, so the zero-shot variant also carries secondTurnMessages (after one tool result) and finalTurnMessages (the submit turn). Few-shot variant is dspy.Predict with LabeledFewShot over the same signature. LabeledFewShot on dspy.ReAct ran, but its prompt came out identical to zero-shot: the demos (question, card, reward_inr, reply) do not match ReAct's inner signature (next_thought, tool_calls), so DSPy dropped them. The Predict variant has no tools, so its instruction sentence mentions tools that it cannot call."
+}
