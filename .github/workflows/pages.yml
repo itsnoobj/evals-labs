@@ -23,7 +23,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - run: npm test
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
 
   deploy:
     needs: test

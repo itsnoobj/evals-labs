@@ -1,0 +1,8 @@
+node_modules/
+package-lock.json
+benchmarks/*.json
+evals-lab/data/*.json
+docs/
+talk/
+*.md
+*.yml

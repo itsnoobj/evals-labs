@@ -13,12 +13,22 @@
     "url": "https://github.com/itsnoobj/evals-labs/issues"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22.13"
   },
   "scripts": {
     "start": "node scripts/serve.mjs",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "check": "node scripts/check-syntax.mjs",
-    "benchmark:audit": "node scripts/audit-key.mjs"
+    "benchmark:audit": "node scripts/audit-key.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "verify": "npm run lint && npm run format:check && npm test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1"
   }
 }
