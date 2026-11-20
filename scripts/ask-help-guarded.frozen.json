@@ -1,0 +1,15 @@
+{
+  "frozenAt": "2026-11-20T08:53:15.710Z",
+  "design": "D1",
+  "designConfig": {
+    "temperature": 0.2,
+    "context": "screen",
+    "extractive": false
+  },
+  "hashes": {
+    "designBlock": "3c90f885f783a6d7fa2bf532fc908ea28ad826bf0017002b05473f4ff2c90ff5",
+    "guards": "f2a5804a4fb419843eadc0295f5044bb54ffade14f0d9ce5b003ad9f3cf96cfa",
+    "devQuestions": "04b9e8e500c192b6cfbf9f8bf8216dbbc377e97f3e889acaa1e968801686691a",
+    "testQuestions": "75b6a646a3870419522767b1d5a174c9f7044afc18a3fc96a0237f7d5b4445a9"
+  }
+}

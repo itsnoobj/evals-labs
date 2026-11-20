@@ -14,13 +14,14 @@
 
 ## Later
 - [ ] Compare screen: live-model check of the careful agent (retry and fallback paths ran only on recorded runs) (5 min)
-- [ ] v1.1 Judge lab: calibration vs your labels, order-bias swap (25 min)
+- [ ] v1.1 Judge lab: calibration vs your labels, order-bias swap (25 min); its nav tab was removed in ux18, add it back when built
 - [ ] Add-your-own case on the golden screen (15 min)
 - [ ] `maxTokens` 160 truncates long replies in about 5% of free runs: raise to 256 and re-measure (10 min)
 - [ ] Update `outline.md` section 6: replace the mutation demo with the Evals Lab walkthrough (5 min)
 - [ ] More cards and cases, other scenarios, shareable URL state
 
 ## Done
+- [x] ux18 (2026-11-20): eval button says what it is ("Run the eval: all 6 questions" + why line) and shows a P/F grid per run; mission stepper strip; LLM judge lab tab removed from nav. Guarded in-page ask experiment: frozen design misses bar on fresh test set (in-scope 65%, out-of-scope 87.5%, trick 66.7%; injection 100%, 0 invented numbers). Report `docs/research/ask-help-guarded.md`.
 - [x] ux17 (2026-11-20): Run screen: model name, status and download size now inside the Live AI box; Recorded box shows its own status; selected box says IN USE.
 - [x] Ask-help experiment (2026-11-20): Qwen2.5-1.5B grounded misses all 5 bar lines (in-scope 70%, out-of-scope 75%, injection 66.7%, trick 83.3%, 3/120 invented numbers). In-page ask NOT built. Report: `docs/research/ask-help-experiment.md`.
 - [x] ux16 (2026-11-20): Start screen shows the 5-box task diagram with pictograms and real example values, 4 card images, 3-step strip. Side by side: "Try these" buttons (see the gap, see a retry; outcomes tested against recorded runs) replace "Suggested questions"; one shared glossary (19 terms, `glossary.js`) on every screen replaces the guardrail/wiring bars. 179 tests green. Local only, not pushed. Note: Try-these outcome text is fixed; re-recording runs needs the tests re-checked.

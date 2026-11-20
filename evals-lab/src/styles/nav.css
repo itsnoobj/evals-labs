@@ -7,9 +7,6 @@
 .nav .short {
   display: none;
 }
-body[data-level="quick"] .nav.soon {
-  display: none;
-}
 .top .level-toggle {
   align-self: center;
   margin: 0.25rem 0.75rem 0.25rem auto;

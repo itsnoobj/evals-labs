@@ -97,17 +97,6 @@ a.nav:hover {
 .nav[aria-current="page"] {
   border-bottom-color: var(--accent);
 }
-.nav.soon {
-  color: var(--muted);
-  cursor: not-allowed;
-}
-.nav small {
-  padding: 0 0.3rem;
-  border: 1px solid var(--off);
-  font: 700 0.62rem var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
 .tick {
   display: none;
   font-style: normal;
@@ -525,6 +514,98 @@ footer p {
 .task.done span {
   color: var(--muted);
 }
+/* mission strip: five squares joined by lines. Markup: src/ui/mission-stepper.js */
+.msteps {
+  display: flex;
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+.mstep {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.mstep + .mstep::before {
+  content: "";
+  z-index: 0;
+  position: absolute;
+  top: 1.25rem;
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background: var(--line);
+}
+.mstep a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2.75rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.mstep-sq {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid var(--line);
+  background: #fff;
+  font-weight: 700;
+}
+.mstep.is-done .mstep-sq {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+.mstep.is-todo .mstep-sq {
+  border-color: var(--off);
+  color: var(--muted);
+}
+.mstep.is-now .mstep-sq {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.mstep a:hover .mstep-sq {
+  outline: 2px solid var(--ink);
+}
+.mstep-name {
+  font-size: 0.8rem;
+  line-height: 1.2;
+  text-align: center;
+}
+.mstep.is-now .mstep-name {
+  font-weight: 700;
+}
+.mstep-now {
+  padding: 0 0.35rem;
+  border: 1px solid var(--accent);
+  font: 700 0.65rem var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.msteps + .goal {
+  margin-top: 0.5rem;
+}
+@media (max-width: 600px) {
+  .mstep-sq {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.8rem;
+  }
+  .mstep + .mstep::before {
+    top: 0.9rem;
+  }
+  .mstep:not(.is-now) .mstep-name {
+    display: none;
+  }
+}
+
 .mdone {
   grid-column: 1/-1;
   display: flex;

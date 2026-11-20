@@ -99,8 +99,7 @@
     background: var(--paper);
     font-weight: 800;
   }
-  .nav .long,
-  .nav.soon {
+  .nav .long {
     display: none;
   }
   .nav .short {

@@ -6,3 +6,6 @@ docs/
 talk/
 *.md
 *.yml
+# frozen by hash: formatting would change the hash the experiment checks
+scripts/ask-help-guarded.mjs
+scripts/ask-help-guards.mjs

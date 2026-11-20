@@ -18,7 +18,7 @@ const tally = (cases) => ({
   passed: 0,
   total: 0,
   rate: 0,
-  perCase: Object.fromEntries(cases.map((c) => [c.id, { passed: 0, total: 0 }])),
+  perCase: Object.fromEntries(cases.map((c) => [c.id, { passed: 0, total: 0, runs: [] }])),
 });
 
 // runAgent(kind, caseObj, runIndex) -> finished run { caseId, steps, ... } for ONE case. kind is 'simple' | 'careful'.
@@ -26,7 +26,7 @@ const tally = (cases) => ({
 // Runs are sequential on purpose: one model, and WebGPU cannot run two generations at once.
 // Order: case by case, runIndex by runIndex, simple then careful. An abort therefore leaves both agents with the same case coverage (within one run).
 // onProgress({ done, total, kind, caseId }): total counts both agents, so done reaches cases.length * runsPerCase * 2.
-// Returns { simple, careful, aborted }: { passed, total, rate, perCase: { C01: { passed, total } } }.
+// Returns { simple, careful, aborted }: { passed, total, rate, perCase: { C01: { passed, total, runs: [bool, ...] } } }.
 // rate = passed / total, 0 when total is 0. Nothing is rounded here. If runAgent throws, the error propagates.
 export async function scoreBoth({ cases, runsPerCase, runAgent, onProgress, signal }) {
   if (!Number.isInteger(runsPerCase) || runsPerCase < 0) throw new RangeError("runsPerCase must be an integer >= 0");
@@ -49,6 +49,7 @@ export async function scoreBoth({ cases, runsPerCase, runAgent, onProgress, sign
         const ok = passed(c, run);
         side.total += 1;
         side.perCase[c.id].total += 1;
+        side.perCase[c.id].runs.push(ok); // one boolean per run, in run order, for the pass/fail grid
         if (ok) {
           side.passed += 1;
           side.perCase[c.id].passed += 1;

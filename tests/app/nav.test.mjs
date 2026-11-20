@@ -58,4 +58,18 @@ eq(pagerFor(ORDER, "compare", "full").next, { id: "start", text: "Start again" }
 eq(pagerFor(ORDER, "compare", "quick").next, { id: "start", text: "Start again" });
 eq(pagerFor(ORDER, "compare", "quick").back.id, "run");
 
+// the unbuilt "LLM judge lab" placeholder is not in the top nav or the phone tab bar (both are the same <nav>)
+{
+  const { readFileSync } = await import("node:fs");
+  const html = readFileSync(new URL("../../evals-lab/index.html", import.meta.url), "utf8");
+  const navHtml = html.slice(html.indexOf("<nav"), html.indexOf("</nav>"));
+  eq(navHtml.match(/<a class="nav"/g).length, 6, "Start plus screens 1 to 5");
+  eq(/judge lab|class="nav soon"|soon/i.test(navHtml), false, "no placeholder tab");
+  eq(
+    [...navHtml.matchAll(/data-screen="(\w+)"/g)].map((m) => m[1]),
+    ORDER,
+    "tabs match ORDER",
+  );
+}
+
 console.log(`nav: ${n} checks passed`);

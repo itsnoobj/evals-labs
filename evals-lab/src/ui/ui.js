@@ -3,6 +3,7 @@ import { STAGES, METRIC_STAGE, MISSIONS, BUG_LESSON } from "./lessons.js";
 import { rankBarsHtml, timelineHtml, cardArtsHtml } from "./run-visuals.js";
 import { toolsListHtml } from "./stage-tools.js";
 import { disclose } from "./disclose.js";
+import { stepperHtml, taskSquares } from "./mission-stepper.js";
 import { openExplain, runLinesHtml } from "./explain-dialog.js";
 import { nodeVisualHtml, flowStripHtml } from "./node-visuals.js";
 import { MORE_EXPLAIN, stageExplainId } from "./explainers-more.js";
@@ -241,10 +242,12 @@ function missionHtml(m, done) {
     : "";
   const required = m.tasks.filter((t) => !t.bonus);
   const doneCount = required.filter((t) => done.has(t.id)).length;
-  // One line for the goal; the task list, time and concept sit behind one section.
+  // Strip of the five missions, then one line for the goal; the task list, time and concept sit behind one section.
+  const doneIds = MISSIONS.filter((x) => missionDone(x, done)).map((x) => x.id);
   return `<div class="mission${complete ? " complete" : ""}"><div class="mmain">
+      ${stepperHtml(m.id, doneIds)}
       <p class="goal"><b class="mono">Mission ${m.num} of ${MISSIONS.length}</b> · ${e(m.goal)}</p>${disclose(
-        `Mission tasks · ${doneCount} of ${required.length} done`,
+        `Mission tasks · ${taskSquares(doneCount, required.length)} ${doneCount} of ${required.length} done`,
         `<span class="k">About ${e(m.time)}</span><ul class="tasks">${tasks}</ul><div class="mconcept"><span class="k">Concept: ${e(m.concept)}</span><p>${e(m.conceptText)}</p></div>`,
         { id: `mission-${m.id}` },
       )}</div>${finish}</div>`;

@@ -8,7 +8,7 @@ import { gradeFiveTimes } from "../agent/ai-grader.js";
 import { runGuarded, makeReplayChat, verifyRun } from "../agent/guarded-agent.js";
 import { checkInput } from "../agent/guardrails.js";
 import { scoreBoth, replayRunAgent } from "../agent/score-both.js";
-import { scoreResultHtml } from "../ui/score-result.js";
+import { scoreResultHtml, scoreGridHtml, evalButtonLabel, evalWhyLine } from "../ui/score-result.js";
 import { TRY_THESE } from "../ui/try-these.js";
 import { syncCmpModelBar, enterMode, setNote } from "./model-bar.js";
 import {
@@ -142,9 +142,15 @@ function setCmpBusy(busy) {
 const RUNS_PER_CASE = 5;
 const REPLAY_PAUSE_MS = 25; // lets the progress text paint and the Stop button work; real replays are instant
 
+// The button, the line under it and the grid preview all come from CASES.length and RUNS_PER_CASE, so they cannot drift from the run.
+// Once a result exists it shows the same grid with P / F, so the preview inside "About scoring" is hidden.
 export function drawScore() {
   const s = state.score;
-  $("cmp-score").innerHTML = s ? scoreResultHtml(s.result, s.mode) : "";
+  $("cmp-score-start").textContent = evalButtonLabel(CASES.length);
+  $("cmp-score-why").textContent = evalWhyLine(CASES.length, RUNS_PER_CASE);
+  $("cmp-score-preview").innerHTML = scoreGridHtml({ cases: CASES, runsPerCase: RUNS_PER_CASE });
+  $("cmp-score-about").hidden = !!s;
+  $("cmp-score").innerHTML = s ? scoreResultHtml(s.result, s.mode, { cases: CASES, runsPerCase: RUNS_PER_CASE }) : "";
 }
 
 function scoreRunAgent(mode) {

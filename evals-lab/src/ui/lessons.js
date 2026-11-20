@@ -83,10 +83,11 @@ export const BUG_LESSON = {
     "The reply sentence names the right card but the answer itself holds another card. “Names the right card” reads the sentence and stays green. Only “Correct final answer” reads the answer itself.",
 };
 
-// `tasks` tick themselves when the visitor does them (src/app/state.js mark(taskId) records it). Bonus tasks do not gate completion.
+// `short` is the 1-2 word name on the mission strip. `tasks` tick themselves when the visitor does them (src/app/state.js mark(taskId) records it). Bonus tasks do not gate completion.
 export const MISSIONS = [
   {
     id: "run",
+    short: "Run",
     num: 1,
     title: "Run an agent",
     time: "2 min",
@@ -104,6 +105,7 @@ export const MISSIONS = [
   },
   {
     id: "metrics",
+    short: "Checks",
     num: 2,
     title: "Break it and see what notices",
     time: "3 min",
@@ -121,6 +123,7 @@ export const MISSIONS = [
   },
   {
     id: "golden",
+    short: "Test set",
     num: 3,
     title: "Run the test set",
     time: "3 min",
@@ -137,6 +140,7 @@ export const MISSIONS = [
   },
   {
     id: "compounding",
+    short: "Errors",
     num: 4,
     title: "See errors add up",
     time: "2 min",
@@ -154,6 +158,7 @@ export const MISSIONS = [
   },
   {
     id: "compare",
+    short: "Compare",
     num: 5,
     title: "Agent without evals vs agent with evals",
     time: "3 min",

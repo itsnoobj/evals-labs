@@ -50,7 +50,6 @@
           ><span class="mono">5</span> <span class="long">Side by side</span><span class="short">Compare</span
           ><i class="tick" role="img" aria-label="done">&#10003;</i></a
         >
-        <span class="nav soon" aria-disabled="true"><span class="mono">6</span> LLM judge lab <small>soon</small></span>
       </nav>
       <button type="button" class="sec level-toggle" id="level-toggle" aria-pressed="true">Quick path</button>
     </header>
@@ -439,7 +438,7 @@
           </div>
           <button type="button" id="cmp-ask" data-hook="cmp-ask" disabled>Ask both</button>
           <button type="button" class="sec" id="cmp-score-start" data-hook="cmp-score-start">
-            Score both on the test set
+            Run the eval: all questions
           </button>
           <button type="button" class="sec" id="cmp-score-stop" data-hook="cmp-score-stop" hidden>Stop</button>
           <span
@@ -454,6 +453,7 @@
             ></label
           >
         </div>
+        <p class="muted" id="cmp-score-why" data-hook="cmp-score-why"></p>
         <details class="disclose">
           <summary>Type your own</summary>
           <div class="disclose-body">
@@ -478,15 +478,9 @@
           </div>
         </details>
         <p class="muted" id="cmp-hint">Choose how to run first.</p>
-        <details class="disclose">
+        <details class="disclose" id="cmp-score-about" data-hook="cmp-score-about">
           <summary>About scoring</summary>
-          <div class="disclose-body">
-            <p>Live: runs the real model 60 times; this takes a while.</p>
-            <p>
-              One run each proves little: the AI can answer differently next time. The test set screen asks every
-              question several times.
-            </p>
-          </div>
+          <div class="disclose-body" id="cmp-score-preview" data-hook="cmp-score-preview"></div>
         </details>
         <div id="cmp-try" data-hook="cmp-try"></div>
         <p class="cmpsum" id="cmp-summary" aria-live="polite" hidden></p>
@@ -532,7 +526,7 @@
         This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were
         checked in November 2026; they change. Not financial advice.
       </p>
-      <p class="muted build">build ux17</p>
+      <p class="muted build">build ux18</p>
     </footer>
 
     <script type="module" src="src/app/main.js"></script>

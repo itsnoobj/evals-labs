@@ -31,8 +31,8 @@ test("counts, rates and perCase for the fake agent", async () => {
   assert.equal(out.simple.total, 12);
   assert.equal(out.simple.rate, 0.5);
   for (const c of cases) {
-    assert.deepEqual(out.simple.perCase[c.id], { passed: 2, total: 4 });
-    assert.deepEqual(out.careful.perCase[c.id], { passed: 4, total: 4 });
+    assert.deepEqual(out.simple.perCase[c.id], { passed: 2, total: 4, runs: [true, false, true, false] });
+    assert.deepEqual(out.careful.perCase[c.id], { passed: 4, total: 4, runs: [true, true, true, true] });
   }
   assert.deepEqual(
     Object.keys(out.simple.perCase),
@@ -103,7 +103,7 @@ test("abort stops early and returns partial results", async () => {
   assert.equal(out.simple.total, 2);
   assert.equal(out.careful.total, 1);
   assert.equal(out.simple.perCase[CASES[0].id].total, 2);
-  assert.deepEqual(out.simple.perCase[CASES[1].id], { passed: 0, total: 0 }); // not reached
+  assert.deepEqual(out.simple.perCase[CASES[1].id], { passed: 0, total: 0, runs: [] }); // not reached
 });
 
 test("an already aborted signal runs nothing", async () => {
@@ -209,8 +209,15 @@ test("replay over recorded-runs.json matches the totals implied by the data", as
     const k = await carefulPass(c);
     simpleTotal += s;
     carefulTotal += k;
-    assert.deepEqual(out.simple.perCase[c.id], { passed: s, total: poolSize }, `simple ${c.id}`);
-    assert.deepEqual(out.careful.perCase[c.id], { passed: k, total: poolSize }, `careful ${c.id}`);
+    for (const [side, want] of [
+      [out.simple.perCase[c.id], s],
+      [out.careful.perCase[c.id], k],
+    ]) {
+      assert.equal(side.passed, want, c.id);
+      assert.equal(side.total, poolSize, c.id);
+      assert.equal(side.runs.length, poolSize, c.id);
+      assert.equal(side.runs.filter(Boolean).length, want, `runs booleans match passed for ${c.id}`);
+    }
   }
   assert.equal(out.simple.total, CASES.length * poolSize);
   assert.equal(out.simple.passed, simpleTotal);

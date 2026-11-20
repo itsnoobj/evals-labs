@@ -1,0 +1,555 @@
+{
+  "block": "test:final:D1@t0.2",
+  "inScopeAnswers": 60,
+  "checkerPassed": 39,
+  "right": 37,
+  "trueButIncomplete": 10,
+  "wrong": 13,
+  "strictPass": 37,
+  "lenientPass": 47,
+  "checkerPassedButNotRight": 2,
+  "rightButCheckerFailed": 0,
+  "falseRefusals": 3,
+  "rows": [
+    {
+      "id": "NS01",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The dataset box holds real questions that people ask, collected in one list.",
+      "label": "right",
+      "why": "repeats the gold sentence"
+    },
+    {
+      "id": "NS02",
+      "run": 0,
+      "checkerPass": false,
+      "stage": null,
+      "text": "A small change to the prompt can significantly affect how well the agent performs because it impacts the agent's understanding and approach to solving the problem. The agent's response is heavily influenced by how it interprets the instructions, leading to varied outcomes.",
+      "label": "true-but-incomplete",
+      "why": "never says 'every answer'; run 3 adds that guardrails and checks 'adapt to various inputs', which the copy does not say"
+    },
+    {
+      "id": "NS03",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "This checker looks at what the agent sends to the tool before it runs the actual tool call.",
+      "label": "right",
+      "why": "run 1 and 3 add 'before it runs the actual tool call': not in the pop-up, consistent with the wiring"
+    },
+    {
+      "id": "NS04",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The second checker confirms whether the ranking used the right amount and category.",
+      "label": "right",
+      "why": "amount and category both named"
+    },
+    {
+      "id": "NS05",
+      "run": 0,
+      "checkerPass": false,
+      "stage": null,
+      "text": "The draft answer is the first response the model generates after clicking the \"draft\" element. It's the initial attempt to answer the question before any checks are applied.",
+      "label": "wrong",
+      "why": "says the draft is created 'after clicking the draft element/button', which is false; never says 'from the tool results'"
+    },
+    {
+      "id": "NS06",
+      "run": 0,
+      "checkerPass": false,
+      "stage": null,
+      "text": "The last checker can stop an agent from reaching the user by refusing to pass the answer.",
+      "label": "true-but-incomplete",
+      "why": "never names the wrong card or made-up number; run 2 says the checker 'refuses to provide a valid answer' (the refuse box does that, not this checker)"
+    },
+    {
+      "id": "NS07",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "If the pass bar is missed, it stops the change from shipping.",
+      "label": "right",
+      "why": "gold sentence"
+    },
+    {
+      "id": "NS08",
+      "run": 0,
+      "checkerPass": false,
+      "stage": null,
+      "text": "The card box is a visual representation of the agent's process, showing the steps taken during a run and the checks applied.",
+      "label": "wrong",
+      "why": "runs 1 and 3 describe the steps of a run; run 2 says pass or fail but misses 'all check results on one page'"
+    },
+    {
+      "id": "NS09",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "No, the judge does not decide whether a change ships. It measures quality by running the agent and marking the result with checks.",
+      "label": "wrong",
+      "why": "answers 'no' correctly; runs 1 and 3 add that the judge 'runs the agent and marks the result with checks', which describes an eval, not the judge"
+    },
+    {
+      "id": "NS10",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The first tool step finds the spending category of the shop.",
+      "label": "right",
+      "why": "gold sentence"
+    },
+    {
+      "id": "NS11",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The best card is the first one in this ranking.",
+      "label": "right",
+      "why": "gold sentence"
+    },
+    {
+      "id": "NS12",
+      "run": 0,
+      "checkerPass": false,
+      "stage": null,
+      "text": "Yes, the model runs the tool.",
+      "label": "wrong",
+      "why": "'Yes, the model runs the tool.' contradicts 'the model only chooses which one to call'"
+    },
+    {
+      "id": "NS13",
+      "run": 0,
+      "checkerPass": false,
+      "stage": "input",
+      "text": "I do not know from this lab.",
+      "label": "true-but-incomplete",
+      "why": "FALSE REFUSAL: the input gate found no lab word ('grounding', 'failure') and answered 'I do not know from this lab.'"
+    },
+    {
+      "id": "NS14",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "A check can show PASS, FAIL, or NOT RUN.",
+      "label": "right",
+      "why": "PASS, FAIL, NOT RUN"
+    },
+    {
+      "id": "NS15",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "An agent loops when it repeatedly calls a tool, such as a card ranking function, until it reaches a final answer. It checks each call to ensure it meets the criteria before moving on.",
+      "label": "right",
+      "why": "runs 1 and 2: calls a tool until a final answer, plus checks that the wiring has; run 3 invents a pass bar loop that 'stops and checks the next tool'"
+    },
+    {
+      "id": "NS16",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "Teams use several checks because a single check may not catch every bug. Having multiple checks helps catch different types of issues.",
+      "label": "right",
+      "why": "no single check catches every bug"
+    },
+    {
+      "id": "NS17",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "No, a guardrail does not make the AI smarter. It catches mistakes before the user sees them.",
+      "label": "right",
+      "why": "no, it catches mistakes"
+    },
+    {
+      "id": "NS18",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "We measure things to identify and address any issues that might be hidden until a user finds them.",
+      "label": "right",
+      "why": "run 1 says problems 'might be hidden until a user finds them'; runs 2 and 3 say 'identify and fix problems early', no 'hidden'"
+    },
+    {
+      "id": "NS19",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "A 'run' in this lab refers to one attempt to answer a question, from asking the question to getting an answer.",
+      "label": "right",
+      "why": "one attempt, question to answer"
+    },
+    {
+      "id": "NS20",
+      "run": 0,
+      "checkerPass": true,
+      "stage": null,
+      "text": "A tool call is when the agent asks a specific function to be executed, like requesting to rank cards.",
+      "label": "right",
+      "why": "a request to run a function, such as ranking cards"
+    },
+    {
+      "id": "NS01",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The dataset box holds real questions that people ask, collected in one list.",
+      "label": "right",
+      "why": "repeats the gold sentence"
+    },
+    {
+      "id": "NS02",
+      "run": 1,
+      "checkerPass": false,
+      "stage": null,
+      "text": "A small change to the prompt can significantly impact the agent's output because it affects how the model interprets and responds to the question, potentially leading to different behaviors or outcomes.",
+      "label": "true-but-incomplete",
+      "why": "never says 'every answer'; run 3 adds that guardrails and checks 'adapt to various inputs', which the copy does not say"
+    },
+    {
+      "id": "NS03",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "This checker looks at what the agent sends to the tool.",
+      "label": "right",
+      "why": "run 1 and 3 add 'before it runs the actual tool call': not in the pop-up, consistent with the wiring"
+    },
+    {
+      "id": "NS04",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The second checker confirms whether the ranking used the right amount and category.",
+      "label": "right",
+      "why": "amount and category both named"
+    },
+    {
+      "id": "NS05",
+      "run": 1,
+      "checkerPass": false,
+      "stage": null,
+      "text": "The draft answer is the first response the agent generates after clicking the \"draft\" button. It's the initial attempt to answer the question based on the agent's logic and tools.",
+      "label": "wrong",
+      "why": "says the draft is created 'after clicking the draft element/button', which is false; never says 'from the tool results'"
+    },
+    {
+      "id": "NS06",
+      "run": 1,
+      "checkerPass": false,
+      "stage": null,
+      "text": "The last checker can stop an agent from reaching the user by refusing to provide a valid answer.",
+      "label": "wrong",
+      "why": "never names the wrong card or made-up number; run 2 says the checker 'refuses to provide a valid answer' (the refuse box does that, not this checker)"
+    },
+    {
+      "id": "NS07",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "If the pass bar is missed, it stops the change from shipping.",
+      "label": "right",
+      "why": "gold sentence"
+    },
+    {
+      "id": "NS08",
+      "run": 1,
+      "checkerPass": false,
+      "stage": null,
+      "text": "The card box is a visual representation of the agent's steps and checks, showing whether each step passes or fails.",
+      "label": "true-but-incomplete",
+      "why": "runs 1 and 3 describe the steps of a run; run 2 says pass or fail but misses 'all check results on one page'"
+    },
+    {
+      "id": "NS09",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "No, the judge does not decide whether a change ships.",
+      "label": "right",
+      "why": "answers 'no' correctly; runs 1 and 3 add that the judge 'runs the agent and marks the result with checks', which describes an eval, not the judge"
+    },
+    {
+      "id": "NS10",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The first tool step finds the spending category of the shop.",
+      "label": "right",
+      "why": "gold sentence"
+    },
+    {
+      "id": "NS11",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The best card is the first one in this ranking.",
+      "label": "right",
+      "why": "gold sentence"
+    },
+    {
+      "id": "NS12",
+      "run": 1,
+      "checkerPass": false,
+      "stage": null,
+      "text": "Yes, the model runs the tool.",
+      "label": "wrong",
+      "why": "'Yes, the model runs the tool.' contradicts 'the model only chooses which one to call'"
+    },
+    {
+      "id": "NS13",
+      "run": 1,
+      "checkerPass": false,
+      "stage": "input",
+      "text": "I do not know from this lab.",
+      "label": "true-but-incomplete",
+      "why": "FALSE REFUSAL: the input gate found no lab word ('grounding', 'failure') and answered 'I do not know from this lab.'"
+    },
+    {
+      "id": "NS14",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "A check can show PASS, FAIL, or NOT RUN.",
+      "label": "right",
+      "why": "PASS, FAIL, NOT RUN"
+    },
+    {
+      "id": "NS15",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "An agent loops when it repeatedly calls a tool, such as ranking cards, until it reaches a final answer. The agent tries different tools and uses checks to see if the results are correct.",
+      "label": "right",
+      "why": "runs 1 and 2: calls a tool until a final answer, plus checks that the wiring has; run 3 invents a pass bar loop that 'stops and checks the next tool'"
+    },
+    {
+      "id": "NS16",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "Teams use several checks because a single check may not catch every bug. Multiple checks help identify different types of issues, making it more likely to detect problems that a single check might miss.",
+      "label": "right",
+      "why": "no single check catches every bug"
+    },
+    {
+      "id": "NS17",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "No, a guardrail doesn't make the AI smarter. It catches mistakes before the user sees them.",
+      "label": "right",
+      "why": "no, it catches mistakes"
+    },
+    {
+      "id": "NS18",
+      "run": 1,
+      "checkerPass": false,
+      "stage": null,
+      "text": "We measure things to identify and fix problems early, ensuring the agent performs reliably.",
+      "label": "true-but-incomplete",
+      "why": "run 1 says problems 'might be hidden until a user finds them'; runs 2 and 3 say 'identify and fix problems early', no 'hidden'"
+    },
+    {
+      "id": "NS19",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "A 'run' in this lab refers to one attempt to answer a question, from asking the question to getting an answer.",
+      "label": "right",
+      "why": "one attempt, question to answer"
+    },
+    {
+      "id": "NS20",
+      "run": 1,
+      "checkerPass": true,
+      "stage": null,
+      "text": "A tool call is when the agent asks a specific function or tool to be used, like ranking cards, to get more information or to solve a problem.",
+      "label": "right",
+      "why": "a request to run a function, such as ranking cards"
+    },
+    {
+      "id": "NS01",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The dataset box holds real questions that people ask, collected in one list.",
+      "label": "right",
+      "why": "repeats the gold sentence"
+    },
+    {
+      "id": "NS02",
+      "run": 2,
+      "checkerPass": false,
+      "stage": null,
+      "text": "A small change to the prompt can significantly impact how well an AI agent performs because it affects the agent's ability to handle different situations effectively. The agent's guardrails and checks are designed to adapt to various inputs, ensuring reliability and consistency.",
+      "label": "wrong",
+      "why": "never says 'every answer'; run 3 adds that guardrails and checks 'adapt to various inputs', which the copy does not say"
+    },
+    {
+      "id": "NS03",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "This checker looks at what the agent sends to the tool before it runs the actual tool call.",
+      "label": "right",
+      "why": "run 1 and 3 add 'before it runs the actual tool call': not in the pop-up, consistent with the wiring"
+    },
+    {
+      "id": "NS04",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The second checker confirms whether the ranking used the right amount and category.",
+      "label": "right",
+      "why": "amount and category both named"
+    },
+    {
+      "id": "NS05",
+      "run": 2,
+      "checkerPass": false,
+      "stage": null,
+      "text": "The draft answer is the first response the agent writes after clicking the \"draft\" button. It's the initial attempt before any checks or guardrails are applied.",
+      "label": "wrong",
+      "why": "says the draft is created 'after clicking the draft element/button', which is false; never says 'from the tool results'"
+    },
+    {
+      "id": "NS06",
+      "run": 2,
+      "checkerPass": false,
+      "stage": null,
+      "text": "The last checker can stop an agent from reaching the user by refusing to accept an answer that cannot be verified.",
+      "label": "true-but-incomplete",
+      "why": "never names the wrong card or made-up number; run 2 says the checker 'refuses to provide a valid answer' (the refuse box does that, not this checker)"
+    },
+    {
+      "id": "NS07",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "If the pass bar is missed, it stops the change from shipping.",
+      "label": "right",
+      "why": "gold sentence"
+    },
+    {
+      "id": "NS08",
+      "run": 2,
+      "checkerPass": false,
+      "stage": null,
+      "text": "The card box is a visual representation of the agent's process, showing the steps and checks performed during a run.",
+      "label": "wrong",
+      "why": "runs 1 and 3 describe the steps of a run; run 2 says pass or fail but misses 'all check results on one page'"
+    },
+    {
+      "id": "NS09",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "No, the judge does not decide whether a change ships. It measures quality by running the agent and marking the result with checks.",
+      "label": "wrong",
+      "why": "answers 'no' correctly; runs 1 and 3 add that the judge 'runs the agent and marks the result with checks', which describes an eval, not the judge"
+    },
+    {
+      "id": "NS10",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The first tool step finds the spending category of the shop.",
+      "label": "right",
+      "why": "gold sentence"
+    },
+    {
+      "id": "NS11",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "The best card is the first one in this ranking.",
+      "label": "right",
+      "why": "gold sentence"
+    },
+    {
+      "id": "NS12",
+      "run": 2,
+      "checkerPass": false,
+      "stage": null,
+      "text": "Yes, the model runs the tool.",
+      "label": "wrong",
+      "why": "'Yes, the model runs the tool.' contradicts 'the model only chooses which one to call'"
+    },
+    {
+      "id": "NS13",
+      "run": 2,
+      "checkerPass": false,
+      "stage": "input",
+      "text": "I do not know from this lab.",
+      "label": "true-but-incomplete",
+      "why": "FALSE REFUSAL: the input gate found no lab word ('grounding', 'failure') and answered 'I do not know from this lab.'"
+    },
+    {
+      "id": "NS14",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "A check can show PASS, FAIL, or NOT RUN.",
+      "label": "right",
+      "why": "PASS, FAIL, NOT RUN"
+    },
+    {
+      "id": "NS15",
+      "run": 2,
+      "checkerPass": false,
+      "stage": null,
+      "text": "An agent loops when it repeatedly calls a tool to get a response, checking each response to see if it meets the criteria for a \"pass\" on the \"pass bar\". If it passes, it moves on to the next tool; if it fails, it stops and checks the next tool.",
+      "label": "wrong",
+      "why": "runs 1 and 2: calls a tool until a final answer, plus checks that the wiring has; run 3 invents a pass bar loop that 'stops and checks the next tool'"
+    },
+    {
+      "id": "NS16",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "Teams use several checks because a single check may not catch every bug. Multiple checks help identify different types of issues, making it more likely to find and fix problems.",
+      "label": "right",
+      "why": "no single check catches every bug"
+    },
+    {
+      "id": "NS17",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "No, a guardrail does not make the AI smarter. It catches mistakes before the user sees them.",
+      "label": "right",
+      "why": "no, it catches mistakes"
+    },
+    {
+      "id": "NS18",
+      "run": 2,
+      "checkerPass": false,
+      "stage": null,
+      "text": "We measure things to identify and fix problems early, ensuring the AI agent performs reliably.",
+      "label": "true-but-incomplete",
+      "why": "run 1 says problems 'might be hidden until a user finds them'; runs 2 and 3 say 'identify and fix problems early', no 'hidden'"
+    },
+    {
+      "id": "NS19",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "A 'run' in this lab refers to one attempt to answer a question, from asking the question to providing an answer.",
+      "label": "right",
+      "why": "one attempt, question to answer"
+    },
+    {
+      "id": "NS20",
+      "run": 2,
+      "checkerPass": true,
+      "stage": null,
+      "text": "A tool call is when the agent asks a specific function to be executed, like ranking cards, to get information needed to answer the question.",
+      "label": "right",
+      "why": "a request to run a function, such as ranking cards"
+    }
+  ]
+}
