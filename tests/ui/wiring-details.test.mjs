@@ -176,6 +176,30 @@ has(careful.judge, "NOT ASKED");
 has(careful.judge, 'data-hook="judge-flow"');
 has(careful.judge, "Second opinion only");
 lacks(careful.judge, "&amp;lt;", "judge: not double escaped");
+// replay: one plain sentence, no invented grades
+const NO_MODEL =
+  "Recorded runs have no model to ask. Press Load model, then Ask both again, and the grader runs for real.";
+has(careful.judge, NO_MODEL, "judge: replay sentence");
+ok(careful.judge.indexOf(NO_MODEL) < careful.judge.indexOf('data-hook="judge-flow"'), "judge: sentence is at the top");
+// live, graded: the real grades show, no replay sentence
+{
+  const live = { ...shared, mode: "live" };
+  const graded = { ...side, judge: { all: [5, 4, "?", 4, 5], median: 4 } };
+  const gs = { ...scores, rubric_judge: { pass: true, score: 4, reason: "five grades: 5, 4, ?, 4, 5" } };
+  const g = buildDetails("careful", { ...graded, scores: gs }, live);
+  lacks(g.judge, NO_MODEL, "judge: no replay sentence when live");
+  lacks(g.judge, "NOT ASKED");
+  has(g.judge, "Middle grade 4 of 5: PASS");
+  has(g.judge, "NO NUMBER");
+  has(g.judge, "five grades: 5, 4, ?, 4, 5");
+  has(g.eval, "five grades: 5, 4, ?, 4, 5", "eval row shows the real grader result");
+  has(g.eval, "asked after the answer");
+  // live, not graded yet: nothing is invented
+  const before = buildDetails("careful", side, live);
+  has(before.judge, "NOT ASKED");
+  lacks(before.judge, NO_MODEL);
+  has(buildDetails("careful", { ...side, judging: true }, live).judge, "Asking the AI grader 5 times");
+}
 for (const k of ["eval", "checks"]) {
   lacks(careful[k], "You are a strict grader", `${k}: no duplicate prompt`);
   has(careful[k], "Click the AI grader box to see how it works", `${k}: pointer`);

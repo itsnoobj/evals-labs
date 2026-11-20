@@ -43,6 +43,7 @@ export function drawWiring() {
       pending: !!s.pending && !last.verdict,
       scores: kind === "careful" ? (s.scores ?? null) : null,
       events: s.events ?? [],
+      judging: kind === "careful" && !!s.judging,
     });
     // A rejected try is not an answer to the user and is not saved as the final trace yet.
     if (kind === "careful" && s.pending) {
@@ -57,6 +58,8 @@ export function drawWiring() {
       outcome: s.outcome ?? null,
       pending: !!s.pending,
       scores: s.scores ?? null,
+      judge: s.judge ?? null,
+      judging: !!s.judging,
     };
     const focus = document.activeElement;
     const keep = root.contains(focus)

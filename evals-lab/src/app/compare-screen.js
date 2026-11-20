@@ -4,6 +4,7 @@ import { CATEGORY_LABELS } from "../task/cases.js";
 import { METRICS, scoreRun } from "../evals/engine.js";
 import { runCase, SYSTEM_PROMPT } from "../agent/agent-step.js";
 import { chatHtml } from "../ui/chat-ui.js";
+import { gradeFiveTimes } from "../agent/ai-grader.js";
 import { runGuarded, makeReplayChat, verifyRun } from "../agent/guarded-agent.js";
 import { checkInput } from "../agent/guardrails.js";
 import {
@@ -17,6 +18,7 @@ import {
   SIMPLE_NEEDS_LIVE_NOTE,
   NO_KEY_NOTE,
   showError,
+  describeError,
   mark,
 } from "./state.js";
 import { drawWiring } from "./wiring-panel.js";
@@ -206,6 +208,29 @@ export async function onAskBoth() {
     cmp.careful.run = result.run;
     drawChats();
   };
+  // The AI grader is a second opinion on the careful agent's final answer. It needs a model, so only live runs ask it.
+  // It never changes right or wrong, and the ship gate ignores it.
+  const graderTask = async () => {
+    const run = cmp.careful.run;
+    if (state.mode !== "live" || !run?.steps.some((s) => s.kind === "final") || cmp.careful.outcome === "blocked")
+      return;
+    cmp.careful.judging = true;
+    $("cmp-summary").textContent = "Asking the AI grader 5 times…";
+    $("cmp-summary").hidden = false;
+    drawChats();
+    try {
+      const judge = await gradeFiveTimes(state.llm.chat, c, run);
+      cmp.careful.judge = judge;
+      cmp.careful.scores = scoreRun(c, run, { judge: { score: judge.median } });
+      cmp.careful.scores.rubric_judge.reason = `five grades: ${judge.all.join(", ")}`;
+      return null;
+    } catch (err) {
+      return err;
+    } finally {
+      cmp.careful.judging = false;
+      drawChats();
+    }
+  };
   try {
     if (simpleSkipped) await carefulTask();
     else if (replay) await Promise.all([simpleTask(), carefulTask()]);
@@ -213,6 +238,7 @@ export async function onAskBoth() {
       await simpleTask();
       await carefulTask();
     }
+    const graderError = await graderTask();
     const tries = cmp.careful.attempts.length;
     const retried = tries > 1 ? ` (${tries} tries)` : "";
     const outcome = OUTCOME_WORDS[cmp.careful.outcome] ?? "finished";
@@ -226,6 +252,12 @@ export async function onAskBoth() {
         `Simple agent: ${word(cmp.simple)}. Careful agent: ${word(cmp.careful)}${cmp.careful.outcome === "refused" ? " (no answer given)" : ""}; it ${outcome}${retried}.`;
     }
     $("cmp-summary").hidden = false;
+    if (graderError) {
+      const p = document.createElement("p");
+      p.className = "err";
+      p.textContent = `The AI grader failed and stays NOT RUN: ${describeError(graderError)}`;
+      $("cmp-summary").append(p);
+    }
     mark("both");
     if (c.custom) mark("typed");
     const askedKey = c.custom ? `custom:${c.query}` : c.id;

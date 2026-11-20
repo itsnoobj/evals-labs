@@ -1,7 +1,8 @@
 // The Checks screen: the checks, the bug injector, the AI grader button and its flow.
 // Exports: drawMetrics, onBugSelected, onJudge.
 import { perfectRun } from "../task/cases.js";
-import { METRICS, BUGS, scoreRun, injectBug, judgePrompt, parseJudge } from "../evals/engine.js";
+import { METRICS, BUGS, scoreRun, injectBug, judgePrompt } from "../evals/engine.js";
+import { gradeFiveTimes } from "../agent/ai-grader.js";
 import { stageStates, BUG_STAGE } from "../ui/lessons.js";
 import * as ui from "../ui/ui.js";
 import { checkDetailHtml } from "../ui/check-details.js";
@@ -73,29 +74,10 @@ export function onBugSelected(bugId) {
 
 export async function onJudge() {
   const { c, run } = state.metricsCtx;
-  const { system, user } = judgePrompt(c, run);
   $("judge-run").disabled = true;
   $("metrics-note").textContent = "Asking the AI to grade the answer five times…";
   try {
-    const all = [];
-    for (let i = 0; i < 5; i++) {
-      const reply = await state.llm.chat({
-        messages: [
-          { role: "system", content: system },
-          { role: "user", content: user },
-        ],
-        temperature: 0.7,
-        seed: 200 + i,
-        max_tokens: 8,
-      });
-      all.push(parseJudge(reply.text).score);
-    }
-    const valid = all.filter((s) => s !== null).sort((a, b) => a - b);
-    state.judge = {
-      key: JSON.stringify(run.steps),
-      all: all.map((s) => s ?? "?"),
-      median: valid.length ? valid[Math.floor((valid.length - 1) / 2)] : null,
-    };
+    state.judge = { key: JSON.stringify(run.steps), ...(await gradeFiveTimes(state.llm.chat, c, run)) };
     drawMetrics();
     mark("judge");
   } catch (err) {

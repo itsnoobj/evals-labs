@@ -144,7 +144,7 @@ export function wiringHtml({
     : "";
 
   const after = AFTER.map(([id, label]) => {
-    // The AI grader never runs on this screen: always NOT RUN for the careful agent. It does not feed the gate.
+    // The AI grader runs only with a live model: otherwise NOT RUN. It does not feed the gate.
     const state = id === "judge" && careful ? (states.judge ?? "notrun") : stateOf(id, true);
     const chips =
       careful && id === "eval"
@@ -193,11 +193,21 @@ export function bindWiring(root) {
 }
 
 // States for a live or finished run. Caller passes `verdict` as null while an attempt is still running.
+// `judging` is true while the AI grader is being asked (careful agent only).
 // Optional `events` (from runGuarded) tell the guard node whether the input check passed or blocked the question.
 // Build-time and after-run nodes are 'missing' for the simple agent; its checks, retry, fallback and refuse ids are omitted.
 export function wiringStates(
   kind,
-  { steps = [], verdict = null, attempts = 1, outcome = null, pending = false, scores = null, events = [] } = {},
+  {
+    steps = [],
+    verdict = null,
+    attempts = 1,
+    outcome = null,
+    pending = false,
+    scores = null,
+    events = [],
+    judging = false,
+  } = {},
 ) {
   const careful = kind === "careful";
   const tools = steps.filter((s) => s.kind === "tool");
@@ -252,7 +262,9 @@ export function wiringStates(
   if (!careful) {
     for (const id of ids(AFTER)) st[id] = "missing";
   } else {
-    st.judge = "notrun";
+    // The AI grader is a second opinion: it lights up while it is asked, then shows its own result. The gate ignores it.
+    const graded = scores?.rubric_judge?.pass;
+    st.judge = judging ? "active" : graded === true ? "pass" : graded === false ? "fail" : "notrun";
     st.trace = finished ? "done" : "idle";
     st.eval = st.card = finished && hasScores ? "done" : "idle";
     // A check that could not run (a typed question has no answer key) is not a pass, but it is not a fail either.

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { CASES, perfectRun } from "../../evals-lab/src/task/cases.js";
 import { METRICS, scoreRun } from "../../evals-lab/src/evals/engine.js";
-import { runGuarded } from "../../evals-lab/src/agent/guarded-agent.js";
+import { runGuarded, verifyRun } from "../../evals-lab/src/agent/guarded-agent.js";
 import { wiringHtml, wiringStates, bindWiring, NODE_HELP, NODE_IDS } from "../../evals-lab/src/ui/wiring-graph.js";
 
 let checks = 0;
@@ -53,7 +53,7 @@ for (const id of ["ask", "model", "answer", "dataset", "key", "prompt", "checks"
   check(() => assert.equal(st[id], "done", id));
 check(() => assert.equal(st.gate, "pass"));
 for (const id of ["retry", "fallback", "refuse"]) check(() => assert.equal(st[id], "idle", id));
-// The AI grader never runs here: NOT RUN, and it sits between the 8 checks and the scorecard.
+// Without a grade the AI grader is NOT RUN, and it sits between the 8 checks and the scorecard.
 check(() => assert.equal(st.judge, "notrun"));
 check(() => assert.deepEqual(NODE_IDS.careful.slice(-5), ["trace", "eval", "judge", "card", "gate"]));
 
@@ -330,6 +330,36 @@ check(() => assert.equal(wiringStates("simple", { steps: [good.steps.at(-1)] }).
       css.split("\n").filter((l) => /^[.@]/.test(l) && !l.startsWith(".wgraph") && !l.startsWith("@")).length === 0,
     ),
   );
+}
+
+// AI grader node: RUNNING while asked, PASSED or FAILED from its own score, NOT RUN otherwise. The gate ignores it.
+{
+  const base = { steps: good.steps, verdict: verifyRun(c0, good), outcome: "passed_first_try" };
+  const withJudge = (rubric_judge, judging) =>
+    wiringStates("careful", { ...base, scores: { ...perfectScores, rubric_judge }, judging });
+  check(() => assert.equal(withJudge({ pass: null }, true).judge, "active"));
+  check(() => assert.equal(withJudge({ pass: true, score: 5 }, false).judge, "pass"));
+  check(() => assert.equal(withJudge({ pass: false, score: 2 }, false).judge, "fail"));
+  check(() => assert.equal(withJudge({ pass: null }, false).judge, "notrun"));
+  check(() => assert.equal(wiringStates("careful", { ...base }).judge, "notrun"));
+  check(() => assert.equal(withJudge({ pass: false, score: 2 }, false).gate, "pass")); // second opinion only
+  // The state is a word and a shape, not a colour only.
+  const htmlFor = (state) => wiringHtml({ kind: "careful", states: { judge: state } });
+  for (const [state, word] of [
+    ["active", "RUNNING"],
+    ["pass", "PASSED"],
+    ["fail", "FAILED"],
+    ["notrun", "NOT RUN"],
+  ])
+    check(() =>
+      assert.ok(
+        new RegExp(`data-node="judge" data-state="${state}"[^>]*><i class="sq [a-z]+"[\\s\\S]*?>${word}</span>`).test(
+          htmlFor(state),
+        ),
+        state,
+      ),
+    );
+  check(() => assert.equal(wiringStates("simple", { steps: good.steps, judging: true }).judge, "missing"));
 }
 
 console.log(`${checks} checks passed`);

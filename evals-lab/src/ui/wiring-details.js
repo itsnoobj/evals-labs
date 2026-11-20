@@ -211,15 +211,25 @@ const scoreRows = (metrics, scores) =>
 const autoFails = (metrics, scores) => metrics.filter((m) => m.id !== "rubric_judge" && scores?.[m.id]?.pass !== true);
 
 // The AI grader (LLM as judge) has its own node. In the 8 checks panels it gets one sentence and a pointer.
-const graderNote = () =>
-  '<p class="muted">AI grader (LLM as judge): not run here, and not part of the ship bar. Click the AI grader box to see how it works.</p>';
+const graderNote = (judged) =>
+  `<p class="muted">AI grader (LLM as judge): ${judged ? "asked after the answer" : "not run here"}, and not part of the ship bar. Click the AI grader box to see how it works.</p>`;
 
-// The visual for the grader node: what it reads, the prompt it gets (built from this run), 5 asks, result. Never asked here.
-function graderPanel(c, side, scores) {
+const NO_MODEL_SENTENCE =
+  "Recorded runs have no model to ask. Press Load model, then Ask both again, and the grader runs for real.";
+
+// The visual for the grader node: what it reads, the prompt it gets (built from this run), 5 asks, result.
+// Grades come from side.judge (live runs only). Without a model nothing is asked and no grade is shown.
+function graderPanel(c, side, scores, mode) {
   const grade = scores?.rubric_judge;
   return panel(
     "judge",
-    judgeFlowHtml({ prompt: judgePrompt(c, { steps: side.steps }), grades: null, median: null }) +
+    (mode === "live" ? "" : `<p><b>${e(NO_MODEL_SENTENCE)}</b></p>`) +
+      (side.judging ? "<p><b>Asking the AI grader 5 times…</b></p>" : "") +
+      judgeFlowHtml({
+        prompt: judgePrompt(c, { steps: side.steps }),
+        grades: side.judge?.all ?? null,
+        median: side.judge?.median ?? null,
+      }) +
       (grade && grade.pass !== null && grade.pass !== undefined
         ? `<p>${mark(grade.pass)} ${e(grade.reason ?? "")}</p>`
         : ""),
@@ -227,7 +237,7 @@ function graderPanel(c, side, scores) {
 }
 
 // side: one agent's state. shared: things both agents see. Returns { nodeId: escapedHtml } for wiringHtml().
-// side = { steps, modelSteps, attempts:[{steps,verdict}], events, outcome, pending, scores, temperature, tries }
+// side = { steps, modelSteps, attempts:[{steps,verdict}], events, outcome, pending, scores, judge: {all, median} | null }
 export function buildDetails(kind, side, shared) {
   const { c, cases, cardNames, labels, metrics, modelName, mode, recordedTemp } = shared;
   const careful = kind === "careful";
@@ -267,7 +277,7 @@ export function buildDetails(kind, side, shared) {
         "checks",
         `<p class="wd-sub">The 8 automatic checks, run on the saved trace:</p>${list(metrics.map((m) => `<b>${e(m.label)}</b> <span class="muted">${e(m.blurb ?? "")}</span>`))}` +
           `<p class="wd-sub">The 5 rules the checker applies while the agent runs:</p><ol class="wlist">${CHECKER_RULES.map((r) => `<li>${e(r)}</li>`).join("")}</ol>` +
-          graderNote(),
+          graderNote(!!side.judge),
       );
   d.bar = !careful
     ? notMine("bar")
@@ -343,9 +353,10 @@ export function buildDetails(kind, side, shared) {
     ? notMine("eval")
     : panel(
         "eval",
-        (done ? scoreRows(metrics, side.scores) : "<p>The 8 checks run when the answer is final.</p>") + graderNote(),
+        (done ? scoreRows(metrics, side.scores) : "<p>The 8 checks run when the answer is final.</p>") +
+          graderNote(!!side.judge),
       );
-  d.judge = careful ? graderPanel(c, side, side.scores) : notMine("judge");
+  d.judge = careful ? graderPanel(c, side, side.scores, mode) : notMine("judge");
   if (!careful) {
     d.card = notMine("card");
     d.gate = notMine("gate");
