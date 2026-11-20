@@ -1,13 +1,15 @@
 // The Checks screen: the checks, the bug injector, the LLM judge button and its flow.
-// Exports: drawMetrics, onBugSelected, onJudge.
+// Clicking a check tile opens the explain dialog (ui/explain-dialog.js) with the data of the last redraw.
+// Exports: drawMetrics, onTileSelected, onBugSelected, onJudge.
 import { perfectRun } from "../task/cases.js";
 import { METRICS, BUGS, scoreRun, injectBug, judgePrompt } from "../evals/engine.js";
 import { gradeFiveTimes } from "../agent/ai-grader.js";
 import { stageStates, BUG_STAGE } from "../ui/lessons.js";
 import * as ui from "../ui/ui.js";
-import { checkDetailHtml } from "../ui/check-details.js";
+import { checkExplain } from "../ui/check-details.js";
+import { openExplain } from "../ui/explain-dialog.js";
 import { judgeFlowHtml } from "../ui/judge-flow.js";
-import { $, state, caseById, NO_KEY_NOTE, mark, describeError } from "./state.js";
+import { $, state, caseById, NO_KEY_NOTE, CARD_NAMES, mark, describeError } from "./state.js";
 
 export function drawMetrics() {
   const useModel = $("metrics-base").value === "model" && state.last;
@@ -33,7 +35,8 @@ export function drawMetrics() {
     scores = scoreRun(c, base);
     state.bugId = null;
   }
-  state.metricsCtx = { c, run };
+  const judged = state.judge?.key === JSON.stringify(run.steps) ? state.judge : null;
+  state.metricsCtx = { c, run, scores, note, judged };
   $("metrics-note").textContent = note;
   ui.renderFlow($("metrics-flow"), {
     states: stageStates(c, run, { scores }),
@@ -41,25 +44,34 @@ export function drawMetrics() {
     scores,
     chips: true,
     bugStage: state.bugId ? BUG_STAGE[state.bugId] : null,
+    run,
+    query: c.query,
+    cardNames: CARD_NAMES,
   });
-  const picked = METRICS.find((m) => m.id === state.tileId);
-  const judged = state.judge?.key === JSON.stringify(run.steps) ? state.judge : null;
   $("judge-flow-view").innerHTML = judgeFlowHtml({
     prompt: judgePrompt(c, run),
     grades: judged?.all ?? null,
     median: judged?.median ?? null,
   });
+  ui.renderMetrics($("metrics-view"), { metrics: METRICS, bugs: BUGS, scores, activeBug: state.bugId });
+}
+
+// Open the dialog for one check. It shows the scores of the last redraw; nothing can change them while it is open.
+export function onTileSelected(metricId) {
+  const metric = METRICS.find((m) => m.id === metricId);
+  const ctx = state.metricsCtx;
+  if (!metric || !ctx) return;
   const grader =
-    picked?.id === "rubric_judge"
-      ? { prompt: judgePrompt(c, run), grades: judged?.all ?? null, median: judged?.median ?? null }
+    metric.id === "rubric_judge"
+      ? {
+          prompt: judgePrompt(ctx.c, ctx.run),
+          grades: ctx.judged?.all ?? null,
+          median: ctx.judged?.median ?? null,
+        }
       : null;
-  ui.renderMetrics($("metrics-view"), {
-    metrics: METRICS,
-    bugs: BUGS,
-    scores,
-    activeBug: state.bugId,
-    selected: picked?.id ?? null,
-    detailHtml: checkDetailHtml(picked, scores[picked?.id], grader),
+  const bug = BUGS.find((b) => b.id === state.bugId) ?? null;
+  openExplain(checkExplain(metric, ctx.scores[metric.id], { grader, note: ctx.note, bug }), {
+    returnFocus: () => $("metrics-view").querySelector(`[data-tile="${metric.id}"]`),
   });
 }
 

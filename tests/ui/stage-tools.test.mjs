@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { STAGE_TOOLS, toolsHtml } from "../../evals-lab/src/ui/stage-tools.js";
+import { STAGE_TOOLS, toolsHtml, toolsListHtml } from "../../evals-lab/src/ui/stage-tools.js";
 import { NODE_IDS } from "../../evals-lab/src/ui/wiring-graph.js";
 import { STAGES } from "../../evals-lab/src/ui/lessons.js";
 
@@ -32,6 +32,11 @@ for (const id of ids) {
   ok(html.includes('target="_blank" rel="noopener noreferrer"'), `${id}: link attrs`);
 }
 
+ok(
+  toolsHtml("rank").includes(toolsListHtml("rank")) && !toolsListHtml("rank").includes("<details"),
+  "list has no details wrapper",
+);
+ok(toolsListHtml("nope") === "" && toolsListHtml("toString") === "", "unknown id gives empty list");
 ok(toolsHtml("nope") === "", "unknown id gives empty string");
 ok(toolsHtml("__proto__") === "" && toolsHtml("toString") === "", "prototype names give empty string");
 

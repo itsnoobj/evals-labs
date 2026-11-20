@@ -42,6 +42,9 @@ function drawRunFlow(c, run, opts = {}) {
     states: run ? stageStates(c, run, opts) : null,
     metrics: METRICS,
     scores: opts.scores ?? null,
+    run,
+    query: c.query,
+    cardNames: CARD_NAMES,
   });
 }
 

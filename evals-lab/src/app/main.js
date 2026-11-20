@@ -5,10 +5,10 @@ import { METRICS } from "../evals/engine.js";
 import { checkWebGpu, MODEL_F16 } from "../agent/llm.js";
 import * as ui from "../ui/ui.js";
 import { cardsMatrixHtml } from "../ui/cards-view.js";
-import { $, state, questionFor, NO_KEY_NOTE, mark, describeError } from "./state.js";
+import { $, state, questionFor, NO_KEY_NOTE, CARD_NAMES, mark, describeError } from "./state.js";
 import { setNote, syncCmpModelBar, enterMode, onLoadModel } from "./model-bar.js";
 import { onRunCase } from "./run-screen.js";
-import { drawMetrics, onBugSelected, onJudge } from "./metrics-screen.js";
+import { drawMetrics, onTileSelected, onBugSelected, onJudge } from "./metrics-screen.js";
 import { onRunSet, onCellSelected } from "./golden-screen.js";
 import { drawCurve } from "./compounding-screen.js";
 import { drawChats, onAskBoth, onScoreBoth, onStopScore } from "./compare-screen.js";
@@ -86,10 +86,7 @@ async function init() {
     state.whatIf = null;
     drawCurve();
   };
-  $("metrics-view").addEventListener("tile-selected", (ev) => {
-    state.tileId = ev.detail.metricId;
-    drawMetrics();
-  });
+  $("metrics-view").addEventListener("tile-selected", (ev) => onTileSelected(ev.detail.metricId));
   $("metrics-view").addEventListener("bug-selected", (ev) => onBugSelected(ev.detail.bugId));
   $("grid-view").addEventListener("cell-selected", (ev) => onCellSelected(ev.detail));
   $("use-replay").onclick = useReplay;
@@ -120,7 +117,7 @@ async function init() {
   bindWiringRoots();
   drawChats();
 
-  ui.renderFlow($("run-flow"), { metrics: METRICS });
+  ui.renderFlow($("run-flow"), { metrics: METRICS, cardNames: CARD_NAMES });
   drawMetrics(); // works with no model: it scores a perfect scripted run
   drawCurve(); // works with no runs: it draws the what-if value
 

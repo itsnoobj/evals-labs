@@ -215,7 +215,8 @@ const esc = (s) =>
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
   );
 
-export function toolsHtml(id) {
+// The list and its note, without a <details> around it (the explain dialog puts it in its own closed section).
+export function toolsListHtml(id) {
   const tools = Object.hasOwn(STAGE_TOOLS, id) ? STAGE_TOOLS[id] : null;
   if (!tools?.length) return "";
   const items = tools
@@ -224,5 +225,11 @@ export function toolsHtml(id) {
         `<li><a href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a> <span class="muted">${esc(t.what)}</span></li>`,
     )
     .join("");
-  return `<details class="stage-tools"><summary>Open-source tools for this step (${tools.length})</summary><ul>${items}</ul><p class="muted">Examples, not a recommendation. Check the licence yourself.</p></details>`;
+  return `<ul>${items}</ul><p class="muted">Examples, not a recommendation. Check the licence yourself.</p>`;
+}
+
+export function toolsHtml(id) {
+  const list = toolsListHtml(id);
+  if (!list) return "";
+  return `<details class="stage-tools"><summary>Open-source tools for this step (${STAGE_TOOLS[id].length})</summary>${list}</details>`;
 }

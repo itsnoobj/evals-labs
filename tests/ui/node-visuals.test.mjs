@@ -3,10 +3,13 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { NODE_IDS } from "../../evals-lab/src/ui/wiring-graph.js";
 import { nodeVisualHtml, flowStripHtml, VISUAL_IDS } from "../../evals-lab/src/ui/node-visuals.js";
+import { MORE_EXPLAIN } from "../../evals-lab/src/ui/explainers-more.js";
 
-const allIds = [...new Set([...NODE_IDS.careful, ...NODE_IDS.simple])];
+const nodeIds = [...new Set([...NODE_IDS.careful, ...NODE_IDS.simple])];
+// Wiring nodes, plus the 8 checks and the 5 diagram boxes (explainers-more.js).
+const allIds = [...nodeIds, ...Object.keys(MORE_EXPLAIN)];
 
-test("every node id has a visual, and nothing else does", () => {
+test("every node, check and diagram box id has a visual, and nothing else does", () => {
   assert.deepEqual([...VISUAL_IDS].sort(), [...allIds].sort());
 });
 

@@ -193,3 +193,22 @@
     transform: rotate(90deg);
   }
 }
+
+/* the judge prompt and other plain text inside a closed section */
+.xp-h {
+  margin: 0.9rem 0 0.25rem;
+  font-size: 0.85rem;
+}
+.xp-pre {
+  margin: 0;
+  padding: 0.6rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  font: 0.78rem/1.45 var(--mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+/* the tools list reuses .stage-tools (styles.css); here it sits in a section instead of its own details */
+.xp-tools {
+  font-size: 0.85rem;
+}

@@ -1,8 +1,11 @@
 // Pure render functions: plain data in, HTML out. This module never imports the engine.
 import { STAGES, METRIC_STAGE, MISSIONS, BUG_LESSON } from "./lessons.js";
 import { rankBarsHtml, timelineHtml, cardArtsHtml } from "./run-visuals.js";
-import { toolsHtml } from "./stage-tools.js";
+import { toolsListHtml } from "./stage-tools.js";
 import { disclose } from "./disclose.js";
+import { openExplain, runLinesHtml } from "./explain-dialog.js";
+import { nodeVisualHtml, flowStripHtml } from "./node-visuals.js";
+import { MORE_EXPLAIN, stageExplainId } from "./explainers-more.js";
 
 export function escapeHtml(s) {
   return String(s ?? "").replace(
@@ -70,9 +73,107 @@ const STATE_WORD = {
   skipped: "NOT USED",
 };
 
+// What each box state means, in plain words (the state word itself is STATE_WORD).
+const STATE_TEXT = {
+  ok: "Matches the answer key.",
+  bad: "Does not match the answer key.",
+  missing: "The run ended without this step.",
+  active: "The model is working on this step now.",
+  idle: "Waiting for an earlier step.",
+  done: "This step happened.",
+  skipped: "The model did not call this tool.",
+};
+
+const money = (n) => `₹${n ?? "none"}`;
+
+// Explain dialog input for one box of the task diagram (explain-dialog.js shows it).
+// ctx: { state, run, scores, metrics, bugStage, cardNames, query }. state null means there is no run yet.
+// Pure: no DOM. The old click panel is not lost: its text sits in "More about this box", the tools list in its own section.
+export function stageExplain(
+  st,
+  { state = null, run = null, scores = null, metrics = [], bugStage = null, cardNames = {}, query = "" } = {},
+) {
+  const name = (id) => cardNames[id] ?? id;
+  const lines = [];
+  if (!run || !state || state === "plain") {
+    lines.push({ state: "NO RUN YET", text: "Run a question on the Run screen to see this box with real data." });
+  } else {
+    if (st.id === "checks" && scores) {
+      const words = metrics.map((m) => status(scores[m.id])[0]);
+      const count = (w) => words.filter((x) => x === w).length;
+      lines.push({
+        state: "RESULT",
+        text: `${count("PASS")} PASS, ${count("FAIL")} FAIL, ${count("NOT RUN")} NOT RUN`,
+      });
+    } else {
+      lines.push({ state: STATE_WORD[state] ?? "", text: STATE_TEXT[state] ?? "" });
+    }
+    const step = st.tool ? run.steps.find((s) => s.kind === "tool" && s.tool === st.tool) : null;
+    if (st.id === "question" && query) lines.push({ text: `Question: ${query}` });
+    if (st.id === "classify" && step)
+      lines.push({ html: flowStripHtml(JSON.stringify(step.args), JSON.stringify(step.output)) });
+    if (st.id === "rank" && step) {
+      const ranked = step.output?.ranked ?? [];
+      const top = ranked[0];
+      const out = top
+        ? `${name(top.card)} first, ${money(top.reward_inr)} (${ranked.length} cards ranked)`
+        : JSON.stringify(step.output);
+      lines.push({ html: flowStripHtml(JSON.stringify(step.args), out) });
+    }
+    const final = run.steps.findLast((s) => s.kind === "final");
+    if (st.id === "answer" && final) {
+      lines.push({
+        text: `Card and reward: ${final.card == null ? "none" : name(final.card)}, ${money(final.reward_inr)}`,
+      });
+      lines.push({ text: `Reply: ${final.reply ?? "none"}` });
+    }
+  }
+  if (bugStage === st.id) lines.push({ state: "BUG HERE", text: "An injected bug lands in this box." });
+
+  const watchers = metrics.filter((m) => METRIC_STAGE[m.id]?.includes(st.id)).map((m) => m.label);
+  const more = [
+    {
+      summary: "More about this box",
+      html:
+        `<p>${e(st.what)}</p><p class="muted">The model chooses every step. Our code runs the tools.</p><p><b>Concept.</b> ${e(st.learn)}</p>` +
+        (watchers.length ? `<p class="muted">Checks that read this box: ${e(watchers.join(", "))}.</p>` : ""),
+      id: `explain-stage-${st.id}-more`,
+    },
+  ];
+  const tools = toolsListHtml(st.id);
+  if (tools)
+    more.push({
+      summary: "Open-source tools",
+      html: `<div class="stage-tools xp-tools">${tools}</div>`,
+      id: `explain-stage-${st.id}-tools`,
+    });
+  const words = MORE_EXPLAIN[stageExplainId(st.id)];
+  return {
+    title: `Box ${st.num}: ${st.title}`,
+    what: words.what,
+    why: words.why,
+    visualHtml: nodeVisualHtml(stageExplainId(st.id)),
+    thisRunHtml: runLinesHtml(lines),
+    moreSections: more,
+  };
+}
+
 // states: output of stageStates(), or null for the plain explainer. metrics + scores add check chips to each box.
-// bugStage marks the box where an injected bug lands. Clicking a box opens its explanation.
-export function renderFlow(root, { states = null, metrics = [], scores = null, chips = false, bugStage = null } = {}) {
+// bugStage marks the box where an injected bug lands. Clicking a box opens the explain dialog.
+// run, query and cardNames are only read when a box is opened (the "in this run" lines).
+export function renderFlow(
+  root,
+  {
+    states = null,
+    metrics = [],
+    scores = null,
+    chips = false,
+    bugStage = null,
+    run = null,
+    query = "",
+    cardNames = {},
+  } = {},
+) {
   const fails = metrics.filter((m) => scores?.[m.id]?.pass === false).length;
   const passes = metrics.filter((m) => scores?.[m.id]?.pass === true).length;
   const labelFor = (st, state) => {
@@ -92,7 +193,7 @@ export function renderFlow(root, { states = null, metrics = [], scores = null, c
           .join("")
       : "";
     return `<li class="fnode s-${state}${bugStage === st.id ? " buggy" : ""}">
-      <button type="button" data-stage="${st.id}" aria-pressed="false">
+      <button type="button" data-stage="${st.id}" aria-haspopup="dialog">
         <span class="fnum" aria-hidden="true">${st.num}</span><b>${e(st.title)}</b><small>${e(st.sub)}</small>
         ${label ? `<span class="fstate">${e(label)}</span>` : ""}
         ${bugStage === st.id ? '<span class="fbug">BUG HERE</span>' : ""}
@@ -102,43 +203,20 @@ export function renderFlow(root, { states = null, metrics = [], scores = null, c
     ? `<p class="fextra"><b>Extra steps the route did not expect:</b> <span class="mono">${e(states.extras.join(", "))}</span></p>`
     : "";
   root.innerHTML = `<div class="flow"><ol class="frow">${nodes}</ol>${extras}
-    <p class="muted fnote">Click a box for details.</p>
-    <div class="fdetail" aria-live="polite"></div></div>`;
+    <p class="muted fnote">Click a box for details.</p></div>`;
 
-  const detail = root.querySelector(".fdetail");
-  const paint = () => {
-    const sel = root.dataset.sel || "";
-    root
-      .querySelectorAll("[data-stage]")
-      .forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.stage === sel)));
-    const st = STAGES.find((s) => s.id === sel);
-    detail.hidden = !st;
-    if (!st) {
-      detail.innerHTML = "";
-      return;
-    }
-    const watchers = metrics.filter((m) => METRIC_STAGE[m.id]?.includes(st.id)).map((m) => m.label);
-    detail.innerHTML = `<span class="k">Box ${st.num} · ${e(st.title)}</span><p>${e(st.what)}</p>
-      <p class="muted">The model chooses every step. Our code runs the tools.</p>
-      <p><b>Concept.</b> ${e(st.learn)}</p>
-      ${watchers.length ? `<p class="muted">Checks that read this box: ${e(watchers.join(", "))}.</p>` : ""}${toolsHtml(st.id)}`;
-    // The Run screen redraws this diagram after every step: keep the tool list open if the visitor opened it.
-    const tools = detail.querySelector(".stage-tools");
-    if (tools) {
-      tools.open = root.dataset.tools === "1";
-      tools.addEventListener("toggle", () => {
-        root.dataset.tools = tools.open ? "1" : "";
-      });
-    }
-  };
+  // The Run screen redraws this diagram after every step, so look the button up again when the dialog closes.
   root.querySelectorAll("[data-stage]").forEach((b) => {
     b.onclick = () => {
-      root.dataset.sel = root.dataset.sel === b.dataset.stage ? "" : b.dataset.stage;
-      root.dataset.tools = "";
-      paint();
+      const st = STAGES.find((s) => s.id === b.dataset.stage);
+      openExplain(
+        stageExplain(st, { state: states?.[st.id] ?? null, run, scores, metrics, bugStage, cardNames, query }),
+        {
+          returnFocus: () => root.querySelector(`[data-stage="${st.id}"]`),
+        },
+      );
     };
   });
-  paint();
 }
 
 // ---------- missions ----------
@@ -295,7 +373,7 @@ export function renderCellRun(root, { label, passed, why, caseInfo, run, scores,
 }
 
 // ---------- 2 Metrics ----------
-export function renderMetrics(root, { metrics, scores, bugs, activeBug = null, selected = null, detailHtml = "" }) {
+export function renderMetrics(root, { metrics, scores, bugs, activeBug = null }) {
   const caughtBy = metrics.filter((m) => scores?.[m.id]?.pass === false);
   const green = metrics.filter((m) => scores?.[m.id]?.pass === true);
   const active = bugs.find((b) => b.id === activeBug);
@@ -303,7 +381,7 @@ export function renderMetrics(root, { metrics, scores, bugs, activeBug = null, s
     .map((m) => {
       const s = scores?.[m.id];
       const [word, cls] = status(s);
-      return `<li class="tile ${cls}${m.id === selected ? " picked" : ""}"><button type="button" class="tile-open" data-tile="${e(m.id)}" aria-pressed="${m.id === selected}" aria-label="${e(m.label)}: show details"></button><div class="tilehead"><span class="k">${e(m.group)}</span>${shape(cls)}</div>
+      return `<li class="tile ${cls}"><button type="button" class="tile-open" data-tile="${e(m.id)}" aria-haspopup="dialog" aria-label="${e(m.label)}: show details"></button><div class="tilehead"><span class="k">${e(m.group)}</span>${shape(cls)}</div>
       <h3>${e(m.label)}</h3><p class="word">${word}</p></li>`;
     })
     .join("");
@@ -329,15 +407,15 @@ export function renderMetrics(root, { metrics, scores, bugs, activeBug = null, s
        ${disclose("Why?", `<p>${e(active.blurb)}</p><p class="lesson"><span class="k">Lesson</span>${e(BUG_LESSON[activeBug] ?? "")}</p>`, { id: "metrics-why" })}`
         : "<p>Clean run. Pick a bug to see which checks catch it.</p>"
     }</div>
-    <p class="muted">Click a check for details${metrics.some((m) => m.id === "rubric_judge") ? '. "LLM judge" shows its prompt' : ""}.</p>
-    <ul class="tiles">${tiles}</ul>${detailHtml}
+    <p class="muted">Click a check to open it${metrics.some((m) => m.id === "rubric_judge") ? '. "LLM judge" shows its prompt' : ""}.</p>
+    <ul class="tiles">${tiles}</ul>
     ${disclose("Why each result", `<ul class="reasons">${reasons}</ul>`, { id: "metrics-reasons" })}`;
   root.querySelectorAll("[data-tile]").forEach((b) => {
     b.onclick = () =>
       root.dispatchEvent(
         new CustomEvent("tile-selected", {
           bubbles: true,
-          detail: { metricId: b.dataset.tile === selected ? null : b.dataset.tile },
+          detail: { metricId: b.dataset.tile },
         }),
       );
   });

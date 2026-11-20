@@ -463,17 +463,6 @@ footer p {
   border-left: 6px solid var(--bad);
   background: #fdeeed;
 }
-.fdetail {
-  margin-top: 0.75rem;
-  padding: 0.9rem 1.1rem;
-  border: 1px solid var(--line);
-  border-left: 6px solid var(--accent);
-  background: var(--paper);
-}
-.fdetail p {
-  margin: 0.25rem 0 0;
-  max-width: 46rem;
-}
 
 /* mission panel */
 [data-mission] {
@@ -1622,11 +1611,7 @@ svg .end-retry {
   outline: 3px solid var(--ink, #111);
   outline-offset: -2px;
 }
-.tile.picked {
-  outline: 2px solid var(--ink, #111);
-  outline-offset: -2px;
-}
-/* text cue that a tile opens a panel (the overlay button has no text of its own) */
+/* text cue that a tile opens the explain dialog (the overlay button has no text of its own) */
 .tile::after {
   content: "DETAILS \203A";
   display: block;
@@ -1635,32 +1620,8 @@ svg .end-retry {
   font: 700 0.66rem var(--mono);
   letter-spacing: 0.1em;
 }
-.tile.picked::after {
-  content: "HIDE DETAILS";
-}
 .tile:hover {
   background: var(--paper);
-}
-.tile-detail {
-  margin-top: 1rem;
-  padding: 1rem 1.1rem;
-  background: #fff;
-  border: 1px solid var(--line);
-}
-.tile-detail h3 {
-  margin: 0 0 0.25rem;
-}
-.tile-detail h4 {
-  margin: 0.9rem 0 0.25rem;
-  font-size: 0.85rem;
-}
-.tile-detail pre {
-  white-space: pre-wrap;
-  margin: 0;
-  padding: 0.6rem;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  font-size: 0.8rem;
 }
 
 .jg {

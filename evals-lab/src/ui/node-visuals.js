@@ -1,4 +1,4 @@
-// Flat square pictograms for the wiring nodes (one per node id), plus a small "IN -> OUT" strip.
+// Flat square pictograms for the wiring nodes, the 8 checks and the 5 task boxes (one per id), plus a small "IN -> OUT" strip.
 // Pure strings, no DOM. Every picture is aria-hidden and has a visible caption under it, so it is never image-only.
 // Style: 64 x 64, 2 px stroke in currentColor, no fill, square ends. Spec: docs/specs/ui-style.md
 
@@ -44,6 +44,16 @@ const SHAPES = {
   grades: `<path d="M6 56h52"/><rect x="8" y="30" width="8" height="26"/><rect x="20" y="16" width="8" height="40"/><rect x="32" y="22" width="8" height="34"/><rect x="44" y="12" width="8" height="44"/><path d="M4 30h56" stroke-dasharray="4 3"/>`,
   scorecard: `<path d="M8 56V8M8 56h50"/><rect x="16" y="34" width="10" height="22"/><rect x="32" y="18" width="10" height="38"/><rect x="48" y="28" width="8" height="28"/>`,
   gate: `<path d="M8 8v50M56 8v50"/><path d="M8 26h48M8 40h48"/>${arrowR(20, 50, 24)}`,
+  // For the checks and the diagram boxes (explainers-more.js)
+  route: `<rect x="6" y="44" width="8" height="8"/><rect x="28" y="12" width="8" height="8"/><rect x="50" y="44" width="8" height="8"/><path d="M12 44L30 20M34 20L52 44"/>`,
+  compare:
+    `<rect x="4" y="10" width="22" height="44"/><rect x="38" y="10" width="22" height="44"/>` +
+    `<path d="M9 22h12M9 30h12M9 38h8M43 22h12M43 30h12M43 38h8M28 28h8M28 36h8"/>`,
+  magnifier: `<rect x="6" y="6" width="32" height="32"/><path d="M14 18h16M14 26h10M38 38l20 20"/>`,
+  ruler: `<rect x="4" y="22" width="56" height="20"/><path d="M12 22v8M20 22v12M28 22v8M36 22v12M44 22v8M52 22v12"/>`,
+  bubbleGrade: `<path d="M6 8h52v36H28l-10 10V44H6z"/><rect x="14" y="28" width="6" height="8"/><rect x="26" y="22" width="6" height="14"/><rect x="38" y="16" width="6" height="20"/>`,
+  stopwatch: `<rect x="12" y="16" width="40" height="40"/><path d="M26 6h12v10H26zM32 36V24M32 36l10 8"/>`,
+  ranks: `<path d="M6 56h52"/><rect x="8" y="12" width="10" height="44"/><rect x="22" y="22" width="10" height="34"/><rect x="36" y="34" width="10" height="22"/><rect x="50" y="46" width="8" height="10"/>`,
 };
 
 // node id -> [shape, caption]. The caption says what the picture shows, in plain words.
@@ -71,6 +81,21 @@ const VISUALS = {
   judge: ["grades", "Five bars and a line: five grades, the middle one counts"],
   card: ["scorecard", "A bar chart: all results together"],
   gate: ["gate", "A barrier with an arrow: pass or stop"],
+  // The 8 checks (ids of METRICS in engine.js)
+  trajectory: ["route", "Dots joined in order: the route of tool calls"],
+  task_success: ["compare", "Two pages side by side: the answer and the key"],
+  answer_match: ["docTick", "A page with a tick: the reply names the right card"],
+  grounded: ["magnifier", "A magnifier over a page: each number is looked up"],
+  tool_recall: ["checklist", "A list of boxes: every needed tool is on it"],
+  tool_precision: ["ruler", "A ruler: calls are measured against what is needed"],
+  rubric_judge: ["bubbleGrade", "A speech bubble with bars: a grade from 0 to 5"],
+  ops: ["stopwatch", "A stopwatch: time and readable replies"],
+  // The 5 boxes of the task diagram (ids "stage-" + a box id of lessons.js)
+  "stage-question": ["question", "A message box: the user's question"],
+  "stage-classify": ["wrench", "A wrench: a tool our code runs"],
+  "stage-rank": ["ranks", "Bars from long to short: the cards ranked"],
+  "stage-answer": ["arrowOut", "A message box with an arrow: the answer sent on"],
+  "stage-checks": ["eight", "Eight boxes: eight automatic checks"],
 };
 
 export const VISUAL_IDS = Object.keys(VISUALS);
