@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="src/styles/wiring.css" />
     <link rel="stylesheet" href="src/styles/explain.css" />
     <link rel="stylesheet" href="src/styles/start.css" />
+    <link rel="stylesheet" href="src/styles/judge-soon.css" />
     <link rel="stylesheet" href="src/styles/nav.css" />
     <link rel="stylesheet" href="src/styles/mobile.css" />
   </head>
@@ -49,6 +50,10 @@
         <a class="nav" href="#compare" data-screen="compare"
           ><span class="mono">5</span> <span class="long">Side by side</span><span class="short">Compare</span
           ><i class="tick" role="img" aria-label="done">&#10003;</i></a
+        >
+        <a class="nav" href="#judge" data-screen="judge"
+          ><span class="mono">6</span> <span class="long">LLM judge lab</span><span class="short">Judge</span
+          ><small class="soon-tag">soon</small></a
         >
       </nav>
       <button type="button" class="sec level-toggle" id="level-toggle" aria-pressed="true">Quick path</button>
@@ -514,6 +519,10 @@
         <p class="muted wire-hint" id="wire-hint" hidden>Click a box to see what it is.</p>
         <div id="gloss-compare" data-hook="gloss-compare"></div>
       </section>
+
+      <section id="judge" aria-labelledby="judge-h" hidden>
+        <div id="judge-soon" data-hook="judge-soon"></div>
+      </section>
     </main>
 
     <nav class="pager" id="pager" aria-label="Previous and next screen">
@@ -526,7 +535,7 @@
         This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were
         checked in November 2026; they change. Not financial advice.
       </p>
-      <p class="muted build">build ux18</p>
+      <p class="muted build">build ux19</p>
     </footer>
 
     <script type="module" src="src/app/main.js"></script>

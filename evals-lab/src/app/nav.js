@@ -2,7 +2,7 @@
 // The pure helpers at the top take plain data and are tested in tests/app/nav.test.mjs. initNav() wires the DOM.
 // Screen routing itself (hash -> visible section, aria-current) stays in ui.js showScreenFromHash().
 
-export const ORDER = ["start", "run", "metrics", "golden", "compounding", "compare"];
+export const ORDER = ["start", "run", "metrics", "golden", "compounding", "compare", "judge"];
 export const QUICK = ["start", "run", "compare"];
 const TITLES = {
   start: "Start",
@@ -11,6 +11,7 @@ const TITLES = {
   golden: "3 Test set",
   compounding: "4 Errors add up",
   compare: "5 Side by side",
+  judge: "6 LLM judge lab (soon)",
 };
 const PLAIN = {
   start: "Start",
@@ -19,6 +20,7 @@ const PLAIN = {
   golden: "Test set",
   compounding: "Errors add up",
   compare: "Side by side",
+  judge: "LLM judge lab (soon)",
 };
 const PHONE_WIDTH = "(max-width: 760px)";
 const STORAGE_KEY = "evals-lab-level";
@@ -91,6 +93,22 @@ function writeStored(level) {
   }
 }
 
+// ui.js showScreenFromHash() does not list the "judge" screen, so this file shows and hides that one section.
+// If ui.js adds "judge" to its SCREENS, delete this function and its call in route().
+function showJudgeSection(current) {
+  const judge = document.getElementById("judge");
+  if (!judge) return;
+  if (current === "judge") {
+    document.querySelectorAll("main > section").forEach((s) => {
+      s.hidden = s !== judge;
+    });
+    document.querySelectorAll("[data-screen]").forEach((a) => {
+      if (a.dataset.screen === "judge") a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+  } else judge.hidden = true;
+}
+
 export function initNav() {
   const $ = (id) => document.getElementById(id);
   const toggle = $("level-toggle");
@@ -131,6 +149,7 @@ export function initNav() {
     const wanted = levelForScreen(level, current);
     if (wanted !== level) setLevel(wanted);
     render();
+    showJudgeSection(current);
   };
 
   toggle.addEventListener("click", () => {

@@ -2,6 +2,7 @@
 // Pure strings in, strings out (plus bindWiring for clicks). Style rules: docs/specs/ui-style.md. Spec: docs/specs/compare-agents.md
 // Clicking a node opens the explain dialog (explain-dialog.js); the caller wires that with bindWiring(root, onNode).
 import { disclose } from "./disclose.js";
+import { QMARK } from "./explain-dialog.js";
 
 const e = (s) =>
   String(s ?? "").replace(
@@ -100,8 +101,8 @@ function node(id, label, state, selected, { extra = "", missingText = "" } = {})
       ? `<small class="wcap">${e(label)}</small><b class="wtext">${e(missingText)}</b>`
       : `<b class="wtext">${e(label)}</b>${extra}`;
   return (
-    `<button type="button" class="wnode s-${state}" data-node="${id}" data-state="${state}" aria-pressed="${id === selected}">` +
-    `<i class="sq ${SQ[state] ?? ""}" aria-hidden="true"></i>${body}<span class="wword">${STATE_WORD[state]}</span></button>`
+    `<button type="button" class="wnode s-${state}" data-node="${id}" data-state="${state}" aria-haspopup="dialog" aria-label="What is ${e(label)}?" aria-pressed="${id === selected}">` +
+    `<i class="sq ${SQ[state] ?? ""}" aria-hidden="true"></i>${body}<span class="wword">${STATE_WORD[state]}</span>${QMARK}</button>`
   );
 }
 

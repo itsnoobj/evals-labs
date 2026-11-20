@@ -17,6 +17,7 @@ import { drawStart, fillExamples } from "./start-screen.js";
 import { initNav } from "./nav.js";
 import { installDisclose } from "../ui/disclose.js";
 import { glossaryHtml } from "../ui/glossary.js";
+import { judgeLabSoonHtml } from "../ui/judge-lab-soon.js";
 
 // The long explanation of live and recorded runs sits in the "Live or recorded?" section of index.html.
 // The note line under the model bar shows only warnings, progress and errors.
@@ -31,6 +32,7 @@ async function init() {
   installDisclose();
   // One closed "Words used here" section per screen. The containers sit outside every redrawn area, so they stay put.
   for (const key of ["run", "checks", "golden", "errors", "compare"]) $(`gloss-${key}`).innerHTML = glossaryHtml(key);
+  $("judge-soon").innerHTML = judgeLabSoonHtml(); // screen 6, not built yet
   ui.showScreenFromHash();
   initNav();
   drawStart();

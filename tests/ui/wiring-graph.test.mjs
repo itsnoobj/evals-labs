@@ -248,7 +248,16 @@ check(() => assert.ok(html.includes("NOT RUN") && html.includes('class="sq half"
 {
   const h = wiringHtml({ kind: "careful", states: st, selected: "c2" });
   check(() => assert.equal(h.includes("wdetail"), false));
-  check(() => assert.ok(h.includes('data-node="c2" data-state="pass" aria-pressed="true"')));
+  check(() => assert.ok(/data-node="c2" data-state="pass" [^>]*aria-pressed="true"/.test(h)));
+  // Every node shows the "?" mark (aria-hidden) and is named "What is <label>?"; the old chevron is gone.
+  check(() =>
+    assert.equal(
+      (h.match(/<span class="qmark" aria-hidden="true">\?<\/span>/g) ?? []).length,
+      (h.match(/data-node=/g) ?? []).length,
+    ),
+  );
+  check(() => assert.ok(h.includes('aria-haspopup="dialog" aria-label="What is Check the tool input?"')));
+  check(() => assert.ok(!h.includes("›")));
   check(() => assert.equal((h.match(/aria-pressed="true"/g) ?? []).length, 1));
 }
 

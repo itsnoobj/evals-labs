@@ -4,6 +4,7 @@
 import { MORE_EXPLAIN } from "./explainers-more.js";
 import { nodeVisualHtml } from "./node-visuals.js";
 import { runLinesHtml } from "./explain-dialog.js";
+import { SCREEN_TERMS } from "./glossary.js";
 
 const e = (s) =>
   String(s ?? "").replace(
@@ -58,5 +59,6 @@ export function checkExplain(metric, score, { grader = null, note = "", bug = nu
     visualHtml: nodeVisualHtml(metric.id),
     thisRunHtml: runLinesHtml(lines),
     moreSections: sections,
+    askTerms: SCREEN_TERMS.checks,
   };
 }

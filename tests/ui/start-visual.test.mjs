@@ -9,6 +9,7 @@ import { START_CUE, startVisualHtml } from "../../evals-lab/src/ui/start-visual.
 const html = startVisualHtml({ metricCount: 8 });
 const words = (s) =>
   s
+    .replace(/<span class="qmark"[^>]*>\?<\/span>/g, "") // the "?" mark is a symbol, not a word
     .replace(/<[^>]+>/g, " ")
     .replace(/&[a-z#0-9]+;/g, "x")
     .split(/\s+/)
@@ -68,7 +69,7 @@ test("Start has no 'The task' or 'The four cards' bar; Details, Rates per card a
   const start = page.match(/<section id="start"[\s\S]*?<\/section>/)[0];
   const summaries = [...start.matchAll(/<summary>([^<]+)<\/summary>/g)].map((m) => m[1]);
   assert.deepEqual(summaries, ["Details", "Rates per card", "Five missions"]);
-  assert.ok(page.includes('<p class="muted build">build ux18</p>'));
+  assert.ok(page.includes('<p class="muted build">build ux19</p>'));
 });
 
 test("css: start.css is square and flat", () => {

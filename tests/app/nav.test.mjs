@@ -26,7 +26,8 @@ eq(QUICK, ["start", "run", "compare"]);
 eq(nextScreen(ORDER, "start", "full"), "run");
 eq(nextScreen(ORDER, "run", "full"), "metrics");
 eq(nextScreen(ORDER, "run", "quick"), "compare", "quick skips the middle screens");
-eq(nextScreen(ORDER, "compare", "full"), null, "last screen has no next");
+eq(nextScreen(ORDER, "compare", "full"), "judge", "the judge lab (coming soon) follows screen 5");
+eq(nextScreen(ORDER, "judge", "full"), null, "last screen has no next");
 eq(nextScreen(ORDER, "compare", "quick"), null);
 eq(nextScreen(ORDER, "nope", "full"), null, "unknown screen");
 eq(nextScreen(ORDER, "metrics", "quick"), "compare", "works from a hidden screen");
@@ -54,17 +55,28 @@ eq(pagerFor(ORDER, "start", "full"), { back: null, next: { id: "run", text: "Nex
 eq(pagerFor(ORDER, "run", "full").next.text, "Next: 2 Checks \u2192");
 eq(pagerFor(ORDER, "run", "full").back, { id: "start", text: "\u2190 Back" });
 eq(pagerFor(ORDER, "run", "quick").next, { id: "compare", text: "Next: Side by side \u2192" });
-eq(pagerFor(ORDER, "compare", "full").next, { id: "start", text: "Start again" });
+eq(pagerFor(ORDER, "compare", "full").next, { id: "judge", text: "Next: 6 LLM judge lab (soon) \u2192" });
+eq(pagerFor(ORDER, "judge", "full").next, { id: "start", text: "Start again" });
+eq(pagerFor(ORDER, "judge", "full").back.id, "compare");
 eq(pagerFor(ORDER, "compare", "quick").next, { id: "start", text: "Start again" });
 eq(pagerFor(ORDER, "compare", "quick").back.id, "run");
 
-// the unbuilt "LLM judge lab" placeholder is not in the top nav or the phone tab bar (both are the same <nav>)
+// ORDER ends with the unbuilt judge lab; the quick path never shows it and a link to it opens the full path
+eq(ORDER, ["start", "run", "metrics", "golden", "compounding", "compare", "judge"]);
+eq(visibleScreens(ORDER, "quick").includes("judge"), false);
+eq(levelForScreen("quick", "judge"), "full");
+
+// the "LLM judge lab" tab, with a visible SOON tag, is in the top nav and the phone tab bar (both are the same <nav>)
 {
   const { readFileSync } = await import("node:fs");
   const html = readFileSync(new URL("../../evals-lab/index.html", import.meta.url), "utf8");
   const navHtml = html.slice(html.indexOf("<nav"), html.indexOf("</nav>"));
-  eq(navHtml.match(/<a class="nav"/g).length, 6, "Start plus screens 1 to 5");
-  eq(/judge lab|class="nav soon"|soon/i.test(navHtml), false, "no placeholder tab");
+  eq(navHtml.match(/<a class="nav"/g).length, 7, "Start plus screens 1 to 6");
+  const judgeTab = navHtml.match(/<a class="nav" href="#judge"[\s\S]*?<\/a\s*>/)[0];
+  eq(/LLM judge lab/.test(judgeTab), true, "tab says LLM judge lab");
+  eq(/<small class="soon-tag">soon<\/small>/.test(judgeTab), true, "tab has a visible soon tag (text)");
+  eq(/aria-disabled/.test(judgeTab), false, "the tab is a real link to a real page");
+  eq(/<section id="judge"[^>]*hidden/.test(html), true, "the judge section exists and starts hidden");
   eq(
     [...navHtml.matchAll(/data-screen="(\w+)"/g)].map((m) => m[1]),
     ORDER,

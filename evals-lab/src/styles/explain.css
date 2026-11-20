@@ -212,3 +212,77 @@
 .xp-tools {
   font-size: 0.85rem;
 }
+
+/* "?" mark: the cue on every element that opens this dialog. A visual span inside a button (the button has the name). */
+.qmark {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--ink);
+  font: 700 0.85rem/1 var(--mono);
+  pointer-events: none;
+}
+button:hover > .qmark,
+button:focus-visible > .qmark {
+  color: #fff;
+  background: var(--ink);
+}
+
+/* "Ask your own AI": the prompt to copy */
+.xp-ask p {
+  max-width: none;
+  margin: 0 0 0.5rem;
+}
+.xp-ask-text {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 9rem;
+  padding: 0.6rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  font: 0.78rem/1.45 var(--mono);
+  resize: vertical;
+}
+.xp-ask-text:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.xp-ask-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+}
+.xp-copy {
+  min-height: 44px;
+  padding: 0 1.25rem;
+  color: #fff;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  font: 700 0.8rem var(--mono);
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+.xp-copy:hover {
+  color: var(--ink);
+  background: #fff;
+}
+.xp-copy:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.xp-ask-msg {
+  font: 700 0.85rem var(--mono);
+}

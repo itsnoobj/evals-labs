@@ -54,7 +54,7 @@
   gap: 0.15rem;
   align-items: flex-start;
   width: 100%;
-  padding: 0.4rem 1.2rem 0.4rem 0.5rem;
+  padding: 0.4rem 2.2rem 0.4rem 0.5rem;
   text-align: left;
   font: inherit;
   color: var(--ink);
@@ -66,15 +66,7 @@
 .wgraph .wnode .sq {
   margin: 0;
 }
-/* text cue that a box opens a panel: a chevron in the corner; hover turns the box into a pressed-looking one */
-.wgraph .wnode::after {
-  content: "\203A";
-  position: absolute;
-  top: 0.1rem;
-  right: 0.4rem;
-  font: 700 1.1rem var(--mono);
-  color: var(--ink);
-}
+/* the "?" mark (.qmark, explain.css) is the cue that a box opens a panel; hover turns the box into a pressed-looking one */
 .wgraph .wnode:hover {
   background: var(--paper);
   border-color: var(--ink);

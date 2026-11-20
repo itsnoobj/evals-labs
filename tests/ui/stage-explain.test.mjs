@@ -16,6 +16,16 @@ const stage = (id) => STAGES.find((s) => s.id === id);
 const html = (id, extra = {}) =>
   explainHtml(stageExplain(stage(id), { ...ctx, state: stageStates(c, run, { scores })[id], ...extra }));
 
+test("every box has a closed Ask your own AI section whose prompt carries the box's run line", () => {
+  for (const st of STAGES) {
+    const h = html(st.id);
+    const tag = h.match(/<details class="disclose xp-sec" data-did="ask-own-ai"[^>]*>/)?.[0] ?? "";
+    assert.ok(tag && !tag.includes(" open"), st.id);
+    assert.ok(h.includes(`ELEMENT: Box ${st.num}: ${st.title}`), st.id);
+  }
+  assert.ok(html("answer").includes("Reply: "), "answer prompt has the reply line");
+});
+
 test("with no run (Start screen) every box says No run yet as text", () => {
   for (const st of STAGES) {
     const h = explainHtml(stageExplain(st, { metrics: METRICS }));

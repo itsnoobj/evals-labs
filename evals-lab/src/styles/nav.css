@@ -7,6 +7,14 @@
 .nav .short {
   display: none;
 }
+/* "SOON" tag on the unbuilt screen 6 tab. A text tag with a border, so it never depends on colour. */
+.nav .soon-tag {
+  padding: 0 0.3rem;
+  border: 1px solid var(--off);
+  font: 700 0.62rem var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 .top .level-toggle {
   align-self: center;
   margin: 0.25rem 0.75rem 0.25rem auto;

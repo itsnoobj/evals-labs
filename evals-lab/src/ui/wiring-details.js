@@ -5,6 +5,7 @@ import { NODE_HELP, STATE_WORD } from "./wiring-graph.js";
 import { NODE_EXPLAIN } from "./node-explainers.js";
 import { nodeVisualHtml, flowStripHtml } from "./node-visuals.js";
 import { runLinesHtml } from "./explain-dialog.js";
+import { SCREEN_TERMS } from "./glossary.js";
 import { SYSTEM_PROMPT } from "../agent/agent-step.js";
 import { CARDS, CATEGORIES } from "../task/cases.js";
 import { judgePrompt } from "../evals/engine.js";
@@ -596,5 +597,6 @@ export function buildExplain(kind, id, side, shared, state) {
     visualHtml: nodeVisualHtml(id, { missing }),
     thisRunHtml: runLinesHtml(lines),
     moreSections: more,
+    askTerms: SCREEN_TERMS.compare,
   };
 }

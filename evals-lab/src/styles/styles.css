@@ -310,13 +310,6 @@ footer p {
   outline: 2px solid var(--ink);
   outline-offset: -2px;
 }
-.fnode > button::after {
-  content: "DETAILS \203A";
-  margin-top: 0.15rem;
-  color: var(--muted);
-  font: 700 0.62rem var(--mono);
-  letter-spacing: 0.1em;
-}
 .fnode > button[aria-pressed="true"] {
   outline: 3px solid var(--accent);
   outline-offset: -3px;
@@ -1727,14 +1720,9 @@ svg .end-retry {
   outline: 3px solid var(--ink, #111);
   outline-offset: -2px;
 }
-/* text cue that a tile opens the explain dialog (the overlay button has no text of its own) */
-.tile::after {
-  content: "DETAILS \203A";
-  display: block;
-  margin-top: 0.5rem;
-  color: var(--muted);
-  font: 700 0.66rem var(--mono);
-  letter-spacing: 0.1em;
+/* the "?" mark inside the overlay button is the cue; keep the status shape clear of it */
+.tile .tilehead {
+  padding-right: 1.9rem;
 }
 .tile:hover {
   background: var(--paper);

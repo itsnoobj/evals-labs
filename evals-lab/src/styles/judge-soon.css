@@ -1,0 +1,81 @@
+/* Screen 6, "LLM judge lab (coming soon)" (markup: src/ui/judge-lab-soon.js). Square, flat, no shadow.
+   The order of the 4 boxes is also given by the arrows (text), never by colour. */
+.js-status {
+  margin: 0 0 1.25rem;
+  font: 700 0.85rem var(--mono);
+  letter-spacing: 0.08em;
+}
+.js-flow {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+}
+.js-step {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+}
+.js-step:not(:last-child)::after {
+  content: "\2192";
+  flex: 0 0 1.75rem;
+  align-self: center;
+  text-align: center;
+  font: 700 1.2rem var(--mono);
+  color: var(--ink);
+}
+.js-box {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  border: 1px dashed var(--line);
+  border-top: 6px solid var(--off);
+  background: #fff;
+  color: var(--ink);
+}
+.js-box .xvis-svg {
+  width: 3.5rem;
+  height: 3.5rem;
+  flex: none;
+}
+.js-label {
+  font: 700 0.95rem/1.35 var(--sans);
+}
+.js-why {
+  margin: 0 0 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.js-try {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin: 1.25rem 0 0;
+}
+
+/* the 4 boxes stack on phones; the arrow points down */
+@media (max-width: 760px) {
+  .js-flow {
+    flex-direction: column;
+  }
+  .js-step {
+    flex-direction: column;
+  }
+  .js-step:not(:last-child)::after {
+    content: "\2193";
+    flex-basis: auto;
+    padding: 0.25rem 0;
+  }
+  .js-box {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}

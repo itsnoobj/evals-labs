@@ -82,4 +82,12 @@ ok(
 );
 ok(!page(checkExplain(m("ops"), scores.ops)).includes("system prompt"), "only the judge has a prompt section");
 ok(checkExplain(null) === null, "null metric gives null");
+{
+  // Ask your own AI: closed, and its prompt holds the run line shown in the pop-up.
+  const h = page(checkExplain(m("ops"), scores.ops));
+  const tag = h.match(/<details class="disclose xp-sec" data-did="ask-own-ai"[^>]*>/)?.[0] ?? "";
+  ok(tag && !tag.includes(" open"), "ask section exists and starts closed");
+  ok(h.includes(`ELEMENT: ${m("ops").label}`), "prompt names the check");
+  ok(h.includes("- checks: Automatic tests"), "glossary word 'checks' is in the prompt");
+}
 console.log(`${n} checks passed`);

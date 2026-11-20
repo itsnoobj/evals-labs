@@ -5,6 +5,7 @@ import { METRICS, scoreRun } from "../../evals-lab/src/evals/engine.js";
 import { SYSTEM_PROMPT } from "../../evals-lab/src/agent/agent-step.js";
 import { NODE_IDS } from "../../evals-lab/src/ui/wiring-graph.js";
 import { buildDetails, buildExplain, dspyHtml, CHECKER_RULES } from "../../evals-lab/src/ui/wiring-details.js";
+import { explainHtml } from "../../evals-lab/src/ui/explain-dialog.js";
 import { verifyRun } from "../../evals-lab/src/agent/guarded-agent.js";
 import { INPUT_RULES, OUTPUT_RULES } from "../../evals-lab/src/agent/guardrails.js";
 
@@ -345,6 +346,12 @@ has(buildDetails("careful", side, { ...shared, c: typed }).key, "No answer key f
   has(ex("eval", side, "careful", "done").thisRunHtml, "PASS");
   has(ex("gate", side, "careful", "pass").thisRunHtml, "Ship.");
   has(ex("ask", side, "careful", "done").thisRunHtml, c.query.slice(0, 20).replace(/'/g, "&#39;"));
+  {
+    const h = explainHtml(ex("t2"));
+    const tag = h.match(/<details class="disclose xp-sec" data-did="ask-own-ai"[^>]*>/)?.[0] ?? "";
+    ok(tag && !tag.includes(" open"), "ask section exists and starts closed");
+    has(h, "HDFC Swiggy ₹750", "prompt carries the run line shown in the pop-up");
+  }
   // sections: raw data and tools are kept, behind closed sections
   const t1 = ex("t1");
   ok(t1.moreSections.map((m) => m.summary).join() === "Real data,Open-source tools", "t1 sections");

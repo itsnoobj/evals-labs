@@ -14,13 +14,15 @@
 
 ## Later
 - [ ] Compare screen: live-model check of the careful agent (retry and fallback paths ran only on recorded runs) (5 min)
-- [ ] v1.1 Judge lab: calibration vs your labels, order-bias swap (25 min); its nav tab was removed in ux18, add it back when built
+- [ ] v1.1 Judge lab: calibration vs your labels, order-bias swap (25 min); the "coming soon" page (ux19) becomes the real lab
 - [ ] Add-your-own case on the golden screen (15 min)
 - [ ] `maxTokens` 160 truncates long replies in about 5% of free runs: raise to 256 and re-measure (10 min)
 - [ ] Update `outline.md` section 6: replace the mutation demo with the Evals Lab walkthrough (5 min)
 - [ ] More cards and cases, other scenarios, shareable URL state
 
 ## Done
+- [x] ux19 (ask help, options 1+2): a square "?" mark replaces the "›" / "DETAILS ›" cue on every element that opens the explain pop-up; the pop-up gets a closed "Ask your own AI" section (`ask-own-ai`) with a copyable prompt built by `ui/ask-prompt.js`. No in-page model. Nothing is sent from the page.
+- [x] ux19: screen 6 "LLM judge lab (coming soon)" is back in the top nav and the phone tab bar with a SOON tag; the page explains the 4 planned steps, why (5 of 5 to every run), and links to Checks. Not built: the lab itself (v1.1 below).
 - [x] ux18 (2026-11-20): eval button says what it is ("Run the eval: all 6 questions" + why line) and shows a P/F grid per run; mission stepper strip; LLM judge lab tab removed from nav. Guarded in-page ask experiment: frozen design misses bar on fresh test set (in-scope 65%, out-of-scope 87.5%, trick 66.7%; injection 100%, 0 invented numbers). Report `docs/research/ask-help-guarded.md`.
 - [x] ux17 (2026-11-20): Run screen: model name, status and download size now inside the Live AI box; Recorded box shows its own status; selected box says IN USE.
 - [x] Ask-help experiment (2026-11-20): Qwen2.5-1.5B grounded misses all 5 bar lines (in-scope 70%, out-of-scope 75%, injection 66.7%, trick 83.3%, 3/120 invented numbers). In-page ask NOT built. Report: `docs/research/ask-help-experiment.md`.

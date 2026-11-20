@@ -4,6 +4,7 @@
 import { CARDS, CASES, CATEGORY_LABELS, DEFAULT_CASE_ID, perfectRun } from "../task/cases.js";
 import { cardImageHtml } from "./card-image.js";
 import { nodeIconHtml } from "./node-visuals.js";
+import { QMARK } from "./explain-dialog.js";
 
 const esc = (s) =>
   String(s ?? "").replace(
@@ -37,7 +38,7 @@ export function startVisualHtml({ metricCount }) {
   const steps = diagramBoxes(metricCount)
     .map(
       ([id, label, example]) =>
-        `<li class="sv-step"><button type="button" class="sv-box" data-stage="${id}" aria-haspopup="dialog">${nodeIconHtml(`stage-${id}`)}<b class="sv-label">${esc(label)}</b><span class="sv-eg">${esc(example)}</span></button></li>`,
+        `<li class="sv-step"><button type="button" class="sv-box" data-stage="${id}" aria-haspopup="dialog" aria-label="What is ${esc(label)}?">${nodeIconHtml(`stage-${id}`)}<b class="sv-label">${esc(label)}</b><span class="sv-eg">${esc(example)}</span>${QMARK}</button></li>`,
     )
     .join('<li class="sv-arrow" aria-hidden="true">→</li>');
   const cards = Object.values(CARDS)

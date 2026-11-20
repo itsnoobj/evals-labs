@@ -4,7 +4,8 @@ import { rankBarsHtml, timelineHtml, cardArtsHtml } from "./run-visuals.js";
 import { toolsListHtml } from "./stage-tools.js";
 import { disclose } from "./disclose.js";
 import { stepperHtml, taskSquares } from "./mission-stepper.js";
-import { openExplain, runLinesHtml } from "./explain-dialog.js";
+import { openExplain, runLinesHtml, QMARK } from "./explain-dialog.js";
+import { SCREEN_TERMS } from "./glossary.js";
 import { nodeVisualHtml, flowStripHtml } from "./node-visuals.js";
 import { MORE_EXPLAIN, stageExplainId } from "./explainers-more.js";
 
@@ -88,6 +89,9 @@ const STATE_TEXT = {
 const money = (n) => `₹${n ?? "none"}`;
 
 // Explain dialog input for one box of the task diagram (explain-dialog.js shows it).
+// Glossary words the box pop-ups may use (Start and Run share them).
+const STAGE_ASK_TERMS = [...new Set([...SCREEN_TERMS.start, ...SCREEN_TERMS.run])];
+
 // ctx: { state, run, scores, metrics, bugStage, cardNames, query }. state null means there is no run yet.
 // Pure: no DOM. The old click panel is not lost: its text sits in "More about this box", the tools list in its own section.
 export function stageExplain(
@@ -156,6 +160,7 @@ export function stageExplain(
     visualHtml: nodeVisualHtml(stageExplainId(st.id)),
     thisRunHtml: runLinesHtml(lines),
     moreSections: more,
+    askTerms: STAGE_ASK_TERMS,
   };
 }
 
@@ -194,10 +199,10 @@ export function renderFlow(
           .join("")
       : "";
     return `<li class="fnode s-${state}${bugStage === st.id ? " buggy" : ""}">
-      <button type="button" data-stage="${st.id}" aria-haspopup="dialog">
+      <button type="button" data-stage="${st.id}" aria-haspopup="dialog" aria-label="What is ${e(st.title)}?">
         <span class="fnum" aria-hidden="true">${st.num}</span><b>${e(st.title)}</b><small>${e(st.sub)}</small>
         ${label ? `<span class="fstate">${e(label)}</span>` : ""}
-        ${bugStage === st.id ? '<span class="fbug">BUG HERE</span>' : ""}
+        ${bugStage === st.id ? '<span class="fbug">BUG HERE</span>' : ""}${QMARK}
       </button>${chipHtml ? `<ul class="chips" aria-label="Checks that read this box">${chipHtml}</ul>` : ""}</li>`;
   }).join('<li class="farrow" aria-hidden="true"></li>');
   const extras = states?.extras?.length
@@ -384,7 +389,7 @@ export function renderMetrics(root, { metrics, scores, bugs, activeBug = null })
     .map((m) => {
       const s = scores?.[m.id];
       const [word, cls] = status(s);
-      return `<li class="tile ${cls}"><button type="button" class="tile-open" data-tile="${e(m.id)}" aria-haspopup="dialog" aria-label="${e(m.label)}: show details"></button><div class="tilehead"><span class="k">${e(m.group)}</span>${shape(cls)}</div>
+      return `<li class="tile ${cls}"><button type="button" class="tile-open" data-tile="${e(m.id)}" aria-haspopup="dialog" aria-label="What is ${e(m.label)}?">${QMARK}</button><div class="tilehead"><span class="k">${e(m.group)}</span>${shape(cls)}</div>
       <h3>${e(m.label)}</h3><p class="word">${word}</p></li>`;
     })
     .join("");
