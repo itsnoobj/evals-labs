@@ -1,5 +1,6 @@
 // Run: node tests/ui/lessons.test.mjs
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { CASES, perfectRun } from "../../evals-lab/src/task/cases.js";
 import { METRICS, BUGS, scoreRun, injectBug } from "../../evals-lab/src/evals/engine.js";
 import { STAGES, METRIC_STAGE, BUG_STAGE, BUG_LESSON, MISSIONS, stageStates } from "../../evals-lab/src/ui/lessons.js";
@@ -83,5 +84,36 @@ ok("typed question (no answer key): called tools are done, uncalled are skipped,
   const running = stageStates(custom, { ...perfect, steps: [] }, { running: true });
   assert.deepEqual([running.classify, running.rank, running.answer], ["active", "idle", "idle"]);
 });
+
+ok(
+  "lead sentence of Start, Run, Checks, Test set, Errors add up and Side by side is one sentence of at most 18 words",
+  () => {
+    const words = (t) => t.trim().split(/\s+/).length;
+    const html = readFileSync(new URL("../../evals-lab/index.html", import.meta.url), "utf8");
+    const startLead = html
+      .match(/<section id="start"[\s\S]*?<p class="lead">([\s\S]*?)<\/p>/)?.[1]
+      .replace(/<[^>]+>/g, "");
+    assert.ok(startLead, "Start has a .lead paragraph");
+    const leads = {
+      start: startLead,
+      run: MISSIONS.find((m) => m.id === "run").goal,
+      metrics: MISSIONS.find((m) => m.id === "metrics").goal,
+      golden: MISSIONS.find((m) => m.id === "golden").goal,
+      compounding: MISSIONS.find((m) => m.id === "compounding").goal,
+      compare: MISSIONS.find((m) => m.id === "compare").goal,
+    };
+    for (const [screen, text] of Object.entries(leads)) {
+      assert.ok(words(text) <= 18, `${screen} lead has ${words(text)} words: ${text}`);
+      assert.equal(
+        text
+          .trim()
+          .split(/[.!?](?:\s|$)/)
+          .filter(Boolean).length,
+        1,
+        `${screen} lead is one sentence`,
+      );
+    }
+  },
+);
 
 console.log(`${n} checks passed`);

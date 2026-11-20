@@ -13,8 +13,17 @@
 }
 .rbars-name {
   grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   color: var(--ink);
   overflow-wrap: anywhere;
+}
+/* ~40 px card image per bar row; the card name stays as text beside it */
+.rbars-name .card-art {
+  flex: none;
+  width: 40px;
+  margin: 0;
 }
 .rbars-track {
   border: 1px solid var(--line);
@@ -115,4 +124,25 @@
   margin: 0.25rem 0;
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+/* Card images shown before a card name (answer key strips, final card, wiring panels). Name text stays beside them. */
+.cline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+}
+.cline > span:last-child {
+  flex: 1 1 8rem;
+  min-width: 0;
+}
+.cname-arts {
+  display: inline-flex;
+  flex: none;
+  gap: 0.4rem;
+}
+.cname-arts .card-art {
+  width: 56px;
+  margin: 0;
 }

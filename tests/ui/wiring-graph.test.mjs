@@ -71,7 +71,8 @@ check(() => assert.ok(NODE_HELP.guard.includes("never reaches the model")));
   check(() => assert.equal(wiringStates("careful", { events: [{ t: "guard_in_ok" }] }).guard, "pass"));
   const idleHtml = wiringHtml({ kind: "careful", states: idle });
   check(() => assert.ok(/data-node="guard" data-state="idle"/.test(idleHtml)));
-  check(() => assert.ok(idleHtml.includes("Input guardrail") && idleHtml.includes("before the model")));
+  check(() => assert.ok(idleHtml.includes("Input guardrail")));
+  check(() => assert.ok(NODE_HELP.guard.includes("before the model does"), "the caption moved into the node help"));
 }
 // Blocked: BLOCKED word, a shape, every later live node idle (answer too), nothing is scored.
 {
@@ -215,11 +216,12 @@ check(() =>
   assert.ok(
     html.includes('data-node="judge" data-state="notrun"') &&
       html.includes("LLM judge (second opinion)") &&
-      html.includes("a second AI grades the answer") &&
       html.includes(">NOT RUN</span>"),
   ),
 );
 check(() => assert.ok(NODE_HELP.judge.includes("0 to 5 grade, 5 times")));
+check(() => assert.ok(NODE_HELP.judge.includes("second AI"), "the caption moved into the node help"));
+check(() => assert.ok(NODE_HELP.retry.includes("back to the Model"), "the retry note moved into the node help"));
 check(() =>
   assert.equal(
     wiringHtml({ kind: "careful", states: { ...st, judge: undefined } }).includes(

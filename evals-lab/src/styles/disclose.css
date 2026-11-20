@@ -1,0 +1,59 @@
+/* Click-to-open sections (markup: src/ui/disclose.js, or the same markup written by hand in index.html).
+   Square and flat. The state is a text sign, "+" closed and "-" open, so it never relies on colour. */
+details.disclose {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+details.disclose > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  list-style: none;
+  cursor: pointer;
+  color: var(--ink);
+  font: 700 0.8rem var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+details.disclose > summary::-webkit-details-marker {
+  display: none;
+}
+details.disclose > summary::before {
+  content: "+";
+  flex: none;
+  width: 1.1rem;
+  text-align: center;
+  font: 700 1.1rem var(--mono);
+}
+details.disclose[open] > summary::before {
+  content: "-";
+}
+details.disclose[open] > summary {
+  border-bottom: 1px solid var(--soft);
+}
+details.disclose > summary:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+details.disclose > .disclose-body {
+  padding: 0.75rem 1rem 1rem;
+}
+details.disclose > .disclose-body > :first-child {
+  margin-top: 0;
+}
+details.disclose > .disclose-body > :last-child {
+  margin-bottom: 0;
+}
+/* a section inside a section stays flat */
+details.disclose details.disclose {
+  background: var(--paper);
+}
+@media (max-width: 760px) {
+  details.disclose > summary {
+    min-height: 48px;
+  }
+}

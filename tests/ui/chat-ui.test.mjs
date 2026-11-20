@@ -66,6 +66,23 @@ has(good, "5%");
 has(good, "MATCH");
 lacks(good, "NO MATCH");
 lacks(good, "NO ANSWER");
+// card images: the final card bubble and the result strip carry an image AND the card name as text
+{
+  const bubble = good.match(/<div class="ccard">[\s\S]*?<\/div>/)?.[0] ?? "";
+  has(bubble, 'class="card-art"', "final card bubble shows the card image");
+  has(bubble, "HDFC Swiggy", "final card bubble keeps the card name as text");
+  const strip = good.match(/<div class="chat-res[\s\S]*$/)?.[0] ?? "";
+  has(strip, 'class="card-art"', "result strip shows the card image");
+  has(strip, "Got HDFC Swiggy · ₹750", "result strip keeps the card name as text");
+  ok((strip.match(/class="card-art"/g) ?? []).length === 3, "two accepted cards plus the card that was given");
+  const sys = chatHtml({ ...base, systemPrompt: "P <x>" });
+  has(
+    sys,
+    '<details class="disclose" data-did="sys-prompt-simple"><summary>System prompt</summary>',
+    "system prompt sits behind a short summary",
+  );
+  has(sys, "P &lt;x&gt;", "the prompt text is escaped");
+}
 has(good, "Expected HDFC Swiggy or ICICI Amazon Pay · ₹750", "a tie shows both accepted cards");
 has(good, "Got HDFC Swiggy · ₹750");
 has(good, "ON</b>");

@@ -15,11 +15,20 @@ import { drawChats, onAskBoth } from "./compare-screen.js";
 import { drawWiring, loadDspy, bindWiringRoots } from "./wiring-panel.js";
 import { drawStart, fillExamples } from "./start-screen.js";
 import { initNav } from "./nav.js";
+import { installDisclose } from "../ui/disclose.js";
 
-const LOAD_NOTE =
-  "Downloads about 880 MB once, then loads from your computer's saved copy. Needs a recent Chrome or Edge and about 1.6 GB of graphics memory.";
+// The long explanation of live and recorded runs sits in the "Live or recorded?" section of index.html.
+// The note line under the model bar shows only warnings, progress and errors.
+// enterMode() writes a long replay note under the model bar; that text is in the "Live or recorded?" section.
+// enterMode() also writes a long hint under the Ask both button; its text now sits in the "Suggested questions" section of index.html.
+const useReplay = () => {
+  enterMode("replay");
+  setNote("");
+  $("cmp-hint").textContent = "Pick a question and press Ask both.";
+};
 
 async function init() {
+  installDisclose();
   ui.showScreenFromHash();
   initNav();
   drawStart();
@@ -48,7 +57,7 @@ async function init() {
 
   $("load-model").onclick = onLoadModel;
   $("cmp-load-model").onclick = onLoadModel;
-  $("cmp-use-replay").onclick = () => enterMode("replay");
+  $("cmp-use-replay").onclick = useReplay;
   $("run-case").onclick = onRunCase;
   $("run-set").onclick = onRunSet;
   $("stop-set").onclick = () => {
@@ -83,7 +92,7 @@ async function init() {
   });
   $("metrics-view").addEventListener("bug-selected", (ev) => onBugSelected(ev.detail.bugId));
   $("grid-view").addEventListener("cell-selected", (ev) => onCellSelected(ev.detail));
-  $("use-replay").onclick = () => enterMode("replay");
+  $("use-replay").onclick = useReplay;
   $("cmp-case").replaceChildren(...CASES.map((c) => new Option(`${c.id}  ${c.query}`, c.id)));
   $("cmp-case").value = DEFAULT_CASE_ID; // drawChats() below draws the chats for it
   const cmpQuestionChanged = () => {
@@ -126,11 +135,8 @@ async function init() {
   }
   state.gpuCheck = checkWebGpu();
   state.gpu = await state.gpuCheck;
-  setNote(
-    state.gpu.ok
-      ? LOAD_NOTE
-      : `Warning: ${state.gpu.reason}${window.isSecureContext ? " You can still try Load model." : ""}`,
-  );
+  if (!state.gpu.ok)
+    setNote(`Warning: ${state.gpu.reason}${window.isSecureContext ? " You can still try Load model." : ""}`);
 
   try {
     const res = await fetch("data/recorded-runs.json");

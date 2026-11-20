@@ -65,7 +65,8 @@ export const NODE_HELP = {
   c2: "A checker confirms the ranking used the amount from the question and the category from the first tool.",
   draft: "The model writes the answer from the tool results.",
   c3: "A checker confirms the card is the top ranked one, every number came from a tool or the question, and nothing extra was called.",
-  retry: "If the answer check fails, run the whole attempt again, up to 3 tries.",
+  retry:
+    "If the answer check fails, run the whole attempt again, up to 3 tries. A retry sends the run back to the Model.",
   fallback: "If every try fails but the tools worked, build the answer straight from the ranking and say so.",
   refuse: 'If the tools never worked, say "I could not verify an answer" and stop, instead of guessing.',
   answer: "What the user sees.",
@@ -128,12 +129,7 @@ export function wiringHtml({
 
   const live = LIVE.filter((n) => careful || !n[2])
     .map(([id, label]) => {
-      const extra =
-        careful && id === "model"
-          ? ' <span class="tag">Safety net</span>'
-          : careful && id === "guard"
-            ? '<small class="wcap">before the model</small>'
-            : "";
+      const extra = careful && id === "model" ? ' <span class="tag">Safety net</span>' : "";
       // The agent without evals has no input guardrail: a dashed box says so.
       return li(node(id, label, stateOf(id, id === "guard"), selected, { extra, missingText: "nothing here" }));
     })
@@ -141,7 +137,7 @@ export function wiringHtml({
   const branch = careful
     ? `<div class="wbranch"><span class="wbl">If the answer check fails:</span><ul class="wbtns">${BRANCH.map(
         ([id, label]) => li(node(id, label, stateOf(id), selected), "wsmall"),
-      ).join("")}</ul><p class="wbnote">Retry sends the run back to the Model.</p></div>`
+      ).join("")}</ul></div>`
     : "";
 
   const after = AFTER.map(([id, label]) => {
@@ -150,9 +146,7 @@ export function wiringHtml({
     const chips =
       careful && id === "eval"
         ? `<span class="wchips">${metrics.map((m) => chipOf(m, scores?.[m.id])).join("")}</span>`
-        : id === "judge"
-          ? '<small class="wcap">a second AI grades the answer</small>'
-          : "";
+        : "";
     const missingText = id === "judge" ? "nothing here" : "nothing: you find out from users";
     // card sits at the end of a row of 5 columns once the grader is added, so its arrow turns down to the gate
     return li(

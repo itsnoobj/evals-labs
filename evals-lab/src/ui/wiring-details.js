@@ -8,6 +8,7 @@ import { judgePrompt } from "../evals/engine.js";
 import { cardsMatrixHtml } from "./cards-view.js";
 import { judgeFlowHtml } from "./judge-flow.js";
 import { toolsHtml } from "./stage-tools.js";
+import { cardArtsHtml } from "./run-visuals.js";
 import { INPUT_RULES, OUTPUT_RULES } from "../agent/guardrails.js";
 
 const e = (s) =>
@@ -21,6 +22,9 @@ const list = (items) => `<ul class="wlist">${items.map((i) => `<li>${i}</li>`).j
 const word = (ok) => (ok === true ? "PASS" : ok === false ? "FAIL" : "NOT RUN");
 const mark = (ok) => `<b class="wd-${ok === true ? "ok" : ok === false ? "bad" : "off"}">${word(ok)}</b>`;
 const rows = (pairs) => `<dl class="io">${pairs.map(([k, v]) => `<dt>${e(k)}</dt><dd>${v}</dd>`).join("")}</dl>`;
+
+// A card shown as its image plus its name as text, so the meaning never rests on the image alone.
+const cardCell = (names) => `<span class="cline">${cardArtsHtml(names)}<span>${e(names.join(" or "))}</span></span>`;
 
 const TITLES = {
   dataset: "Collect real questions",
@@ -242,7 +246,8 @@ export function buildDetails(kind, side, shared) {
   const { c, cases, cardNames, labels, metrics, modelName, mode, recordedTemp } = shared;
   const careful = kind === "careful";
   const key = c.expected; // null for a typed question
-  const names = key ? (key.accept ?? [key.card]).map((id) => cardNames[id] ?? id).join(" or ") : "";
+  const nameList = key ? (key.accept ?? [key.card]).map((id) => cardNames[id] ?? id) : [];
+  const names = nameList.join(" or ");
   const finalStep = side.steps.findLast((s) => s.kind === "final");
   const draftStep = (side.modelSteps ?? side.steps).findLast((s) => s.kind === "final");
   const notMine = (id) =>
@@ -261,7 +266,7 @@ export function buildDetails(kind, side, shared) {
       ? panel("key", "<p>No answer key for your own question. The checks that need a key were not run.</p>")
       : panel(
           "key",
-          `<p>For <b class="mono">${e(c.id)}</b>: accepted ${key.accept?.length > 1 ? "cards (a tie)" : "card"} <b>${e(names)}</b>, reward <b>₹${e(key.reward_inr)}</b>, category <b>${e(labels[key.category] ?? key.category)}</b>.</p>` +
+          `<p class="cline">${cardArtsHtml(nameList)}<span>For <b class="mono">${e(c.id)}</b>: accepted ${key.accept?.length > 1 ? "cards (a tie)" : "card"} <b>${e(names)}</b>, reward <b>₹${e(key.reward_inr)}</b>, category <b>${e(labels[key.category] ?? key.category)}</b>.</span></p>` +
             cardsMatrixHtml({
               cards: CARDS,
               categories: CATEGORIES,
@@ -309,7 +314,7 @@ export function buildDetails(kind, side, shared) {
   d.t2 = toolPanel("t2", "rank_cards", side.steps, side.pending);
   const draftText = draftStep
     ? rows([
-        ["card", e(cardNames[draftStep.card] ?? draftStep.card ?? "none")],
+        ["card", draftStep.card == null ? "none" : cardCell([cardNames[draftStep.card] ?? draftStep.card])],
         ["reward", `₹${e(draftStep.reward_inr ?? "none")}`],
         ["reply", e(draftStep.reply)],
       ])
@@ -319,7 +324,7 @@ export function buildDetails(kind, side, shared) {
     "answer",
     finalStep
       ? rows([
-          ["card", e(finalStep.card == null ? "none" : (cardNames[finalStep.card] ?? finalStep.card))],
+          ["card", finalStep.card == null ? "none" : cardCell([cardNames[finalStep.card] ?? finalStep.card])],
           ["reward", finalStep.reward_inr == null ? "none" : `₹${e(finalStep.reward_inr)}`],
           ["reply", e(finalStep.reply)],
           ...(finalStep.source

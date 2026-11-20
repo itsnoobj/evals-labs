@@ -1,4 +1,6 @@
 // Pure string renderer for the "which cards are in play" matrix. Styles: cards.css.
+import { cardImageHtml } from "./card-image.js";
+
 const MAX_RATE = 10; // highest rate in cases.js (HDFC Swiggy on Swiggy); bar width = rate / MAX_RATE
 
 const esc = (s) =>
@@ -47,7 +49,7 @@ export function cardsMatrixHtml({
           return `<td${cls ? ` class="${cls}"` : ""}${style}><span class="n">${esc(rate)}%</span>${bestTag}</td>`;
         })
         .join("");
-      return `<tr><th scope="row"><span class="nm">${esc(card.name)}</span>${tag}</th>${cells}</tr>`;
+      return `<tr><th scope="row">${cardImageHtml(card.name)}<span class="nm">${esc(card.name)}</span>${tag}</th>${cells}</tr>`;
     })
     .join("");
 

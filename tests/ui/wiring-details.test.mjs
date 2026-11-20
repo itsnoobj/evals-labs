@@ -143,9 +143,13 @@ const evil = {
   steps: run.steps.map((s) => (s.kind === "final" ? { ...s, reply: "<img src=x onerror=1>" } : s)),
 };
 const ev = buildDetails("careful", evil, shared);
-lacks(ev.answer, "<img");
-lacks(ev.draft, "<img");
-lacks(ev.trace, "<img");
+// the card image is a real <img class="card-art">, so look for the injected tag itself
+lacks(ev.answer, "<img src=x");
+lacks(ev.draft, "<img src=x");
+lacks(ev.trace, "<img src=x");
+has(ev.answer, "&lt;img src=x onerror=1&gt;");
+has(careful.answer, 'class="card-art"', "the final card row shows the card image");
+has(careful.answer, "HDFC Swiggy", "and keeps the card name as text");
 
 // a failing score names the failing checks in the gate
 const bad = { ...scores, task_success: { pass: false, reason: "wrong" } };

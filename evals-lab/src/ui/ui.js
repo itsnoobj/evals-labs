@@ -1,7 +1,8 @@
 // Pure render functions: plain data in, HTML out. This module never imports the engine.
 import { STAGES, METRIC_STAGE, MISSIONS, BUG_LESSON } from "./lessons.js";
-import { rankBarsHtml, timelineHtml } from "./run-visuals.js";
+import { rankBarsHtml, timelineHtml, cardArtsHtml } from "./run-visuals.js";
 import { toolsHtml } from "./stage-tools.js";
+import { disclose } from "./disclose.js";
 
 export function escapeHtml(s) {
   return String(s ?? "").replace(
@@ -101,7 +102,7 @@ export function renderFlow(root, { states = null, metrics = [], scores = null, c
     ? `<p class="fextra"><b>Extra steps the route did not expect:</b> <span class="mono">${e(states.extras.join(", "))}</span></p>`
     : "";
   root.innerHTML = `<div class="flow"><ol class="frow">${nodes}</ol>${extras}
-    <p class="muted fnote">The model chooses every step. Our code runs the tools. Click a box to see what it does.</p>
+    <p class="muted fnote">Click a box for details.</p>
     <div class="fdetail" aria-live="polite"></div></div>`;
 
   const detail = root.querySelector(".fdetail");
@@ -118,6 +119,7 @@ export function renderFlow(root, { states = null, metrics = [], scores = null, c
     }
     const watchers = metrics.filter((m) => METRIC_STAGE[m.id]?.includes(st.id)).map((m) => m.label);
     detail.innerHTML = `<span class="k">Box ${st.num} · ${e(st.title)}</span><p>${e(st.what)}</p>
+      <p class="muted">The model chooses every step. Our code runs the tools.</p>
       <p><b>Concept.</b> ${e(st.learn)}</p>
       ${watchers.length ? `<p class="muted">Checks that read this box: ${e(watchers.join(", "))}.</p>` : ""}${toolsHtml(st.id)}`;
     // The Run screen redraws this diagram after every step: keep the tool list open if the visitor opened it.
@@ -161,8 +163,11 @@ function missionHtml(m, done) {
     : "";
   return `<div class="mission${complete ? " complete" : ""}"><div class="mmain">
       <span class="k">Mission ${m.num} of ${MISSIONS.length} · about ${e(m.time)}</span>
-      <p class="goal">${e(m.goal)}</p><ul class="tasks">${tasks}</ul></div>
-    <div class="mconcept"><span class="k">Concept: ${e(m.concept)}</span><p>${e(m.conceptText)}</p></div>${finish}</div>`;
+      <p class="goal">${e(m.goal)}</p>${disclose(
+        "Mission tasks",
+        `<ul class="tasks">${tasks}</ul><div class="mconcept"><span class="k">Concept: ${e(m.concept)}</span><p>${e(m.conceptText)}</p></div>`,
+        { id: `mission-${m.id}` },
+      )}</div>${finish}</div>`;
 }
 
 // Fills every [data-mission] panel, the Start cards and the done ticks in the nav.
@@ -189,10 +194,21 @@ export function renderMissions(done = new Set()) {
 
 // ---------- 1 Run ----------
 const CAPTION = {
-  tool: "The model asked for a tool. Our code ran it and passed the result back.",
-  final: "The model stopped calling tools and gave its answer.",
-  invalid: "The reply was not in a format our code can read, so no tool ran and this step was wasted.",
+  tool: ["Tool", "The model asked for a tool. Our code ran it and passed the result back."],
+  final: ["Final", "The model stopped calling tools and gave its answer."],
+  invalid: [
+    "Unreadable reply",
+    "The reply was not in a format our code can read, so no tool ran and this step was wasted.",
+  ],
 };
+
+// What each kind of step in this run means. One section for the whole step list, not one line per step.
+function captionsHtml(steps) {
+  const kinds = [...new Set(steps.map((s) => s.kind))].filter((k) => CAPTION[k]);
+  if (!kinds.length) return "";
+  const items = kinds.map((k) => `<li><b>${CAPTION[k][0]}.</b> ${e(CAPTION[k][1])}</li>`).join("");
+  return disclose("What the steps mean", `<ul>${items}</ul>`, { id: "run-captions" });
+}
 
 function stepHtml(s, i, cardNames) {
   const bad = s.kind === "invalid" || s.validJson === false;
@@ -215,7 +231,6 @@ function stepHtml(s, i, cardNames) {
   const reply = s.kind === "final" ? `<p class="reply">${e(s.reply)}</p>` : "";
   return `<li class="step${bad ? " invalid" : ""}"><b class="stepno" aria-hidden="true">${i + 1}</b><div>
     <div class="step-head"><span>${tag}</span><span class="meta">${e(s.ms)} ms · ${e(s.tokens)} text pieces</span></div>
-    <p class="cap">${CAPTION[s.kind] ?? ""}</p>
     <dl class="io">${body}</dl>${reply}</div></li>`;
 }
 
@@ -230,8 +245,11 @@ export function renderRun(root, { caseInfo, run, scores, expected = null, pendin
   const final = run.steps.findLast((s) => s.kind === "final");
   let key = "";
   if (!expected && caseInfo.custom) {
-    key =
-      '<p class="nokey"><b>Your own question has no answer key.</b> The page cannot tell right from wrong here, so the checks that need a key show NOT RUN. The steps below are still real.</p>';
+    key = `<div class="nokey"><b>Your own question has no answer key.</b>${disclose(
+      "Why?",
+      "<p>The page cannot tell right from wrong here, so the checks that need a key show NOT RUN. The steps below are still real.</p>",
+      { id: "run-nokey" },
+    )}</div>`;
   }
   if (expected) {
     const name = (id) => cardNames[id] ?? id;
@@ -243,8 +261,8 @@ export function renderRun(root, { caseInfo, run, scores, expected = null, pendin
         : "no final answer";
     const [word, cls] = scores ? status(scores.task_success) : ["WAITING", "off"];
     key = `<div class="key">
-      <div><span class="k">Answer key${accept.length > 1 ? " (a tie: either card is right)" : ""}</span><p class="mono">${e(accept.map(name).join(" or "))} · ₹${e(expected.reward_inr)}</p></div>
-      <div><span class="k">Agent answered</span><p class="mono">${e(got)}</p></div>
+      <div><span class="k">Answer key${accept.length > 1 ? " (a tie: either card is right)" : ""}</span><p class="mono cline">${cardArtsHtml(accept.map(name))}<span>${e(accept.map(name).join(" or "))} · ₹${e(expected.reward_inr)}</span></p></div>
+      <div><span class="k">Agent answered</span><p class="mono cline">${final?.card == null ? "" : cardArtsHtml([name(final.card)])}<span>${e(got)}</span></p></div>
       <div><span class="k">Verdict</span><p class="verdict w-${cls}">${word === "PASS" ? "MATCH" : word === "FAIL" ? "NO MATCH" : word}</p></div></div>`;
   }
   const thinking = pending
@@ -256,7 +274,8 @@ export function renderRun(root, { caseInfo, run, scores, expected = null, pendin
       <section aria-labelledby="steps-h">
         <h2 id="steps-h" class="k">Steps the agent took</h2>
         <ol class="steps">${run.steps.map((s, i) => stepHtml(s, i, cardNames)).join("")}${thinking}</ol>
-        ${pending ? "" : `<div class="tlwrap"><span class="k">Where the time went</span>${timelineHtml(run.steps)}</div>`}
+        ${captionsHtml(run.steps)}
+        ${pending ? "" : disclose("Time per step", timelineHtml(run.steps), { id: "run-time" })}
         <p class="meta totals">${e(run.totalMs)} ms · ${e(run.totalTokens)} text pieces · ${e(run.model)}</p>
       </section>
       <aside class="panel" aria-labelledby="scores-h">
@@ -283,7 +302,7 @@ export function renderMetrics(root, { metrics, scores, bugs, activeBug = null, s
       const s = scores?.[m.id];
       const [word, cls] = status(s);
       return `<li class="tile ${cls}${m.id === selected ? " picked" : ""}"><button type="button" class="tile-open" data-tile="${e(m.id)}" aria-pressed="${m.id === selected}" aria-label="${e(m.label)}: show details"></button><div class="tilehead"><span class="k">${e(m.group)}</span>${shape(cls)}</div>
-      <h3>${e(m.label)}</h3><p class="word">${word}</p><p class="reason">${e(s?.reason ?? "not run")}</p></li>`;
+      <h3>${e(m.label)}</h3><p class="word">${word}</p></li>`;
     })
     .join("");
   const buttons = bugs
@@ -292,21 +311,25 @@ export function renderMetrics(root, { metrics, scores, bugs, activeBug = null, s
         `<button type="button" class="bug" data-bug="${e(b.id)}" aria-pressed="${b.id === activeBug}">${e(b.label)}</button>`,
     )
     .join("");
+  const reasons = metrics
+    .map((m) => `<li><b>${e(m.label)}</b> <span class="muted">${e(scores?.[m.id]?.reason ?? "not run")}</span></li>`)
+    .join("");
   const names = (list) => (list.length ? list.map((m) => e(m.label)).join(", ") : "none");
   root.innerHTML = `
     <div class="bugbar"><span class="k">Break the run on purpose</span><div class="bugs">${buttons}
       <button type="button" class="sec" data-bug="">Reset</button></div>
-      <p class="muted">${active ? e(active.blurb) : "No bug injected. This is the clean run. Pick a bug above."}</p></div>
+      </div>
     <div class="summary" aria-live="polite">${
       active
         ? `<p><b class="mono">${caughtBy.length} of ${metrics.length}</b> checks caught it.</p>
        <p class="sumrow"><span class="k">Caught by</span>${names(caughtBy)}</p>
        <p class="sumrow"><span class="k">Still PASS: blind to this bug</span>${names(green)}</p>
-       <p class="lesson"><span class="k">Lesson</span>${e(BUG_LESSON[activeBug] ?? "")}</p>`
-        : "<p>Pick a bug to see which checks catch it.</p>"
+       ${disclose("Why?", `<p>${e(active.blurb)}</p><p class="lesson"><span class="k">Lesson</span>${e(BUG_LESSON[activeBug] ?? "")}</p>`, { id: "metrics-why" })}`
+        : "<p>Clean run. Pick a bug to see which checks catch it.</p>"
     }</div>
-    <p class="muted">Click any check to see how it works${metrics.some((m) => m.id === "rubric_judge") ? '. Click "LLM judge" to read its prompt' : ""}.</p>
-    <ul class="tiles">${tiles}</ul>${detailHtml}`;
+    <p class="muted">Click a check for details${metrics.some((m) => m.id === "rubric_judge") ? '. "LLM judge" shows its prompt' : ""}.</p>
+    <ul class="tiles">${tiles}</ul>${detailHtml}
+    ${disclose("Why each result", `<ul class="reasons">${reasons}</ul>`, { id: "metrics-reasons" })}`;
   root.querySelectorAll("[data-tile]").forEach((b) => {
     b.onclick = () =>
       root.dispatchEvent(
@@ -358,8 +381,8 @@ export function renderGrid(root, { cases, results, summary, selected = null }) {
     </div>
     <p class="gkey"><span class="gcell ok mini" aria-hidden="true"></span> pass
       <span class="gcell bad mini" aria-hidden="true"></span> fail ·
-      <b>solid</b> every run passes · <b>mixed</b> some runs pass · <b>failing</b> no run passes ·
       <b>Click a square to open that run.</b></p>
+    ${disclose("Row labels", "<p><b>solid</b> every run passes · <b>mixed</b> some runs pass · <b>failing</b> no run passes.</p>", { id: "grid-labels" })}
     <div class="grid"><div class="grow head"><span class="k">Case</span>${head}<span class="k tally">Passed</span></div>${rows}</div>`;
   root.querySelectorAll("button.gcell").forEach((b) => {
     b.onclick = () =>
@@ -421,13 +444,13 @@ export function renderCurve(root, { p, n = 10, points = [], retryTries = 0, sour
         <text class="axis-t" x="${L + pw / 2}" y="${H - 12}" text-anchor="middle">Steps in a row</text>
         <text class="axis-t axis-y" transform="rotate(-90)" x="${-(T + ph / 2)}" y="18" text-anchor="middle">Chance every step is right</text>
       </svg>
-      <ul class="legend"><li><i class="sw"></i>Predicted: each step right ${pct(p)} of the time (${e(predicted)})</li>
+      <ul class="legend"><li><i class="sw"></i>Predicted: each step right ${pct(p)} of the time</li>
         ${points.length ? '<li><i class="sw obs"></i>Observed in your runs</li>' : ""}
-        ${pRetry ? `<li><i class="sw retry"></i>With ${e(retryTries)} tries per step, if a checker catches every wrong step</li>` : ""}</ul></div>
+        ${pRetry ? `<li><i class="sw retry"></i>With ${e(retryTries)} tries per step</li>` : ""}</ul></div>
       <div class="figures">
         <p class="figure"><strong>${pct(chain)}</strong> at ${n} steps</p>
         ${pRetry ? `<p class="figure"><strong>${pct(pRetry ** n)}</strong> at ${n} steps with ${e(retryTries)} tries per step, best case</p>` : ""}
-        <p class="muted">One weak step is small. Ten in a row add up.</p>
+        ${disclose("About this chart", `<p>Predicted line: ${e(predicted)}.</p>${pRetry ? "<p>The retry line assumes a checker catches every wrong step.</p>" : ""}`, { id: "curve-notes" })}
       </div>
     </div>`;
 }

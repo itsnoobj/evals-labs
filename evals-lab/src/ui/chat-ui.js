@@ -1,7 +1,9 @@
 // Pure HTML-string renderer: one agent run as a chat window. No DOM, no engine import.
 // The end-to-end flow graph lives in wiring-graph.js. Everything under class "wire" is internals; chat.css shows it only inside a parent with .show-wiring.
 // Wire blocks are <section class="wire ..."> and never nest, so tests can strip them with a regex.
-import { rankBarsHtml, timelineHtml } from "./run-visuals.js";
+import { rankBarsHtml, timelineHtml, cardArtsHtml } from "./run-visuals.js";
+import { cardImageHtml } from "./card-image.js";
+import { disclose } from "./disclose.js";
 
 const e = (s) =>
   String(s ?? "").replace(
@@ -27,7 +29,7 @@ function cardVisual(final, steps, cardNames) {
   const name = cardNames[final.card] ?? final.card;
   return (
     `<div class="msg msg-agent"><div class="ccard">` +
-    `<span class="ccard-chip"></span><b class="ccard-name">${e(name)}</b>` +
+    `<span class="ccard-head">${cardImageHtml(name, 56)}<b class="ccard-name">${e(name)}</b></span>` +
     `<span class="ccard-lines"><i></i><i></i><i></i></span>` +
     `<span class="ccard-reward">Earns ₹${e(final.reward_inr)} back</span>` +
     (row ? `<span class="ccard-rate">${e(row.rate_pct)}%</span>` : "") +
@@ -145,8 +147,9 @@ function resultHtml(steps, expected, outcome, cardNames) {
     outcome === "refused" ? ["off", "half", "NO ANSWER"] : match ? ["ok", "ok", "MATCH"] : ["bad", "bad", "NO MATCH"];
   return (
     `<div class="chat-res ${cls}"><span class="res-word"><i class="sq ${sq}"></i>${word}</span>` +
-    `<div><p class="k">Answer key check</p><p class="mono">Expected ${e(accept.map(nm).join(" or "))} · ₹${e(expected.reward_inr)}</p>` +
-    `<p class="mono">Got ${e(got)}</p></div></div>`
+    `<div><p class="k">Answer key check</p>` +
+    `<p class="mono cline">${cardArtsHtml(accept.map(nm))}<span>Expected ${e(accept.map(nm).join(" or "))} · ₹${e(expected.reward_inr)}</span></p>` +
+    `<p class="mono cline">${final?.card == null ? "" : cardArtsHtml([nm(final.card)])}<span>Got ${e(got)}</span></p></div></div>`
   );
 }
 
@@ -158,10 +161,11 @@ function systemHtml(prompt, careful) {
   const extra = careful
     ? "The agent with evals also sends a safety net (a format that only allows valid steps) and uses low randomness."
     : "The agent without evals sends nothing else: no format limit, default randomness.";
-  return (
-    `<details class="sys-prompt"><summary>System prompt: what the AI is told before your question</summary>` +
-    `<pre>${e(prompt)}</pre><p>It contains no card rates. The AI knows none. The rates sit in the lookup tools (plain code), ` +
-    `and the AI only chooses which tool to call and copies numbers from the result. ${e(extra)}</p></details>`
+  return disclose(
+    "System prompt",
+    `<p>What the AI is told before your question.</p><pre>${e(prompt)}</pre><p>It contains no card rates. The AI knows none. The rates sit in the lookup tools (plain code), ` +
+      `and the AI only chooses which tool to call and copies numbers from the result. ${e(extra)}</p>`,
+    { id: `sys-prompt-${careful ? "careful" : "simple"}` },
   );
 }
 

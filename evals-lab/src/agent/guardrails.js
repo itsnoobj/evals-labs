@@ -17,11 +17,11 @@ function passesLuhn(digits) {
   return sum % 10 === 0;
 }
 
-// 13-19 digits, single spaces or dashes allowed between them, Luhn-valid. Commas are not allowed,
-// so Indian amounts like 1,50,000 never match. Trade-off: several plain numbers separated by single
+// 13-19 digits, runs of spaces or dashes allowed between them, Luhn-valid. Commas are not allowed,
+// so Indian amounts like 1,50,000 never match. Trade-off: several plain numbers separated by
 // spaces that add up to 13-19 digits and pass Luhn by chance (about 1 in 10) would be flagged.
 function looksLikeCardNumber(text) {
-  const runs = text.match(/\d(?:[ -]?\d){12,18}/g) ?? [];
+  const runs = text.match(/\d(?:[ -]*\d){12,18}/g) ?? [];
   return runs.some((run) => passesLuhn(run.replace(/\D/g, "")));
 }
 
@@ -108,11 +108,16 @@ const OUTPUT_RULE_LIST = [
   {
     id: "reward_too_big",
     label: "Reward exceeds purchase",
-    plain: "Blocks an answer where the reward is more than the amount spent.",
-    test: ({ final, amount }) =>
-      typeof amount === "number" && Number(final?.reward_inr) > amount
-        ? "The answer claims a reward bigger than the purchase, which cannot be right."
-        : null,
+    plain: "Blocks an answer where the reward is more than the amount spent, negative, or not a number.",
+    test: ({ final, amount }) => {
+      const reward = final?.reward_inr;
+      // A missing reward is allowed; a given one must be a number from 0 up to the amount.
+      if (reward === undefined || reward === null) return null;
+      const n = Number(reward);
+      return Number.isNaN(n) || n < 0 || (typeof amount === "number" && n > amount)
+        ? "The answer claims a reward that is negative, not a number, or bigger than the purchase, which cannot be right."
+        : null;
+    },
   },
   {
     id: "unknown_card",
@@ -157,7 +162,8 @@ function firstBlock(rules, arg) {
 }
 
 export function checkInput(text) {
-  return firstBlock(INPUT_RULE_LIST, typeof text === "string" ? text.trim() : "");
+  // NFKC folds fullwidth letters and digits ("ＩＧＮＯＲＥ") to plain ones so the rules cannot be dodged with them.
+  return firstBlock(INPUT_RULE_LIST, typeof text === "string" ? text.normalize("NFKC").trim() : "");
 }
 
 export function checkOutput({ final, toolOutputs, amount } = {}) {

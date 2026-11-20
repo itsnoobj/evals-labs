@@ -147,10 +147,17 @@
   color: #fff;
   border: 1px solid var(--ink);
 }
-.chat .ccard-chip {
-  width: 2.2rem;
-  height: 1.6rem;
-  border: 2px solid #fff;
+/* the issuer's card image (about 56 px) beside the card name, so the name is never image-only */
+.chat .ccard-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.chat .ccard-head .card-art {
+  flex: none;
+  width: 56px;
+  margin: 0;
+  border-color: #fff;
 }
 .chat .ccard-name {
   font: 800 1.1rem var(--mono);
@@ -303,18 +310,12 @@
   }
 }
 
-.sys-prompt {
+/* the system prompt section sits flush under the chat header */
+.chat > details.disclose {
   margin: 0;
-  padding: 0.5rem 1rem;
-  border-top: 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 0.85rem;
+  border-width: 0 0 1px;
 }
-.sys-prompt summary {
-  cursor: pointer;
-  font-weight: 600;
-}
-.sys-prompt pre {
+.chat details.disclose pre {
   white-space: pre-wrap;
   margin: 0.5rem 0;
   padding: 0.5rem;
@@ -322,9 +323,10 @@
   border: 1px solid var(--line);
   font-size: 0.8rem;
 }
-.sys-prompt p {
+.chat details.disclose p {
   margin: 0.25rem 0 0;
   max-width: none;
+  font-size: 0.85rem;
 }
 
 /* model bar on the Side by side screen: mirrors the Run-screen bar (src/app/model-bar.js syncCmpModelBar) */

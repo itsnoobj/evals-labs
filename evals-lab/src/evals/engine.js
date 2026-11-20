@@ -359,7 +359,7 @@ export function judgePrompt(c, run) {
 }
 
 export function parseJudge(text) {
-  // Lookarounds skip digits inside larger numbers such as 15, and the decimal part of 3.5.
-  const match = /(?<![\d.])([0-5])(?!\d)/.exec(String(text ?? ""));
+  // Lookarounds skip digits inside larger numbers such as 15, the decimal part of 3.5, and a negative like -1.
+  const match = /(?<![\d.-])([0-5])(?!\d)/.exec(String(text ?? ""));
   return { score: match ? Number(match[1]) : null };
 }

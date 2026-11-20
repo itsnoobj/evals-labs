@@ -158,7 +158,7 @@ export const MISSIONS = [
     title: "Agent without evals vs agent with evals",
     time: "3 min",
     next: null,
-    goal: "Ask the same question to two agents, then switch on the wiring to see the whole system around each one.",
+    goal: "Ask two agents the same question, then show the wiring around each one.",
     tasks: [
       { id: "both", text: "Press Ask both and watch the two chats" },
       { id: "wiring", text: "Switch on “Show the wiring”" },

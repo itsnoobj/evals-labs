@@ -1,9 +1,15 @@
-// Two pure HTML-string renderers for the Run screen: ranked-card bars and a step timeline.
+// Pure HTML-string renderers for the Run screen: ranked-card bars, a step timeline, and a card-art row.
+import { cardImageHtml } from "./card-image.js";
+
 const esc = (v) =>
   String(v ?? "").replace(
     /[&<>"']/g,
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
   );
+
+// Card images in a row, drawn before the card name text. The name always stays as text beside them.
+export const cardArtsHtml = (names, width = 56) =>
+  `<span class="cname-arts">${names.map((n) => cardImageHtml(n, width)).join("")}</span>`;
 
 export function rankBarsHtml(output, cardNames = {}) {
   if (output && typeof output === "object" && typeof output.error === "string") {
@@ -20,7 +26,7 @@ export function rankBarsHtml(output, cardNames = {}) {
       const tag = i === 0 ? `<span class="rbars-tag">BEST</span>` : "";
       return (
         `<div class="rbars-row${i === 0 ? " rbars-best" : ""}">` +
-        `<span class="rbars-name">${tag}${esc(cardNames[r.card] ?? r.card)}</span>` +
+        `<span class="rbars-name">${cardImageHtml(cardNames[r.card] ?? r.card, 40)}<span>${tag}${esc(cardNames[r.card] ?? r.card)}</span></span>` +
         `<span class="rbars-track"><i class="rbars-bar" style="--w:${+w.toFixed(1)}%"></i></span>` +
         `<span class="rbars-val">₹${esc(reward)} · ${esc(r.rate_pct)}%</span></div>`
       );

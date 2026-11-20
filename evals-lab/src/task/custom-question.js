@@ -24,7 +24,8 @@ function guessAmount(text) {
 }
 
 function guessMerchant(text) {
-  const lower = text.toLowerCase();
+  // Collapse whitespace so "HP  Petrol   Pump" still matches the single-space key.
+  const lower = text.toLowerCase().replace(/\s+/g, " ");
   const key = Object.keys(MERCHANTS).find((k) => new RegExp(`(?<![a-z0-9])${escapeRegex(k)}(?![a-z0-9])`).test(lower));
   if (!key) return null;
   // Use the spelling the built-in cases use, e.g. "HP Petrol Pump".

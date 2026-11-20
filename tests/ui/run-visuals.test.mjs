@@ -20,6 +20,8 @@ check(() => assert.equal(count(bars, /BEST/g), 1));
 check(() => assert.match(bars, /rbars-row rbars-best[\s\S]*?--w:100%/));
 check(() => assert.match(bars, new RegExp(CARDS[ranked.ranked[0].card].name.replace(/[+]/g, "\\+"))));
 check(() => assert.match(bars, /₹\d+(\.\d+)? · \d+(\.\d+)?%/));
+check(() => assert.equal(count(bars, /class="card-art"/g), 4, "one small card image per bar row"));
+check(() => assert.match(bars, /width="40"/));
 check(() => assert.match(rankBarsHtml({ error: "bad <x>" }), /class="rbars-err">Tool error: bad &lt;x&gt;/));
 check(() => assert.equal(rankBarsHtml({ category: "x" }), ""));
 check(() => assert.equal(rankBarsHtml(null), ""));

@@ -201,12 +201,11 @@ export const RATE_SOURCES = {
 };
 
 export function classify_merchant({ merchant } = {}) {
-  const category =
-    MERCHANTS[
-      String(merchant ?? "")
-        .trim()
-        .toLowerCase()
-    ];
+  const key = String(merchant ?? "")
+    .trim()
+    .toLowerCase();
+  // hasOwn: "constructor" or "__proto__" must not resolve to an inherited property.
+  const category = Object.hasOwn(MERCHANTS, key) ? MERCHANTS[key] : null;
   return category ? { category } : { error: `unknown merchant: ${merchant}` };
 }
 

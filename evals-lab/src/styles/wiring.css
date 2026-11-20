@@ -369,6 +369,13 @@
 }
 .wgraph .wdetail .cardsmx {
   overflow-x: auto;
+  max-width: 100%;
+}
+/* a wide table in a click panel scrolls inside the panel; it must not stretch the graph (seen at 500 px) */
+.wgraph,
+.wgraph .wdetails,
+.wgraph .wdetail {
+  min-width: 0;
 }
 .wgraph .stage-tools {
   margin: 0.8rem 0 0;

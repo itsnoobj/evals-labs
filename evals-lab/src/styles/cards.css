@@ -99,7 +99,34 @@
   position: relative;
   z-index: 1;
 }
+/* Card art: official issuer image, flat, square frame. Shown for identification only. */
+.card-art {
+  display: block;
+  width: 72px;
+  height: auto;
+  margin-bottom: 0.3rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+  background: #fff;
+}
+.card-art--none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0.15rem;
+  font: 700 0.6rem/1.15 var(--mono);
+  text-align: center;
+  color: var(--muted);
+  background: var(--paper);
+  border-style: dashed;
+  overflow: hidden;
+}
 @media (max-width: 600px) {
+  .card-art {
+    width: 56px;
+  }
   .cardsmx tbody th {
     position: sticky;
     left: 0;
