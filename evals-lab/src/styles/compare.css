@@ -1,5 +1,5 @@
 /* Side by side (screen 5): one idea per block, top to bottom.
-   Title and lead, compact mission strip, question row, last-question block, the two agent columns with their step bars,
+   Title and lead, mission strip, question row, last-question block, the two agent columns with their step bars,
    one quiet row (wiring toggle, "Running on" line, "Change how it runs"), score block.
    Vertical gaps above the columns are 12 px at most, so the step bars stay in the first screen at 1280x900.
    Markup: index.html #compare, src/ui/step-bar.js, src/ui/try-these.js. Tokens live in styles.css. */
@@ -15,82 +15,9 @@
   max-width: 40rem;
 }
 
-/* compact mission strip: 28 px squares on one line, a label only for the current step; goal and tasks stay quiet */
+/* mission strip: same size as on the other screens (styles.css) */
 #compare [data-mission] {
   margin: 0 0 12px;
-}
-#compare .mission {
-  background: none;
-  border: 0;
-  border-left: 3px solid var(--soft);
-}
-/* stepper and "Mission 5 of 5 · ..." share one line (wraps on narrow screens); the tasks section sits below, closed */
-#compare .mmain {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0 1rem;
-  padding: 0 0 0 0.75rem;
-}
-#compare .mmain > .msteps {
-  flex: none;
-}
-#compare .mmain > .goal {
-  flex: 1 1 18rem;
-  min-width: 0;
-}
-#compare .mmain > details.disclose {
-  flex: 1 1 100%;
-}
-#compare .msteps {
-  align-items: center;
-  margin: 0;
-}
-#compare .mstep {
-  flex: 0 1 auto;
-  display: flex;
-  align-items: center;
-}
-#compare .mstep + .mstep::before {
-  position: static;
-  flex: none;
-  width: 1rem;
-  height: 2px;
-  margin: 0 -1px;
-}
-#compare .mstep a {
-  flex-direction: row;
-  gap: 0.4rem;
-  min-height: 2.75rem;
-}
-#compare .mstep-sq {
-  width: 28px;
-  height: 28px;
-  font-size: 0.75rem;
-}
-#compare .mstep:not(.is-now) .mstep-name {
-  display: none;
-}
-#compare .mstep-name {
-  font-size: 0.8rem;
-  white-space: nowrap;
-}
-#compare .mission .goal {
-  margin: 0;
-  font-size: 0.85rem;
-  font-weight: 400;
-  color: var(--muted);
-}
-#compare .mission details.disclose {
-  margin-top: 0;
-}
-#compare .mission details.disclose > summary {
-  min-height: 2rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--muted);
-  font-size: 0.72rem;
 }
 
 /* step bar in the header of each agent column: ~44 px squares joined by arrows, the state of each step as text.
