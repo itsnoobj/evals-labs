@@ -12,7 +12,7 @@ Simple, modern, minimal, welcoming to a first-time learner. Calm, flat, square, 
 - Status is never colour alone: always a text label plus a shape (filled square = pass, hollow square = fail, half square = flaky or not run).
 
 ## Welcome layer (new vs the reference)
-- Sticky top bar: dark `EVALS LAB` brand block, then nav `1 Run`, `2 Metrics`, `3 Golden set`, `4 Compounding`, `5 Judge lab` (disabled, label "soon").
+- Sticky top bar: dark `EVALS LAB` brand block, then nav `1 Run`, `2 Metrics`, `3 Golden set`, `4 Compounding`, `5 Side by side`.
 - First load shows a "Start here" strip: 3 numbered square steps (Run a case, Break it, Run the set). Dismissible, remembered in localStorage.
 - Each screen has a top band: `YOU WILL SEE` (one line) and `TRY THIS` (one line, one concrete action). Explanations live in `<details>` closed by default.
 - Friendly microcopy in plain words. No jargon without a one-line gloss on first use (for example "trajectory = the route of tool calls").

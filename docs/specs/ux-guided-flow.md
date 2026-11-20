@@ -15,7 +15,7 @@ Node: `evals-lab > ui`. Problem: first-time visitors do not know what the task i
 - Tell the visitor what to do next at every moment. Plain words, one concept per screen.
 
 ## Non-goals
-- No new framework, no build, no new metrics. Judge lab stays "soon".
+- No new framework, no build, no new metrics.
 
 ## Invariants
 - `ui.js` does not import the engine. Teaching copy lives in `lessons.js` (pure data + `stageStates`, tested in node).

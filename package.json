@@ -22,6 +22,7 @@
     "benchmark:audit": "node scripts/audit-key.mjs",
     "benchmark:ask-help": "node scripts/ask-help-experiment.mjs",
     "benchmark:ask-help-guarded": "node scripts/ask-help-guarded.mjs",
+    "benchmark:judge-calibration": "node scripts/judge-calibration.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

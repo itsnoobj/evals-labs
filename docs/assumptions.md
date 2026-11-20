@@ -4,7 +4,7 @@
 |---|---|---|---|
 | Q1 | Replay mode for visitors without WebGPU | assumed | yes, recorded real runs (built, `recorded-runs.json`) |
 | Q2 | Model choice | resolved by spike | Qwen2.5-1.5B-Instruct q4f16_1 (fallback q4f32_1 without shader-f16). 360M and 0.5B score 0%. |
-| Q3 | Judge lab | assumed | v1.1. The rubric judge x5 button ships in v1. |
+| Q3 | Judge lab | dropped | Not built (2026-11-20, judge-calibration TEST kappa 0.25 vs 0.40). The rubric judge x5 button ships in v1. |
 | Q4 | Location and deploy | assumed | `evals-lab/` in this folder, GitHub Pages in S8 |
 | Q5 | Scenario | assumed | card picker, 4 cards trimmed from card-use-agent |
 | Q6 | Visual style | confirmed | square, flat, minimal like `entain/ai/incident-review`, FE only |

@@ -1,0 +1,18 @@
+{
+  "frozenAt": "2026-11-20T15:58:09.836Z",
+  "variant": "T3",
+  "secondary": "J3",
+  "bar": {
+    "minKappa": 0.4,
+    "maxFalsePass": 0.2,
+    "minLiftOverJ0": 0.2
+  },
+  "hashes": {
+    "variants": "e1d605ea7afb3911833cd46eb7857048a56f604a1ae156a9ed7268fc1695ae88",
+    "lib": "172785595d20069000ef40d0e90a9ebd6f6746316600c2647a53dfb2b9069037",
+    "items": "81b5753d9e8f110174af8d4c8bdd76f3a3c4d65b31bb81627576623b332a7ce3",
+    "engine": "30fd9850296230ed46b36be035c8fc5081d9d7601ede3991da6861845e085391",
+    "cases": "85a14a77a3b5fcdacff00a26a8a2494d3bbf91d36801bfb0a3c77cbc9f2e6947",
+    "recordedRuns": "33ae8e2683a2e0bd1d8b75e9b2986eeb756b9aabef01c40969193273b4f98f7e"
+  }
+}

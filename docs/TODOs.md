@@ -13,17 +13,17 @@
 
 ## Later
 - [ ] Compare screen: live-model check of the careful agent (retry and fallback paths ran only on recorded runs) (5 min)
-- [ ] v1.1 Judge lab: calibration vs your labels, order-bias swap (25 min); the "coming soon" page (ux19) becomes the real lab
 - [ ] Add-your-own case on the golden screen (15 min)
 - [ ] `maxTokens` 160 truncates long replies in about 5% of free runs: raise to 256 and re-measure (10 min)
 - [ ] Update `outline.md` section 6: replace the mutation demo with the Evals Lab walkthrough (5 min)
 - [ ] More cards and cases, other scenarios, shareable URL state
 
 ## Done
+- [x] Judge lab dropped 2026-11-20: judge-calibration experiment missed the bar (TEST kappa 0.25 vs 0.40; see docs/research/judge-calibration.md). The "coming soon" tab and page (ux19) are removed (ux24).
 - [x] ux21: the separate overview lanes are gone (`ui/compare-overview.js` deleted). Each agent column header has a step bar (`ui/step-bar.js`: 3 or 5 squares, state as text, retry text, result badge; steps open the explain pop-up). The chat prints short Guardrail / Checker / Retry / Fallback lines with the same names. Empty state "Waiting for a question."; wiring toggle moved under the columns. Headless check at 1280 and 500 px passed; live model path not checked.
 - [x] ux20 (lanes part replaced by ux21): Side by side redesigned top to bottom: lead sentence, compact mission strip, overview lanes (`ui/compare-overview.js`, steps open the explain pop-up, NOW and RIGHT/WRONG/BLOCKED badges), one question row (placeholder, ASK BOTH with reason text via `ui/ask-row.js`, quick-start chips), recorded runs start silently, auto-clear after a run + CLEAR RESULTS, eval block moved to the bottom. Headless check (1280 and 500 px) passed; live model path not checked.
 - [x] ux19 (ask help, options 1+2): a square "?" mark replaces the "›" / "DETAILS ›" cue on every element that opens the explain pop-up; the pop-up gets a closed "Ask your own AI" section (`ask-own-ai`) with a copyable prompt built by `ui/ask-prompt.js`. No in-page model. Nothing is sent from the page.
-- [x] ux19: screen 6 "LLM judge lab (coming soon)" is back in the top nav and the phone tab bar with a SOON tag; the page explains the 4 planned steps, why (5 of 5 to every run), and links to Checks. Not built: the lab itself (v1.1 below).
+- [x] ux19: screen 6 "LLM judge lab (coming soon)" is back in the top nav and the phone tab bar with a SOON tag; the page explains the 4 planned steps, why (5 of 5 to every run), and links to Checks. Removed in ux24 (see the Judge lab line above).
 - [x] ux18 (2026-11-20): eval button says what it is ("Run the eval: all 6 questions" + why line) and shows a P/F grid per run; mission stepper strip; LLM judge lab tab removed from nav. Guarded in-page ask experiment: frozen design misses bar on fresh test set (in-scope 65%, out-of-scope 87.5%, trick 66.7%; injection 100%, 0 invented numbers). Report `docs/research/ask-help-guarded.md`.
 - [x] ux17 (2026-11-20): Run screen: model name, status and download size now inside the Live AI box; Recorded box shows its own status; selected box says IN USE.
 - [x] Ask-help experiment (2026-11-20): Qwen2.5-1.5B grounded misses all 5 bar lines (in-scope 70%, out-of-scope 75%, injection 66.7%, trick 83.3%, 3/120 invented numbers). In-page ask NOT built. Report: `docs/research/ask-help-experiment.md`.

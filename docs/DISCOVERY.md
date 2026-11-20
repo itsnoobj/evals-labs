@@ -24,5 +24,3 @@
 ### replay (S7)
 - Done when: page works end to end with WebGPU disabled, using `recorded-runs.json` of real runs.
 
-### judge-lab (v1.1)
-- Done when: visitor labels 10 runs and sees judge agreement and order bias.

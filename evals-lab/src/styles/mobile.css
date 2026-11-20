@@ -108,11 +108,6 @@
   .nav .mono {
     font-size: 0.8rem;
   }
-  .nav .soon-tag {
-    padding: 0 0.15rem;
-    font-size: 0.55rem;
-    letter-spacing: 0.04em;
-  }
   .nav .tick {
     position: absolute;
     top: 0.3rem;
