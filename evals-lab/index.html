@@ -82,6 +82,7 @@
       </nav>
       <button type="button" class="sec level-toggle" id="level-toggle" aria-pressed="true">Quick path</button>
     </header>
+    <div class="mstat" id="model-status-bar" data-hook="model-status-bar" role="status" aria-live="polite"></div>
 
     <main id="main" tabindex="-1">
       <div id="origin-warning" class="warn" role="alert" hidden></div>
@@ -225,11 +226,17 @@
               <option>Loading cases</option>
             </select>
             <p class="qpreview" id="case-question"></p>
-            <details class="disclose">
-              <summary>Type your own</summary>
+            <details class="disclose" open>
+              <summary>Examples, or type your own</summary>
               <div class="disclose-body">
                 <div class="typeq">
+                  <div class="typeq-ex" id="case-examples" data-hook="case-examples"></div>
                   <label class="k" for="case-text">Or type your own question</label>
+                  <p class="muted typeq-line">Typed questions work best with a shop this lab knows and an amount.</p>
+                  <details class="disclose">
+                    <summary>Shops it knows</summary>
+                    <div class="disclose-body"><p class="shops" id="case-shops"></p></div>
+                  </details>
                   <input
                     type="text"
                     id="case-text"
@@ -238,13 +245,6 @@
                     autocomplete="off"
                     placeholder="e.g. Paying my ₹2,500 BESCOM bill. Which card?"
                   />
-                  <div
-                    class="typeq-ex"
-                    id="case-examples"
-                    data-hook="case-examples"
-                    role="group"
-                    aria-label="Example questions to type"
-                  ></div>
                   <p class="muted">
                     If this box has text, it is used instead of the list. Clear it to use the list again. Your own
                     question has no answer key.
@@ -454,11 +454,17 @@
             ></label
           >
         </div>
-        <details class="disclose">
-          <summary>Type your own</summary>
+        <details class="disclose" open>
+          <summary>Examples, or type your own</summary>
           <div class="disclose-body">
             <div class="typeq">
+              <div class="typeq-ex" id="cmp-examples" data-hook="cmp-examples"></div>
               <label class="k" for="cmp-text">Or type your own question</label>
+              <p class="muted typeq-line">Typed questions work best with a shop this lab knows and an amount.</p>
+              <details class="disclose">
+                <summary>Shops it knows</summary>
+                <div class="disclose-body"><p class="shops" id="cmp-shops"></p></div>
+              </details>
               <input
                 type="text"
                 id="cmp-text"
@@ -467,13 +473,6 @@
                 autocomplete="off"
                 placeholder="e.g. Paying my ₹2,500 BESCOM bill. Which card?"
               />
-              <div
-                class="typeq-ex"
-                id="cmp-examples"
-                data-hook="cmp-examples"
-                role="group"
-                aria-label="Example questions to type"
-              ></div>
             </div>
           </div>
         </details>
@@ -586,7 +585,7 @@
         This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were
         checked in November 2026; they change. Not financial advice.
       </p>
-      <p class="muted build">build ux27</p>
+      <p class="muted build">build ux28</p>
     </footer>
 
     <script type="module" src="src/app/main.js"></script>

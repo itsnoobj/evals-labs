@@ -3,10 +3,38 @@
 import { CASES } from "../task/cases.js";
 import { loadModel } from "../agent/llm.js";
 import { modelBoxes } from "../ui/model-box.js";
+import { modelStatusHtml } from "../ui/model-status.js";
+import { makeCustomCase } from "../task/custom-question.js";
 import { tryTheseHtml, NOT_LOADED, LOADING } from "../ui/try-these.js";
 import { askState, runLine, runHint, typedHint, LOADING_TEXT } from "../ui/ask-row.js";
 import { checkInput } from "../agent/guardrails.js";
 import { $, state, mark, describeError } from "./state.js";
+
+// True when the typed text has no amount or no shop this lab knows (the tools cannot answer it). "" is not unknown: nothing typed.
+const typedUnknown = (text) => {
+  const t = String(text ?? "").trim();
+  if (!t) return false;
+  const c = makeCustomCase(t);
+  return c.merchant == null || c.amount == null;
+};
+
+// The slim bar under the top nav. Redrawn only when its HTML changed, so a focused button is not lost to a progress tick.
+function drawStatusBar(kind, pct) {
+  const html = modelStatusHtml({
+    kind,
+    pct,
+    modelId: state.llm?.modelId,
+    error: state.loadError,
+    hadLive: Boolean(state.llm),
+    hasRecorded: Boolean(state.recorded),
+    secure: window.isSecureContext,
+  });
+  const bar = $("model-status-bar");
+  if (bar.dataset.html !== html) {
+    bar.dataset.html = html;
+    bar.innerHTML = html;
+  }
+}
 
 // Writes the words and markers inside the two boxes ("Live AI", "Recorded runs") from the mode kept on #model-bar.
 function renderBoxes() {
@@ -71,6 +99,7 @@ export function syncCmpModelBar() {
   // Load model: needs a secure page; while the live AI is the one running there is nothing left to load.
   $("load-model").disabled = !window.isSecureContext || kind === "loading" || state.mode === "live";
   renderBoxes();
+  drawStatusBar(kind, Number(pct));
   const text =
     { ready: "Live model ready", replay: "Using recorded runs", loading: `Loading model ${pct}%` }[kind] ??
     (label === "Load failed"
@@ -135,6 +164,7 @@ export function syncAsk() {
     loadFailed: state.mode === "none" && pref === "failed",
     mode: state.mode,
     guardBlocks: !checkInput($("cmp-text").value.trim()).ok,
+    unknown: typedUnknown($("cmp-text").value),
   });
   $("cmp-ask").disabled = st.disabled;
   $("cmp-ask-why").textContent = st.reason;
@@ -155,7 +185,11 @@ export function syncRunHint() {
   }
   if (state.mode === "none") return; // nothing chosen yet: the first hint stays
   $("run-hint").textContent =
-    typedHint({ typed: $("case-text").value, mode: state.mode }) || "Runs the question from step 2.";
+    typedHint({
+      typed: $("case-text").value,
+      mode: state.mode,
+      unknown: typedUnknown($("case-text").value),
+    }) || "Runs the question from step 2.";
 }
 
 // quiet: the automatic first-visit choice, which the visitor did not make, so it does not tick the "Choose how to run" mission.

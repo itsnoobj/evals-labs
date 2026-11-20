@@ -1,6 +1,6 @@
 // Entry point (loaded by index.html): wires the pure pieces together and binds every control.
 // model (llm.js) -> agent loop (agent-step.js) -> scores (engine.js) -> screens (src/app/*.js, ui.js). Exports nothing.
-import { CASES, CARDS, CATEGORIES, CATEGORY_LABELS, DEFAULT_CASE_ID } from "../task/cases.js";
+import { CASES, CARDS, CATEGORIES, CATEGORY_LABELS, DEFAULT_CASE_ID, MERCHANTS } from "../task/cases.js";
 import { METRICS } from "../evals/engine.js";
 import { checkWebGpu, defaultMode, forcedRecorded, MODE_KEY, MODEL_F16 } from "../agent/llm.js";
 import * as ui from "../ui/ui.js";
@@ -13,10 +13,11 @@ import { onRunSet, onCellSelected } from "./golden-screen.js";
 import { drawCurve } from "./compounding-screen.js";
 import { drawChats, onAskBoth, onClearResults, onTryThis, onScoreBoth, onStopScore } from "./compare-screen.js";
 import { drawWiring, loadDspy, bindWiringRoots, openWiringNode } from "./wiring-panel.js";
-import { drawStart, fillExamples } from "./start-screen.js";
+import { drawStart } from "./start-screen.js";
 import { initNav } from "./nav.js";
 import { installDisclose } from "../ui/disclose.js";
 import { glossaryHtml } from "../ui/glossary.js";
+import { exampleChips, exampleChipsHtml, knownShops } from "../ui/example-chips.js";
 
 // The long explanation of live and recorded runs sits in the "Live or recorded?" section of index.html.
 // The note line under the model bar shows only warnings, progress and errors.
@@ -91,8 +92,28 @@ async function init() {
     showQuestion();
     syncRunHint();
   };
-  fillExamples($("case-examples"), $("case-text"));
-  fillExamples($("cmp-examples"), $("cmp-text"));
+  // Example chips are real test-set cases: a click only picks the case (the same as the list). The chips appear once the recorded runs are read.
+  const shops = knownShops(MERCHANTS, CASES).join(", ");
+  $("case-shops").textContent = shops;
+  $("cmp-shops").textContent = shops;
+  const pickExample = (selectId, ev) => {
+    const b = ev.target.closest("button[data-example]");
+    if (!b || b.disabled || state.cmpBusy) return;
+    $(selectId).value = b.dataset.example;
+    $(selectId).onchange();
+  };
+  $("case-examples").addEventListener("click", (ev) => pickExample("case-select", ev));
+  $("cmp-examples").addEventListener("click", (ev) => {
+    pickExample("cmp-case", ev);
+    if (ev.target.closest("button[data-example]")) $("cmp-ask").focus({ preventScroll: true });
+  });
+  // The status bar under the nav: one listener, its buttons are redrawn with every status change.
+  $("model-status-bar").addEventListener("click", (ev) => {
+    const b = ev.target.closest("button[data-mstat]");
+    if (!b || b.disabled || state.cmpBusy) return;
+    if (b.dataset.mstat === "load") onLoadModel();
+    else useReplay();
+  });
   $("retry-tries").onchange = () => {
     drawCurve();
     mark("tries");
@@ -176,6 +197,14 @@ async function init() {
       state.recorded = data;
       $("use-replay").disabled = false;
       syncCmpModelBar();
+      // The chip picks and captions are computed from these recorded runs. A failure here only means no chips.
+      exampleChips(data, CASES)
+        .then((chips) => {
+          const html = exampleChipsHtml(chips);
+          $("case-examples").innerHTML = html;
+          $("cmp-examples").innerHTML = html;
+        })
+        .catch(() => {});
       return null;
     })
     .catch((err) => err);

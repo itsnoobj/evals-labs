@@ -50,6 +50,21 @@ const base = {
   metrics: [],
 };
 
+// finished run with no final step: the chat says so in plain words
+const noFinalSteps = goodSteps.filter((s) => s.kind !== "final");
+has(chatHtml({ ...base, attempts: [{ steps: noFinalSteps, verdict: null }] }), "The AI did not give a final answer.");
+has(
+  chatHtml({ ...base, attempts: [{ steps: [], verdict: null }], expected: null }),
+  "The AI did not give a final answer.",
+);
+lacks(
+  chatHtml({ ...base, pending: true, attempts: [{ steps: noFinalSteps }] }),
+  "did not give a final answer",
+  "not while it runs",
+);
+lacks(chatHtml(base), "did not give a final answer", "a run with an answer");
+lacks(chatHtml({ ...base, attempts: [] }), "did not give a final answer", "nothing asked yet");
+
 // good run
 const good = chatHtml(base);
 lacks(good, "<script>", "question must be escaped");

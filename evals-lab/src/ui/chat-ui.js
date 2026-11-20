@@ -20,6 +20,8 @@ const wire = (cls, inner) => `<section class="wire ${cls}">${inner}</section>`;
 const bubble = (inner, cls = "") => `<div class="msg msg-agent"><div class="bubble${cls}">${inner}</div></div>`;
 const isErr = (o) => !!o && typeof o === "object" && o.error != null;
 
+export const NO_FINAL_ANSWER = "The AI did not give a final answer.";
+
 // ---- chat bubbles -----------------------------------------------------------
 function cardVisual(final, steps, cardNames) {
   const rank = [...steps]
@@ -224,6 +226,10 @@ export function chatHtml(opts = {}) {
   const body = blocked
     ? bubble(`Stopped before the model ran: ${e(why)} <span class="tag bad">Blocked by a guardrail</span>`)
     : steps.map((s, i) => agentHtml(s, steps, cardNames, categoryLabels) + stepWire(s, i)).join("");
+  // A finished run with no final step (ran out of steps, or the model returned nothing): say so where the answer would be.
+  const noFinal =
+    !pending && !blocked && outcome !== "refused" && attempts.length > 0 && !steps.some((s) => s.kind === "final");
+  const missing = noFinal ? bubble(e(NO_FINAL_ANSWER)) : "";
   const verdict = attempts[shown]?.verdict;
   const verdictWire = verdict
     ? wire(
@@ -264,6 +270,6 @@ export function chatHtml(opts = {}) {
     `<div><h3>${e(title)}</h3><p class="chat-sub">${e(subtitle)}</p></div>${stepBar}<ul class="chat-chips">${chips}</ul></header>` +
     `${systemHtml(systemPrompt, careful)}` +
     `<div class="chat-msgs">${asked}` +
-    `${before}${body}${after}${typing}${verdictWire}${rejected}${log}${score}${tl}</div>${res}</div>`
+    `${before}${body}${missing}${after}${typing}${verdictWire}${rejected}${log}${score}${tl}</div>${res}</div>`
   );
 }

@@ -17,6 +17,7 @@ import {
   TYPED_NEEDS_LIVE,
   TYPED_GUARD_ONLY,
   typedHint,
+  TYPED_UNKNOWN,
 } from "../../evals-lab/src/ui/ask-row.js";
 
 test("nothing picked: disabled, reason says pick a question first", () => {
@@ -178,4 +179,30 @@ test("no mode yet while the first check or the recorded runs load: disabled with
     reason: STARTING,
   });
   assert.equal(askState({ typed: EXAMPLES[0], starting: true, ready: false }).reason, NOT_READY);
+});
+
+test("typed text with no amount or no known shop: hint in live, not-loaded and recorded mode; ASK BOTH stays enabled", () => {
+  assert.equal(TYPED_UNKNOWN, "Add an amount and a shop this lab knows, or pick an example below.");
+  for (const mode of ["live", "none", "replay"]) {
+    assert.equal(typedHint({ typed: "which card?", mode, unknown: true }), TYPED_UNKNOWN);
+    assert.deepEqual(askState({ typed: "which card?", mode, unknown: true }), {
+      disabled: false,
+      reason: TYPED_UNKNOWN,
+    });
+  }
+});
+
+test("unknown hint does not show for text that has both, nor for an empty box", () => {
+  assert.equal(typedHint({ typed: "", mode: "live", unknown: true }), "");
+  assert.equal(typedHint({ typed: "Swiggy 800", mode: "live", unknown: false }), "");
+  assert.equal(typedHint({ typed: "Swiggy 800", mode: "replay", unknown: false }), TYPED_NEEDS_LIVE);
+});
+
+test("recorded mode: a guardrail block is still said first", () => {
+  assert.equal(typedHint({ typed: "x", mode: "replay", guardBlocks: true, unknown: true }), TYPED_GUARD_ONLY);
+});
+
+test("a busy or loading run still wins over the unknown hint", () => {
+  assert.equal(askState({ typed: "x", unknown: true, busy: true }).disabled, true);
+  assert.equal(askState({ typed: "x", unknown: true, loading: true }).reason, LOADING_WAIT);
 });

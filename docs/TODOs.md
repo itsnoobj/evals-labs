@@ -19,6 +19,8 @@
 - [ ] More cards and cases, other scenarios, shareable URL state
 
 ## Done
+
+- [x] ux28: Typed-question chips are now real test-set cases picked from the recorded runs (`example-chips.js`: 2 biggest evals gaps + 1 both-fine case, captions from `scoreBoth`); hint "Add an amount and a shop this lab knows..." before ASK BOTH; chat says "The AI did not give a final answer." when a finished run has no final step; global AI status bar under the nav (`model-status.js`: not loaded / loading N% / ready / load failed / recorded). Headless recorded pass only; real WebGPU load not exercised. Build tag `ux28`.
 - [x] ux26: typed question / example looked like a no-op in recorded mode (screens 5 and 1). Hint now shown next to the button before the click; ASK BOTH disabled with a reason while recorded runs start.
 - [x] Judge lab dropped 2026-11-20: judge-calibration experiment missed the bar (TEST kappa 0.25 vs 0.40; see docs/research/judge-calibration.md). The "coming soon" tab and page (ux19) are removed (ux24).
 - [x] ux21: the separate overview lanes are gone (`ui/compare-overview.js` deleted). Each agent column header has a step bar (`ui/step-bar.js`: 3 or 5 squares, state as text, retry text, result badge; steps open the explain pop-up). The chat prints short Guardrail / Checker / Retry / Fallback lines with the same names. Empty state "Waiting for a question."; wiring toggle moved under the columns. Headless check at 1280 and 500 px passed; live model path not checked.

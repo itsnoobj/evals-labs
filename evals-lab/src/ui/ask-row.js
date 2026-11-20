@@ -19,16 +19,23 @@ export const TYPED_NEEDS_LIVE =
 export const TYPED_GUARD_ONLY =
   "Recorded runs cannot answer a typed question. A guardrail stops this one before the model, so only the agent with evals shows a result.";
 
+// A typed question the tools cannot use: no amount, or no shop this lab knows. Said before the click, in live and recorded mode.
+export const TYPED_UNKNOWN = "Add an amount and a shop this lab knows, or pick an example below.";
+
 // "" when nothing needs saying. typed: the text box. mode: "none" | "replay" | "live".
 // guardBlocks: the guardrail would stop this text (no model call, so recorded mode can still show it).
-export function typedHint({ typed = "", mode = "", guardBlocks = false } = {}) {
-  if (!String(typed).trim() || mode !== "replay") return "";
-  return guardBlocks ? TYPED_GUARD_ONLY : TYPED_NEEDS_LIVE;
+// unknown: the text has no recognisable amount or no known shop.
+export function typedHint({ typed = "", mode = "", guardBlocks = false, unknown = false } = {}) {
+  if (!String(typed).trim()) return "";
+  if (mode === "replay" && guardBlocks) return TYPED_GUARD_ONLY;
+  if (unknown) return TYPED_UNKNOWN;
+  return mode === "replay" ? TYPED_NEEDS_LIVE : "";
 }
 
 // picked: the chosen list value ("" = the placeholder). typed: the text box. ran: a result is on screen.
 // ready: a way to run exists (recorded runs loaded, or the live model ready). busy: a run is going.
 // starting: no mode is chosen yet (the first check or the recorded runs are still loading). mode, guardBlocks: see typedHint.
+// unknown: the typed text has no amount or no known shop (a hint only, the button stays enabled).
 // loading: the live AI is downloading. loadFailed: it did not load and nothing else is chosen yet.
 // Returns { disabled, reason }. The reason is shown next to the button; an enabled button can carry a hint (typed text in recorded mode).
 export function askState({
@@ -42,13 +49,14 @@ export function askState({
   loadFailed = false,
   mode = "",
   guardBlocks = false,
+  unknown = false,
 } = {}) {
   if (loading) return { disabled: true, reason: LOADING_WAIT };
   if (loadFailed) return { disabled: true, reason: LOAD_FAILED };
   if (busy) return { disabled: true, reason: BUSY };
   if (!ready) return { disabled: true, reason: NOT_READY };
   if (starting) return { disabled: true, reason: STARTING };
-  if (String(typed).trim()) return { disabled: false, reason: typedHint({ typed, mode, guardBlocks }) };
+  if (String(typed).trim()) return { disabled: false, reason: typedHint({ typed, mode, guardBlocks, unknown }) };
   if (String(picked).trim()) return { disabled: false, reason: "" };
   return { disabled: true, reason: ran ? PICK_ANOTHER : PICK_FIRST };
 }

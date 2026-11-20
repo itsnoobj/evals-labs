@@ -445,3 +445,85 @@ button.linkbtn:disabled {
     padding: 1rem;
   }
 }
+
+/* "Type your own": example chips (real test-set cases), one line of guidance, the shops list */
+.typeq .try-these {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0 0 0.6rem;
+}
+.typeq .try-these .k {
+  margin: 0;
+}
+.typeq .try-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+}
+.typeq .try-btn {
+  gap: 0.1rem;
+  padding: 0.35rem 0.9rem;
+  min-height: 2.75rem;
+}
+.typeq .try-title {
+  font-size: 0.75rem;
+}
+.typeq .try-out {
+  font-size: 0.78rem;
+  color: var(--ink);
+}
+.typeq .try-btn:hover:not(:disabled) .try-out {
+  color: #fff;
+}
+.typeq .typeq-line {
+  margin: 0.25rem 0 0.4rem;
+}
+.typeq .shops {
+  margin: 0;
+  font-size: 0.85rem;
+}
+.typeq details.disclose {
+  margin: 0 0 0.5rem;
+}
+
+/* global model status bar: one slim line under the top nav, on every screen */
+.mstat {
+  padding: 0.2rem 1rem;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+.mstat-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem 0.4rem;
+  min-height: 1.4rem;
+}
+.mstat-row .sq {
+  margin-right: 0;
+  flex: none;
+}
+.mstat-btn {
+  min-height: 1.5rem;
+  padding: 0 0.6rem;
+  font-size: 0.75rem;
+}
+.mstat-why {
+  color: var(--muted);
+}
+.mstat-bar {
+  flex: 1 1 8rem;
+  max-width: 24rem;
+  height: 0.4rem;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.mstat-fill {
+  display: block;
+  height: 100%;
+  width: var(--w, 0%);
+  background: var(--accent);
+}
