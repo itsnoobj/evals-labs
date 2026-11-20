@@ -380,7 +380,7 @@ check(() => assert.equal(wiringStates("simple", { steps: [good.steps.at(-1)] }).
   check(() => assert.equal(wiringStates("simple", { steps: good.steps, judging: true }).judge, "missing"));
 }
 
-// Each phase is a click-to-open section: summary = phase name + a text count; "During the run" opens by default.
+// Each phase is a click-to-open section: summary = phase name + a text count; all three open by default.
 {
   const phases = (h) =>
     [
@@ -397,7 +397,7 @@ check(() => assert.equal(wiringStates("simple", { steps: [good.steps.at(-1)] }).
   check(() =>
     assert.deepEqual(
       p.map((x) => x.open),
-      [false, true, false],
+      [true, true, true],
     ),
   );
   check(() =>
@@ -461,6 +461,7 @@ check(() => assert.equal(wiringStates("simple", { steps: [good.steps.at(-1)] }).
   // a phase the reader closed stays closed on the next draw, one the reader opened stays open
   rememberOpen("wire-careful-live", false);
   rememberOpen("wire-careful-build", true);
+  rememberOpen("wire-careful-after", false);
   const again = phases(wiringHtml({ kind: "careful", states: st, metrics: METRICS, scores: perfectScores }));
   check(() =>
     assert.deepEqual(
@@ -469,7 +470,8 @@ check(() => assert.equal(wiringStates("simple", { steps: [good.steps.at(-1)] }).
     ),
   );
   rememberOpen("wire-careful-live", true);
-  rememberOpen("wire-careful-build", false);
+  rememberOpen("wire-careful-build", true);
+  rememberOpen("wire-careful-after", true);
   // the button look of every summary is plain CSS; check the words and sizes are there
   const dcss = readFileSync(new URL("../../evals-lab/src/styles/disclose.css", import.meta.url), "utf8");
   check(() => assert.match(dcss, /content: "SHOW"/));

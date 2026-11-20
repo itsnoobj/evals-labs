@@ -250,7 +250,7 @@
   min-height: 2.25rem;
 }
 
-/* one quiet row under the two columns: wiring toggle, "Running on" line and its text button, "Change how it runs" */
+/* one quiet row under the two columns: "Running on" line and its text button, "Change how it runs" */
 .quietrow {
   display: flex;
   flex-wrap: wrap;
@@ -258,8 +258,8 @@
   gap: 0 1rem;
   margin: 0.5rem 0 0;
 }
-.quietrow .wire-toggle {
-  margin: 0;
+.askrow .wire-toggle {
+  margin: 0.5rem 0 0;
 }
 .runline {
   /* wide basis: the text and its button wrap together to the next line instead of breaking in the middle */

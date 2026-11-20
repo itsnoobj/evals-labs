@@ -184,9 +184,9 @@ export function wiringHtml({ kind = "simple", states = {}, metrics = [], scores 
 
   return (
     `<div class="wgraph" data-kind="${careful ? "careful" : "simple"}">` +
-    lane("build", "wl-build", "Before the run: build", buildList, `<ol class="wnodes">${build}</ol>`, false) +
+    lane("build", "wl-build", "Before the run: build", buildList, `<ol class="wnodes">${build}</ol>`, true) +
     lane("live", "wl-live", "During the run: live", liveList, `<ol class="wnodes">${live}</ol>${branch}`, true) +
-    lane("after", "wl-after", "After the run: measure", afterList, `<ol class="wnodes">${after}</ol>`, false) +
+    lane("after", "wl-after", "After the run: measure", afterList, `<ol class="wnodes">${after}</ol>`, true) +
     `</div>`
   );
 }

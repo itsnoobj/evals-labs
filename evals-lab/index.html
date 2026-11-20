@@ -445,6 +445,11 @@
             >
           </div>
           <div id="cmp-try" data-hook="cmp-try"></div>
+          <label class="check wire-toggle" for="show-wiring"
+            ><input type="checkbox" id="show-wiring" data-hook="show-wiring" /><span
+              ><b>Show the wiring</b> (what happens behind each chat)</span
+            ></label
+          >
         </div>
         <details class="disclose">
           <summary>Type your own</summary>
@@ -478,7 +483,7 @@
           <div class="cmp-row" id="row-simple">
             <div class="cmp-wire is-simple" id="wire-simple" data-hook="wire-simple" hidden>
               <p class="cmp-cap"><b>Agent without evals.</b> You find out from users.</p>
-              <details class="disclose">
+              <details class="disclose" open>
                 <summary>What it lacks</summary>
                 <div class="disclose-body"><p>No answer key, no checks, no monitoring.</p></div>
               </details>
@@ -489,7 +494,7 @@
           <div class="cmp-row" id="row-careful">
             <div class="cmp-wire" id="wire-careful" data-hook="wire-careful" hidden>
               <p class="cmp-cap"><b>Agent with evals.</b></p>
-              <details class="disclose">
+              <details class="disclose" open>
                 <summary>What it adds</summary>
                 <div class="disclose-body">
                   <p>Answer key, prompt, checks, runtime checker, retries, fallback, scorecard, ship gate.</p>
@@ -501,11 +506,6 @@
           </div>
         </div>
         <div class="quietrow" id="cmp-quiet">
-          <label class="check wire-toggle" for="show-wiring"
-            ><input type="checkbox" id="show-wiring" data-hook="show-wiring" /><span
-              ><b>Show the wiring</b> (what happens behind each chat)</span
-            ></label
-          >
           <p class="runline" id="cmp-runline" data-hook="cmp-runline">
             <span id="cmp-run-text" data-hook="cmp-run-text" aria-live="polite">Starting recorded runs.</span>
             <button type="button" class="linkbtn" id="cmp-run-switch" data-hook="cmp-run-switch" hidden></button>
@@ -581,7 +581,7 @@
         This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were
         checked in November 2026; they change. Not financial advice.
       </p>
-      <p class="muted build">build ux24</p>
+      <p class="muted build">build ux25</p>
     </footer>
 
     <script type="module" src="src/app/main.js"></script>

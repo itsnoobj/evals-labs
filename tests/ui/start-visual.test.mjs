@@ -69,7 +69,7 @@ test("Start has no 'The task' or 'The four cards' bar; Details, Rates per card a
   const start = page.match(/<section id="start"[\s\S]*?<\/section>/)[0];
   const summaries = [...start.matchAll(/<summary>([^<]+)<\/summary>/g)].map((m) => m[1]);
   assert.deepEqual(summaries, ["Details", "Rates per card", "Five missions"]);
-  assert.ok(page.includes('<p class="muted build">build ux24</p>'));
+  assert.ok(page.includes('<p class="muted build">build ux25</p>'));
 });
 
 test("css: start.css is square and flat", () => {
