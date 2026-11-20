@@ -1,7 +1,10 @@
 // Click-panels for the wiring graph: one HTML string per node, built from one agent's current state.
 // Pure strings in, strings out, so node can test it. Everything from a run or a prompt is escaped here.
 // wiringHtml() (wiring-graph.js) expects each detail to be escaped HTML already.
-import { NODE_HELP } from "./wiring-graph.js";
+import { NODE_HELP, STATE_WORD } from "./wiring-graph.js";
+import { NODE_EXPLAIN } from "./node-explainers.js";
+import { nodeVisualHtml, flowStripHtml } from "./node-visuals.js";
+import { runLinesHtml } from "./explain-dialog.js";
 import { SYSTEM_PROMPT } from "../agent/agent-step.js";
 import { CARDS, CATEGORIES } from "../task/cases.js";
 import { judgePrompt } from "../evals/engine.js";
@@ -62,7 +65,10 @@ export const CHECKER_RULES = [
 ];
 
 // Every real panel ends with example open-source tools for the step. A MISSING box has no step, so no tools.
-const panel = (id, body, { missing = false } = {}) =>
+// panel() only records the parts. renderPanel() joins them into the old one-string panel (buildDetails);
+// buildExplain() uses the parts one by one, for the explain dialog.
+const panel = (id, body, { missing = false } = {}) => ({ id, body, missing });
+const renderPanel = ({ id, body, missing }) =>
   `<h5 class="wd-title">${e(TITLES[id])}</h5><p class="wd-help">${e(NODE_HELP[id])}</p>` +
   (missing ? '<p class="wd-missing"><b>MISSING</b> This agent has no such step.</p>' : "") +
   body +
@@ -240,9 +246,9 @@ function graderPanel(c, side, scores, mode) {
   );
 }
 
-// side: one agent's state. shared: things both agents see. Returns { nodeId: escapedHtml } for wiringHtml().
+// side: one agent's state. shared: things both agents see. Returns { nodeId: { id, body, missing } }.
 // side = { steps, modelSteps, attempts:[{steps,verdict}], events, outcome, pending, scores, judge: {all, median} | null }
-export function buildDetails(kind, side, shared) {
+export function buildParts(kind, side, shared) {
   const { c, cases, cardNames, labels, metrics, modelName, mode, recordedTemp } = shared;
   const careful = kind === "careful";
   const key = c.expected; // null for a typed question
@@ -390,4 +396,205 @@ export function buildDetails(kind, side, shared) {
           : `<p>${mark(true)} <b>Ship.</b> All automatic checks passed. One run proves little, so a real team gates on the whole test set.</p>`,
   );
   return d;
+}
+
+// The whole panel of every node as one escaped HTML string: { nodeId: html }.
+export function buildDetails(kind, side, shared) {
+  return Object.fromEntries(Object.entries(buildParts(kind, side, shared)).map(([id, p]) => [id, renderPanel(p)]));
+}
+
+// ---- the explain dialog (explain-dialog.js) ----
+
+// Compact one-line text of a tool result, for the IN -> OUT strip. A ranking lists every card with its reward.
+const outText = (output, cardNames) =>
+  Array.isArray(output?.ranked)
+    ? output.ranked.map((r) => `${cardNames[r.card] ?? r.card} ₹${r.reward_inr}`).join(", ")
+    : json(output);
+
+const counts = (metrics, scores) => {
+  const pass = metrics.filter((m) => scores?.[m.id]?.pass === true).length;
+  const fail = metrics.filter((m) => scores?.[m.id]?.pass === false).length;
+  return `${pass} PASS · ${fail} FAIL · ${metrics.length - pass - fail} NOT RUN`;
+};
+
+// 1-3 short lines about this node in this run: the state as a word, then the key value. Plain text, escaped by
+// runLinesHtml. A line with `html` is trusted markup built here from escaped parts.
+function runLines(id, kind, side, shared, state) {
+  const { c, cases, cardNames, labels, metrics, modelName, mode } = shared;
+  const word = STATE_WORD[state] ?? "IDLE";
+  const careful = kind === "careful";
+  const name = (card) => cardNames[card] ?? card;
+  const tools = side.steps.filter((s) => s.kind === "tool");
+  const finalStep = side.steps.findLast((s) => s.kind === "final");
+  const draftStep = (side.modelSteps ?? side.steps).findLast((s) => s.kind === "final");
+  const verdict = side.attempts.at(-1)?.verdict;
+  const key = c.expected;
+  const L = (text, st = word) => ({ state: st, text });
+  const checkLine = (ids) => {
+    const mine = (verdict?.checks ?? []).filter((x) => ids.includes(x.id));
+    if (!mine.length) return [L(side.pending ? "The checker reads the run when this try ends." : "No verdict yet.")];
+    return [L(`${mine.filter((x) => x.ok).length} of ${mine.length} rules passed.`)].concat(
+      mine.filter((x) => !x.ok).map((x) => L(x.label, "FAILED")),
+    );
+  };
+  const toolLines = (i) => {
+    const s = tools[i];
+    if (!s) return [L(side.pending ? "Not reached yet." : "The agent never made this call.")];
+    const result =
+      i === 0
+        ? `Category: ${s.output?.category ?? "none"}.`
+        : `Top card: ${s.output?.ranked?.[0] ? `${name(s.output.ranked[0].card)}, ₹${s.output.ranked[0].reward_inr}` : "none"}.`;
+    return [
+      L(s.output?.error ? `Tool error: ${s.output.error}` : result),
+      { html: flowStripHtml(json(s.args), outText(s.output, cardNames)) },
+    ];
+  };
+  const branch = (type, unused) => {
+    const evs = side.events.filter((x) => x.t === type);
+    return [L(evs.length ? evs.map((x) => x.text).join(" ") : unused)];
+  };
+  switch (id) {
+    case "dataset":
+      return [
+        L(
+          `${cases.length} golden questions. ${c.custom ? "This run uses your own question." : `This run uses ${c.id}.`}`,
+        ),
+      ];
+    case "key":
+      return key
+        ? [
+            L(
+              `${labels[key.category] ?? key.category}: ${(key.accept ?? [key.card]).map(name).join(" or ")}, ₹${key.reward_inr}.`,
+            ),
+          ]
+        : [L("No answer key for your own question.")];
+    case "prompt":
+      return [
+        L(
+          `${SYSTEM_PROMPT.length} characters, ${careful ? "plus a JSON schema for the reply format" : "hand-written, sent as it is"}.`,
+        ),
+      ];
+    case "checks":
+      return [L(`${metrics.length} checks chosen, plus the checker rules that run inside the agent.`)];
+    case "bar":
+      return [L(`Ship only if all ${metrics.filter((m) => m.id !== "rubric_judge").length} automatic checks pass.`)];
+    case "ask":
+      return [L(c.query)];
+    case "guard": {
+      const fail = side.events.find((x) => x.t === "guard_in_fail");
+      const ok = side.events.find((x) => x.t === "guard_in_ok");
+      return [L(fail ? `${fail.text} The model never ran.` : ok ? ok.text : "The rules have not run yet.")];
+    }
+    case "model":
+      return [
+        L(`${mode === "replay" ? `${modelName ?? "recorded"} (recorded runs)` : (modelName ?? "live model")}.`),
+        L(`Tries used: ${side.attempts.length}${careful ? " of up to 3" : ""}.`, "DONE"),
+      ];
+    case "t1":
+      return toolLines(0);
+    case "t2":
+      return toolLines(1);
+    case "c1":
+    case "c2": {
+      const s = tools[id === "c1" ? 0 : 1];
+      return [
+        ...checkLine([id === "c1" ? "tool1" : "tool2"]),
+        ...(s ? [{ html: flowStripHtml(json(s.args), verdict ? word : "not checked yet") }] : []),
+      ];
+    }
+    case "c3":
+      return checkLine(["answer", "numbers", "extras", "output"]);
+    case "draft":
+      return [
+        draftStep
+          ? L(`${draftStep.card == null ? "No card" : name(draftStep.card)}, ₹${draftStep.reward_inr ?? "none"}.`)
+          : L(side.pending ? "Not written yet." : "No readable final answer."),
+      ];
+    case "answer":
+      return [
+        finalStep
+          ? L(`${finalStep.card == null ? "No card" : name(finalStep.card)}, ₹${finalStep.reward_inr ?? "none"}.`)
+          : L(side.pending ? "Not given yet." : "No answer was given."),
+      ];
+    case "retry":
+      return [L(side.attempts.length > 1 ? `${side.attempts.length} tries were used.` : "Not used in this run.")];
+    case "fallback":
+      return branch("fallback", "Not used in this run.");
+    case "refuse":
+      return branch("refused", "Not used in this run.");
+    case "trace":
+      return [
+        L(
+          side.steps.length
+            ? `${side.steps.length} steps saved in ${side.attempts.length} ${side.attempts.length === 1 ? "try" : "tries"}.`
+            : "Nothing saved yet.",
+        ),
+      ];
+    case "eval":
+      return [L(side.scores ? counts(metrics, side.scores) : "The checks run when the answer is final.")];
+    case "judge": {
+      const g = side.judge;
+      return [
+        side.judging
+          ? L("Asking the LLM judge 5 times.")
+          : g
+            ? L(`Grades: ${g.all.join(", ")}. Middle grade: ${g.median}.`)
+            : L(mode === "live" ? "Not asked yet." : "Recorded runs have no model to ask.", "NOT RUN"),
+      ];
+    }
+    case "card":
+      return [L(side.scores ? counts(metrics, side.scores) : "Filled when the checks have run.")];
+    case "gate": {
+      if (!side.scores) return [L("Not decided yet.")];
+      const bad = autoFails(metrics, side.scores);
+      const failed = bad.filter((m) => side.scores[m.id]?.pass === false);
+      return [
+        L(
+          !bad.length
+            ? "Ship."
+            : failed.length
+              ? `Blocked: ${failed.map((m) => m.label).join(", ")}.`
+              : "Cannot decide: your own question has no answer key.",
+        ),
+      ];
+    }
+    default:
+      return [L("")];
+  }
+}
+
+// "Open-source tools" body: the list inside toolsHtml(), without its own <details>.
+const toolsBody = (id) =>
+  toolsHtml(id)
+    .replace(/^<details class="stage-tools"><summary>[^<]*<\/summary>/, "")
+    .replace(/<\/details>$/, "");
+
+// Everything the explain dialog needs for one node of one agent. `state` is the node's state key from wiringStates().
+// The old click panel is not lost: its text goes into "Real data" (or "Prompt"), and the tools list into "Open-source tools".
+export function buildExplain(kind, id, side, shared, state) {
+  const part = buildParts(kind, side, shared)[id];
+  const missing = part.missing;
+  const data = (html) => `<div class="wgraph xp-data">${html}</div>`;
+  const sid = (n) => `explain-${kind}-${id}-${n}`;
+  const lines = missing
+    ? [{ state: "MISSING", text: "This agent has no such step." }]
+    : runLines(id, kind, side, shared, state);
+  const more = [];
+  if (id === "prompt") more.push({ summary: "Prompt", html: data(part.body), id: sid("prompt") });
+  else if (!missing)
+    more.push({
+      summary: "Real data",
+      html: data(`<p class="muted">${e(NODE_HELP[id])}</p>${part.body}`),
+      id: sid("data"),
+    });
+  if (!missing && toolsBody(id))
+    more.push({ summary: "Open-source tools", html: data(toolsBody(id)), id: sid("tools") });
+  return {
+    title: TITLES[id],
+    what: NODE_EXPLAIN[id].what,
+    why: NODE_EXPLAIN[id].why,
+    visualHtml: nodeVisualHtml(id, { missing }),
+    thisRunHtml: runLinesHtml(lines),
+    moreSections: more,
+  };
 }

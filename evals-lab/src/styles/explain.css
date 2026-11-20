@@ -1,0 +1,195 @@
+/* Explain dialog (markup: src/ui/explain-dialog.js, pictograms: src/ui/node-visuals.js). Square, flat, no shadows.
+   The dialog has no padding on purpose: a click whose target is the <dialog> itself is a click on the backdrop. */
+.xdialog {
+  width: min(44rem, calc(100vw - 2rem));
+  max-width: none;
+  max-height: 85vh;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--ink);
+}
+.xdialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.xdialog::backdrop {
+  background: rgb(17 24 39 / 60%);
+}
+.xd-bar {
+  display: flex;
+  flex: none;
+  justify-content: flex-end;
+  padding: 0.5rem 0.75rem;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.xd-close {
+  min-height: 44px;
+  padding: 0 1.25rem;
+  color: #fff;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  font: 700 0.8rem var(--mono);
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+.xd-close:hover {
+  background: #fff;
+  color: var(--ink);
+}
+.xd-close:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.xd-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 1.5rem 1.25rem 1.5rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.xp-title {
+  margin: 0 0 1rem;
+  font: 700 1.1rem var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.xp-block {
+  margin: 0 0 1rem;
+  padding: 0 0 1rem;
+  border-bottom: 1px solid var(--soft);
+}
+.xp-label {
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+  font: 700 0.68rem var(--mono);
+  letter-spacing: 0.1em;
+}
+.xp-sentence {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+.xp-what {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 9rem;
+  gap: 1rem;
+  align-items: center;
+}
+.xp-visual {
+  display: flex;
+  justify-content: center;
+}
+.xvis {
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.6rem;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.xvis-svg {
+  width: 4rem;
+  height: 4rem;
+}
+.xvis figcaption {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.3;
+  text-align: center;
+}
+/* a step this agent does not have: dashed, as in the graph */
+.xvis-missing {
+  border-style: dashed;
+  color: var(--muted);
+}
+.xp-lines {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.xp-lines li {
+  overflow-wrap: anywhere;
+}
+.xp-state {
+  display: inline-block;
+  min-width: 4.5rem;
+  margin-right: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--ink);
+  font: 700 0.68rem var(--mono);
+  letter-spacing: 0.08em;
+}
+/* IN -> OUT strip: two text boxes and an arrow */
+.xflow {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+.xflow-box {
+  display: grid;
+  flex: 1 1 0;
+  gap: 0.2rem;
+  min-width: 0;
+  padding: 0.4rem 0.5rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+.xflow-lab {
+  color: var(--muted);
+  font: 700 0.62rem var(--mono);
+  letter-spacing: 0.1em;
+}
+.xflow code {
+  font: 0.72rem/1.4 var(--mono);
+  overflow-wrap: anywhere;
+}
+.xflow-arrow {
+  align-self: center;
+  font: 700 1.1rem var(--mono);
+}
+/* the closed sections under the explanation */
+.xp-more {
+  display: grid;
+  gap: 0.25rem;
+}
+.xp-more details.disclose {
+  margin: 0;
+}
+/* the old click panels, reused inside the sections: they are styled under .wgraph (wiring.css), so keep it as a block */
+.xp-data.wgraph {
+  display: block;
+  margin: 0;
+  font-size: 0.82rem;
+}
+@media (max-width: 600px) {
+  /* bottom sheet: full width, stuck to the bottom edge, scrolls inside */
+  .xdialog {
+    width: 100%;
+    margin: auto 0 0;
+    max-height: 85vh;
+    border-width: 2px 0 0;
+  }
+  .xd-body {
+    padding: 0.9rem 0.9rem 1.5rem;
+  }
+  .xp-what {
+    grid-template-columns: 1fr;
+  }
+  .xp-visual {
+    justify-content: flex-start;
+  }
+  .xflow {
+    flex-direction: column;
+  }
+  .xflow-arrow {
+    transform: rotate(90deg);
+  }
+}

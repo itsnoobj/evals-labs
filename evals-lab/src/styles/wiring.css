@@ -227,15 +227,6 @@
   padding: 0;
   list-style: none;
 }
-.wgraph .wdetails {
-  padding: 0;
-}
-.wgraph .wdetail {
-  padding: 0.6rem 0.8rem;
-  border: 1px solid var(--line);
-  border-left: 6px solid var(--accent);
-  background: #fff;
-}
 /* Sized by the box the graph sits in (container "wire", set on .cmp-wire), not by the window: 5 columns, then 3, then 1 */
 @container wire (max-width:48rem) {
   .wgraph .wnodes {
@@ -278,7 +269,7 @@
 .wgraph .wn.wsmall::after {
   content: none;
 }
-/* click panels (markup: wiring-details.js) */
+/* panel text, shown inside the closed sections of the explain dialog (markup: wiring-details.js) */
 .wgraph .wd-title {
   margin: 0 0 0.2rem;
   font: 700 0.8rem var(--mono);
@@ -359,31 +350,14 @@
   background: var(--ink);
   color: #fff;
 }
-.wgraph .wdetail .cardsmx {
+.wgraph .cardsmx {
   overflow-x: auto;
   max-width: 100%;
 }
 /* a wide table in a click panel scrolls inside the panel; it must not stretch the graph (seen at 500 px) */
-.wgraph,
-.wgraph .wdetails,
-.wgraph .wdetail {
+.wgraph {
   min-width: 0;
 }
 .wgraph .stage-tools {
   margin: 0.8rem 0 0;
-}
-/* Wide screens (graph beside chat, layout in styles.css): the click panel sticks under the nav while you scroll.
-   Narrower than that the panel stays inline under the graph. */
-@media (min-width: 1101px) {
-  .wgraph {
-    flex: 1;
-    grid-template-rows: auto auto auto 1fr;
-  }
-  .wgraph .wdetails {
-    position: sticky;
-    top: 4.25rem;
-    align-self: start;
-    max-height: calc(100vh - 5rem);
-    overflow: auto;
-  }
 }

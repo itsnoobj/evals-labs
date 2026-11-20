@@ -4,7 +4,7 @@ import { CASES, CARDS, CATEGORY_LABELS, perfectRun } from "../../evals-lab/src/t
 import { METRICS, scoreRun } from "../../evals-lab/src/evals/engine.js";
 import { SYSTEM_PROMPT } from "../../evals-lab/src/agent/agent-step.js";
 import { NODE_IDS } from "../../evals-lab/src/ui/wiring-graph.js";
-import { buildDetails, dspyHtml, CHECKER_RULES } from "../../evals-lab/src/ui/wiring-details.js";
+import { buildDetails, buildExplain, dspyHtml, CHECKER_RULES } from "../../evals-lab/src/ui/wiring-details.js";
 import { verifyRun } from "../../evals-lab/src/agent/guarded-agent.js";
 import { INPUT_RULES, OUTPUT_RULES } from "../../evals-lab/src/agent/guardrails.js";
 
@@ -315,4 +315,79 @@ for (const kind of ["careful", "simple"]) {
   );
 }
 has(buildDetails("careful", side, { ...shared, c: typed }).key, "No answer key for your own question");
+// ---- explain dialog input (buildExplain) ----
+{
+  const stateOf = { simple: "done", careful: "pass" };
+  for (const kind of ["careful", "simple"]) {
+    const sd = kind === "careful" ? side : { ...side, attempts: [{ steps: run.steps, verdict: null }], outcome: null };
+    for (const id of NODE_IDS[kind]) {
+      const x = buildExplain(kind, id, sd, shared, stateOf[kind]);
+      ok(x.title && x.what && x.why, `${kind} ${id}: title, what, why`);
+      ok(x.visualHtml.includes('aria-hidden="true"') && x.visualHtml.includes("<figcaption>"), `${kind} ${id}: visual`);
+      ok(/<b class="xp-state">[A-Z ]+<\/b>/.test(x.thisRunHtml), `${kind} ${id}: state word in this run`);
+      ok(
+        x.moreSections.every((m) => !m.open),
+        `${kind} ${id}: sections closed`,
+      );
+      const names = x.moreSections.map((m) => m.summary);
+      if (id === "prompt") ok(names[0] === "Prompt", `${kind} prompt: Prompt section first`);
+      else if (!x.thisRunHtml.includes("MISSING")) ok(names[0] === "Real data", `${kind} ${id}: Real data first`);
+      ok(!x.moreSections.some((m) => m.html.includes("<details")), `${kind} ${id}: no nested tools details`);
+    }
+  }
+  const ex = (id, sd = side, k = "careful", st = "pass") => buildExplain(k, id, sd, shared, st);
+  // real values from the run
+  has(ex("t1").thisRunHtml, "Category: amazon.");
+  has(ex("t1").thisRunHtml, "&quot;merchant&quot;:&quot;Amazon&quot;", "tool input shown");
+  has(ex("t2").thisRunHtml, "HDFC Swiggy ₹750", "ranking shown with card names");
+  has(ex("answer", side, "careful", "done").thisRunHtml, "HDFC Swiggy, ₹750.");
+  has(ex("c1").thisRunHtml, "1 of 1 rules passed.");
+  has(ex("eval", side, "careful", "done").thisRunHtml, "PASS");
+  has(ex("gate", side, "careful", "pass").thisRunHtml, "Ship.");
+  has(ex("ask", side, "careful", "done").thisRunHtml, c.query.slice(0, 20).replace(/'/g, "&#39;"));
+  // sections: raw data and tools are kept, behind closed sections
+  const t1 = ex("t1");
+  ok(t1.moreSections.map((m) => m.summary).join() === "Real data,Open-source tools", "t1 sections");
+  has(t1.moreSections[0].html, "got back");
+  has(t1.moreSections[1].html, "pydantic-ai");
+  lacks(t1.moreSections[1].html, "<summary>");
+  // the prompt: tabs live in the Prompt section; the agent without evals has no tabs
+  const pc = ex("prompt");
+  has(pc.moreSections[0].html, 'data-ptab="dspy"');
+  has(pc.moreSections[0].html, "JSON schema");
+  const ps = buildExplain("simple", "prompt", side, shared, "missing");
+  has(ps.thisRunHtml, "MISSING");
+  has(ps.moreSections[0].html, SYSTEM_PROMPT.slice(0, 40).replace(/&/g, "&amp;"));
+  lacks(ps.moreSections[0].html, "data-ptab");
+  has(ps.visualHtml, "xvis-missing");
+  // a missing step: the word MISSING, a dashed visual, no data and no tools
+  const mg = buildExplain("simple", "guard", side, shared, "missing");
+  has(mg.thisRunHtml, "MISSING");
+  has(mg.visualHtml, "xvis-missing");
+  ok(mg.moreSections.length === 0, "missing guard: no sections");
+  // escaping of run text
+  const ea = buildExplain("careful", "answer", evil, shared, "done");
+  lacks(ea.thisRunHtml + ea.moreSections.map((m) => m.html).join(""), "<img src=x");
+  // a blocked run: the guard line carries the BLOCKED word and the reason, escaped
+  const bl = buildExplain(
+    "careful",
+    "guard",
+    {
+      ...side,
+      steps: [],
+      attempts: [{ steps: [], verdict: null }],
+      outcome: "blocked",
+      events: [{ t: "guard_in_fail", rule: "prompt_injection", text: "No <b>x</b>." }],
+    },
+    shared,
+    "blocked",
+  );
+  has(bl.thisRunHtml, "BLOCKED");
+  has(bl.thisRunHtml, "No &lt;b&gt;x&lt;/b&gt;. The model never ran.");
+  // typed question: no answer key, no crash
+  has(
+    buildExplain("careful", "key", side, { ...shared, c: typed }, "done").thisRunHtml,
+    "No answer key for your own question.",
+  );
+}
 console.log(`${n} checks passed`);

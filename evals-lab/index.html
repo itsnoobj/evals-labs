@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="src/styles/run-visuals.css" />
     <link rel="stylesheet" href="src/styles/chat.css" />
     <link rel="stylesheet" href="src/styles/wiring.css" />
+    <link rel="stylesheet" href="src/styles/explain.css" />
     <link rel="stylesheet" href="src/styles/nav.css" />
     <link rel="stylesheet" href="src/styles/mobile.css" />
   </head>
@@ -509,7 +510,7 @@
             <div id="chat-careful" data-hook="chat-careful"></div>
           </div>
         </div>
-        <p class="muted wire-hint" id="wire-hint" hidden>Click a box for details.</p>
+        <p class="muted wire-hint" id="wire-hint" hidden>Click a box to see what it is.</p>
         <details class="disclose">
           <summary>What is a guardrail?</summary>
           <div class="disclose-body">
@@ -524,8 +525,9 @@
           <summary>About the wiring</summary>
           <div class="disclose-body">
             <p>
-              The wiring is what happens behind the chat. Click any box in a graph to see what it holds. Dashed boxes
-              are things the agent without evals does not have.
+              The wiring is what happens behind the chat. Click any box in a graph to open a short explanation, with the
+              real data of this run behind a closed section. Dashed boxes are things the agent without evals does not
+              have.
             </p>
           </div>
         </details>
@@ -542,7 +544,7 @@
         This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were
         checked in November 2026; they change. Not financial advice.
       </p>
-      <p class="muted build">build ux13</p>
+      <p class="muted build">build ux14</p>
     </footer>
 
     <script type="module" src="src/app/main.js"></script>

@@ -9,6 +9,7 @@ import {
   wiringHtml,
   wiringStates,
   bindWiring,
+  setWiringSelected,
   countText,
   NODE_HELP,
   NODE_IDS,
@@ -243,17 +244,12 @@ for (const id of LIVE_CAREFUL) check(() => assert.ok(html.includes(`data-node="$
 // Chips carry a word and a shape. rubric_judge has no score here, so it reads NOT RUN with a half square.
 check(() => assert.ok(html.includes("NOT RUN") && html.includes('class="sq half"') && html.includes('class="sq ok"')));
 
-// Selecting a node un-hides only its detail.
+// The inline detail panel is gone (the explain dialog replaces it). `selected` only marks the open node.
 {
-  const details = { t1: "<p>one</p>", c2: "<p>two</p>", gate: "<p>three</p>" };
-  const h = wiringHtml({ kind: "careful", states: st, details, selected: "c2" });
-  check(() => assert.equal((h.match(/class="wdetail"/g) ?? []).length, 3));
-  check(() => assert.ok(h.includes('<div class="wdetail" data-for="c2"><p>two</p>')));
-  check(() => assert.ok(h.includes('<div class="wdetail" data-for="t1" hidden><p>one</p>')));
-  check(() => assert.ok(h.includes('<div class="wdetail" data-for="gate" hidden><p>three</p>')));
+  const h = wiringHtml({ kind: "careful", states: st, selected: "c2" });
+  check(() => assert.equal(h.includes("wdetail"), false));
   check(() => assert.ok(h.includes('data-node="c2" data-state="pass" aria-pressed="true"')));
-  const none = wiringHtml({ kind: "careful", details });
-  check(() => assert.equal((none.match(/class="wdetail" data-for="\w+" hidden/g) ?? []).length, 3));
+  check(() => assert.equal((h.match(/aria-pressed="true"/g) ?? []).length, 1));
 }
 
 // Every state word shows up as text.
@@ -276,19 +272,14 @@ check(() => assert.ok(html.includes("NOT RUN") && html.includes('class="sq half"
 // A finished run that never called a tool shows SKIPPED.
 check(() => assert.equal(wiringStates("simple", { steps: [good.steps.at(-1)] }).t1, "skipped"));
 
-// Escaping: caller details are trusted as escaped, metric labels are escaped here.
+// Escaping: metric labels are escaped here.
 {
-  const h = wiringHtml({
-    kind: "careful",
-    details: { t1: "&lt;script&gt;alert(1)&lt;/script&gt;" },
-    selected: "t1",
-    metrics: [{ id: "x", label: "<script>bad</script>" }],
-  });
+  const h = wiringHtml({ kind: "careful", selected: "t1", metrics: [{ id: "x", label: "<script>bad</script>" }] });
   check(() => assert.equal(h.includes("<script"), false));
-  check(() => assert.ok(h.includes("&lt;script&gt;alert(1)")));
+  check(() => assert.ok(h.includes("&lt;script&gt;bad")));
 }
 
-// bindWiring: click toggles detail and remembers the selection (minimal DOM stub).
+// bindWiring: a click marks the node, remembers it and calls onNode; the mark clears with setWiringSelected(root, "").
 {
   const mk = (extra) => ({
     setAttribute(k, v) {
@@ -298,30 +289,38 @@ check(() => assert.equal(wiringStates("simple", { steps: [good.steps.at(-1)] }).
   });
   const t1 = mk({ dataset: { node: "t1" } });
   const c2 = mk({ dataset: { node: "c2" } });
-  const dT1 = { dataset: { for: "t1" }, hidden: true };
-  const dC2 = { dataset: { for: "c2" }, hidden: true };
   let handler;
+  let adds = 0;
   const root = {
     dataset: {},
     contains: () => true,
     addEventListener: (_, fn) => {
       handler = fn;
+      adds += 1;
     },
-    querySelectorAll: (sel) => (sel === "[data-node]" ? [t1, c2] : [dT1, dC2]),
+    querySelectorAll: () => [t1, c2],
   };
-  bindWiring(root);
-  bindWiring(root); // second call must not add a second listener
+  const opened = [];
+  bindWiring(root, (id, btn) => opened.push([id, btn]));
+  bindWiring(root, () => {}); // second call must not add a second listener
+  check(() => assert.equal(adds, 1));
   const click = (btn) => handler({ target: { closest: () => btn } });
   click(t1);
   check(() =>
-    assert.deepEqual([root.dataset.sel, dT1.hidden, dC2.hidden, t1.attr["aria-pressed"]], ["t1", false, true, "true"]),
+    assert.deepEqual([root.dataset.sel, t1.attr["aria-pressed"], c2.attr["aria-pressed"]], ["t1", "true", "false"]),
   );
   click(c2);
   check(() =>
-    assert.deepEqual([root.dataset.sel, dT1.hidden, dC2.hidden, t1.attr["aria-pressed"]], ["c2", true, false, "false"]),
+    assert.deepEqual([root.dataset.sel, t1.attr["aria-pressed"], c2.attr["aria-pressed"]], ["c2", "false", "true"]),
   );
-  click(c2);
-  check(() => assert.deepEqual([root.dataset.sel, dC2.hidden, c2.attr["aria-pressed"]], ["", true, "false"]));
+  check(() =>
+    assert.deepEqual(opened, [
+      ["t1", t1],
+      ["c2", c2],
+    ]),
+  );
+  setWiringSelected(root, "");
+  check(() => assert.deepEqual([root.dataset.sel, c2.attr["aria-pressed"]], ["", "false"]));
 }
 
 // CSS: square corners only, container queries, reduced motion respected, prefix.

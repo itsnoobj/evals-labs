@@ -1,6 +1,6 @@
 // The "wiring" flow graph: everything around the agent, end to end, lit up as a run passes through it.
 // Pure strings in, strings out (plus bindWiring for clicks). Style rules: docs/specs/ui-style.md. Spec: docs/specs/compare-agents.md
-// Detail strings come from the caller and must already be escaped HTML.
+// Clicking a node opens the explain dialog (explain-dialog.js); the caller wires that with bindWiring(root, onNode).
 import { disclose } from "./disclose.js";
 
 const e = (s) =>
@@ -80,7 +80,7 @@ export const NODE_HELP = {
   gate: "A pass or fail decision. If the bar is not met, the change does not ship.",
 };
 
-const WORD = {
+export const STATE_WORD = {
   idle: "IDLE",
   active: "RUNNING",
   pass: "PASSED",
@@ -101,7 +101,7 @@ function node(id, label, state, selected, { extra = "", missingText = "" } = {})
       : `<b class="wtext">${e(label)}</b>${extra}`;
   return (
     `<button type="button" class="wnode s-${state}" data-node="${id}" data-state="${state}" aria-pressed="${id === selected}">` +
-    `<i class="sq ${SQ[state] ?? ""}" aria-hidden="true"></i>${body}<span class="wword">${WORD[state]}</span></button>`
+    `<i class="sq ${SQ[state] ?? ""}" aria-hidden="true"></i>${body}<span class="wword">${STATE_WORD[state]}</span></button>`
   );
 }
 
@@ -126,14 +126,7 @@ const chipOf = (m, score) => {
   return `<span class="wchip"><i class="sq ${cls}" aria-hidden="true"></i>${e(m.label)} <b>${word}</b></span>`;
 };
 
-export function wiringHtml({
-  kind = "simple",
-  states = {},
-  details = {},
-  metrics = [],
-  scores = null,
-  selected = "",
-} = {}) {
+export function wiringHtml({ kind = "simple", states = {}, metrics = [], scores = null, selected = "" } = {}) {
   const careful = kind === "careful";
   const stateOf = (id, off) => (!careful && off ? "missing" : (states[id] ?? "idle"));
   const li = (inner, cls = "") => `<li class="wn ${cls}">${inner}</li>`;
@@ -188,35 +181,30 @@ export function wiringHtml({
       cls: `wlane ${cls}`,
     });
 
-  const detailHtml = Object.entries(details)
-    .map(([id, html]) => `<div class="wdetail" data-for="${e(id)}"${id === selected ? "" : " hidden"}>${html}</div>`)
-    .join("");
-
   return (
     `<div class="wgraph" data-kind="${careful ? "careful" : "simple"}">` +
     lane("build", "wl-build", "Before the run: build", buildList, `<ol class="wnodes">${build}</ol>`, false) +
     lane("live", "wl-live", "During the run: live", liveList, `<ol class="wnodes">${live}</ol>${branch}`, true) +
     lane("after", "wl-after", "After the run: measure", afterList, `<ol class="wnodes">${after}</ol>`, false) +
-    `<div class="wdetails" aria-live="polite">${detailHtml}</div></div>`
+    `</div>`
   );
 }
 
-// Click a node: show its detail, hide the others, click again to close. Selection lives on root.dataset.sel.
-export function bindWiring(root) {
+// Mark one node as open (aria-pressed) and remember it on root.dataset.sel, so a redraw keeps the mark. "" clears it.
+export function setWiringSelected(root, id) {
+  root.dataset.sel = id;
+  root.querySelectorAll("[data-node]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.node === id)));
+}
+
+// A click on a node marks it and calls onNode(id, button). The caller opens the dialog and clears the mark on close.
+export function bindWiring(root, onNode) {
   if (root.dataset.wired) return;
   root.dataset.wired = "1";
-  const paint = () => {
-    const sel = root.dataset.sel || "";
-    root.querySelectorAll("[data-node]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.node === sel)));
-    root.querySelectorAll(".wdetail").forEach((d) => {
-      d.hidden = d.dataset.for !== sel;
-    });
-  };
   root.addEventListener("click", (ev) => {
     const btn = ev.target.closest?.("[data-node]");
     if (!btn || !root.contains(btn)) return;
-    root.dataset.sel = root.dataset.sel === btn.dataset.node ? "" : btn.dataset.node;
-    paint();
+    setWiringSelected(root, btn.dataset.node);
+    onNode?.(btn.dataset.node, btn);
   });
 }
 
