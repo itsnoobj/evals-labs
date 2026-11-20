@@ -15,7 +15,7 @@ const BUILD = [
   ["checks", "Choose the checks"],
   ["bar", "Set the pass bar"],
 ];
-// third item: true = only the careful agent has this node
+// third item: true = only the agent with evals has this node
 const LIVE = [
   ["ask", "Question"],
   ["guard", "Input guardrail"],
@@ -36,7 +36,7 @@ const BRANCH = [
 const AFTER = [
   ["trace", "Save the trace"],
   ["eval", "8 checks"],
-  ["judge", "AI grader (second opinion)"],
+  ["judge", "LLM judge (second opinion)"],
   ["card", "Scorecard"],
   ["gate", "Ship or block"],
 ];
@@ -72,7 +72,8 @@ export const NODE_HELP = {
   trace:
     "Save every step of the run: what was sent, what came back, how long it took. You cannot fix what you cannot replay.",
   eval: "Run the 8 automatic checks on the saved run. Each one passes, fails, or was not run.",
-  judge: "A second AI call that reads the reply and gives a 0 to 5 grade, 5 times. Second opinion only.",
+  judge:
+    "LLM judge: a second AI that reads the question, tool results and reply and gives a 0 to 5 grade, 5 times. Second opinion only.",
   card: "All check results on one page, so a person can see at a glance what is wrong.",
   gate: "A pass or fail decision. If the bar is not met, the change does not ship.",
 };
@@ -133,7 +134,7 @@ export function wiringHtml({
           : careful && id === "guard"
             ? '<small class="wcap">before the model</small>'
             : "";
-      // The simple agent has no input guardrail: a dashed box says so.
+      // The agent without evals has no input guardrail: a dashed box says so.
       return li(node(id, label, stateOf(id, id === "guard"), selected, { extra, missingText: "nothing here" }));
     })
     .join("");
@@ -144,13 +145,13 @@ export function wiringHtml({
     : "";
 
   const after = AFTER.map(([id, label]) => {
-    // The AI grader runs only with a live model: otherwise NOT RUN. It does not feed the gate.
+    // The LLM judge runs only with a live model: otherwise NOT RUN. It does not feed the gate.
     const state = id === "judge" && careful ? (states.judge ?? "notrun") : stateOf(id, true);
     const chips =
       careful && id === "eval"
         ? `<span class="wchips">${metrics.map((m) => chipOf(m, scores?.[m.id])).join("")}</span>`
         : id === "judge"
-          ? '<small class="wcap">LLM as judge</small>'
+          ? '<small class="wcap">a second AI grades the answer</small>'
           : "";
     const missingText = id === "judge" ? "nothing here" : "nothing: you find out from users";
     // card sits at the end of a row of 5 columns once the grader is added, so its arrow turns down to the gate
@@ -193,9 +194,9 @@ export function bindWiring(root) {
 }
 
 // States for a live or finished run. Caller passes `verdict` as null while an attempt is still running.
-// `judging` is true while the AI grader is being asked (careful agent only).
+// `judging` is true while the LLM judge is being asked (agent with evals only).
 // Optional `events` (from runGuarded) tell the guard node whether the input check passed or blocked the question.
-// Build-time and after-run nodes are 'missing' for the simple agent; its checks, retry, fallback and refuse ids are omitted.
+// Build-time and after-run nodes are 'missing' for the agent without evals; its checks, retry, fallback and refuse ids are omitted.
 export function wiringStates(
   kind,
   {
@@ -262,7 +263,7 @@ export function wiringStates(
   if (!careful) {
     for (const id of ids(AFTER)) st[id] = "missing";
   } else {
-    // The AI grader is a second opinion: it lights up while it is asked, then shows its own result. The gate ignores it.
+    // The LLM judge is a second opinion: it lights up while it is asked, then shows its own result. The gate ignores it.
     const graded = scores?.rubric_judge?.pass;
     st.judge = judging ? "active" : graded === true ? "pass" : graded === false ? "fail" : "notrun";
     st.trace = finished ? "done" : "idle";

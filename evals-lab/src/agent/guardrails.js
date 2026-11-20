@@ -1,4 +1,4 @@
-// Guardrails for the careful agent: plain rules, no AI calls.
+// Guardrails for the agent with evals: plain rules, no AI calls.
 // checkInput runs BEFORE the model sees a typed question. checkOutput runs AFTER it answers.
 // Both return { ok: true } or { ok: false, rule, reason }. `reason` is one sentence for a visitor.
 import { CARDS, MERCHANTS } from "../task/cases.js";

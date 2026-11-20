@@ -1,4 +1,4 @@
-// The Checks screen: the checks, the bug injector, the AI grader button and its flow.
+// The Checks screen: the checks, the bug injector, the LLM judge button and its flow.
 // Exports: drawMetrics, onBugSelected, onJudge.
 import { perfectRun } from "../task/cases.js";
 import { METRICS, BUGS, scoreRun, injectBug, judgePrompt } from "../evals/engine.js";
@@ -75,13 +75,13 @@ export function onBugSelected(bugId) {
 export async function onJudge() {
   const { c, run } = state.metricsCtx;
   $("judge-run").disabled = true;
-  $("metrics-note").textContent = "Asking the AI to grade the answer five times…";
+  $("metrics-note").textContent = "Asking the LLM judge 5 times…";
   try {
     state.judge = { key: JSON.stringify(run.steps), ...(await gradeFiveTimes(state.llm.chat, c, run)) };
     drawMetrics();
     mark("judge");
   } catch (err) {
-    $("metrics-note").textContent = `The AI grader failed: ${describeError(err)}`;
+    $("metrics-note").textContent = `The LLM judge failed: ${describeError(err)}`;
   } finally {
     $("judge-run").disabled = state.mode !== "live";
   }

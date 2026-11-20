@@ -1,4 +1,4 @@
-// The AI grader (LLM as judge): ask the model for a 0 to 5 grade five times and take the middle one.
+// The LLM judge: ask the model for a 0 to 5 grade five times and take the middle one.
 // Pure: no DOM. `chat` is the same function the agents use. Exports: gradeFiveTimes.
 import { judgePrompt, parseJudge } from "../evals/engine.js";
 

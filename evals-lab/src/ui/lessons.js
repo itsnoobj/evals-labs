@@ -44,7 +44,8 @@ export const STAGES = [
     title: "Checks",
     sub: "8 checks grade the run",
     what: "Code reads the finished run and answers eight questions about it. Each says PASS, FAIL or NOT RUN.",
-    learn: "An eval is code that grades a run. The AI never grades itself unless you ask a second AI to.",
+    learn:
+      "An eval is code that grades a run. The AI never grades itself unless you add an LLM judge: a second AI that reads the question, tool results and reply and gives a 0 to 5 grade.",
   },
 ];
 
@@ -111,7 +112,7 @@ export const MISSIONS = [
     tasks: [
       { id: "bug", text: "Inject one bug" },
       { id: "bugs3", text: "Try three different bugs and compare which checks stay green" },
-      { id: "judge", text: "Bonus: let the AI grade the answer 5 times (live model only)", bonus: true },
+      { id: "judge", text: "Bonus: run the LLM judge, 5 asks (live model only)", bonus: true },
     ],
     concept: "Check",
     conceptText:
@@ -154,7 +155,7 @@ export const MISSIONS = [
   {
     id: "compare",
     num: 5,
-    title: "Simple agent vs careful agent",
+    title: "Agent without evals vs agent with evals",
     time: "3 min",
     next: null,
     goal: "Ask the same question to two agents, then switch on the wiring to see the whole system around each one.",
@@ -170,7 +171,7 @@ export const MISSIONS = [
     ],
     concept: "Best practices",
     conceptText:
-      "A careful agent wraps the same AI in guardrails, a safety net, a checker, retries and a fallback. None of it makes the AI smarter. It catches mistakes before the user sees them. A guardrail is a rule that checks the question before the model and the answer after it.",
+      "An agent with evals wraps the same AI in guardrails, a safety net, a checker, retries and a fallback. None of it makes the AI smarter. It catches mistakes before the user sees them. A guardrail is a rule that checks the question before the model and the answer after it.",
     learned:
       "Good agents are mostly checks and fallbacks around an AI that sometimes gets it wrong. One run proves little, which is why the test set asks many times.",
   },

@@ -1,0 +1,79 @@
+/* Navigation pieces added for the quick/full path: level toggle, tour buttons, Next/Back footer.
+   Desktop base styles. The phone layout (tab bar, compact header) is in mobile.css. Logic: src/app/nav.js */
+
+.screen-title {
+  display: none;
+}
+.nav .short {
+  display: none;
+}
+body[data-level="quick"] .nav.soon {
+  display: none;
+}
+.top .level-toggle {
+  align-self: center;
+  margin: 0.25rem 0.75rem 0.25rem auto;
+  min-height: 2.5rem;
+  padding: 0 0.9rem;
+  font-size: 0.7rem;
+}
+
+/* Start screen: two big choices */
+.tours {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+}
+.tour {
+  min-height: 4.5rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  text-align: left;
+}
+
+/* Next / Back */
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 65.75rem;
+  width: calc(100% - 3rem);
+  margin: 0 auto 2rem;
+}
+.pager .btn {
+  min-height: 3rem;
+}
+.pager #pager-next {
+  margin-left: auto;
+}
+.btn.sec {
+  background: #fff;
+  color: var(--accent);
+}
+.btn.sec:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* shown on phones only (mobile.css) */
+.phone-note {
+  display: none;
+}
+
+/* tablet: keep the top bar on one or two rows */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .brand {
+    padding: 0 0.9rem;
+  }
+  .top .nav {
+    padding: 0 0.6rem;
+    font-size: 0.9rem;
+  }
+  .top .level-toggle {
+    margin-right: 0.5rem;
+    padding: 0 0.6rem;
+  }
+}

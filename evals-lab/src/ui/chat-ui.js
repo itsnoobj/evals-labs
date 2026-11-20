@@ -156,8 +156,8 @@ function resultHtml(steps, expected, outcome, cardNames) {
 function systemHtml(prompt, careful) {
   if (!prompt) return "";
   const extra = careful
-    ? "The careful agent also sends a safety net (a format that only allows valid steps) and uses low randomness."
-    : "The simple agent sends nothing else: no format limit, default randomness.";
+    ? "The agent with evals also sends a safety net (a format that only allows valid steps) and uses low randomness."
+    : "The agent without evals sends nothing else: no format limit, default randomness.";
   return (
     `<details class="sys-prompt"><summary>System prompt: what the AI is told before your question</summary>` +
     `<pre>${e(prompt)}</pre><p>It contains no card rates. The AI knows none. The rates sit in the lookup tools (plain code), ` +

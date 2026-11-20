@@ -256,10 +256,19 @@ function makeCase(id, query, merchant, amount, note) {
   };
 }
 
+// The question both screens preselect. Re-decided from fresh benchmark data, so keep it a real case id.
+export const DEFAULT_CASE_ID = "C05";
+
 export const CASES = [
   makeCase("C01", "I'm a Prime member spending ₹15,000 on Amazon. Which card should I use?", "Amazon", 15000),
   makeCase("C02", "Ordering ₹800 of food on Swiggy. Which card is best?", "Swiggy", 800),
-  makeCase("C03", "I'm buying an ₹8,000 phone on Flipkart. Which card is best?", "Flipkart", 8000),
+  makeCase(
+    "C03",
+    "I'm buying a ₹24,999 phone on Flipkart. Which card is best?",
+    "Flipkart",
+    24999,
+    "HDFC Swiggy pays 5% on Flipkart, Rs 1,249.95 here, which stays under its Rs 1,500 cap per cycle.",
+  ),
   makeCase("C04", "Petrol worth ₹2,000 at an HP Petrol Pump. Which card should I use?", "HP Petrol Pump", 2000),
   makeCase(
     "C05",
@@ -268,7 +277,7 @@ export const CASES = [
     1800,
     "IDFC caps this 5% bucket at Rs 2,000 of spend per cycle, so Rs 1,800 is inside the cap.",
   ),
-  makeCase("C06", "Paying my ₹500 Airtel phone bill directly. Which card is best?", "Airtel", 500),
+  makeCase("C06", "Recharging my Airtel postpaid plan, ₹599. Which card is best?", "Airtel", 599),
 ];
 
 // Fixed ms and tokens keep tests stable.

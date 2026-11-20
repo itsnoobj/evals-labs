@@ -1226,6 +1226,7 @@ button.gcell:hover:not(:disabled) {
   border: 1px solid var(--line);
 }
 .chart svg {
+  overflow: visible; /* a long label never gets cut at the svg edge */
   display: block;
   width: 100%;
   height: auto;
@@ -1236,6 +1237,9 @@ svg text {
 }
 svg .axis-t {
   fill: var(--muted);
+}
+svg .axis-y {
+  font-size: 12px;
 }
 .gridline {
   stroke: var(--soft);
@@ -1683,10 +1687,21 @@ svg .end-retry {
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.25rem;
 }
+.jg-cap {
+  font-size: 0.78rem;
+}
 .jg-grade {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.jg-gbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
   padding: 0.3rem 0;
   background: #fff;
   border: 1px solid var(--line);
@@ -1697,8 +1712,13 @@ svg .end-retry {
 .jg-grade small {
   font-size: 0.55rem;
   letter-spacing: 0;
+  text-align: center;
 }
-.jg-grade.off {
+.jg-grade .jg-ask {
+  font-size: 0.6rem;
+  white-space: nowrap;
+}
+.jg-grade.off .jg-gbox {
   border-style: dashed;
   color: var(--muted);
 }

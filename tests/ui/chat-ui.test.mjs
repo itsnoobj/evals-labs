@@ -32,7 +32,7 @@ const refusedSteps = [
 ];
 const base = {
   kind: "simple",
-  title: "Simple agent",
+  title: "Agent without evals",
   subtitle: "One try",
   practices: [
     { label: "Checker", on: false },
@@ -249,7 +249,7 @@ lacks(
 const retry = chatHtml({
   ...base,
   kind: "careful",
-  title: "Careful agent",
+  title: "Agent with evals",
   shown: 1,
   outcome: "passed_after_retry",
   attempts: [

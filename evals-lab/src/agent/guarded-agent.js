@@ -1,4 +1,4 @@
-// The "careful agent": forced reply format, low randomness, a checker after each try, up to 3 tries,
+// The "agent with evals": forced reply format, low randomness, a checker after each try, up to 3 tries,
 // a fallback built from the tool result, and a refusal when nothing can be trusted.
 // Pure ES module, no DOM. Spec: docs/specs/compare-agents.md
 // The checker only reads the question text and the run's own steps. It never sees the answer key.

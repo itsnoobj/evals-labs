@@ -1,0 +1,284 @@
+/* Phone layout (360 to 430 px wide). Loaded last. Style rules: square, flat, status never by colour alone.
+   Header shrinks to brand + screen title; the screen links become a fixed bottom tab bar (nav.js hides the
+   tabs the quick path does not use). Tap targets are at least 44 px. Inputs are 16 px so iOS does not zoom. */
+@media (max-width: 760px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: 4rem;
+  }
+  body {
+    padding-bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+  }
+  main {
+    padding: 1rem 1rem 2rem;
+  }
+  h1 {
+    margin: 1rem 0 1rem;
+    font-size: 1.6rem;
+  }
+  .lead {
+    font-size: 1.05rem;
+  }
+  .phone-note {
+    display: block;
+    margin: 0.75rem 0;
+    padding: 0.6rem 0.75rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 6px solid var(--warn);
+    font-size: 0.9rem;
+  }
+
+  /* header: brand + current screen title + level toggle */
+  .top {
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .brand {
+    flex: none;
+    min-height: 3.25rem;
+    padding: 0 0.75rem;
+    font-size: 0.8rem;
+  }
+  .screen-title {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0 0.5rem;
+    overflow: hidden;
+    font-weight: 700;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .top .level-toggle {
+    flex: none;
+    max-width: 6.5rem;
+    min-height: 2.75rem;
+    margin: 0 0.5rem 0 0;
+    padding: 0 0.5rem;
+    font-size: 0.65rem;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+  }
+
+  /* bottom tab bar (the same nav element, moved) */
+  .top nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    display: flex;
+    flex-wrap: nowrap;
+    width: auto;
+    overflow: visible;
+    padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    background: #fff;
+    border-top: 2px solid var(--ink);
+  }
+  .top nav a.nav {
+    position: relative;
+    flex: 1 1 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    min-width: 0;
+    min-height: 3.5rem;
+    margin: 0;
+    padding: 0 0.1rem;
+    border-top: 1px solid var(--soft);
+    border-bottom: 0;
+    font-size: 0.74rem;
+    line-height: 1.25;
+    text-align: center;
+  }
+  .top nav a.nav[aria-current="page"] {
+    border-top: 6px solid var(--accent);
+    background: var(--paper);
+    font-weight: 800;
+  }
+  .nav .long,
+  .nav.soon {
+    display: none;
+  }
+  .nav .short {
+    display: inline;
+  }
+  .nav .mono {
+    font-size: 0.8rem;
+  }
+  .nav .tick {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    font-size: 0.7rem;
+    line-height: 1;
+  }
+
+  /* Next / Back */
+  .pager {
+    width: calc(100% - 2rem);
+    margin-bottom: 1.5rem;
+  }
+  .pager .btn {
+    flex: 1 1 0;
+    justify-content: center;
+    min-height: 3rem;
+    text-align: center;
+  }
+  footer {
+    width: calc(100% - 2rem);
+  }
+
+  /* Start */
+  .tours {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .tour {
+    min-height: 4rem;
+  }
+
+  /* forms: 16 px text, full width, 44 px targets */
+  input:not([type="checkbox"]):not([type="range"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  input:not([type="checkbox"]):not([type="range"]),
+  select {
+    width: 100%;
+    min-height: 2.75rem;
+  }
+  button,
+  .btn {
+    min-height: 2.75rem;
+  }
+  .toolbar,
+  .cmpbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .toolbar > *,
+  .cmpq {
+    max-width: none;
+    min-width: 0;
+  }
+  .toolbar select {
+    width: 100%;
+    min-width: 0;
+  }
+  .toolbar button,
+  .cmpbar button,
+  .runrow button,
+  .choice button,
+  .mbar button {
+    width: 100%;
+  }
+  .runrow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .mbar-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .check {
+    min-height: 2.75rem;
+  }
+  .typeq-ex .ex {
+    min-height: 2.75rem;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  /* Test set grid: the case name gets its own line, the 5 run squares fill the next line */
+  .grid {
+    padding: 0.25rem 0.75rem;
+  }
+  .grow,
+  .grow.head {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) 4rem;
+    gap: 0.3rem;
+    padding: 0.6rem 0;
+  }
+  .grow > .case {
+    grid-column: 1 / -1;
+  }
+  .grow.head > :first-child {
+    display: none;
+  }
+  .grow button.gcell {
+    width: 100%;
+    min-height: 2.75rem;
+    height: 2.75rem;
+  }
+
+  /* a grid column of `auto` grows to its widest child (a long <option> or nowrap button); cap it at the screen */
+  .sbs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sb,
+  .sb > * {
+    min-width: 0;
+  }
+
+  /* text blocks wrap instead of widening the page */
+  pre,
+  code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+  }
+  table {
+    max-width: 100%;
+  }
+  .tablewrap,
+  .scrollbox {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Side by side: chats first, wiring below */
+  .show-wiring.cmp {
+    width: 100%;
+    left: 0;
+    transform: none;
+    gap: 1.5rem;
+  }
+  .show-wiring .cmp-row > [id^="chat-"] {
+    grid-row: 1;
+  }
+  .show-wiring .cmp-row > .cmp-wire {
+    grid-row: 2;
+  }
+
+  /* LLM judge flow: one column, arrows point down */
+  .jg-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .jg-arrow {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+
+  .curve svg,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .tiles,
+  .mcards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .brand {
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+}

@@ -8,6 +8,7 @@ import {
   RATE_SOURCES,
   ASSUMPTIONS,
   CASES,
+  DEFAULT_CASE_ID,
   classify_merchant,
   rank_cards,
   runTool,
@@ -43,10 +44,10 @@ const caseById = Object.fromEntries(CASES.map((c) => [c.id, c]));
 const EXPECTED_ANSWERS = {
   C01: [["hdfc_swiggy", "icici_amazon_pay"], 750], // 5% tie on Amazon
   C02: [["hdfc_swiggy"], 80],
-  C03: [["hdfc_swiggy"], 400],
+  C03: [["hdfc_swiggy"], 1249.95],
   C04: [["idfc_first_power_plus"], 100],
   C05: [["idfc_first_power_plus"], 90],
-  C06: [["idfc_first_power_plus"], 25],
+  C06: [["idfc_first_power_plus"], 29.95],
 };
 
 // Copied from docs/specs/engine-contract.md "Bug table".
@@ -145,6 +146,13 @@ check("6 cases with unique ids C01..C06", () => {
   assert.deepEqual(
     CASES.map((c) => c.id),
     ["C01", "C02", "C03", "C04", "C05", "C06"],
+  );
+});
+
+check("DEFAULT_CASE_ID is a real case id", () => {
+  assert.ok(
+    CASES.some((c) => c.id === DEFAULT_CASE_ID),
+    DEFAULT_CASE_ID,
   );
 });
 

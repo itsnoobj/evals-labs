@@ -1,4 +1,4 @@
-// The Side by side screen: Ask both, the two chats, and the simple and careful agent runs.
+// The Side by side screen: Ask both, the two chats, and the two agent runs.
 // Exports: drawChats, onAskBoth.
 import { CATEGORY_LABELS } from "../task/cases.js";
 import { METRICS, scoreRun } from "../evals/engine.js";
@@ -47,8 +47,8 @@ export function drawChats() {
   $("chat-simple").innerHTML = chatHtml({
     ...common,
     kind: "simple",
-    title: "Simple agent",
-    subtitle: "The AI alone: one try, no checks",
+    title: "Agent without evals",
+    subtitle: "The AI alone: one try, no checks, no guardrails",
     practices: SIMPLE_PRACTICES,
     attempts: [],
     shown: 0,
@@ -58,8 +58,8 @@ export function drawChats() {
   $("chat-careful").innerHTML = chatHtml({
     ...common,
     kind: "careful",
-    title: "Careful agent",
-    subtitle: "The same AI with guardrails, a safety net, a checker, retries and a fallback",
+    title: "Agent with evals",
+    subtitle: "The same AI, shaped by evals: guardrails, safety net, checker, retries and a fallback",
     practices: CAREFUL_PRACTICES,
     attempts: [],
     shown: 0,
@@ -142,7 +142,7 @@ export async function onAskBoth() {
     $("cmp-summary").hidden = false;
     return;
   }
-  // A blocked question makes no model call, so the careful agent can still run in replay. The simple agent cannot.
+  // A blocked question makes no model call, so the agent with evals can still run in replay. The agent without evals cannot.
   const simpleSkipped = c.custom && replay;
   const cmp = {
     caseId: c.id,
@@ -208,14 +208,14 @@ export async function onAskBoth() {
     cmp.careful.run = result.run;
     drawChats();
   };
-  // The AI grader is a second opinion on the careful agent's final answer. It needs a model, so only live runs ask it.
+  // The LLM judge is a second opinion on the final answer of the agent with evals. It needs a model, so only live runs ask it.
   // It never changes right or wrong, and the ship gate ignores it.
   const graderTask = async () => {
     const run = cmp.careful.run;
     if (state.mode !== "live" || !run?.steps.some((s) => s.kind === "final") || cmp.careful.outcome === "blocked")
       return;
     cmp.careful.judging = true;
-    $("cmp-summary").textContent = "Asking the AI grader 5 times…";
+    $("cmp-summary").textContent = "Asking the LLM judge 5 times…";
     $("cmp-summary").hidden = false;
     drawChats();
     try {
@@ -245,17 +245,17 @@ export async function onAskBoth() {
     if (c.custom) {
       const why = cmp.careful.outcome === "blocked" && !guard.ok ? ` ${guard.reason}` : "";
       $("cmp-summary").textContent =
-        `${NO_KEY_NOTE} The careful agent ${outcome}${retried}.${why}${simpleSkipped ? ` ${SIMPLE_NEEDS_LIVE_NOTE}` : ""}`;
+        `${NO_KEY_NOTE} The agent with evals ${outcome}${retried}.${why}${simpleSkipped ? ` ${SIMPLE_NEEDS_LIVE_NOTE}` : ""}`;
     } else {
       const word = (s) => (s.scores.task_success.pass ? "right" : "wrong");
       $("cmp-summary").textContent =
-        `Simple agent: ${word(cmp.simple)}. Careful agent: ${word(cmp.careful)}${cmp.careful.outcome === "refused" ? " (no answer given)" : ""}; it ${outcome}${retried}.`;
+        `Without evals: ${word(cmp.simple)}. With evals: ${word(cmp.careful)}${cmp.careful.outcome === "refused" ? " (no answer given)" : ""}; it ${outcome}${retried}.`;
     }
     $("cmp-summary").hidden = false;
     if (graderError) {
       const p = document.createElement("p");
       p.className = "err";
-      p.textContent = `The AI grader failed and stays NOT RUN: ${describeError(graderError)}`;
+      p.textContent = `The LLM judge failed and stays NOT RUN: ${describeError(graderError)}`;
       $("cmp-summary").append(p);
     }
     mark("both");

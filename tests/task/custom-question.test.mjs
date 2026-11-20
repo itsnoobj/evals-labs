@@ -66,13 +66,13 @@ check("CUSTOM_EXAMPLES has 4 sentences", () => {
 });
 check("examples 1 and 2 are answerable by the tools", () => {
   const [a, b] = CUSTOM_EXAMPLES.map(makeCustomCase);
-  assert.deepEqual([a.merchant, a.amount], ["Amazon", 4500]);
+  assert.deepEqual([a.merchant, a.amount], ["Swiggy", 650]);
   assert.deepEqual([b.merchant, b.amount], ["BESCOM", 2400]);
 });
-check("example 3 has an unknown merchant and amount 600", () => {
+check("example 3 has an unknown merchant and amount 4200", () => {
   const c = makeCustomCase(CUSTOM_EXAMPLES[2]);
   assert.equal(c.merchant, null);
-  assert.equal(c.amount, 600);
+  assert.equal(c.amount, 4200);
   assert.ok(CUSTOM_EXAMPLES[2].includes("Zomato"));
 });
 check("example 4 is off topic: no merchant, no amount", () => {

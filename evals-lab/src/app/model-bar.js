@@ -50,7 +50,7 @@ export function enterMode(mode) {
   $("cmp-ask").disabled = false;
   $("cmp-hint").textContent =
     mode === "replay"
-      ? "Recorded runs, run number 42. Try C03 (the Flipkart phone): the simple agent gets it wrong and the careful agent gets it right. The other five questions come out right for both. For a retry, set the run number to 3 on the Run screen (Settings) and ask C01 (Amazon): the simple agent is wrong and the careful agent needs a second try."
+      ? "Recorded runs, run number 0. The preselected question (C05, the BESCOM electricity bill) shows the gap: the agent without evals gets it wrong and the agent with evals gets it right on the first try. For a retry, set the run number to 1 on the Run screen (Settings) and ask C01 (Amazon): the agent without evals is wrong and the agent with evals needs a second try."
       : "Pick a question and press Ask both. Live answers vary from run to run.";
   $("judge-run").disabled = mode !== "live";
   $("set-progress").textContent = `${CASES.length} cases. Press Run the set.`;

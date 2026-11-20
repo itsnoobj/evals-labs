@@ -123,16 +123,16 @@
     },
     {
       "id": "C03",
-      "query": "I'm buying an ₹8,000 phone on Flipkart. Which card is best?",
+      "query": "I'm buying a ₹24,999 phone on Flipkart. Which card is best?",
       "merchant": "Flipkart",
-      "amount": 8000,
+      "amount": 24999,
       "expected": {
         "category": "online_shopping",
         "card": "hdfc_swiggy",
         "accept": [
           "hdfc_swiggy"
         ],
-        "reward_inr": 400
+        "reward_inr": 1249.95
       },
       "expectedTrajectory": [
         {
@@ -144,7 +144,7 @@
         {
           "tool": "rank_cards",
           "args": {
-            "amount": 8000,
+            "amount": 24999,
             "category": "online_shopping"
           }
         }
@@ -210,16 +210,16 @@
     },
     {
       "id": "C06",
-      "query": "Paying my ₹500 Airtel phone bill directly. Which card is best?",
+      "query": "Recharging my Airtel postpaid plan, ₹599. Which card is best?",
       "merchant": "Airtel",
-      "amount": 500,
+      "amount": 599,
       "expected": {
         "category": "telecom",
         "card": "idfc_first_power_plus",
         "accept": [
           "idfc_first_power_plus"
         ],
-        "reward_inr": 25
+        "reward_inr": 29.95
       },
       "expectedTrajectory": [
         {
@@ -231,7 +231,7 @@
         {
           "tool": "rank_cards",
           "args": {
-            "amount": 500,
+            "amount": 599,
             "category": "telecom"
           }
         }

@@ -43,7 +43,7 @@ const side = {
   scores,
 };
 
-// every node has a panel; the simple agent's missing nodes say so
+// every node has a panel; the missing nodes of the agent without evals say so
 const careful = buildDetails("careful", side, shared);
 const simple = buildDetails(
   "simple",
@@ -169,7 +169,7 @@ has(pend.t1, "Not reached yet");
 has(pend.c3, "reads the run when this try ends");
 has(pend.gate, "Not decided yet");
 
-// AI grader: own node with the flow picture; the 8 checks and checks panels only point to it
+// LLM judge: own node with the flow picture; the 8 checks and checks panels only point to it
 ok(careful.judge.includes("You are a strict grader"), "judge: grader system prompt");
 has(careful.judge, "Question: " + c.query.replace(/'/g, "&#39;"), "judge: user message built from this run");
 has(careful.judge, "NOT ASKED");
@@ -198,16 +198,16 @@ ok(careful.judge.indexOf(NO_MODEL) < careful.judge.indexOf('data-hook="judge-flo
   const before = buildDetails("careful", side, live);
   has(before.judge, "NOT ASKED");
   lacks(before.judge, NO_MODEL);
-  has(buildDetails("careful", { ...side, judging: true }, live).judge, "Asking the AI grader 5 times");
+  has(buildDetails("careful", { ...side, judging: true }, live).judge, "Asking the LLM judge 5 times");
 }
 for (const k of ["eval", "checks"]) {
   lacks(careful[k], "You are a strict grader", `${k}: no duplicate prompt`);
-  has(careful[k], "Click the AI grader box to see how it works", `${k}: pointer`);
+  has(careful[k], "Click the LLM judge box to see how it works", `${k}: pointer`);
 }
 has(simple.judge, "MISSING");
 has(simple.judge, "Nothing here");
 lacks(simple.judge, "strict grader");
-ok(!simple.eval.includes("strict grader"), "simple agent has no grader panel");
+ok(!simple.eval.includes("strict grader"), "agent without evals has no grader panel");
 // open-source tools: every real (careful) panel has them once, MISSING boxes have none
 for (const id of NODE_IDS.careful) {
   has(careful[id], "Open-source tools for this step", `careful ${id} has tools`);
@@ -267,7 +267,7 @@ has(guardBad, "This tries to change the &lt;b&gt;agent&lt;/b&gt;.");
 lacks(guardBad, "<b>agent</b>");
 has(buildDetails("careful", side, shared).guard, "The rules have not run yet");
 has(buildDetails("careful", { ...side, pending: true }, shared).guard, "before the model starts");
-// simple agent: a dashed MISSING box
+// agent without evals: a dashed MISSING box
 has(simple.guard, "MISSING");
 has(simple.guard, "Nothing here");
 lacks(simple.guard, INPUT_RULES[0].label);

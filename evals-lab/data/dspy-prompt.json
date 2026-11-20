@@ -174,11 +174,11 @@
         },
         {
           "role": "user",
-          "content": "<question>\nI'm buying an ₹8,000 phone on Flipkart. Which card is best?\n</question>"
+          "content": "<question>\nI'm buying a ₹24,999 phone on Flipkart. Which card is best?\n</question>"
         },
         {
           "role": "assistant",
-          "content": "<card>\nhdfc_swiggy\n</card>\n\n<reward_inr>\n400\n</reward_inr>\n\n<reply>\nUse HDFC Swiggy for Flipkart to earn ₹400 on ₹8000.\n</reply>"
+          "content": "<card>\nhdfc_swiggy\n</card>\n\n<reward_inr>\n1249.95\n</reward_inr>\n\n<reply>\nUse HDFC Swiggy for Flipkart to earn ₹1249.95 on ₹24999.\n</reply>"
         },
         {
           "role": "user",

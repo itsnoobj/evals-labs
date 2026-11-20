@@ -1,6 +1,6 @@
 // Entry point (loaded by index.html): wires the pure pieces together and binds every control.
 // model (llm.js) -> agent loop (agent-step.js) -> scores (engine.js) -> screens (src/app/*.js, ui.js). Exports nothing.
-import { CASES, CARDS, CATEGORIES, CATEGORY_LABELS } from "../task/cases.js";
+import { CASES, CARDS, CATEGORIES, CATEGORY_LABELS, DEFAULT_CASE_ID } from "../task/cases.js";
 import { METRICS } from "../evals/engine.js";
 import { checkWebGpu, MODEL_F16 } from "../agent/llm.js";
 import * as ui from "../ui/ui.js";
@@ -14,12 +14,14 @@ import { drawCurve } from "./compounding-screen.js";
 import { drawChats, onAskBoth } from "./compare-screen.js";
 import { drawWiring, loadDspy, bindWiringRoots } from "./wiring-panel.js";
 import { drawStart, fillExamples } from "./start-screen.js";
+import { initNav } from "./nav.js";
 
 const LOAD_NOTE =
   "Downloads about 880 MB once, then loads from your computer's saved copy. Needs a recent Chrome or Edge and about 1.6 GB of graphics memory.";
 
 async function init() {
   ui.showScreenFromHash();
+  initNav();
   drawStart();
   const showQuestion = () => {
     const c = questionFor("case-select", "case-text");
@@ -40,6 +42,7 @@ async function init() {
   };
   $("case-select").replaceChildren(...CASES.map((c) => new Option(`${c.id}  ${c.query}`, c.id)));
   $("case-select").disabled = false;
+  $("case-select").value = DEFAULT_CASE_ID;
   showQuestion();
   $("model-name").textContent = MODEL_F16.replace("-q4f16_1-MLC", "");
 
@@ -82,6 +85,7 @@ async function init() {
   $("grid-view").addEventListener("cell-selected", (ev) => onCellSelected(ev.detail));
   $("use-replay").onclick = () => enterMode("replay");
   $("cmp-case").replaceChildren(...CASES.map((c) => new Option(`${c.id}  ${c.query}`, c.id)));
+  $("cmp-case").value = DEFAULT_CASE_ID; // drawChats() below draws the chats for it
   const cmpQuestionChanged = () => {
     state.cmp = null;
     $("cmp-summary").hidden = true;

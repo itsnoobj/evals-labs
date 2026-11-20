@@ -16,8 +16,13 @@ ok(before.includes("Question: "), "shows the user message");
 ok(before.includes("NOT ASKED") && before.includes("Not asked yet."), "before asking");
 ok(before.includes("never sees the right card"), "says the answer key is hidden");
 const after = judgeFlowHtml({ prompt, grades: [5, 5, 3, 5, "?"], median: 5 });
-ok(after.includes("Middle grade 5 of 5: PASS"), "median verdict");
+ok(after.includes("Grades 5, 5, 3, 5, ?. Middle grade 5 of 5: PASS (needs 4 or more)."), "grades and median verdict");
+ok(before.includes("The 5 asks. Each box is one grade from 0 to 5; 4 or more = PASS."), "caption above the boxes");
+for (let i = 1; i <= 5; i++) ok(after.includes(`Ask ${i}</small>`), `label Ask ${i}`);
 ok(after.includes("FAIL") && after.includes("NO NUMBER"), "per-grade words");
-ok(judgeFlowHtml({ prompt, grades: [1, 2, 2, 3, 3], median: 2 }).includes("2 of 5: FAIL"), "low median fails");
+ok(
+  judgeFlowHtml({ prompt, grades: [1, 2, 2, 3, 3], median: 2 }).includes("Middle grade 2 of 5: FAIL"),
+  "low median fails",
+);
 ok(judgeFlowHtml({ prompt: { system: "<b>", user: "&" } }).includes("&lt;b&gt;"), "escapes html");
 console.log(`${n} checks passed`);

@@ -41,9 +41,9 @@ export const METRICS = [
   },
   {
     id: "rubric_judge",
-    label: "AI grader",
+    label: "LLM judge",
     group: "SECOND OPINION",
-    blurb: "A second AI grades the reply from 0 to 5 for relevance, honesty about numbers and clarity.",
+    blurb: "A second AI (an LLM judge) grades the reply from 0 to 5 for relevance, honesty about numbers and clarity.",
   },
   {
     id: "ops",
@@ -201,7 +201,7 @@ const metricRules = {
   rubric_judge(c, run, opts) {
     const score = opts.judge?.score;
     if (typeof score !== "number") return verdict(null, null, "not run");
-    return verdict(score >= 4, score, `the AI grader gave ${score} of 5`);
+    return verdict(score >= 4, score, `the LLM judge gave ${score} of 5`);
   },
 
   ops(c, run) {

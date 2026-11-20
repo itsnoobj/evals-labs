@@ -305,7 +305,7 @@ export function renderMetrics(root, { metrics, scores, bugs, activeBug = null, s
        <p class="lesson"><span class="k">Lesson</span>${e(BUG_LESSON[activeBug] ?? "")}</p>`
         : "<p>Pick a bug to see which checks catch it.</p>"
     }</div>
-    <p class="muted">Click any check to see how it works${metrics.some((m) => m.id === "rubric_judge") ? '. Click "AI grader" to read its prompt' : ""}.</p>
+    <p class="muted">Click any check to see how it works${metrics.some((m) => m.id === "rubric_judge") ? '. Click "LLM judge" to read its prompt' : ""}.</p>
     <ul class="tiles">${tiles}</ul>${detailHtml}`;
   root.querySelectorAll("[data-tile]").forEach((b) => {
     b.onclick = () =>
@@ -377,7 +377,7 @@ export function renderGrid(root, { cases, results, summary, selected = null }) {
 export function renderCurve(root, { p, n = 10, points = [], retryTries = 0, source = "measured" }) {
   const W = 560;
   const H = 360;
-  const L = 64;
+  const L = 72; // room for the rotated y label (x 18) and the tick labels (end at L - 8)
   const R = 24;
   const T = 24;
   const B = 64;
@@ -419,7 +419,7 @@ export function renderCurve(root, { p, n = 10, points = [], retryTries = 0, sour
         ${pRetry ? `<polyline class="l-retry" points="${path((i) => pRetry ** i)}"/>${endLabel(pRetry ** n, "end-retry")}` : ""}
         ${marks}${endLabel(chain, "end-chain")}
         <text class="axis-t" x="${L + pw / 2}" y="${H - 12}" text-anchor="middle">Steps in a row</text>
-        <text class="axis-t" transform="rotate(-90)" x="${-(T + ph / 2)}" y="16" text-anchor="middle">Chance every step is right</text>
+        <text class="axis-t axis-y" transform="rotate(-90)" x="${-(T + ph / 2)}" y="18" text-anchor="middle">Chance every step is right</text>
       </svg>
       <ul class="legend"><li><i class="sw"></i>Predicted: each step right ${pct(p)} of the time (${e(predicted)})</li>
         ${points.length ? '<li><i class="sw obs"></i>Observed in your runs</li>' : ""}

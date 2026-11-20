@@ -2,11 +2,11 @@
 // A typed question has no answer key, so expected and expectedTrajectory are null.
 import { CASES, MERCHANTS } from "./cases.js";
 
-// Clickable examples. Two the tools can answer, one with a merchant the tools do not know, one off topic.
+// Clickable examples. Two the tools can answer, one with a merchant the tools do not know (Zomato), one off topic.
 export const CUSTOM_EXAMPLES = [
-  "I'm paying ₹4,500 on Amazon. Which card should I use?",
+  "I'm ordering dinner for ₹650 on Swiggy. Which card should I use?",
   "Paying my ₹2,400 BESCOM electricity bill directly. Which card is best?",
-  "Ordering ₹600 from Zomato. Which card is best?",
+  "Booking a ₹4,200 Zomato order for the office. Which card?",
   "What is the capital of France?",
 ];
 

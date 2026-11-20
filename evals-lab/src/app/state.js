@@ -12,7 +12,8 @@ export const questionFor = (selectId, textId) => {
   return text ? makeCustomCase(text) : caseById($(selectId).value);
 };
 export const NEEDS_LIVE_NOTE = "Typed questions need the live model. Press Load model above, or pick a test question.";
-export const SIMPLE_NEEDS_LIVE_NOTE = "Typed questions need the live model for this agent. Load the model above.";
+export const SIMPLE_NEEDS_LIVE_NOTE =
+  "Typed questions need the live model for the agent without evals. Load the model above.";
 export const NO_KEY_NOTE = "Your own question has no answer key, so nothing is marked right or wrong.";
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 export const describeError = (err) => err?.message ?? (typeof err === "string" ? err : JSON.stringify(err));

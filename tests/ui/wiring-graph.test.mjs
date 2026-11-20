@@ -53,7 +53,7 @@ for (const id of ["ask", "model", "answer", "dataset", "key", "prompt", "checks"
   check(() => assert.equal(st[id], "done", id));
 check(() => assert.equal(st.gate, "pass"));
 for (const id of ["retry", "fallback", "refuse"]) check(() => assert.equal(st[id], "idle", id));
-// Without a grade the AI grader is NOT RUN, and it sits between the 8 checks and the scorecard.
+// Without a grade the LLM judge is NOT RUN, and it sits between the 8 checks and the scorecard.
 check(() => assert.equal(st.judge, "notrun"));
 check(() => assert.deepEqual(NODE_IDS.careful.slice(-5), ["trace", "eval", "judge", "card", "gate"]));
 
@@ -146,7 +146,7 @@ check(() =>
     "fail",
   ),
 );
-// The AI grader alone does not decide the gate.
+// The LLM judge alone does not decide the gate.
 check(() =>
   assert.equal(
     wiringStates("careful", { steps: good.steps, scores: { ...perfectScores, rubric_judge: { pass: false } } }).gate,
@@ -193,7 +193,7 @@ check(() => assert.equal((simpleHtml.match(/<b class="wtext">none<\/b>/g) ?? [])
 check(() =>
   assert.ok(
     /data-node="guard" data-state="missing"[^>]*>[\s\S]*?nothing here/.test(simpleHtml),
-    "simple agent: dashed guard box",
+    "agent without evals: dashed guard box",
   ),
 );
 check(() => assert.equal(simpleStates.guard, "missing"));
@@ -214,8 +214,8 @@ check(() => assert.ok(html.includes("Safety net")));
 check(() =>
   assert.ok(
     html.includes('data-node="judge" data-state="notrun"') &&
-      html.includes("AI grader (second opinion)") &&
-      html.includes("LLM as judge") &&
+      html.includes("LLM judge (second opinion)") &&
+      html.includes("a second AI grades the answer") &&
       html.includes(">NOT RUN</span>"),
   ),
 );
@@ -332,7 +332,7 @@ check(() => assert.equal(wiringStates("simple", { steps: [good.steps.at(-1)] }).
   );
 }
 
-// AI grader node: RUNNING while asked, PASSED or FAILED from its own score, NOT RUN otherwise. The gate ignores it.
+// LLM judge node: RUNNING while asked, PASSED or FAILED from its own score, NOT RUN otherwise. The gate ignores it.
 {
   const base = { steps: good.steps, verdict: verifyRun(c0, good), outcome: "passed_first_try" };
   const withJudge = (rubric_judge, judging) =>

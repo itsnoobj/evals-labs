@@ -43,12 +43,12 @@ const TITLES = {
   answer: "Answer to the user",
   trace: "Saved trace",
   eval: "The 8 checks",
-  judge: "AI grader (second opinion)",
+  judge: "LLM judge (second opinion)",
   card: "Scorecard",
   gate: "Ship or block",
 };
 
-// The checker that runs inside the careful agent, in plain words (docs/specs/compare-agents.md).
+// The checker that runs inside the agent with evals, in plain words (docs/specs/compare-agents.md).
 export const CHECKER_RULES = [
   "The merchant was looked up, the lookup did not fail, and the merchant is one the question names.",
   "The cards were ranked, the ranking did not fail, the amount is the one in the question, and the category is the one the lookup returned.",
@@ -144,7 +144,7 @@ function promptPanel(kind, { promptTab, dspy }) {
   const body =
     tab === "ours"
       ? `<p>This is the prompt the live agent sends, exactly as written:</p>${pre(SYSTEM_PROMPT)}` +
-        "<p>The careful agent also forces the reply format with a JSON schema (the safety net). The model can only write a reply that fits the schema: a tool call with the right argument names, or a final answer.</p>"
+        "<p>The agent with evals also forces the reply format with a JSON schema (the safety net). The model can only write a reply that fits the schema: a tool call with the right argument names, or a final answer.</p>"
       : dspyHtml(dspy);
   return panel(
     "prompt",
@@ -210,9 +210,9 @@ const scoreRows = (metrics, scores) =>
   );
 const autoFails = (metrics, scores) => metrics.filter((m) => m.id !== "rubric_judge" && scores?.[m.id]?.pass !== true);
 
-// The AI grader (LLM as judge) has its own node. In the 8 checks panels it gets one sentence and a pointer.
+// The LLM judge has its own node. In the 8 checks panels it gets one sentence and a pointer.
 const graderNote = (judged) =>
-  `<p class="muted">AI grader (LLM as judge): ${judged ? "asked after the answer" : "not run here"}, and not part of the ship bar. Click the AI grader box to see how it works.</p>`;
+  `<p class="muted">LLM judge: ${judged ? "asked after the answer" : "not run here"}, and not part of the ship bar. Click the LLM judge box to see how it works.</p>`;
 
 const NO_MODEL_SENTENCE =
   "Recorded runs have no model to ask. Press Load model, then Ask both again, and the grader runs for real.";
@@ -224,7 +224,7 @@ function graderPanel(c, side, scores, mode) {
   return panel(
     "judge",
     (mode === "live" ? "" : `<p><b>${e(NO_MODEL_SENTENCE)}</b></p>`) +
-      (side.judging ? "<p><b>Asking the AI grader 5 times…</b></p>" : "") +
+      (side.judging ? "<p><b>Asking the LLM judge 5 times…</b></p>" : "") +
       judgeFlowHtml({
         prompt: judgePrompt(c, { steps: side.steps }),
         grades: side.judge?.all ?? null,
@@ -245,7 +245,8 @@ export function buildDetails(kind, side, shared) {
   const names = key ? (key.accept ?? [key.card]).map((id) => cardNames[id] ?? id).join(" or ") : "";
   const finalStep = side.steps.findLast((s) => s.kind === "final");
   const draftStep = (side.modelSteps ?? side.steps).findLast((s) => s.kind === "final");
-  const notMine = (id) => panel(id, "<p>Nothing here. A real simple agent has no such step.</p>", { missing: true });
+  const notMine = (id) =>
+    panel(id, "<p>Nothing here. A real agent without evals has no such step.</p>", { missing: true });
   const d = {};
 
   d.dataset = !careful
@@ -283,7 +284,7 @@ export function buildDetails(kind, side, shared) {
     ? notMine("bar")
     : panel(
         "bar",
-        `<p><b>Ship only if all ${metrics.filter((m) => m.id !== "rubric_judge").length} automatic checks pass.</b></p><p>The AI grader is a second opinion. It is not part of the bar.</p>`,
+        `<p><b>Ship only if all ${metrics.filter((m) => m.id !== "rubric_judge").length} automatic checks pass.</b></p><p>The LLM judge is a second opinion. It is not part of the bar.</p>`,
       );
 
   d.ask = panel("ask", `<p>${e(c.query)}</p>`);

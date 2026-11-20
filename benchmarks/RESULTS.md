@@ -1,6 +1,43 @@
-# Current numbers: re-recorded on the Infinia 3.33% key (2026-11-20 IST, 2026-11-19T19:17Z in the result files)
+# Current numbers: re-recorded with the new C03 and C06 questions (2026-11-20, 2026-11-20T04:13Z and 04:15Z in the result files)
 
 **Use the numbers in this top section. Everything below it is history.**
+
+What changed: `cases.js` replaced two questions. C03 is now "I'm buying a ₹24,999 phone on Flipkart" (was ₹8,000); winner `hdfc_swiggy`, reward 1249.95. C06 is now "Recharging my Airtel postpaid plan, ₹599" (was ₹500); winner `idfc_first_power_plus`, reward 29.95. C01, C02, C04, C05 are unchanged, and the card rates are unchanged. The `rank_cards` outputs for C03 and C06 changed with the amounts, so the earlier recordings held stale queries and tool outputs. Both modes were re-recorded with the real model. The previous result files were moved by the recorder to `benchmarks/superseded/` (gitignored) and copied to `/tmp/backup-spike2/`.
+
+Setup (from `meta` and `benchmark` in the two result files): Qwen2.5-1.5B-Instruct-q4f16_1-MLC, WebLLM 0.2.79, worker engine, Chrome/157.0.8103.79 headless, Apple M4 Max 64 GB, prompt v2, temperature 0.7, seeds `1000 + runIndex`, `max_tokens` 160, 4 steps max, 6 cases x 5 runs = 30 runs per mode. Driver: `record-runs.mjs` (profile `/tmp/evals-lab-profile`, weights already cached: load 1.8 s free, 1.6 s constrained, storage delta 0). Numbers come from the result files and `node scripts/summarize-recorded-runs.mjs`.
+
+| | free (JSON mode) | constrained (schema) | previous C03/C06: free | previous C03/C06: constrained |
+|---|---|---|---|---|
+| task_success | 18/30 = 60.0% | 23/30 = 76.7% | 23/30 = 76.7% | 26/30 = 86.7% |
+| per-step accuracy | 66.0% | 86.7% | 85.9% | 95.6% |
+| careful agent's checker (`verifyRun`) accepts | 15/30 = 50.0% | 22/30 = 73.3% | 20/30 = 66.7% | 26/30 = 86.7% |
+| failure kinds | wrong_card 6, no_final_answer 6 | wrong_card 5, wrong_args 2 | wrong_card 6, no_final_answer 1 | wrong_card 4 |
+| benchmark wall time | 64.7 s | 71.9 s | 67.3 s | 67.9 s |
+
+task_success per case (5 runs each):
+
+| case | C01 | C02 | C03 | C04 | C05 | C06 |
+|---|---|---|---|---|---|---|
+| free | 3/5 | 5/5 | 1/5 | 5/5 | 4/5 | 0/5 |
+| constrained | 3/5 | 5/5 | 2/5 | 5/5 | 5/5 | 3/5 |
+| previous C03/C06, free | 3/5 | 5/5 | 1/5 | 5/5 | 4/5 | 5/5 |
+| previous C03/C06, constrained | 3/5 | 5/5 | 3/5 | 5/5 | 5/5 | 5/5 |
+
+Careful (guarded) agent, replaying each case's 5 constrained runs as the first attempt (`makeReplayChat` through `runGuarded`, via `summarize-recorded-runs.mjs`), 30 replays: passed_first_try 22, passed_after_retry 7, fixed_by_fallback 1, refused 0. Per case, first try / after retry / fallback: C01 3/2/0, C02 5/0/0, C03 2/2/1, C04 5/0/0, C05 5/0/0, C06 2/3/0. Previous C03/C06: 26 first try, 4 retry, 0 fallback.
+
+Checks on `recorded-runs.json`: 30 free + 30 constrained runs, every `caseId` in C01-C06, 133 tool steps whose `output` all equal what the current `runTool` returns (0 differ). `dspy-prompt.json` and `tools-export.json` were regenerated (the DSPy prompt embeds C03: now ₹24,999).
+
+Wrong final answers (from the result files): free, 12: C01 picked `hdfc_infinia` twice (499.5); C03 picked `hdfc_amazon_pay` (not a card id, 249.99), `idfc_first_power_plus` twice (125) and `icici_amazon_pay` (249.99); C05 gave no final answer once; C06 gave no final answer 5 times. Constrained, 7: C01 picked `hdfc_infinia` twice (499.5); C03 picked `icici_amazon_pay` twice (249.99) and `hdfc_infinia` once (832.47); C06 picked `hdfc_infinia` twice (19.95).
+
+Why free C06 is 0/5: in the 3 free C06 runs inspected, the model passed the whole phrase ("Airtel postpaid plan recharging") to `classify_merchant`, got "unknown merchant", guessed a category that does not exist ("recharging", "rechargeable"), got "unknown category", and used up the 4 steps. Constrained decoding fixes the category names (the enum) but 2 of 5 runs still picked Infinia.
+
+Reading: both rates dropped (free 76.7 to 60.0, constrained 86.7 to 76.7), almost all of it in C06 (free 5/5 to 0/5, constrained 5/5 to 3/5). The "Airtel postpaid plan" wording is harder for this model than "Airtel" with ₹500. 5 runs per case is a small sample (one run moves a cell by 20 points). The free to constrained gap is 16.7 points on 30 runs each; each rate has a 95% interval of about +-17 points, so the two intervals overlap. The careful agent's 30 replays all end with a right answer (22 first try, 7 after a retry, 1 by the fallback, 0 refused), but it needs a retry or fallback in 8 of 30 cases. Treat the pass rates as "lower than before, same ordering free < constrained < careful".
+
+---
+
+# History: re-recorded on the Infinia 3.33% key, old C03 (₹8,000 phone) and C06 (₹500 Airtel) (2026-11-20 IST, 2026-11-19T19:17Z in the result files)
+
+> **History.** Superseded by the section above. The numbers are kept as they were. Do not quote them.
 
 What changed: `cases.js` raised HDFC Infinia from 1% to 3.33% in amazon, online_shopping, swiggy, utilities and telecom (fuel_hpcl stays 0). The expected winner and reward of C01-C06 did not change. `rank_cards` now returns different Infinia numbers, so the earlier recordings held stale tool outputs. Both modes were re-recorded with the real model; the previous files (Infinia 1%) are kept in `old-key-infinia-1pct/`.
 
