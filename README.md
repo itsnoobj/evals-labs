@@ -95,6 +95,13 @@ Four real Indian credit cards, six everyday questions (Amazon, Swiggy, a ₹24,9
 
 Phones open the **quick path** by default: Start, Run and Side by side, in a bottom tab bar, with Next and Back buttons on every screen. **Show all screens** switches to the full path. Use recorded runs on a phone; the live model is an 880 MB download that needs a laptop-class GPU.
 
+## Sharing
+
+The link preview (picture, title, description) comes from the Open Graph tags in `evals-lab/index.html` and `evals-lab/assets/og.png`. It only appears after the push and deploy, because the image URL points at the live site.
+GitHub repo preview is manual: Settings > Social preview > upload `docs/img/social-preview.png` (no API).
+Test it with [opengraph.xyz](https://www.opengraph.xyz/) or the LinkedIn Post Inspector.
+WhatsApp and Slack cache previews, so test with a new URL such as `https://itsnoobj.github.io/evals-labs/?v=2`.
+
 ## Run it locally
 
 Needs Node 22.13 or newer. The page itself has no dependencies; `npm install` only fetches the formatter and linter.
