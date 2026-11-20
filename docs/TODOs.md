@@ -1,6 +1,7 @@
 # TODOs
 
 ## Next
+- [ ] Decide: build '?' button on elements (opens explain pop-up) + 'Copy prompt to ask your own AI' (options 1+2 of the experiment) (25 min)
 - [ ] You: say OK to push (card images from bank sites go public), license, Q13, Q14 (see chat)
 - [ ] Live-test score button (live mode: 60 runs) and Side by side on a phone (5 min)
 - [ ] Clean dead replay hint text in `model-bar.js` (overwritten by main.js now) (3 min)
@@ -20,6 +21,8 @@
 - [ ] More cards and cases, other scenarios, shareable URL state
 
 ## Done
+- [x] ux17 (2026-11-20): Run screen: model name, status and download size now inside the Live AI box; Recorded box shows its own status; selected box says IN USE.
+- [x] Ask-help experiment (2026-11-20): Qwen2.5-1.5B grounded misses all 5 bar lines (in-scope 70%, out-of-scope 75%, injection 66.7%, trick 83.3%, 3/120 invented numbers). In-page ask NOT built. Report: `docs/research/ask-help-experiment.md`.
 - [x] ux16 (2026-11-20): Start screen shows the 5-box task diagram with pictograms and real example values, 4 card images, 3-step strip. Side by side: "Try these" buttons (see the gap, see a retry; outcomes tested against recorded runs) replace "Suggested questions"; one shared glossary (19 terms, `glossary.js`) on every screen replaces the guardrail/wiring bars. 179 tests green. Local only, not pushed. Note: Try-these outcome text is fixed; re-recording runs needs the tests re-checked.
 - [x] ux14-ux15 (2026-11-20): explain pop-up (`explain-dialog.js`, native dialog, bottom sheet on phones): what it is, why, pictogram, this-run data, raw data behind a click. Covers 23 wiring nodes, 8 check tiles, 5 diagram boxes (Run, Start). Replay checked headless; live model, real phone, Safari unverified. Local only, not pushed.
 - [x] ux13 (2026-11-20): every summary looks like a button (border, +/- and SHOW/HIDE text, hover/focus); wiring nodes and check tiles carry a DETAILS cue; Side by side: one-line mission, one-row model bar and controls, wiring phases collapsible (During the run open, others closed). Local only, not pushed.

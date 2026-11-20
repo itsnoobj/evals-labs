@@ -1,0 +1,138 @@
+{
+  "block": "grounded@t0.2",
+  "inScopeAnswers": 60,
+  "checkerPassed": 42,
+  "failedAudited": 18,
+  "wrong": 10,
+  "incompleteButTrue": 8,
+  "unlabelled": 0,
+  "lenientPass": 50,
+  "rows": [
+    {
+      "id": "S01",
+      "run": 0,
+      "text": "An eval is an automatic check that runs an agent's saved run and marks it based on guardrails, retries, and fallbacks. It ensures consistent results across different runs.",
+      "label": "wrong",
+      "why": "says an eval is based on guardrails, retries and fallbacks"
+    },
+    {
+      "id": "S05",
+      "run": 0,
+      "text": "A pass bar shows whether the agent passes the checks. If it passes, the agent ships. If it fails, the agent retries.",
+      "label": "wrong",
+      "why": "says a failed pass bar makes the agent retry"
+    },
+    {
+      "id": "S06",
+      "run": 0,
+      "text": "To check the reliability of the answers and identify weak spots.",
+      "label": "incomplete-but-true",
+      "why": "says reliability / weak spots, not that one run varies"
+    },
+    {
+      "id": "S07",
+      "run": 0,
+      "text": "The LLM judge asks 5 times to ensure consistency and reliability. It averages the results to mitigate any single run's outlier.",
+      "label": "wrong",
+      "why": "says it averages; the lab says middle grade"
+    },
+    {
+      "id": "S10",
+      "run": 0,
+      "text": "The wiring box \"model\" shows the internal workings of the agent, with boxes representing different components like the agent, tools, guardrails, and checks. It visualizes how the agent makes decisions and how it handles errors.",
+      "label": "wrong",
+      "why": "describes the agent's internals, not 'what happens behind the chat, drawn as clickable boxes'"
+    },
+    {
+      "id": "S11",
+      "run": 0,
+      "text": "Tool precision measures how accurately the agent performs its tasks, focusing on the consistency and correctness of its actions. It ensures that the agent does not repeat unnecessary steps or make mistakes.",
+      "label": "wrong",
+      "why": "says it measures accuracy / consistency of tasks, not repeated or unneeded calls"
+    },
+    {
+      "id": "S19",
+      "run": 0,
+      "text": "Errors add up because small errors in one step can multiply and affect subsequent steps, making it harder to correct.",
+      "label": "incomplete-but-true",
+      "why": "says small errors multiply, omits the consequence"
+    },
+    {
+      "id": "S01",
+      "run": 1,
+      "text": "An eval is an automatic check that runs an agent's saved run and marks it based on guardrails, retries, and fallbacks. It ensures consistent results across runs.",
+      "label": "wrong",
+      "why": "says an eval is based on guardrails, retries and fallbacks"
+    },
+    {
+      "id": "S07",
+      "run": 1,
+      "text": "The LLM judge asks 5 times to ensure consistency and reliability.",
+      "label": "incomplete-but-true",
+      "why": "says consistency, no middle grade"
+    },
+    {
+      "id": "S10",
+      "run": 1,
+      "text": "The wiring represents the process and decisions made by the agent, showing how it interacts with tools and the environment.",
+      "label": "wrong",
+      "why": "describes the agent's internals, not 'what happens behind the chat, drawn as clickable boxes'"
+    },
+    {
+      "id": "S11",
+      "run": 1,
+      "text": "Tool precision measures how accurately the agent performs its tasks, focusing on the consistency and correctness of its actions. It ensures that the agent does not repeat unnecessary steps or make mistakes, optimizing efficiency and cost-effectiveness.",
+      "label": "wrong",
+      "why": "says it measures accuracy / consistency of tasks, not repeated or unneeded calls"
+    },
+    {
+      "id": "S19",
+      "run": 1,
+      "text": "Errors add up because small errors in one step can multiply and affect subsequent steps, making it harder to correct.",
+      "label": "incomplete-but-true",
+      "why": "says small errors multiply, omits the consequence"
+    },
+    {
+      "id": "S01",
+      "run": 2,
+      "text": "An eval is an automatic check that runs an agent's saved run and marks it based on guardrails, retries, and fallbacks. It ensures consistent results across different runs.",
+      "label": "wrong",
+      "why": "says an eval is based on guardrails, retries and fallbacks"
+    },
+    {
+      "id": "S05",
+      "run": 2,
+      "text": "A pass bar shows whether the agent passes or fails a check. It indicates if the agent meets the required criteria before shipping.",
+      "label": "incomplete-but-true",
+      "why": "says criteria before shipping, no lowest score"
+    },
+    {
+      "id": "S06",
+      "run": 2,
+      "text": "To check the reliability of each question and ensure accuracy.",
+      "label": "incomplete-but-true",
+      "why": "says reliability / weak spots, not that one run varies"
+    },
+    {
+      "id": "S07",
+      "run": 2,
+      "text": "The LLM judge asks 5 times to ensure consistency and reliability.",
+      "label": "incomplete-but-true",
+      "why": "says consistency, no middle grade"
+    },
+    {
+      "id": "S10",
+      "run": 2,
+      "text": "The wiring box \"model\" represents the agent's decision-making process, showing how it interacts with the test set and uses guardrails to guide its choices and answers.",
+      "label": "wrong",
+      "why": "describes the agent's internals, not 'what happens behind the chat, drawn as clickable boxes'"
+    },
+    {
+      "id": "S19",
+      "run": 2,
+      "text": "Errors add up because small mistakes in one step can lead to big problems in the next step, multiplying errors.",
+      "label": "incomplete-but-true",
+      "why": "says small errors multiply, omits the consequence"
+    }
+  ]
+}

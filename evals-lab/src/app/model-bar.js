@@ -2,14 +2,45 @@
 // Exports: setNote, syncCmpModelBar, enterMode, onLoadModel.
 import { CASES } from "../task/cases.js";
 import { loadModel } from "../agent/llm.js";
+import { modelBoxes } from "../ui/model-box.js";
 import { tryTheseHtml, LIVE_ONLY, NOT_LOADED, LOADING } from "../ui/try-these.js";
 import { $, state, mark, describeError } from "./state.js";
 
+// Writes the words and markers inside the two boxes ("Live AI", "Recorded runs") from the mode kept on #model-bar.
+function renderBoxes() {
+  const bar = $("model-bar");
+  const boxes = modelBoxes({
+    kind: bar.dataset.kind,
+    label: bar.dataset.label,
+    pct: Number($("model-progress").getAttribute("aria-valuenow")),
+    hadLive: Boolean(state.llm),
+    hasRecorded: Boolean(state.recorded),
+  });
+  const draw = (box, ids) => {
+    $(ids.status).dataset.status = box.status;
+    document.querySelector(`[data-hook=${ids.label}]`).textContent = box.label;
+    $(ids.inUse).hidden = !box.inUse;
+    $(ids.box).dataset.selected = box.inUse ? "1" : "";
+  };
+  draw(boxes.live, {
+    status: "model-status",
+    label: "model-status-label",
+    inUse: "live-inuse",
+    box: "choice-live",
+  });
+  draw(boxes.replay, {
+    status: "replay-status",
+    label: "replay-status-label",
+    inUse: "replay-inuse",
+    box: "choice-replay",
+  });
+}
+
 function setStatus(kind, label) {
-  $("model-status").dataset.status = kind;
+  $("model-bar").dataset.kind = kind;
+  $("model-bar").dataset.label = label;
   // The download bar only means something while a download is going.
   $("model-progress").hidden = kind !== "loading";
-  document.querySelector("[data-hook=model-status-label]").textContent = label;
   syncCmpModelBar();
 }
 function setProgress(fraction) {
@@ -19,19 +50,24 @@ function setProgress(fraction) {
   $("model-progress").setAttribute("aria-valuenow", String(Math.round(fraction * 100)));
   syncCmpModelBar();
 }
-export const setNote = (text) => {
-  $("model-note").textContent = text;
+// Warnings and errors (warn: true) stay visible in the Live AI box. Everything else sits behind its closed "Details".
+export const setNote = (text, { warn = false } = {}) => {
+  $("model-warning").textContent = warn ? text : "";
+  $("model-warning").hidden = !warn || !text;
+  $("model-note").textContent = warn ? "" : text;
+  $("model-details").hidden = warn || !text;
   syncCmpModelBar();
 };
 
-// The Side by side screen has its own copy of the model bar. It only mirrors the Run-screen elements, so loading logic lives in one place.
+// The Side by side screen has its own copy of the model bar. It only mirrors the Run-screen state, so loading logic lives in one place.
 export function syncCmpModelBar() {
-  const kind = $("model-status").dataset.status;
-  const label = document.querySelector("[data-hook=model-status-label]").textContent;
+  renderBoxes();
+  const kind = $("model-bar").dataset.kind;
+  const label = $("model-bar").dataset.label;
   const pct = $("model-progress").getAttribute("aria-valuenow");
   const text =
     { ready: "Live model ready", replay: "Using recorded runs", loading: `Loading model ${pct}%` }[kind] ??
-    (label === "Load failed" ? `${label}. ${$("model-note").textContent}` : "No model loaded yet");
+    (label === "Load failed" ? `${label}. ${$("model-warning").textContent}` : "No model loaded yet");
   $("cmp-model-status").dataset.status = kind;
   $("cmp-model-bar").dataset.chosen = kind === "ready" || kind === "replay" ? "1" : "";
   document.querySelector("[data-hook=cmp-model-label]").textContent = text;
@@ -82,7 +118,7 @@ export async function onLoadModel() {
     enterMode("live");
   } catch (err) {
     setStatus("not-loaded", "Load failed");
-    setNote(`Could not load the model: ${describeError(err)}. You can still use the recorded runs.`);
+    setNote(`Could not load the model: ${describeError(err)}. You can still use the recorded runs.`, { warn: true });
     $("load-model").disabled = false;
     syncCmpModelBar();
   }

@@ -142,7 +142,9 @@ async function init() {
   state.gpuCheck = checkWebGpu();
   state.gpu = await state.gpuCheck;
   if (!state.gpu.ok)
-    setNote(`Warning: ${state.gpu.reason}${window.isSecureContext ? " You can still try Load model." : ""}`);
+    setNote(`Warning: ${state.gpu.reason}${window.isSecureContext ? " You can still try Load model." : ""}`, {
+      warn: true,
+    });
 
   try {
     const res = await fetch("data/recorded-runs.json");
@@ -155,6 +157,7 @@ async function init() {
     if (!state.gpu.ok)
       setNote(
         `Warning: ${state.gpu.reason} Recorded runs could not load (${describeError(err)}). Serve this folder over http.`,
+        { warn: true },
       );
   }
 }

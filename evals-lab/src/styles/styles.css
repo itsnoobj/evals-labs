@@ -583,28 +583,63 @@ footer p {
   flex-direction: column;
   gap: 0.5rem;
   align-items: flex-start;
+  min-width: 0;
   padding: 1rem 1.1rem;
   border: 1px solid var(--line);
   background: var(--paper);
 }
+/* the box in use: a heavier border (padding shrinks by the extra width so nothing moves) plus the IN USE tag */
+.choice[data-selected="1"] {
+  padding: calc(1rem - 2px) calc(1.1rem - 2px);
+  border: 3px solid var(--accent);
+}
+.choice-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+}
 .choice h3 {
   margin: 0;
 }
+.inuse {
+  padding: 0.1rem 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  font: 700 0.75rem var(--mono);
+  letter-spacing: 0.1em;
+}
+.inuse[hidden] {
+  display: none;
+}
 .choice p {
-  flex: 1;
   margin: 0;
   color: var(--muted);
   font-size: 0.92rem;
 }
-.statusline {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.25rem 1rem;
-  margin: 0 0 0.75rem;
+.choice .choice-status {
+  color: var(--ink);
+  font-size: 1rem;
 }
-.statusline .k {
-  margin: 0;
+.choice .bar {
+  align-self: stretch;
+}
+.choice .bar[hidden],
+.choice details[hidden],
+.choice .boxwarn[hidden] {
+  display: none;
+}
+.choice details.disclose {
+  align-self: stretch;
+  margin-top: 0.25rem;
+}
+.choice .boxwarn {
+  align-self: stretch;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--bad);
+  border-left: 6px solid var(--bad);
+  background: #fdeeed;
+  color: var(--ink);
 }
 .bar + .muted {
   margin: 0.5rem 0 0;

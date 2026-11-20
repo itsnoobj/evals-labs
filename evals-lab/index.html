@@ -111,42 +111,59 @@
               <b class="snum" aria-hidden="true">1</b>
               <h2>Choose how to run</h2>
             </div>
-            <div class="choices" data-hook="model-bar" id="model-bar">
-              <div class="choice">
-                <h3>Live AI</h3>
+            <div class="choices" data-hook="model-bar" id="model-bar" data-kind="not-loaded">
+              <div class="choice" id="choice-live" data-hook="choice-live">
+                <div class="choice-head">
+                  <h3>Live AI</h3>
+                  <b class="inuse" id="live-inuse" hidden>IN USE</b>
+                </div>
+                <p class="choice-line">
+                  <span class="mono" id="model-name" data-hook="model-name">Qwen2.5-1.5B-Instruct</span> · about 880 MB
+                  first download
+                </p>
+                <p class="choice-status">
+                  <b id="model-status" data-hook="model-status" data-status="not-loaded"
+                    ><i class="sq" aria-hidden="true"></i><span data-hook="model-status-label">Not loaded</span></b
+                  >
+                </p>
                 <button type="button" id="load-model" data-hook="load-model" disabled>Load model</button>
+                <div
+                  class="bar"
+                  id="model-progress"
+                  data-hook="model-progress"
+                  role="progressbar"
+                  aria-label="Model download progress"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                >
+                  <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
+                  ><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
+                  ><span class="seg"></span><span class="seg"></span>
+                </div>
+                <p class="boxwarn" id="model-warning" data-hook="model-warning" role="status" hidden></p>
+                <details class="disclose" id="model-details" hidden>
+                  <summary>Details</summary>
+                  <div class="disclose-body"><p id="model-note" aria-live="polite"></p></div>
+                </details>
               </div>
-              <div class="choice">
-                <h3>Recorded runs</h3>
+              <div class="choice" id="choice-replay" data-hook="choice-replay">
+                <div class="choice-head">
+                  <h3>Recorded runs</h3>
+                  <b class="inuse" id="replay-inuse" hidden>IN USE</b>
+                </div>
+                <p class="choice-line">Real answers from the same AI, saved earlier. Works in any browser.</p>
+                <p class="choice-status">
+                  <b id="replay-status" data-hook="replay-status" data-status="not-loaded"
+                    ><i class="sq" aria-hidden="true"></i><span data-hook="replay-status-label">Not available</span></b
+                  >
+                </p>
                 <button type="button" class="sec" id="use-replay" data-hook="use-replay" disabled>
                   Use recorded runs
                 </button>
               </div>
             </div>
             <p class="phone-note">On a phone, use recorded runs.</p>
-            <p class="statusline">
-              <span class="k">Model</span>
-              <span class="mono" id="model-name" data-hook="model-name">Qwen2.5-1.5B-Instruct</span>
-              <span class="k">Status</span>
-              <b id="model-status" data-hook="model-status" data-status="not-loaded"
-                ><i class="sq" aria-hidden="true"></i><span data-hook="model-status-label">Not loaded</span></b
-              >
-            </p>
-            <div
-              class="bar"
-              id="model-progress"
-              data-hook="model-progress"
-              role="progressbar"
-              aria-label="Model download progress"
-              aria-valuemin="0"
-              aria-valuemax="100"
-              aria-valuenow="0"
-            >
-              <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
-              ><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
-              ><span class="seg"></span><span class="seg"></span>
-            </div>
-            <p class="muted" id="model-note" aria-live="polite"></p>
             <details class="disclose">
               <summary>Live or recorded?</summary>
               <div class="disclose-body">
@@ -515,7 +532,7 @@
         This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were
         checked in November 2026; they change. Not financial advice.
       </p>
-      <p class="muted build">build ux16</p>
+      <p class="muted build">build ux17</p>
     </footer>
 
     <script type="module" src="src/app/main.js"></script>
