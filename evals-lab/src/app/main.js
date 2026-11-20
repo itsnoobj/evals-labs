@@ -11,7 +11,7 @@ import { onRunCase } from "./run-screen.js";
 import { drawMetrics, onBugSelected, onJudge } from "./metrics-screen.js";
 import { onRunSet, onCellSelected } from "./golden-screen.js";
 import { drawCurve } from "./compounding-screen.js";
-import { drawChats, onAskBoth } from "./compare-screen.js";
+import { drawChats, onAskBoth, onScoreBoth, onStopScore } from "./compare-screen.js";
 import { drawWiring, loadDspy, bindWiringRoots } from "./wiring-panel.js";
 import { drawStart, fillExamples } from "./start-screen.js";
 import { initNav } from "./nav.js";
@@ -106,6 +106,8 @@ async function init() {
   };
   $("cmp-text").oninput = cmpQuestionChanged;
   $("cmp-ask").onclick = onAskBoth;
+  $("cmp-score-start").onclick = onScoreBoth;
+  $("cmp-score-stop").onclick = onStopScore;
   $("show-wiring").onchange = () => {
     const on = $("show-wiring").checked;
     $("cmp-root").classList.toggle("show-wiring", on);

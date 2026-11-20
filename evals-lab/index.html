@@ -443,6 +443,16 @@
             </details>
           </div>
           <button type="button" id="cmp-ask" data-hook="cmp-ask" disabled>Ask both</button>
+          <button type="button" class="sec" id="cmp-score-start" data-hook="cmp-score-start">
+            Score both on the test set
+          </button>
+          <button type="button" class="sec" id="cmp-score-stop" data-hook="cmp-score-stop" hidden>Stop</button>
+          <span
+            class="setscore-progress mono"
+            id="cmp-score-progress"
+            data-hook="cmp-score-progress"
+            aria-live="polite"
+          ></span>
           <label class="check" for="show-wiring"
             ><input type="checkbox" id="show-wiring" data-hook="show-wiring" /><span
               ><b>Show the wiring</b></span
@@ -450,6 +460,10 @@
           >
         </div>
         <p class="muted" id="cmp-hint">Choose how to run first.</p>
+        <details class="disclose">
+          <summary>About scoring</summary>
+          <div class="disclose-body"><p>Live: runs the real model 60 times; this takes a while.</p></div>
+        </details>
         <details class="disclose">
           <summary>Suggested questions</summary>
           <div class="disclose-body">
@@ -462,6 +476,7 @@
           </div>
         </details>
         <p class="cmpsum" id="cmp-summary" aria-live="polite" hidden></p>
+        <div id="cmp-score" data-hook="cmp-score"></div>
         <div class="cmp" id="cmp-root" data-hook="cmp-root">
           <div class="cmp-row" id="row-simple">
             <div class="cmp-wire is-simple" id="wire-simple" data-hook="wire-simple" hidden>

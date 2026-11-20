@@ -1,12 +1,15 @@
 // The Side by side screen: Ask both, the two chats, and the two agent runs.
-// Exports: drawChats, onAskBoth.
-import { CATEGORY_LABELS } from "../task/cases.js";
+// Exports: drawChats, onAskBoth, onScoreBoth, onStopScore, drawScore.
+import { CASES, CATEGORY_LABELS } from "../task/cases.js";
 import { METRICS, scoreRun } from "../evals/engine.js";
 import { runCase, SYSTEM_PROMPT } from "../agent/agent-step.js";
 import { chatHtml } from "../ui/chat-ui.js";
 import { gradeFiveTimes } from "../agent/ai-grader.js";
 import { runGuarded, makeReplayChat, verifyRun } from "../agent/guarded-agent.js";
 import { checkInput } from "../agent/guardrails.js";
+import { scoreBoth, replayRunAgent } from "../agent/score-both.js";
+import { scoreResultHtml } from "../ui/score-result.js";
+import { syncCmpModelBar } from "./model-bar.js";
 import {
   $,
   state,
@@ -75,6 +78,7 @@ export function drawChats() {
     $("chat-simple").querySelector(".chat-msgs")?.append(note);
   }
   drawWiring();
+  drawScore();
 }
 
 function recordedPool(kind, caseId, index) {
@@ -92,25 +96,28 @@ async function runSimple(c, seed, onStep) {
     }
     return structuredClone(run);
   }
-  return runCase(state.llm.chat, c, { model: state.llm.modelId, seed, temperature: 0.7, constrain: false, onStep });
+  return liveSimple(state.llm, c, seed, onStep);
 }
 
+// The two live single runs, shared by Ask both and by Score both (which passes no callbacks).
+const liveSimple = (llm, c, seed, onStep) =>
+  runCase(llm.chat, c, { model: llm.modelId, seed, temperature: 0.7, constrain: false, onStep });
+const liveCareful = (llm, c, seed, hooks) => runGuarded(llm.chat, c, { model: llm.modelId, seed, ...hooks });
+
 function runCareful(c, seed, onEvent, onStep) {
-  const live = state.mode === "live";
-  let chat = state.llm?.chat;
-  if (!live) {
-    const replay = makeReplayChat(recordedPool("constrained", c.id, seed));
-    chat = async (req) => {
-      await sleep(700);
-      return replay(req);
-    };
-  }
-  return runGuarded(chat, c, { model: live ? state.llm.modelId : "recorded", seed, onEvent, onStep });
+  if (state.mode === "live") return liveCareful(state.llm, c, seed, { onEvent, onStep });
+  const replay = makeReplayChat(recordedPool("constrained", c.id, seed));
+  const chat = async (req) => {
+    await sleep(700);
+    return replay(req);
+  };
+  return runGuarded(chat, c, { model: "recorded", seed, onEvent, onStep });
 }
 
 // The inputs stay locked while a run is going, so the question cannot change under it.
 function setCmpBusy(busy) {
   $("cmp-ask").disabled = busy;
+  $("cmp-score-start").disabled = busy;
   $("cmp-case").disabled = busy;
   $("cmp-text").disabled = busy;
   $("cmp-examples")
@@ -118,6 +125,85 @@ function setCmpBusy(busy) {
     .forEach((b) => {
       b.disabled = busy;
     });
+}
+
+// Score both agents over the whole test set. Result is kept in state.score and redrawn by drawScore().
+const RUNS_PER_CASE = 5;
+const REPLAY_PAUSE_MS = 25; // lets the progress text paint and the Stop button work; real replays are instant
+
+export function drawScore() {
+  const s = state.score;
+  $("cmp-score").innerHTML = s ? scoreResultHtml(s.result, s.mode) : "";
+}
+
+function scoreRunAgent(mode) {
+  if (mode === "replay") {
+    const inner = replayRunAgent(state.recorded, { seedBase: 0 });
+    return async (kind, c, runIndex) => {
+      await sleep(REPLAY_PAUSE_MS);
+      return inner(kind, c, runIndex);
+    };
+  }
+  const llm = state.llm; // captured: the run keeps this model even if the bar changes
+  return async (kind, c, runIndex) =>
+    kind === "simple" ? liveSimple(llm, c, runIndex) : (await liveCareful(llm, c, runIndex)).run;
+}
+
+let scoreAbort = null;
+
+export function onStopScore() {
+  scoreAbort?.abort();
+  $("cmp-score-progress").textContent = "Stopping after this run…";
+}
+
+export async function onScoreBoth() {
+  if (scoreAbort) return;
+  const mode = state.mode;
+  if (mode !== "live" && mode !== "replay") {
+    $("cmp-score-progress").textContent = "Choose how to run first.";
+    return;
+  }
+  const ctl = new AbortController();
+  scoreAbort = ctl;
+  const planned = CASES.length * RUNS_PER_CASE * 2;
+  setCmpBusy(true);
+  $("cmp-load-model").disabled = true;
+  $("cmp-use-replay").disabled = true;
+  state.score = null;
+  drawScore();
+  $("cmp-summary").hidden = true;
+  $("cmp-score-start").hidden = true;
+  $("cmp-score-stop").hidden = false;
+  $("cmp-score-progress").textContent = `0 of ${planned} runs`;
+  const t0 = Date.now();
+  try {
+    const result = await scoreBoth({
+      cases: CASES,
+      runsPerCase: RUNS_PER_CASE,
+      runAgent: scoreRunAgent(mode),
+      signal: ctl.signal,
+      onProgress: ({ done, total }) => {
+        // The estimate is shown only for the live model, and only from the time the runs so far really took.
+        const left =
+          mode === "live" && done >= 2 ? Math.ceil((((Date.now() - t0) / done) * (total - done)) / 60000) : 0;
+        $("cmp-score-progress").textContent =
+          `${done} of ${total} runs${left > 0 ? `, about ${left} min left` : ""}${ctl.signal.aborted ? ". Stopping…" : ""}`;
+      },
+    });
+    state.score = { result: { ...result, planned }, mode };
+    drawScore();
+    $("cmp-score-progress").textContent = "";
+  } catch (err) {
+    $("cmp-score-progress").textContent = "";
+    showError($("cmp-summary"), err);
+    $("cmp-summary").hidden = false;
+  } finally {
+    scoreAbort = null;
+    $("cmp-score-start").hidden = false;
+    $("cmp-score-stop").hidden = true;
+    setCmpBusy(false);
+    syncCmpModelBar();
+  }
 }
 
 const safeScore = (c, run) => {

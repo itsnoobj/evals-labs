@@ -1,6 +1,9 @@
 # TODOs
 
 ## Next
+- [ ] You: say OK to push (card images from bank sites go public), license, Q13, Q14 (see chat)
+- [ ] Live-test score button (live mode: 60 runs) and Side by side on a phone (5 min)
+- [ ] Clean dead replay hint text in `model-bar.js` (overwritten by main.js now) (3 min)
 - [ ] You verify 4 answer-key cells (see chat message: C03 Flipkart 5%, C05/C06 merchant codes, Infinia Rs 1 per point, C01 Amazon) (10 min)
 - [ ] Live-model path of the careful agent (WebGPU, retry/fallback with the wiring graph on) is unverified in a real browser session (5 min)
 - [ ] You open `http://localhost:8000/evals-lab/` (hard refresh, footer must say `build ux7`), click Load model, run one case live (5 min)
@@ -9,7 +12,6 @@
 - [ ] S8 polish: GitHub Pages deploy, QR code, timed 2-minute stage walkthrough (15 min)
 
 ## Later
-- [ ] Compare screen: "score both over the whole test set" button (12 x 5 per agent) to show a pass rate for each, not one run (20 min)
 - [ ] Compare screen: live-model check of the careful agent (retry and fallback paths ran only on recorded runs) (5 min)
 - [ ] v1.1 Judge lab: calibration vs your labels, order-bias swap (25 min)
 - [ ] Add-your-own case on the golden screen (15 min)
@@ -18,6 +20,7 @@
 - [ ] More cards and cases, other scenarios, shareable URL state
 
 ## Done
+- [x] ux12 (2026-11-20): real card images (`assets/cards/`, `SOURCES.md`, `card-image.js`) in matrix, result strips, chat bubble, rank bars, wiring rows. All screens cut to title + one lead sentence + controls + result; rest behind `disclose()` (native details). Start 533 -> 52 visible words. "Score both on the test set" button on Side by side (replay: without evals 18/30 = 60%, with evals 30/30 = 100%; live path unverified). 85+ new unit tests, 6 bugs fixed; `npm run verify` 133 tests green. Committed locally (c2390fc + score button), NOT pushed: waiting on answer about card image licensing.
 - [x] Re-recorded real runs after C03 became the ₹24,999 Flipkart phone and C06 the ₹599 Airtel postpaid recharge (2026-11-20): free 18/30 = 60.0%, constrained 23/30 = 76.7% (was 76.7% / 86.7%); careful agent replays 22 first try, 7 after retry, 1 fallback, 0 refused. `dspy-prompt.json`, `tools-export.json`, audit regenerated. Default case stays C05 (careful 5/5 first try, free 4/5, the weakest of C02/C04/C05); default run number is now 0 (C05: without evals wrong, with evals right first try). Retry demo: run number 1 + C01. New section in `benchmarks/RESULTS.md`; old one marked history.
 - [x] Git repo started in this folder (own `.git`, branch main). `npm test` (= `node --test`) runs 14 test files; `npm run verify` adds lint and the format check. First commit made.
 - [x] ux11: typed question next to every dropdown (Side by side, Run); guardrails (`guardrails.js`: 4 input rules, 5 output rules) in the careful agent with outcome `blocked`, new wiring node `guard`, chat bubble, chip; OSS tool lists (`stage-tools.js`, 33 URLs checked with curl on 2026-11-20) in every wiring panel and Start box; AI grader visual (`judge-flow.js`) on Checks screen and as a wiring node. Headless replay checked, live model not.
