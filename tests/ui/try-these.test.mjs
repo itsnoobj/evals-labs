@@ -8,7 +8,7 @@ import { scoreRun } from "../../evals-lab/src/evals/engine.js";
 import { runGuarded, makeReplayChat } from "../../evals-lab/src/agent/guarded-agent.js";
 import {
   TRY_THESE,
-  LIVE_ONLY,
+  DEMO_NOTE,
   NOT_LOADED,
   LOADING,
   questionLabel,
@@ -88,7 +88,7 @@ test("question label is merchant and amount from CASES", () => {
 });
 
 test("visible text has no run number or case id; chips are short", () => {
-  for (const reason of ["", LIVE_ONLY, NOT_LOADED, LOADING]) {
+  for (const reason of ["", NOT_LOADED, LOADING]) {
     const html = tryTheseHtml({ disabledReason: reason });
     const text = html.replace(/<[^>]+>/g, " ");
     assert.ok(!/run number|seed|\bC0\d\b/i.test(text), reason);
@@ -101,13 +101,21 @@ test("each chip keeps its tested outcome text as a one-line caption", () => {
   for (const t of TRY_THESE) assert.ok(html.includes(`<span class="try-out">${t.outcome}</span>`), t.id);
 });
 
-test("enabled: two enabled buttons and no long hint; live: both disabled with the reason as text", () => {
+test("enabled: two enabled buttons and no long hint; the live AI chosen only adds the recorded-demo note", () => {
   const on = tryTheseHtml();
   assert.equal((on.match(/<button/g) ?? []).length, 2);
   assert.ok(!/disabled/.test(on));
   assert.ok(!/try-note/.test(on));
-  const off = tryTheseHtml({ disabledReason: LIVE_ONLY });
+  const live = tryTheseHtml({ recordedDemo: true });
+  assert.ok(!/disabled/.test(live), "no 'Recorded runs only' disabled state in live mode");
+  assert.ok(!/Recorded runs only/.test(live));
+  assert.ok(live.includes(DEMO_NOTE));
+  assert.equal((live.match(/<button/g) ?? []).length, 2);
+});
+
+test("not loaded or loading: both disabled with the reason as text", () => {
+  const off = tryTheseHtml({ disabledReason: LOADING, recordedDemo: true });
   assert.equal((off.match(/<button[^>]* disabled>/g) ?? []).length, 2);
-  assert.equal((off.match(/<span class="try-why">Recorded runs only<\/span>/g) ?? []).length, 2);
-  assert.match(off, /Recorded runs only\. Press &quot;Use recorded runs&quot; to switch\./);
+  assert.equal((off.match(/<span class="try-why">Wait until the model finishes loading<\/span>/g) ?? []).length, 2);
+  assert.ok(!off.includes(DEMO_NOTE));
 });

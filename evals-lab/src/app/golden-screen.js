@@ -6,6 +6,8 @@ import * as ui from "../ui/ui.js";
 import { $, state, caseById, CARD_NAMES, expectedOf, showError, mark } from "./state.js";
 import { runOne } from "./run-screen.js";
 import { drawCurve } from "./compounding-screen.js";
+import { LOADING_TEXT } from "../ui/ask-row.js";
+import { ensureMode } from "./model-bar.js";
 
 function drawGrid() {
   if (state.grid) ui.renderGrid($("grid-view"), { ...state.grid, selected: state.cell });
@@ -29,6 +31,14 @@ function drawCell() {
 }
 
 export async function onRunSet() {
+  // Live AI chosen but not loaded: load it first (progress shows beside RUN THE SET), then run the set.
+  if (state.mode === "none") {
+    $("set-progress").textContent = LOADING_TEXT;
+    if (!(await ensureMode())) {
+      $("set-progress").textContent = "The live AI did not load. See step 1 on the Run screen.";
+      return;
+    }
+  }
   const runsPerCase = Math.min(10, Math.max(1, Number($("set-runs").value) || 5));
   const results = [];
   state.gridRuns = [];

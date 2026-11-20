@@ -10,6 +10,10 @@ import {
   BUSY,
   NOT_READY,
   STARTING,
+  LOADING_TEXT,
+  LOADING_WAIT,
+  LOAD_FAILED,
+  runHint,
   TYPED_NEEDS_LIVE,
   TYPED_GUARD_ONLY,
   typedHint,
@@ -45,34 +49,79 @@ test("model name is shortened for the line", () => {
   assert.equal(shortModelName(undefined), "");
 });
 
-test("run line: recorded runs, with a button to switch to live", () => {
+test("run line: recorded runs, with a button to choose the live AI", () => {
   const r = runLine({ kind: "replay" });
-  assert.equal(r.text, "Running on: recorded runs (real answers saved earlier).");
-  assert.deepEqual(r.button, { action: "live", label: "Use the live AI instead (about 880 MB)" });
+  assert.equal(r.text, "Running on: recorded runs (real answers saved earlier)");
+  assert.deepEqual(r.button, { action: "live", label: "Use the live AI" });
 });
 
-test("run line: live AI, with a button back to recorded runs", () => {
+test("run line: live AI ready, with a button back to recorded runs", () => {
   const r = runLine({ kind: "ready", modelId: "Qwen2.5-1.5B-Instruct-q4f16_1-MLC" });
-  assert.equal(r.text, "Running on: live AI (Qwen2.5-1.5B).");
+  assert.equal(r.text, "Running on: live AI (Qwen2.5-1.5B, ready)");
   assert.deepEqual(r.button, { action: "replay", label: "Use recorded runs" });
 });
 
-test("run line: loading shows the percent and no button", () => {
-  assert.deepEqual(runLine({ kind: "loading", pct: 40 }), { text: "Loading the live AI: 40%.", button: null });
+test("run line: live AI chosen but not loaded says it loads on the first ask", () => {
+  const r = runLine({ kind: "not-loaded", mode: "none", pref: "live" });
+  assert.equal(r.text, "Running on: live AI (not loaded yet, loads on first ask)");
+  assert.deepEqual(r.button, { action: "replay", label: "Use recorded runs" });
 });
 
-test("run line: a failed live load while on recorded runs says so and keeps the recorded line", () => {
-  const r = runLine({ kind: "not-loaded", mode: "replay", failed: true });
-  assert.equal(r.text, "The live AI did not load. Running on: recorded runs (real answers saved earlier).");
+test("run line: loading shows the cache sentence and the percent, no button", () => {
+  assert.deepEqual(runLine({ kind: "loading", pct: 40 }), {
+    text: "Loading the AI: first use downloads about 880 MB, then it is cached. 40%",
+    button: null,
+  });
+  assert.equal(LOADING_TEXT, "Loading the AI: first use downloads about 880 MB, then it is cached.");
+});
+
+test("run line: a failed load shows the real error and offers recorded runs (never switches by itself)", () => {
+  const r = runLine({ kind: "not-loaded", mode: "none", pref: "failed", error: "Failed to fetch" });
+  assert.equal(r.text, "Could not load the live AI: Failed to fetch. Recorded runs are available.");
+  assert.deepEqual(r.button, { action: "replay", label: "Use recorded runs" });
+  const both = runLine({ kind: "not-loaded", pref: "failed", error: "x", recordedFailed: true });
+  assert.match(both.text, /did not load either/);
+  assert.equal(both.button, null);
+});
+
+test("run line: a failed load while on recorded runs keeps the error and the recorded line", () => {
+  const r = runLine({ kind: "replay", mode: "replay", error: "boom" });
+  assert.equal(r.text, "Could not load the live AI: boom. Running on: recorded runs (real answers saved earlier)");
   assert.equal(r.button.action, "live");
 });
 
-test("run line: recorded runs could not be read, or are still starting", () => {
+test("run line: after a Try these click the status line says Recorded demo", () => {
+  const r = runLine({ kind: "replay", mode: "replay", demo: true });
+  assert.match(r.text, /^Running on: recorded runs \(real answers saved earlier\)\. Recorded demo\.$/);
+  assert.ok(!/Recorded demo/.test(runLine({ kind: "replay", mode: "replay" }).text));
+});
+
+test("run line: recorded runs could not be read, or nothing is decided yet", () => {
   assert.match(runLine({ kind: "not-loaded", recordedFailed: true }).text, /Recorded runs did not load/);
   assert.equal(runLine({ kind: "not-loaded", recordedFailed: true }).button.action, "live");
   const start = runLine({ kind: "not-loaded" });
-  assert.match(start.text, /^Starting recorded runs/);
+  assert.equal(start.text, "Getting ready.");
   assert.equal(start.button, null);
+});
+
+test("ask button while the live AI loads or failed to load: disabled, with the reason", () => {
+  assert.deepEqual(askState({ picked: "C03", loading: true, busy: true }), { disabled: true, reason: LOADING_WAIT });
+  assert.deepEqual(askState({ picked: "C03", loadFailed: true }), { disabled: true, reason: LOAD_FAILED });
+});
+
+test("live AI chosen but not loaded: ASK BOTH is enabled once a question is picked or typed (the click loads the AI)", () => {
+  const live = { mode: "none", ready: true, starting: false };
+  assert.deepEqual(askState({ ...live, picked: "C03" }), { disabled: false, reason: "" });
+  assert.deepEqual(askState({ ...live, typed: "Paying BESCOM" }), { disabled: false, reason: "" });
+  assert.equal(askState({ ...live }).reason, PICK_FIRST);
+});
+
+test("RUN CASE hint: loading, failed and live-not-loaded say what happens; otherwise stay out of the way", () => {
+  assert.equal(runHint({ kind: "loading", pct: 5 }), `${LOADING_TEXT} 5%`);
+  assert.match(runHint({ mode: "none", pref: "live" }), /first run loads the AI/);
+  assert.match(runHint({ mode: "none", pref: "failed" }), /did not load/);
+  assert.equal(runHint({ mode: "none", pref: "" }), "");
+  assert.equal(runHint({ mode: "live", pref: "live" }), "");
 });
 
 // Regression (ux26): typing or clicking an example looked like a no-op in recorded mode.
@@ -123,7 +172,7 @@ test("after a run: the cleared box is disabled with 'pick another'; typing again
   assert.equal(askState({ ran: true, typed: EXAMPLES[3], mode: "live" }).disabled, false);
 });
 
-test("no mode yet while recorded runs load: disabled with a reason, never a silent no-op click", () => {
+test("no mode yet while the first check or the recorded runs load: disabled with a reason, never a silent no-op click", () => {
   assert.deepEqual(askState({ typed: EXAMPLES[0], starting: true, mode: "none" }), {
     disabled: true,
     reason: STARTING,

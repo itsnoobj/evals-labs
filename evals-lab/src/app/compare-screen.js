@@ -10,8 +10,9 @@ import { checkInput } from "../agent/guardrails.js";
 import { scoreBoth, replayRunAgent } from "../agent/score-both.js";
 import { scoreResultHtml, scoreGridHtml, evalButtonLabel, evalWhyLine } from "../ui/score-result.js";
 import { TRY_THESE } from "../ui/try-these.js";
+import { LOADING_TEXT } from "../ui/ask-row.js";
 import { stepBarHtml, resultWord, nowStep } from "../ui/step-bar.js";
-import { syncCmpModelBar, syncAsk, enterMode, setNote } from "./model-bar.js";
+import { syncCmpModelBar, syncAsk, enterMode, setNote, ensureMode } from "./model-bar.js";
 import {
   $,
   state,
@@ -241,6 +242,15 @@ export function onStopScore() {
 
 export async function onScoreBoth() {
   if (scoreAbort) return;
+  // Live AI chosen but not loaded: the first click loads it, then the eval starts.
+  if (state.mode === "none" && state.pref === "live") {
+    $("cmp-score-start").disabled = true;
+    $("cmp-score-progress").textContent = LOADING_TEXT;
+    const ready = await ensureMode();
+    $("cmp-score-start").disabled = false;
+    $("cmp-score-progress").textContent = ready ? "" : "The live AI did not load. See the line under the question box.";
+    if (!ready) return;
+  }
   const mode = state.mode;
   if (mode !== "live" && mode !== "replay") {
     $("cmp-score-progress").textContent = "Choose how to run first.";
@@ -291,10 +301,11 @@ export async function onScoreBoth() {
 }
 
 // A Try these button: pick the question and run number whose recorded runs show the result named on the button, then Ask both.
-// It needs recorded runs, so it switches to them when no mode is chosen and does nothing in live mode.
+// These are recorded demos by design (their results are asserted against the recorded data), so a click switches to
+// recorded runs, runs the demo, and leaves the mode on recorded. The status line says "Recorded demo".
 export async function onTryThis(id) {
   const item = TRY_THESE.find((t) => t.id === id);
-  if (!item || state.cmpBusy || state.mode === "live" || !state.recorded) return;
+  if (!item || state.cmpBusy || !state.recorded || $("model-bar").dataset.kind === "loading") return;
   if (state.mode !== "replay") {
     enterMode("replay");
     setNote("");
@@ -305,7 +316,7 @@ export async function onTryThis(id) {
   state.cmp = null;
   $("cmp-summary").hidden = true;
   drawChats();
-  await onAskBoth();
+  await onAskBoth({ demo: true });
 }
 
 const safeScore = (c, run) => {
@@ -316,9 +327,19 @@ const safeScore = (c, run) => {
   }
 };
 
-export async function onAskBoth() {
+export async function onAskBoth({ demo = false } = {}) {
+  if (state.cmpBusy) return;
+  // Live AI chosen but not loaded: load it first (the bar and the line under the question show the progress), then ask.
+  if (state.mode === "none" && state.pref === "live") {
+    setCmpBusy(true);
+    const ready = await ensureMode();
+    setCmpBusy(false);
+    if (!ready) return; // the real error is on screen and recorded runs are offered
+  }
   const c = questionFor("cmp-case", "cmp-text");
-  if (!c || state.cmpBusy || (state.mode !== "live" && state.mode !== "replay")) return; // the button is disabled then too
+  if (!c || (state.mode !== "live" && state.mode !== "replay")) return; // the button is disabled then too
+  state.demo = demo;
+  syncCmpModelBar(); // the status line says "Recorded demo" from the start of the run
   const seed = Number($("seed").value);
   const expected = expectedOf(c);
   const guard = c.custom ? checkInput(c.query) : { ok: true };

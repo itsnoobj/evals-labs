@@ -6,6 +6,23 @@ const WEBLLM_URL = `https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@${WEBLLM_VERSIO
 export const MODEL_F16 = "Qwen2.5-1.5B-Instruct-q4f16_1-MLC"; // about 880 MB download, about 1.6 GB GPU memory
 const MODEL_F32 = "Qwen2.5-1.5B-Instruct-q4f32_1-MLC"; // for GPUs without the shader-f16 feature (about 1.9 GB GPU memory)
 
+export const MODE_KEY = "evalsLabMode"; // sessionStorage key behind ?mode=recorded
+
+// ?mode=recorded (or the same value kept in sessionStorage) forces recorded runs; ?mode=live clears that.
+export function forcedRecorded(search = "", stored = "") {
+  const asked = new URLSearchParams(search).get("mode");
+  return asked ? asked === "recorded" : stored === "recorded";
+}
+
+// The way to run on a first visit: the live AI when the browser can run it, else recorded runs ("replay" in code).
+// Pure. Nothing is downloaded by this choice: the model loads on the first ask.
+export function defaultMode({ webgpu = false, secure = false, forced = false } = {}) {
+  if (forced) return { mode: "replay", reason: "Recorded runs chosen by the link (?mode=recorded)." };
+  if (!secure) return { mode: "replay", reason: "Live AI needs https or localhost; using recorded runs." };
+  if (!webgpu) return { mode: "replay", reason: "Live AI needs WebGPU; using recorded runs." };
+  return { mode: "live", reason: "" };
+}
+
 // Tells the UI what this browser can do before the visitor clicks anything. Advisory only: the Load button stays enabled,
 // because a wrong "no" here would block a browser where WebLLM would have worked.
 export async function checkWebGpu() {

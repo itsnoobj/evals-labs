@@ -226,7 +226,7 @@ const graderNote = (judged) =>
   `<p class="muted">LLM judge: ${judged ? "asked after the answer" : "not run here"}, and not part of the ship bar. Click the LLM judge box to see how it works.</p>`;
 
 const NO_MODEL_SENTENCE =
-  "Recorded runs have no model to ask. Press Load model, then Ask both again, and the grader runs for real.";
+  "Recorded runs have no model to ask. Press Use the live AI under the question box, then Ask both again, and the grader runs for real.";
 
 // The visual for the grader node: what it reads, the prompt it gets (built from this run), 5 asks, result.
 // Grades come from side.judge (live runs only). Without a model nothing is asked and no grade is shown.

@@ -1,10 +1,10 @@
 // The model bar: loading the model, its status and progress, and the copy of the bar on the Side by side screen.
-// Exports: setNote, syncCmpModelBar, syncAsk, enterMode, onLoadModel.
+// Exports: setNote, syncCmpModelBar, syncAsk, syncRunHint, enterMode, selectLive, ensureMode, onLoadModel.
 import { CASES } from "../task/cases.js";
 import { loadModel } from "../agent/llm.js";
 import { modelBoxes } from "../ui/model-box.js";
-import { tryTheseHtml, LIVE_ONLY, NOT_LOADED, LOADING } from "../ui/try-these.js";
-import { askState, runLine, typedHint } from "../ui/ask-row.js";
+import { tryTheseHtml, NOT_LOADED, LOADING } from "../ui/try-these.js";
+import { askState, runLine, runHint, typedHint, LOADING_TEXT } from "../ui/ask-row.js";
 import { checkInput } from "../agent/guardrails.js";
 import { $, state, mark, describeError } from "./state.js";
 
@@ -17,6 +17,7 @@ function renderBoxes() {
     pct: Number($("model-progress").getAttribute("aria-valuenow")),
     hadLive: Boolean(state.llm),
     hasRecorded: Boolean(state.recorded),
+    selected: state.pref === "live" ? "live" : "",
   });
   const draw = (box, ids) => {
     $(ids.status).dataset.status = box.status;
@@ -43,6 +44,7 @@ function setStatus(kind, label) {
   $("model-bar").dataset.label = label;
   // The download bar only means something while a download is going.
   $("model-progress").hidden = kind !== "loading";
+  $("model-loading").hidden = kind !== "loading";
   syncCmpModelBar();
 }
 function setProgress(fraction) {
@@ -63,16 +65,23 @@ export const setNote = (text, { warn = false } = {}) => {
 
 // The Side by side screen has its own copy of the model bar. It only mirrors the Run-screen state, so loading logic lives in one place.
 export function syncCmpModelBar() {
-  renderBoxes();
   const kind = $("model-bar").dataset.kind;
   const label = $("model-bar").dataset.label;
   const pct = $("model-progress").getAttribute("aria-valuenow");
+  // Load model: needs a secure page; while the live AI is the one running there is nothing left to load.
+  $("load-model").disabled = !window.isSecureContext || kind === "loading" || state.mode === "live";
+  renderBoxes();
   const text =
     { ready: "Live model ready", replay: "Using recorded runs", loading: `Loading model ${pct}%` }[kind] ??
-    (label === "Load failed" ? `${label}. ${$("model-warning").textContent}` : "No model loaded yet");
+    (label === "Load failed"
+      ? `${label}. ${$("model-warning").textContent}`
+      : state.pref === "live"
+        ? "Chosen, not loaded yet (loads on first ask)"
+        : "No model loaded yet");
   $("cmp-model-status").dataset.status = kind;
   $("cmp-model-bar").dataset.chosen = kind === "ready" || kind === "replay" ? "1" : "";
   document.querySelector("[data-hook=cmp-model-label]").textContent = text;
+  $("model-loading").textContent = `${LOADING_TEXT} ${pct}%`;
   $("cmp-load-model").disabled = $("load-model").disabled;
   $("cmp-use-replay").disabled = $("use-replay").disabled;
   $("cmp-model-progress").hidden = kind !== "loading";
@@ -83,9 +92,11 @@ export function syncCmpModelBar() {
   const line = runLine({
     kind,
     mode: state.mode,
+    pref: state.pref,
     modelId: state.llm?.modelId,
     pct: Number(pct),
-    failed: label === "Load failed",
+    error: state.loadError,
+    demo: state.demo,
     recordedFailed: !!state.recordedFailed,
   });
   $("cmp-run-text").textContent = line.text;
@@ -94,25 +105,34 @@ export function syncCmpModelBar() {
   if (line.button) {
     sw.textContent = line.button.label;
     sw.dataset.action = line.button.action;
-    sw.disabled = state.cmpBusy || (line.button.action === "live" ? $("cmp-load-model") : $("cmp-use-replay")).disabled;
+    sw.disabled =
+      state.cmpBusy || (line.button.action === "live" ? !window.isSecureContext : $("cmp-use-replay").disabled);
   }
-  // The Try these buttons use recorded runs only. With the live model they stay disabled and say why in text.
+  // Why recorded runs are the default (no WebGPU, insecure page, or the link asked for them). Gone once the live AI is chosen.
+  const why = state.pref === "replay" && state.mode === "replay" ? state.fallbackReason : "";
+  $("cmp-run-why").textContent = why;
+  $("cmp-run-why").hidden = !why;
+  // The Try these buttons are recorded demos: they work in either mode, and a click switches to recorded runs.
   $("cmp-try").innerHTML = tryTheseHtml({
-    disabledReason: state.mode === "live" ? LIVE_ONLY : kind === "loading" ? LOADING : state.recorded ? "" : NOT_LOADED,
+    disabledReason: kind === "loading" ? LOADING : state.recorded ? "" : NOT_LOADED,
+    recordedDemo: state.mode === "live" || state.pref === "live",
   });
+  syncRunHint();
   syncAsk();
 }
 
 // ASK BOTH and the reason next to it. Called whenever the question, the mode, a run or a result changes.
 export function syncAsk() {
-  const ready = state.mode === "live" || state.mode === "replay" || !state.recordedFailed;
+  const pref = state.pref;
   const st = askState({
     picked: $("cmp-case").value,
     typed: $("cmp-text").value,
     ran: !!state.cmp,
     busy: state.cmpBusy,
-    ready,
-    starting: state.mode === "none" && !state.recordedFailed,
+    ready: state.mode === "live" || state.mode === "replay" || pref === "live" || !state.recordedFailed,
+    starting: state.mode === "none" && pref !== "live" && pref !== "failed" && !state.recordedFailed,
+    loading: $("model-bar").dataset.kind === "loading",
+    loadFailed: state.mode === "none" && pref === "failed",
     mode: state.mode,
     guardBlocks: !checkInput($("cmp-text").value.trim()).ok,
   });
@@ -123,13 +143,27 @@ export function syncAsk() {
 
 // The hint next to RUN CASE on screen 1. A typed question in recorded mode has no recorded run (and no guardrail on this screen).
 export function syncRunHint() {
-  const hint = typedHint({ typed: $("case-text").value, mode: state.mode });
-  if (state.mode === "none") return; // step 1 is not done: the first hint stays
-  $("run-hint").textContent = hint || "Runs the question from step 2.";
+  const early = runHint({
+    kind: $("model-bar").dataset.kind,
+    pct: Number($("model-progress").getAttribute("aria-valuenow")),
+    mode: state.mode,
+    pref: state.pref,
+  });
+  if (early) {
+    $("run-hint").textContent = early;
+    return;
+  }
+  if (state.mode === "none") return; // nothing chosen yet: the first hint stays
+  $("run-hint").textContent =
+    typedHint({ typed: $("case-text").value, mode: state.mode }) || "Runs the question from step 2.";
 }
 
-export function enterMode(mode) {
+// quiet: the automatic first-visit choice, which the visitor did not make, so it does not tick the "Choose how to run" mission.
+export function enterMode(mode, { quiet = false } = {}) {
   state.mode = mode;
+  state.pref = mode;
+  state.demo = false;
+  state.loadError = "";
   setStatus(mode === "live" ? "ready" : "replay", mode === "live" ? "Ready (live model)" : "Replay (recorded runs)");
   setProgress(mode === "live" ? 1 : 0);
   $("temperature").disabled = mode === "replay";
@@ -142,11 +176,48 @@ export function enterMode(mode) {
     setNote(
       "Replay: real runs of the real model, recorded earlier. Temperature is fixed; the seed picks which recorded run you see.",
     );
-  mark("engine");
+  if (!quiet) mark("engine");
 }
 
+// Live AI chosen: if it is already loaded it runs at once, else it is only SELECTED and loads on the first ask. No download here.
+export function selectLive({ quiet = false } = {}) {
+  if (state.llm) return enterMode("live", { quiet });
+  state.mode = "none";
+  state.pref = "live";
+  state.demo = false;
+  state.loadError = "";
+  setStatus("not-loaded", "Not loaded");
+  setProgress(0);
+  setNote("");
+  $("temperature").disabled = false;
+  $("run-case").disabled = false;
+  $("run-set").disabled = false;
+  $("judge-run").disabled = true;
+  syncRunHint();
+  $("set-progress").textContent = `${CASES.length} cases. Press Run the set.`;
+}
+
+// Called first by every run button. Live AI chosen but not loaded: load it now (progress shows), then the caller goes on.
+// Returns true when a way to run is ready. false: nothing to run on (the load failed, or a load is already going).
+export async function ensureMode() {
+  if (state.mode === "live" || state.mode === "replay") return true;
+  if (state.pref !== "live") return false;
+  return onLoadModel();
+}
+
+// Returns true when the live model is ready. On failure it shows the real error and offers recorded runs; it never switches by itself.
 export async function onLoadModel() {
-  $("load-model").disabled = true;
+  if (state.llm) {
+    enterMode("live");
+    return true;
+  }
+  if ($("model-bar").dataset.kind === "loading") return false;
+  const idle = state.mode === "none";
+  state.loadError = "";
+  if (idle) {
+    $("run-case").disabled = true;
+    $("run-set").disabled = true;
+  }
   setStatus("loading", "Loading");
   try {
     const gpu = await state.gpuCheck;
@@ -156,10 +227,14 @@ export async function onLoadModel() {
     });
     setNote("Ready. The model runs in your browser, nothing is sent anywhere.");
     enterMode("live");
+    return true;
   } catch (err) {
-    setStatus("not-loaded", "Load failed");
-    setNote(`Could not load the model: ${describeError(err)}. You can still use the recorded runs.`, { warn: true });
-    $("load-model").disabled = false;
+    state.loadError = describeError(err);
+    // Keep the bar on what is still running (recorded runs), else on "not loaded".
+    setStatus(state.mode === "replay" ? "replay" : "not-loaded", "Load failed");
+    setNote(`Could not load the model: ${state.loadError}. You can still use the recorded runs.`, { warn: true });
+    if (idle) state.pref = "failed";
     syncCmpModelBar();
+    return false;
   }
 }

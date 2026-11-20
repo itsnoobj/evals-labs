@@ -12,19 +12,26 @@ export const questionFor = (selectId, textId) => {
   return text ? makeCustomCase(text) : caseById($(selectId).value);
 };
 export const NEEDS_LIVE_NOTE =
-  'Typed questions need the live model. Press "Use the live AI instead" under the question box, or pick a test question.';
+  'Typed questions need the live model. Press "Use the live AI" under the question box, or pick a test question.';
 export const SIMPLE_NEEDS_LIVE_NOTE =
-  'Typed questions need the live AI for the agent without evals. Press "Use the live AI instead" under the question box.';
+  'Typed questions need the live AI for the agent without evals. Press "Use the live AI" under the question box.';
 export const NO_KEY_NOTE = "Your own question has no answer key, so nothing is marked right or wrong.";
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 export const describeError = (err) => err?.message ?? (typeof err === "string" ? err : JSON.stringify(err));
 
 export const CARD_NAMES = Object.fromEntries(Object.entries(CARDS).map(([id, c]) => [id, c.name]));
 
-// mode: "none" until the visitor loads the model ("live") or picks the recorded runs ("replay").
+// mode: what is running now. "none" until a way to run is ready; "live" only once the model is loaded; "replay" = recorded runs.
+// pref: what is chosen. "live" = live AI chosen but not loaded yet (the first ask loads it), "replay", "failed" (the load
+// failed, nothing else chosen yet), "" = not decided yet. demo: a Try these button switched to recorded runs.
+// loadError: why the last load failed. fallbackReason: why recorded runs were the default.
 // done: mission task ids the visitor has completed (see lessons.js MISSIONS).
 export const state = {
   mode: "none",
+  pref: "",
+  demo: false,
+  loadError: "",
+  fallbackReason: "",
   llm: null,
   gpuCheck: null,
   gpu: null,

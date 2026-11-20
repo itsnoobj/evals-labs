@@ -169,6 +169,7 @@
                   ><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
                   ><span class="seg"></span><span class="seg"></span>
                 </div>
+                <p class="choice-loading" id="model-loading" data-hook="model-loading" aria-live="polite" hidden></p>
                 <p class="boxwarn" id="model-warning" data-hook="model-warning" role="status" hidden></p>
                 <details class="disclose" id="model-details" hidden>
                   <summary>Details</summary>
@@ -198,11 +199,13 @@
                 <p>
                   <b>Live AI.</b> A real AI runs inside your browser. It downloads about 880 MB once, then it is saved
                   on your computer. Needs a recent Chrome or Edge and a computer with a graphics chip (about 1.6 GB of
-                  graphics memory). The first load downloads the model; later loads are cached.
+                  graphics memory). This is the default when your browser can run it. Nothing downloads until you press
+                  Run case (or Load model); the first load downloads the model and later loads are cached.
                 </p>
                 <p>
-                  <b>Recorded runs.</b> Instant, works in any browser. These are real answers from the same AI, saved
-                  earlier. The temperature is fixed, and the run number picks which recorded run you see.
+                  <b>Recorded runs.</b> The fallback when your browser has no WebGPU, and the quick option on a phone.
+                  Instant, works in any browser. These are real answers from the same AI, saved earlier. The temperature
+                  is fixed, and the run number picks which recorded run you see.
                 </p>
                 <p>
                   <b>On a phone,</b> use recorded runs. The live model is an 880 MB download and needs a laptop-class
@@ -507,9 +510,15 @@
         </div>
         <div class="quietrow" id="cmp-quiet">
           <p class="runline" id="cmp-runline" data-hook="cmp-runline">
-            <span id="cmp-run-text" data-hook="cmp-run-text" aria-live="polite">Starting recorded runs.</span>
+            <span id="cmp-run-text" data-hook="cmp-run-text" aria-live="polite">Getting ready.</span>
             <button type="button" class="linkbtn" id="cmp-run-switch" data-hook="cmp-run-switch" hidden></button>
           </p>
+          <p class="runwhy" id="cmp-run-why" data-hook="cmp-run-why" hidden></p>
+          <div class="bar runbar" id="cmp-model-progress" aria-hidden="true" hidden>
+            <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
+            ><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
+            ><span class="seg"></span><span class="seg"></span>
+          </div>
           <details class="disclose" id="cmp-how" data-hook="cmp-how">
             <summary>Change how it runs</summary>
             <div class="disclose-body">
@@ -525,17 +534,13 @@
                   </button>
                 </div>
                 <p class="phone-note">On a phone, use recorded runs.</p>
-                <div class="bar" id="cmp-model-progress" aria-hidden="true" hidden>
-                  <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
-                  ><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
-                  ><span class="seg"></span><span class="seg"></span>
-                </div>
                 <details class="disclose">
                   <summary>Live or recorded?</summary>
                   <div class="disclose-body">
                     <p>
-                      Live = the real model runs in your browser (880 MB first download, cached after). Recorded = real
-                      runs saved earlier.
+                      Live = the real model runs in your browser. It is the default when your browser can run it, and it
+                      downloads (880 MB, cached after) on your first ask. Recorded = real runs saved earlier; the
+                      fallback when there is no WebGPU.
                     </p>
                     <p>
                       The live model is an 880 MB download and needs a laptop-class GPU, so on a phone use recorded
@@ -581,7 +586,7 @@
         This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were
         checked in November 2026; they change. Not financial advice.
       </p>
-      <p class="muted build">build ux26</p>
+      <p class="muted build">build ux27</p>
     </footer>
 
     <script type="module" src="src/app/main.js"></script>

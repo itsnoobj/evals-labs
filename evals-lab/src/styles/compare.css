@@ -269,6 +269,21 @@
   font-size: 0.85rem;
   color: var(--muted);
 }
+/* the reason recorded runs are the default, and the download bar while the live AI loads */
+.runwhy {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.runbar {
+  flex: 1 1 100%;
+  margin: 0.25rem 0 0.5rem;
+}
+.runbar[hidden],
+.runwhy[hidden] {
+  display: none;
+}
 .quietrow > #cmp-how {
   flex: 0 1 auto;
 }

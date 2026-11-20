@@ -30,7 +30,7 @@ A small model (Qwen2.5-1.5B through [WebLLM](https://github.com/mlc-ai/web-llm))
 - see how small errors add up over many steps,
 - compare an **agent without evals** with an **agent with evals** (guardrails, safety net, checker, retries, fallback).
 
-No server, no API key, no build step. Everything runs in the browser. If your browser has no WebGPU, the page replays real runs recorded earlier.
+No server, no API key, no build step. Everything runs in the browser. By default the page runs the live AI model in your browser (it downloads on your first question). If your browser has no WebGPU, it falls back to real runs recorded earlier.
 
 ## The screens
 
@@ -113,7 +113,7 @@ npm test         # 14 test files with node --test
 npm run verify   # lint + format check + tests (what CI runs)
 ```
 
-Open <http://localhost:8000/>, press **Load model** (first load downloads about 880 MB, then it is cached) or **Use recorded runs**. WebGPU needs a recent Chrome or Edge, and the page must be served from `localhost` or `https`.
+Open <http://localhost:8000/>. When your browser has WebGPU, the live AI is already selected; nothing downloads until you ask your first question (about 880 MB, then it is cached). Press **Use recorded runs** for instant recorded answers. WebGPU needs a recent Chrome or Edge, and the page must be served from `localhost` or `https`. Add `?mode=recorded` to the URL to force recorded runs (headless tests, demos, a phone with no WebGPU).
 
 ## Repo layout
 
@@ -150,7 +150,7 @@ node scripts/audit-key.mjs                            # print the answer-key aud
 
 ## Known limits
 
-- The automated headless checks use the recorded runs, because headless Chrome has no WebGPU. The live model path (load, run, LLM judge) is tested by hand in Chrome on one machine.
+- The automated headless checks use the recorded runs (headless Chrome has no WebGPU, and `?mode=recorded` forces them). The live model path (load, run, LLM judge) is tested by hand in Chrome on one machine.
 - A typed question has no answer key, so the checks that need a key show NOT RUN.
 - The tools know 6 merchants. An unknown merchant returns a tool error, on purpose.
 - Monthly caps (for example IDFC's ₹2,000 utility bucket) are assumed not to be reached.

@@ -699,6 +699,7 @@ footer p {
   align-self: stretch;
 }
 .choice .bar[hidden],
+.choice .choice-loading[hidden],
 .choice details[hidden],
 .choice .boxwarn[hidden] {
   display: none;

@@ -1,6 +1,6 @@
 import test, { mock } from "node:test";
 import assert from "node:assert/strict";
-import { MODEL_F16, checkWebGpu } from "../../evals-lab/src/agent/llm.js";
+import { MODEL_F16, checkWebGpu, defaultMode, forcedRecorded, MODE_KEY } from "../../evals-lab/src/agent/llm.js";
 
 // checkWebGpu only reads navigator.gpu, window.isSecureContext and location, so plain stubs are enough.
 const MODEL_F32 = "Qwen2.5-1.5B-Instruct-q4f32_1-MLC";
@@ -115,4 +115,39 @@ test("a hanging requestAdapter gives up after 5 seconds instead of freezing", as
   const r = await pending;
   assert.equal(r.ok, false);
   assert.equal(r.reason, "WebGPU check failed: requestAdapter timed out after 5 s");
+});
+
+// First-visit choice: the live AI when the browser can run it, else recorded runs ("replay" in code) with one plain reason.
+test("defaultMode: live only with WebGPU on a secure page and not forced", () => {
+  assert.deepEqual(defaultMode({ webgpu: true, secure: true, forced: false }), { mode: "live", reason: "" });
+  assert.deepEqual(defaultMode({ webgpu: true, secure: true }), { mode: "live", reason: "" });
+});
+
+test("defaultMode: no WebGPU falls back to recorded runs and says why", () => {
+  assert.deepEqual(defaultMode({ webgpu: false, secure: true }), {
+    mode: "replay",
+    reason: "Live AI needs WebGPU; using recorded runs.",
+  });
+  assert.deepEqual(defaultMode(), defaultMode({ webgpu: false, secure: false }));
+});
+
+test("defaultMode: an insecure page falls back even if WebGPU is reported", () => {
+  const r = defaultMode({ webgpu: true, secure: false });
+  assert.equal(r.mode, "replay");
+  assert.match(r.reason, /https or localhost/);
+});
+
+test("defaultMode: forced recorded wins over everything", () => {
+  const r = defaultMode({ webgpu: true, secure: true, forced: true });
+  assert.equal(r.mode, "replay");
+  assert.match(r.reason, /\?mode=recorded/);
+});
+
+test("forcedRecorded: the link wins, else the tab's stored value", () => {
+  assert.equal(forcedRecorded("?mode=recorded", ""), true);
+  assert.equal(forcedRecorded("", "recorded"), true);
+  assert.equal(forcedRecorded("?mode=live", "recorded"), false);
+  assert.equal(forcedRecorded("", ""), false);
+  assert.equal(forcedRecorded("?other=1", ""), false);
+  assert.equal(MODE_KEY, "evalsLabMode");
 });

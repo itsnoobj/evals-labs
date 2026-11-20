@@ -6,6 +6,7 @@ import { stageStates } from "../ui/lessons.js";
 import * as ui from "../ui/ui.js";
 import { $, state, sleep, questionFor, NEEDS_LIVE_NOTE, CARD_NAMES, expectedOf, showError, mark } from "./state.js";
 import { drawMetrics } from "./metrics-screen.js";
+import { ensureMode } from "./model-bar.js";
 
 function pickRecorded(caseId, index) {
   const pool = state.recorded[$("constrain").checked ? "constrained" : "free"].filter((r) => r.caseId === caseId);
@@ -49,6 +50,8 @@ function drawRunFlow(c, run, opts = {}) {
 }
 
 export async function onRunCase() {
+  // Live AI chosen but not loaded: the first RUN CASE loads it (progress shows beside the button), then runs.
+  if (!(await ensureMode())) return;
   const c = questionFor("case-select", "case-text");
   if (c.custom && state.mode !== "live") {
     // Recorded runs exist only for the six test questions.
