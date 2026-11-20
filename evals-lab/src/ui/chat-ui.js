@@ -59,6 +59,27 @@ function agentHtml(s, steps, cardNames, labels) {
   return bubble(`<p>Comparing your ${n} cards for ₹${e(inr(s.args?.amount))}…</p>${rankBarsHtml(s.output, cardNames)}`);
 }
 
+// ---- step lines -------------------------------------------------------------
+// One short line per guardrail / checker / retry / fallback event, so the chat shows the same steps as the step bar above it
+// (names: Guardrail, Checker, Retry, Fallback). The long text of each event stays in the Checker log (wiring).
+const STEP_LINES = {
+  guard_in_ok: () => ["Guardrail", "ok", "PASSED"],
+  verify_ok: () => ["Checker", "ok", "PASSED"],
+  verify_fail: () => ["Checker", "bad", "FAILED"],
+  retry: (ev) => ["Retry", "half", `try ${(Number(ev.attempt) || 0) + 2}`],
+  fallback: () => ["Fallback", "ok", "USED"],
+  refused: () => ["Refuse", "half", "USED"],
+};
+const stepLine = (ev) => {
+  const [name, sq, word] = STEP_LINES[ev.t](ev);
+  return `<div class="msg msg-step"><p class="stepline"><b>${name}</b><i class="sq ${sq}" aria-hidden="true"></i>${e(word)}</p></div>`;
+};
+const stepLines = (events) =>
+  events
+    .filter((ev) => STEP_LINES[ev.t])
+    .map(stepLine)
+    .join("");
+
 // ---- wire blocks ------------------------------------------------------------
 const dl = (k, v) => `<dt>${k}</dt><dd><code>${e(v)}</code></dd>`;
 
@@ -187,6 +208,7 @@ export function chatHtml(opts = {}) {
     scores = null,
     metrics = [],
     systemPrompt = "",
+    stepBar = "",
   } = opts;
   const steps = attempts[shown]?.steps ?? [];
   const careful = kind === "careful";
@@ -228,7 +250,10 @@ export function chatHtml(opts = {}) {
   // No question yet (nothing picked): say what to do instead of an empty bubble.
   const asked = question
     ? `<div class="msg msg-user"><div class="bubble">${e(question)}</div></div>`
-    : '<p class="chat-empty">No question asked yet. Pick one above and press ASK BOTH.</p>';
+    : '<p class="chat-empty">Waiting for a question.</p>';
+  // Earlier tries (and the guardrail) come before the shown try; the verdict of the shown try comes after it.
+  const before = stepLines(events.filter((ev) => ev.t === "guard_in_ok" || ev.attempt < shown));
+  const after = stepLines(events.filter((ev) => ev.t !== "guard_in_ok" && !(ev.attempt < shown)));
   return (
     `<div class="chat chat-${careful ? "careful" : "simple"}">` +
     `<header class="chat-head"><span class="chat-av" aria-hidden="true">${e(
@@ -236,9 +261,9 @@ export function chatHtml(opts = {}) {
         .charAt(0)
         .toUpperCase(),
     )}</span>` +
-    `<div><h3>${e(title)}</h3><p class="chat-sub">${e(subtitle)}</p></div><ul class="chat-chips">${chips}</ul></header>` +
+    `<div><h3>${e(title)}</h3><p class="chat-sub">${e(subtitle)}</p></div>${stepBar}<ul class="chat-chips">${chips}</ul></header>` +
     `${systemHtml(systemPrompt, careful)}` +
     `<div class="chat-msgs">${asked}` +
-    `${body}${typing}${verdictWire}${rejected}${log}${score}${tl}</div>${res}</div>`
+    `${before}${body}${after}${typing}${verdictWire}${rejected}${log}${score}${tl}</div>${res}</div>`
   );
 }

@@ -118,10 +118,10 @@ async function init() {
   $("cmp-text").oninput = cmpQuestionChanged;
   $("cmp-ask").onclick = onAskBoth;
   $("cmp-clear").onclick = onClearResults;
-  // The steps of the two lanes open the same pop-up as the wiring boxes.
-  $("cmp-overview").addEventListener("click", (ev) => {
-    const btn = ev.target.closest("button[data-ov-node]");
-    if (btn) openWiringNode(btn.dataset.ovKind, btn.dataset.ovNode);
+  // The steps of the two step bars open the same pop-up as the wiring boxes. The chats are redrawn, so one listener on their container.
+  $("cmp-root").addEventListener("click", (ev) => {
+    const btn = ev.target.closest("button[data-sb-node]");
+    if (btn) openWiringNode(btn.dataset.sbKind, btn.dataset.sbNode);
   });
   // The Try these buttons are redrawn by the model bar, so one listener on their container handles them.
   $("cmp-try").addEventListener("click", (ev) => {

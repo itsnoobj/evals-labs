@@ -304,6 +304,69 @@ lacks(retry, 'class="pipe"');
 lacks(retry, "wire-pipeline");
 lacks(retry, "USED");
 
+// step bar slot and the empty state
+has(
+  chatHtml({ ...base, stepBar: '<div class="sb">STEPS</div>' }),
+  '<div class="sb">STEPS</div>',
+  "step bar in the header",
+);
+const waiting = chatHtml({ ...base, question: undefined, attempts: [] });
+has(waiting, "Waiting for a question.");
+lacks(waiting, "Pick one above");
+
+// step lines: the chat shows the same step names as the step bar (Guardrail, Checker, Retry, Fallback), as short text outside the wiring
+const stepNames = (h) => [
+  ...stripWire(h).matchAll(/<p class="stepline"><b>([^<]*)<\/b><i class="sq ([a-z]*)"[^>]*><\/i>([^<]*)<\/p>/g),
+];
+const story = chatHtml({
+  ...base,
+  kind: "careful",
+  shown: 1,
+  outcome: "passed_after_retry",
+  attempts: [
+    { steps: wrongSteps, verdict: { ok: false, problems: ["x"] } },
+    { steps: goodSteps, verdict: { ok: true, problems: [] } },
+  ],
+  events: [
+    { t: "guard_in_ok", attempt: 0, text: "Input guardrails passed: 5 rules" },
+    { t: "attempt_start", attempt: 0, text: "Starting attempt 1 of 3." },
+    { t: "verify_fail", attempt: 0, text: "Checker found 1 problem: x" },
+    { t: "retry", attempt: 0, text: "Trying again (attempt 2 of 3)." },
+    { t: "attempt_start", attempt: 1, text: "Starting attempt 2 of 3." },
+    { t: "verify_ok", attempt: 1, text: "Checker found no problems." },
+  ],
+});
+ok(
+  JSON.stringify(stepNames(story).map((m) => [m[1], m[2], m[3]])) ===
+    JSON.stringify([
+      ["Guardrail", "ok", "PASSED"],
+      ["Checker", "bad", "FAILED"],
+      ["Retry", "half", "try 2"],
+      ["Checker", "ok", "PASSED"],
+    ]),
+  "step lines in story order, each with a word and a square",
+);
+ok(story.indexOf("Guardrail") < story.indexOf("Comparing your"), "the guardrail line comes before the answer steps");
+ok(
+  story.lastIndexOf('<p class="stepline"><b>Checker</b><i class="sq ok"') > story.indexOf("Comparing your"),
+  "the verdict of the shown try comes after it",
+);
+const fbLines = stepNames(
+  chatHtml({ ...base, kind: "careful", events: [{ t: "fallback", attempt: 0, text: "long text" }] }),
+);
+ok(fbLines.length === 1 && fbLines[0][1] === "Fallback" && fbLines[0][3] === "USED", "fallback line");
+ok(
+  stepNames(
+    chatHtml({
+      ...base,
+      kind: "careful",
+      events: [{ t: "guard_in_fail", attempt: 0, text: "no" }],
+      outcome: "blocked",
+    }),
+  ).length === 0,
+  "a blocked question has its own bubble, no step line",
+);
+
 // css
 const css = readFileSync(new URL("../../evals-lab/src/styles/chat.css", import.meta.url), "utf8");
 ok(

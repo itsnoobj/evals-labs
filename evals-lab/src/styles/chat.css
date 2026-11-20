@@ -70,6 +70,28 @@
 .chat-chip.off b {
   color: var(--off);
 }
+/* one short line per guardrail / checker / retry / fallback step, same names as the step bar */
+.chat .msg-step {
+  align-items: flex-start;
+}
+.chat .stepline {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.1rem 0.5rem;
+  border-left: 3px solid var(--accent);
+  font: 600 0.75rem var(--mono);
+  letter-spacing: 0.04em;
+}
+.chat .stepline b {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.chat .stepline .sq {
+  width: 0.7rem;
+  height: 0.7rem;
+}
 .chat-msgs {
   display: flex;
   flex-direction: column;

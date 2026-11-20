@@ -10,7 +10,7 @@ import { checkInput } from "../agent/guardrails.js";
 import { scoreBoth, replayRunAgent } from "../agent/score-both.js";
 import { scoreResultHtml, scoreGridHtml, evalButtonLabel, evalWhyLine } from "../ui/score-result.js";
 import { TRY_THESE } from "../ui/try-these.js";
-import { overviewHtml, resultWord, nowStep } from "../ui/compare-overview.js";
+import { stepBarHtml, resultWord, nowStep } from "../ui/step-bar.js";
 import { syncCmpModelBar, syncAsk, enterMode, setNote } from "./model-bar.js";
 import {
   $,
@@ -39,7 +39,45 @@ const OUTCOME_WORDS = {
   blocked: "was stopped by a guardrail before the model ran",
 };
 
+// The step bar in the header of one column. The state words and the NOW mark come from the same data that lights the wiring graph.
+function stepBarFor(kind) {
+  const side = state.cmp?.[kind];
+  // With the live model the agent with evals starts after the agent without evals, so it waits until then.
+  const waiting = kind === "careful" && state.mode === "live" && !!state.cmp?.simple?.pending;
+  const states = waiting ? {} : wiringStatesOf(kind);
+  const running = !!side?.pending && !waiting;
+  return stepBarHtml({
+    kind,
+    states,
+    now: nowStep(kind, states, running),
+    result: resultWord(side),
+    retries: (side?.events ?? []).filter((ev) => ev.t === "retry").length,
+    fallback: side?.outcome === "fixed_by_fallback",
+    skipped: !!side?.note,
+    running,
+  });
+}
+
+// A chat is redrawn only when its HTML changed, so a click on a step is not lost to a redraw between mouse down and up.
+const lastHtml = {};
+// chat-ui draws no bubble for a note (agent without evals only), so it is added under the question here.
+function setChat(kind, html, note = "") {
+  const key = `${html}\u0000${note}`;
+  if (lastHtml[kind] === key) return;
+  lastHtml[kind] = key;
+  const root = $(`chat-${kind}`);
+  root.innerHTML = html;
+  if (!note) return;
+  const el = document.createElement("div");
+  el.className = "msg msg-agent";
+  el.innerHTML = `<div class="bubble"></div>`;
+  el.firstChild.textContent = note;
+  root.querySelector(".chat-msgs")?.append(el);
+}
+
 export function drawChats() {
+  // The wiring states first: the step bars read them.
+  drawWiring();
   // Nothing picked and nothing asked: q is undefined and the chats say so.
   const q = state.cmp?.c ?? questionFor("cmp-case", "cmp-text");
   const side = state.cmp ?? {};
@@ -50,65 +88,45 @@ export function drawChats() {
     categoryLabels: CATEGORY_LABELS,
     metrics: METRICS,
   };
-  $("chat-simple").innerHTML = chatHtml({
-    ...common,
-    kind: "simple",
-    title: "Agent without evals",
-    subtitle: "The AI alone, one try",
-    practices: SIMPLE_PRACTICES,
-    attempts: [],
-    shown: 0,
-    events: [],
-    ...side.simple,
-  });
-  $("chat-careful").innerHTML = chatHtml({
-    ...common,
-    kind: "careful",
-    title: "Agent with evals",
-    subtitle: "The same AI, with evals around it",
-    practices: CAREFUL_PRACTICES,
-    attempts: [],
-    shown: 0,
-    events: [],
-    ...side.careful,
-  });
-  // chat-ui draws no bubble for a note, so add it under the question.
-  if (side.simple?.note) {
-    const note = document.createElement("div");
-    note.className = "msg msg-agent";
-    note.innerHTML = `<div class="bubble"></div>`;
-    note.firstChild.textContent = side.simple.note;
-    $("chat-simple").querySelector(".chat-msgs")?.append(note);
-  }
-  drawWiring();
-  drawOverview();
-  drawLastQuestion();
-  drawScore();
-}
-
-// The two lanes on top. The result words and the NOW mark come from the same data that lights the wiring graph.
-let lastOverview = "";
-function drawOverview() {
-  const now = {};
-  const result = {};
-  for (const kind of ["simple", "careful"]) {
-    const side = state.cmp?.[kind];
-    // With the live model the agent with evals starts after the agent without evals, so it waits until then.
-    const waiting = kind === "careful" && state.mode === "live" && !!state.cmp?.simple?.pending;
-    now[kind] = nowStep(kind, wiringStatesOf(kind), !!side?.pending && !waiting);
-    result[kind] = resultWord(side);
-  }
-  const html = overviewHtml({ now, result });
-  if (html === lastOverview) return;
-  lastOverview = html;
-  const root = $("cmp-overview");
   const f = document.activeElement;
   const keep =
-    root.contains(f) && f.dataset.ovNode
-      ? `[data-ov-kind="${f.dataset.ovKind}"][data-ov-node="${f.dataset.ovNode}"]`
+    f?.dataset?.sbNode && $("cmp-root").contains(f)
+      ? `[data-sb-kind="${f.dataset.sbKind}"][data-sb-node="${f.dataset.sbNode}"]`
       : null;
-  root.innerHTML = html;
-  if (keep) root.querySelector(keep)?.focus({ preventScroll: true });
+  setChat(
+    "simple",
+    chatHtml({
+      ...common,
+      kind: "simple",
+      title: "Agent without evals",
+      subtitle: "The AI alone, one try",
+      practices: SIMPLE_PRACTICES,
+      attempts: [],
+      shown: 0,
+      events: [],
+      ...side.simple,
+      stepBar: stepBarFor("simple"),
+    }),
+    side.simple?.note,
+  );
+  setChat(
+    "careful",
+    chatHtml({
+      ...common,
+      kind: "careful",
+      title: "Agent with evals",
+      subtitle: "The same AI, with evals around it",
+      practices: CAREFUL_PRACTICES,
+      attempts: [],
+      shown: 0,
+      events: [],
+      ...side.careful,
+      stepBar: stepBarFor("careful"),
+    }),
+  );
+  if (keep) $("cmp-root").querySelector(keep)?.focus({ preventScroll: true });
+  drawLastQuestion();
+  drawScore();
 }
 
 // "Last question: ..." and the CLEAR RESULTS button, shown only while a result (or a running question) is on screen.
@@ -120,7 +138,7 @@ function drawLastQuestion() {
   $("cmp-clear").hidden = state.cmpBusy;
 }
 
-// CLEAR RESULTS: empties both chats and the overview badges. The question picker is already empty after a run.
+// CLEAR RESULTS: empties both chats and the step-bar badges. The question picker is already empty after a run.
 export function onClearResults() {
   if (state.cmpBusy) return;
   state.cmp = null;

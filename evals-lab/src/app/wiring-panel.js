@@ -1,7 +1,7 @@
 // The wiring graphs under each chat on the Side by side screen (one per agent, lit as the run goes).
 // Clicking a node opens the explain dialog (ui/explain-dialog.js). The dialog shows the data of the last redraw
 // before it was opened; it does not follow a run live (only the DSPy prompt, once it has loaded).
-// The same data feeds the overview lanes on top of the screen, so every redraw computes it even while the graphs are hidden.
+// The same data feeds the step bars in the column headers, so every redraw computes it even while the graphs are hidden.
 // Exports: drawWiring, wiringStatesOf, openWiringNode, loadDspy, bindWiringRoots.
 import { CASES, CATEGORY_LABELS, DEFAULT_CASE_ID } from "../task/cases.js";
 import { METRICS } from "../evals/engine.js";
@@ -107,10 +107,10 @@ function showNode(kind, id) {
   openNode = { kind, id };
   const root = $(`wiring-${kind}`);
   openExplain(buildExplain(kind, id, l.side, l.shared, l.states[id]), {
-    // With the wiring switched off the graph has no boxes, so focus goes back to the step in the overview.
+    // With the wiring switched off the graph has no boxes, so focus goes back to the step in the step bar.
     returnFocus: () =>
       root.querySelector(`[data-node="${id}"]`) ??
-      document.querySelector(`[data-ov-kind="${kind}"][data-ov-node="${id}"]`),
+      document.querySelector(`[data-sb-kind="${kind}"][data-sb-node="${id}"]`),
     onClose: () => {
       openNode = null;
       setWiringSelected(root, "");
@@ -126,7 +126,7 @@ function showNode(kind, id) {
   });
 }
 
-// Used by the overview steps: opens the same pop-up as a click on a wiring box.
+// Used by the step bar: opens the same pop-up as a click on a wiring box.
 export { showNode as openWiringNode };
 
 export function bindWiringRoots() {
