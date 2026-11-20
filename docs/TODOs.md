@@ -19,6 +19,7 @@
 - [ ] More cards and cases, other scenarios, shareable URL state
 
 ## Done
+- [x] ux26: typed question / example looked like a no-op in recorded mode (screens 5 and 1). Hint now shown next to the button before the click; ASK BOTH disabled with a reason while recorded runs start.
 - [x] Judge lab dropped 2026-11-20: judge-calibration experiment missed the bar (TEST kappa 0.25 vs 0.40; see docs/research/judge-calibration.md). The "coming soon" tab and page (ux19) are removed (ux24).
 - [x] ux21: the separate overview lanes are gone (`ui/compare-overview.js` deleted). Each agent column header has a step bar (`ui/step-bar.js`: 3 or 5 squares, state as text, retry text, result badge; steps open the explain pop-up). The chat prints short Guardrail / Checker / Retry / Fallback lines with the same names. Empty state "Waiting for a question."; wiring toggle moved under the columns. Headless check at 1280 and 500 px passed; live model path not checked.
 - [x] ux20 (lanes part replaced by ux21): Side by side redesigned top to bottom: lead sentence, compact mission strip, overview lanes (`ui/compare-overview.js`, steps open the explain pop-up, NOW and RIGHT/WRONG/BLOCKED badges), one question row (placeholder, ASK BOTH with reason text via `ui/ask-row.js`, quick-start chips), recorded runs start silently, auto-clear after a run + CLEAR RESULTS, eval block moved to the bottom. Headless check (1280 and 500 px) passed; live model path not checked.

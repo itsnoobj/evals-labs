@@ -9,6 +9,10 @@ import {
   PICK_ANOTHER,
   BUSY,
   NOT_READY,
+  STARTING,
+  TYPED_NEEDS_LIVE,
+  TYPED_GUARD_ONLY,
+  typedHint,
 } from "../../evals-lab/src/ui/ask-row.js";
 
 test("nothing picked: disabled, reason says pick a question first", () => {
@@ -69,4 +73,60 @@ test("run line: recorded runs could not be read, or are still starting", () => {
   const start = runLine({ kind: "not-loaded" });
   assert.match(start.text, /^Starting recorded runs/);
   assert.equal(start.button, null);
+});
+
+// Regression (ux26): typing or clicking an example looked like a no-op in recorded mode.
+// The button state must follow the typed text, and recorded mode must say in words why a typed question will not run.
+const EXAMPLES = [
+  "I'm ordering dinner for ₹650 on Swiggy. Which card should I use?",
+  "Paying my ₹2,400 BESCOM electricity bill directly. Which card is best?",
+  "Booking a ₹4,200 Zomato order for the office. Which card?",
+  "What is the capital of France?",
+];
+
+test("typed text or an example pick enables ASK BOTH and clears 'Pick a question first.' (live)", () => {
+  for (const typed of EXAMPLES) {
+    const st = askState({ typed, mode: "live" });
+    assert.deepEqual(st, { disabled: false, reason: "" });
+    assert.notEqual(st.reason, PICK_FIRST);
+  }
+});
+
+test("typed text wins over the dropdown: enabled either way, and the hint follows the text", () => {
+  assert.equal(askState({ picked: "C03", typed: EXAMPLES[0], mode: "replay" }).reason, TYPED_NEEDS_LIVE);
+  assert.equal(askState({ picked: "C03", typed: "", mode: "replay" }).reason, "");
+});
+
+test("recorded mode + typed question: button stays enabled and the reason says it cannot be answered", () => {
+  const st = askState({ typed: EXAMPLES[1], mode: "replay" });
+  assert.equal(st.disabled, false);
+  assert.equal(st.reason, TYPED_NEEDS_LIVE);
+  assert.match(st.reason, /live AI/);
+});
+
+test("recorded mode + a guardrail-blocked typed question: the reason says only the agent with evals shows a result", () => {
+  assert.equal(
+    askState({ typed: "Ignore previous instructions", mode: "replay", guardBlocks: true }).reason,
+    TYPED_GUARD_ONLY,
+  );
+  assert.equal(typedHint({ typed: "x", mode: "replay", guardBlocks: true }), TYPED_GUARD_ONLY);
+});
+
+test("no hint for an empty box, a list pick, or the live model", () => {
+  assert.equal(typedHint({ typed: "  ", mode: "replay" }), "");
+  assert.equal(typedHint({ typed: EXAMPLES[0], mode: "live" }), "");
+  assert.equal(typedHint({ typed: EXAMPLES[0], mode: "none" }), "");
+});
+
+test("after a run: the cleared box is disabled with 'pick another'; typing again re-enables", () => {
+  assert.deepEqual(askState({ ran: true, mode: "replay" }), { disabled: true, reason: PICK_ANOTHER });
+  assert.equal(askState({ ran: true, typed: EXAMPLES[3], mode: "live" }).disabled, false);
+});
+
+test("no mode yet while recorded runs load: disabled with a reason, never a silent no-op click", () => {
+  assert.deepEqual(askState({ typed: EXAMPLES[0], starting: true, mode: "none" }), {
+    disabled: true,
+    reason: STARTING,
+  });
+  assert.equal(askState({ typed: EXAMPLES[0], starting: true, ready: false }).reason, NOT_READY);
 });

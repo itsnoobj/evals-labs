@@ -4,7 +4,8 @@ import { CASES } from "../task/cases.js";
 import { loadModel } from "../agent/llm.js";
 import { modelBoxes } from "../ui/model-box.js";
 import { tryTheseHtml, LIVE_ONLY, NOT_LOADED, LOADING } from "../ui/try-these.js";
-import { askState, runLine } from "../ui/ask-row.js";
+import { askState, runLine, typedHint } from "../ui/ask-row.js";
+import { checkInput } from "../agent/guardrails.js";
 import { $, state, mark, describeError } from "./state.js";
 
 // Writes the words and markers inside the two boxes ("Live AI", "Recorded runs") from the mode kept on #model-bar.
@@ -111,10 +112,20 @@ export function syncAsk() {
     ran: !!state.cmp,
     busy: state.cmpBusy,
     ready,
+    starting: state.mode === "none" && !state.recordedFailed,
+    mode: state.mode,
+    guardBlocks: !checkInput($("cmp-text").value.trim()).ok,
   });
   $("cmp-ask").disabled = st.disabled;
   $("cmp-ask-why").textContent = st.reason;
   $("cmp-ask-why").hidden = !st.reason;
+}
+
+// The hint next to RUN CASE on screen 1. A typed question in recorded mode has no recorded run (and no guardrail on this screen).
+export function syncRunHint() {
+  const hint = typedHint({ typed: $("case-text").value, mode: state.mode });
+  if (state.mode === "none") return; // step 1 is not done: the first hint stays
+  $("run-hint").textContent = hint || "Runs the question from step 2.";
 }
 
 export function enterMode(mode) {
@@ -123,9 +134,9 @@ export function enterMode(mode) {
   setProgress(mode === "live" ? 1 : 0);
   $("temperature").disabled = mode === "replay";
   $("run-case").disabled = false;
-  $("run-hint").textContent = "Runs the question from step 2.";
   $("run-set").disabled = false;
   $("judge-run").disabled = mode !== "live";
+  syncRunHint();
   $("set-progress").textContent = `${CASES.length} cases. Press Run the set.`;
   if (mode === "replay")
     setNote(

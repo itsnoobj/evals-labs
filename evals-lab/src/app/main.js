@@ -6,7 +6,7 @@ import { checkWebGpu, MODEL_F16 } from "../agent/llm.js";
 import * as ui from "../ui/ui.js";
 import { cardsMatrixHtml } from "../ui/cards-view.js";
 import { $, state, questionFor, NO_KEY_NOTE, CARD_NAMES, mark, describeError } from "./state.js";
-import { setNote, syncCmpModelBar, syncAsk, enterMode, onLoadModel } from "./model-bar.js";
+import { setNote, syncCmpModelBar, syncAsk, syncRunHint, enterMode, onLoadModel } from "./model-bar.js";
 import { onRunCase } from "./run-screen.js";
 import { drawMetrics, onTileSelected, onBugSelected, onJudge } from "./metrics-screen.js";
 import { onRunSet, onCellSelected } from "./golden-screen.js";
@@ -76,9 +76,13 @@ async function init() {
   $("case-select").onchange = () => {
     $("case-text").value = "";
     showQuestion();
+    syncRunHint();
     drawMetrics();
   };
-  $("case-text").oninput = showQuestion;
+  $("case-text").oninput = () => {
+    showQuestion();
+    syncRunHint();
+  };
   fillExamples($("case-examples"), $("case-text"));
   fillExamples($("cmp-examples"), $("cmp-text"));
   $("retry-tries").onchange = () => {
