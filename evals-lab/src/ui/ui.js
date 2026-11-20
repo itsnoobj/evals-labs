@@ -161,11 +161,13 @@ function missionHtml(m, done) {
           : "<p>That is the whole tour. Try another case, bug or temperature.</p>"
       }</div>`
     : "";
+  const required = m.tasks.filter((t) => !t.bonus);
+  const doneCount = required.filter((t) => done.has(t.id)).length;
+  // One line for the goal; the task list, time and concept sit behind one section.
   return `<div class="mission${complete ? " complete" : ""}"><div class="mmain">
-      <span class="k">Mission ${m.num} of ${MISSIONS.length} · about ${e(m.time)}</span>
-      <p class="goal">${e(m.goal)}</p>${disclose(
-        "Mission tasks",
-        `<ul class="tasks">${tasks}</ul><div class="mconcept"><span class="k">Concept: ${e(m.concept)}</span><p>${e(m.conceptText)}</p></div>`,
+      <p class="goal"><b class="mono">Mission ${m.num} of ${MISSIONS.length}</b> · ${e(m.goal)}</p>${disclose(
+        `Mission tasks · ${doneCount} of ${required.length} done`,
+        `<span class="k">About ${e(m.time)}</span><ul class="tasks">${tasks}</ul><div class="mconcept"><span class="k">Concept: ${e(m.concept)}</span><p>${e(m.conceptText)}</p></div>`,
         { id: `mission-${m.id}` },
       )}</div>${finish}</div>`;
 }

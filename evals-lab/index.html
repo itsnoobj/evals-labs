@@ -418,29 +418,6 @@
           <div class="cmpq">
             <label class="k" for="cmp-case">Question</label
             ><select id="cmp-case" data-hook="cmp-case"></select>
-            <details class="disclose">
-              <summary>Type your own</summary>
-              <div class="disclose-body">
-                <div class="typeq">
-                  <label class="k" for="cmp-text">Or type your own question</label>
-                  <input
-                    type="text"
-                    id="cmp-text"
-                    data-hook="cmp-text"
-                    maxlength="300"
-                    autocomplete="off"
-                    placeholder="e.g. Paying my ₹2,500 BESCOM bill. Which card?"
-                  />
-                  <div
-                    class="typeq-ex"
-                    id="cmp-examples"
-                    data-hook="cmp-examples"
-                    role="group"
-                    aria-label="Example questions to type"
-                  ></div>
-                </div>
-              </div>
-            </details>
           </div>
           <button type="button" id="cmp-ask" data-hook="cmp-ask" disabled>Ask both</button>
           <button type="button" class="sec" id="cmp-score-start" data-hook="cmp-score-start">
@@ -459,10 +436,39 @@
             ></label
           >
         </div>
+        <details class="disclose">
+          <summary>Type your own</summary>
+          <div class="disclose-body">
+            <div class="typeq">
+              <label class="k" for="cmp-text">Or type your own question</label>
+              <input
+                type="text"
+                id="cmp-text"
+                data-hook="cmp-text"
+                maxlength="300"
+                autocomplete="off"
+                placeholder="e.g. Paying my ₹2,500 BESCOM bill. Which card?"
+              />
+              <div
+                class="typeq-ex"
+                id="cmp-examples"
+                data-hook="cmp-examples"
+                role="group"
+                aria-label="Example questions to type"
+              ></div>
+            </div>
+          </div>
+        </details>
         <p class="muted" id="cmp-hint">Choose how to run first.</p>
         <details class="disclose">
           <summary>About scoring</summary>
-          <div class="disclose-body"><p>Live: runs the real model 60 times; this takes a while.</p></div>
+          <div class="disclose-body">
+            <p>Live: runs the real model 60 times; this takes a while.</p>
+            <p>
+              One run each proves little: the AI can answer differently next time. The test set screen asks every
+              question several times.
+            </p>
+          </div>
         </details>
         <details class="disclose">
           <summary>Suggested questions</summary>
@@ -523,15 +529,6 @@
             </p>
           </div>
         </details>
-        <details class="disclose">
-          <summary>Caveats</summary>
-          <div class="disclose-body">
-            <p>
-              One run each proves little: the AI can answer differently next time. The test set screen asks every
-              question several times.
-            </p>
-          </div>
-        </details>
       </section>
     </main>
 
@@ -545,7 +542,7 @@
         This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were
         checked in November 2026; they change. Not financial advice.
       </p>
-      <p class="muted build">build ux12</p>
+      <p class="muted build">build ux13</p>
     </footer>
 
     <script type="module" src="src/app/main.js"></script>

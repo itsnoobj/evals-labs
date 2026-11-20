@@ -1,6 +1,7 @@
 // The "wiring" flow graph: everything around the agent, end to end, lit up as a run passes through it.
 // Pure strings in, strings out (plus bindWiring for clicks). Style rules: docs/specs/ui-style.md. Spec: docs/specs/compare-agents.md
 // Detail strings come from the caller and must already be escaped HTML.
+import { disclose } from "./disclose.js";
 
 const e = (s) =>
   String(s ?? "").replace(
@@ -104,6 +105,22 @@ function node(id, label, state, selected, { extra = "", missingText = "" } = {})
   );
 }
 
+// "5 of 5 done", plus failed / blocked / missing counts when there are any. Only nodes that ran count as done.
+const RAN = new Set(["done", "pass", "fail", "blocked", "used"]);
+export function countText(list) {
+  const n = (f) => list.filter(([, , state]) => f(state)).length;
+  let text = `${n((x) => RAN.has(x))} of ${list.length} done`;
+  for (const [state, word] of [
+    ["fail", "failed"],
+    ["blocked", "blocked"],
+    ["missing", "missing"],
+  ]) {
+    const k = n((x) => x === state);
+    if (k) text += ` · ${k} ${word}`;
+  }
+  return text;
+}
+
 const chipOf = (m, score) => {
   const [word, cls] = score?.pass == null ? ["NOT RUN", "half"] : score.pass ? ["PASS", "ok"] : ["FAIL", "bad"];
   return `<span class="wchip"><i class="sq ${cls}" aria-hidden="true"></i>${e(m.label)} <b>${word}</b></span>`;
@@ -119,19 +136,26 @@ export function wiringHtml({
 } = {}) {
   const careful = kind === "careful";
   const stateOf = (id, off) => (!careful && off ? "missing" : (states[id] ?? "idle"));
-  const lane = (cls, name, inner) =>
-    `<section class="wlane ${cls}"><h4 class="wlane-name">${e(name)}</h4>${inner}</section>`;
   const li = (inner, cls = "") => `<li class="wn ${cls}">${inner}</li>`;
 
-  const build = BUILD.map(([id, label]) => {
-    return li(node(id, label, stateOf(id, true), selected, { missingText: "none" }));
-  }).join("");
+  const buildList = BUILD.map(([id, label]) => [id, label, stateOf(id, true)]);
+  const liveList = LIVE.filter((n) => careful || !n[2]).map(([id, label]) => [id, label, stateOf(id, id === "guard")]);
+  // The LLM judge runs only with a live model: otherwise NOT RUN. It does not feed the gate.
+  const afterList = AFTER.map(([id, label]) => [
+    id,
+    label,
+    id === "judge" && careful ? (states.judge ?? "notrun") : stateOf(id, true),
+  ]);
 
-  const live = LIVE.filter((n) => careful || !n[2])
-    .map(([id, label]) => {
+  const build = buildList
+    .map(([id, label, state]) => li(node(id, label, state, selected, { missingText: "none" })))
+    .join("");
+
+  const live = liveList
+    .map(([id, label, state]) => {
       const extra = careful && id === "model" ? ' <span class="tag">Safety net</span>' : "";
       // The agent without evals has no input guardrail: a dashed box says so.
-      return li(node(id, label, stateOf(id, id === "guard"), selected, { extra, missingText: "nothing here" }));
+      return li(node(id, label, state, selected, { extra, missingText: "nothing here" }));
     })
     .join("");
   const branch = careful
@@ -140,20 +164,29 @@ export function wiringHtml({
       ).join("")}</ul></div>`
     : "";
 
-  const after = AFTER.map(([id, label]) => {
-    // The LLM judge runs only with a live model: otherwise NOT RUN. It does not feed the gate.
-    const state = id === "judge" && careful ? (states.judge ?? "notrun") : stateOf(id, true);
-    const chips =
-      careful && id === "eval"
-        ? `<span class="wchips">${metrics.map((m) => chipOf(m, scores?.[m.id])).join("")}</span>`
-        : "";
-    const missingText = id === "judge" ? "nothing here" : "nothing: you find out from users";
-    // card sits at the end of a row of 5 columns once the grader is added, so its arrow turns down to the gate
-    return li(
-      node(id, label, state, selected, { extra: chips, missingText }),
-      id === "eval" ? "wn-eval" : id === "card" ? "wn-wrap" : "",
-    );
-  }).join("");
+  const after = afterList
+    .map(([id, label, state]) => {
+      const chips =
+        careful && id === "eval"
+          ? `<span class="wchips">${metrics.map((m) => chipOf(m, scores?.[m.id])).join("")}</span>`
+          : "";
+      const missingText = id === "judge" ? "nothing here" : "nothing: you find out from users";
+      // card sits at the end of a row of 5 columns once the grader is added, so its arrow turns down to the gate
+      return li(
+        node(id, label, state, selected, { extra: chips, missingText }),
+        id === "eval" ? "wn-eval" : id === "card" ? "wn-wrap" : "",
+      );
+    })
+    .join("");
+
+  // Each phase is a click-to-open section. Its summary says how far the run got in that phase, in words.
+  // Open state is remembered per agent and phase (disclose.js), so a redraw after every step does not undo a click.
+  const lane = (phase, cls, name, list, inner, open) =>
+    disclose(`${name} · ${countText(list)}`, inner, {
+      open,
+      id: `wire-${careful ? "careful" : "simple"}-${phase}`,
+      cls: `wlane ${cls}`,
+    });
 
   const detailHtml = Object.entries(details)
     .map(([id, html]) => `<div class="wdetail" data-for="${e(id)}"${id === selected ? "" : " hidden"}>${html}</div>`)
@@ -161,9 +194,9 @@ export function wiringHtml({
 
   return (
     `<div class="wgraph" data-kind="${careful ? "careful" : "simple"}">` +
-    lane("wl-build", "Before the run: build", `<ol class="wnodes">${build}</ol>`) +
-    lane("wl-live", "During the run: live", `<ol class="wnodes">${live}</ol>${branch}`) +
-    lane("wl-after", "After the run: measure", `<ol class="wnodes">${after}</ol>`) +
+    lane("build", "wl-build", "Before the run: build", buildList, `<ol class="wnodes">${build}</ol>`, false) +
+    lane("live", "wl-live", "During the run: live", liveList, `<ol class="wnodes">${live}</ol>${branch}`, true) +
+    lane("after", "wl-after", "After the run: measure", afterList, `<ol class="wnodes">${after}</ol>`, false) +
     `<div class="wdetails" aria-live="polite">${detailHtml}</div></div>`
   );
 }

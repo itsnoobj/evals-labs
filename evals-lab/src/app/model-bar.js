@@ -6,6 +6,8 @@ import { $, state, mark, describeError } from "./state.js";
 
 function setStatus(kind, label) {
   $("model-status").dataset.status = kind;
+  // The download bar only means something while a download is going.
+  $("model-progress").hidden = kind !== "loading";
   document.querySelector("[data-hook=model-status-label]").textContent = label;
   syncCmpModelBar();
 }
@@ -30,6 +32,7 @@ export function syncCmpModelBar() {
     { ready: "Live model ready", replay: "Using recorded runs", loading: `Loading model ${pct}%` }[kind] ??
     (label === "Load failed" ? `${label}. ${$("model-note").textContent}` : "No model loaded yet");
   $("cmp-model-status").dataset.status = kind;
+  $("cmp-model-bar").dataset.chosen = kind === "ready" || kind === "replay" ? "1" : "";
   document.querySelector("[data-hook=cmp-model-label]").textContent = text;
   $("cmp-load-model").disabled = $("load-model").disabled;
   $("cmp-use-replay").disabled = $("use-replay").disabled;

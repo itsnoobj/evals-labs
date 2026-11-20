@@ -5,27 +5,13 @@
   margin: 0.5rem 0;
   font-size: 0.8rem;
 }
-.wgraph .wlane {
-  display: grid;
-  grid-template-columns: 2.2rem 1fr;
-  gap: 0 0.6rem;
-  padding: 0.6rem 0.6rem 1.1rem;
-  border: 1px solid var(--line);
-  background: var(--paper);
-}
-.wgraph .wlane-name {
-  grid-row: 1 / span 2;
+/* each phase is a disclose section (markup: wiring-graph.js, button look: disclose.css) */
+.wgraph details.wlane {
   margin: 0;
-  font: 700 0.62rem var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-align: left;
 }
-.wgraph .wl-live .wlane-name {
-  color: var(--accent);
+.wgraph .wlane > .disclose-body {
+  padding: 0.8rem 0.8rem 1.4rem;
+  background: var(--paper);
 }
 .wgraph .wnodes {
   display: grid;
@@ -62,12 +48,13 @@
   bottom: -1.25rem;
 }
 .wgraph .wnode {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
   align-items: flex-start;
   width: 100%;
-  padding: 0.4rem 0.5rem;
+  padding: 0.4rem 1.2rem 0.4rem 0.5rem;
   text-align: left;
   font: inherit;
   color: var(--ink);
@@ -78,6 +65,20 @@
 }
 .wgraph .wnode .sq {
   margin: 0;
+}
+/* text cue that a box opens a panel: a chevron in the corner; hover turns the box into a pressed-looking one */
+.wgraph .wnode::after {
+  content: "\203A";
+  position: absolute;
+  top: 0.1rem;
+  right: 0.4rem;
+  font: 700 1.1rem var(--mono);
+  color: var(--ink);
+}
+.wgraph .wnode:hover {
+  background: var(--paper);
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
 }
 .wgraph .wnode:focus-visible {
   outline: 3px solid var(--accent);
@@ -258,15 +259,6 @@
   }
 }
 @container wire (max-width:30rem) {
-  .wgraph .wlane {
-    grid-template-columns: 1fr;
-  }
-  .wgraph .wlane-name {
-    grid-row: auto;
-    writing-mode: horizontal-tb;
-    transform: none;
-    margin-bottom: 0.5rem;
-  }
   .wgraph .wnodes {
     grid-template-columns: 1fr;
     gap: 1.4rem;
@@ -379,12 +371,6 @@
 }
 .wgraph .stage-tools {
   margin: 0.8rem 0 0;
-  padding-top: 0.5rem;
-  border-top: 1px dashed var(--line);
-}
-.wgraph .stage-tools summary {
-  cursor: pointer;
-  font: 700 0.72rem var(--mono);
 }
 /* Wide screens (graph beside chat, layout in styles.css): the click panel sticks under the nav while you scroll.
    Narrower than that the panel stays inline under the graph. */

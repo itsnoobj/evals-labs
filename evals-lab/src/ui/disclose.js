@@ -1,10 +1,11 @@
 // Click-to-open sections built on native <details><summary>: no JS is needed to open or close one.
 // Screens redraw with innerHTML (every run step, every bug click), which would close a section the reader just
-// opened. So the ids of open sections live in a module-level Set; disclose() re-applies `open` for them.
-// ponytail: a section that is open by default and then closed by the reader reopens on the next redraw,
-// because the Set only remembers open ids. Nothing uses open=true on a redrawn screen today.
+// opened. So the ids a reader opened, and the ids a reader closed, live in two module-level Sets and disclose()
+// re-applies them. A closed id wins over `open: true`, so a section that is open by default stays closed once the
+// reader closes it (the wiring phases rely on this).
 
 const openIds = new Set();
+const closedIds = new Set();
 
 const esc = (s) =>
   String(s ?? "").replace(
@@ -13,15 +14,21 @@ const esc = (s) =>
   );
 
 // summary: plain text (escaped). bodyHtml: trusted markup. id: stable name, needed only if the section is redrawn.
-export function disclose(summary, bodyHtml, { open = false, id } = {}) {
-  const isOpen = open || (id != null && openIds.has(id));
+// cls: extra class names (trusted) for the <details>.
+export function disclose(summary, bodyHtml, { open = false, id, cls = "" } = {}) {
+  const isOpen = id != null && closedIds.has(id) ? false : open || (id != null && openIds.has(id));
   const idAttr = id == null ? "" : ` data-did="${esc(id)}"`;
-  return `<details class="disclose"${idAttr}${isOpen ? " open" : ""}><summary>${esc(summary)}</summary><div class="disclose-body">${bodyHtml}</div></details>`;
+  return `<details class="disclose${cls ? ` ${cls}` : ""}"${idAttr}${isOpen ? " open" : ""}><summary>${esc(summary)}</summary><div class="disclose-body">${bodyHtml}</div></details>`;
 }
 
 export function rememberOpen(id, isOpen) {
-  if (isOpen) openIds.add(id);
-  else openIds.delete(id);
+  if (isOpen) {
+    openIds.add(id);
+    closedIds.delete(id);
+  } else {
+    openIds.delete(id);
+    closedIds.add(id);
+  }
 }
 
 export const isRemembered = (id) => openIds.has(id);

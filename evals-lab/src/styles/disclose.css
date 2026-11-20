@@ -1,12 +1,18 @@
 /* Click-to-open sections (markup: src/ui/disclose.js, or the same markup written by hand in index.html).
-   Square and flat. The state is a text sign, "+" closed and "-" open, so it never relies on colour. */
-details.disclose {
+   Square and flat. The summary is a button: bordered, white, a "+" / "-" sign on the left and the word SHOW / HIDE
+   on the right. State is always text, never colour. The same look covers the two older hand-made sections
+   (.stage-tools in the wiring panels, .rawjson in a tool step). */
+details.disclose,
+details.stage-tools,
+details.rawjson {
   margin: 0.75rem 0 0;
   padding: 0;
-  border: 1px solid var(--line);
-  background: #fff;
+  border: 0;
+  background: none;
 }
-details.disclose > summary {
+details.disclose > summary,
+details.stage-tools > summary,
+details.rawjson > summary {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -15,29 +21,79 @@ details.disclose > summary {
   list-style: none;
   cursor: pointer;
   color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
   font: 700 0.8rem var(--mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-details.disclose > summary::-webkit-details-marker {
+details.disclose > summary::-webkit-details-marker,
+details.stage-tools > summary::-webkit-details-marker,
+details.rawjson > summary::-webkit-details-marker {
   display: none;
 }
-details.disclose > summary::before {
+details.disclose > summary::before,
+details.stage-tools > summary::before,
+details.rawjson > summary::before {
   content: "+";
   flex: none;
   width: 1.1rem;
   text-align: center;
   font: 700 1.1rem var(--mono);
 }
-details.disclose[open] > summary::before {
+details.disclose > summary::after,
+details.stage-tools > summary::after,
+details.rawjson > summary::after {
+  content: "SHOW";
+  flex: none;
+  margin-left: auto;
+  padding-left: 0.75rem;
+  color: var(--muted);
+  font: 700 0.68rem var(--mono);
+  letter-spacing: 0.1em;
+}
+details.disclose[open] > summary::before,
+details.stage-tools[open] > summary::before,
+details.rawjson[open] > summary::before {
   content: "-";
 }
-details.disclose[open] > summary {
-  border-bottom: 1px solid var(--soft);
+details.disclose[open] > summary::after,
+details.stage-tools[open] > summary::after,
+details.rawjson[open] > summary::after {
+  content: "HIDE";
 }
-details.disclose > summary:focus-visible {
+/* hover and keyboard focus: dark block, white text, so the state change does not rely on colour hue */
+details.disclose > summary:hover,
+details.disclose > summary:focus-visible,
+details.stage-tools > summary:hover,
+details.stage-tools > summary:focus-visible,
+details.rawjson > summary:hover,
+details.rawjson > summary:focus-visible {
+  background: var(--ink);
+  color: #fff;
+}
+details.disclose > summary:hover::after,
+details.disclose > summary:focus-visible::after,
+details.stage-tools > summary:hover::after,
+details.stage-tools > summary:focus-visible::after,
+details.rawjson > summary:hover::after,
+details.rawjson > summary:focus-visible::after {
+  color: #fff;
+}
+details.disclose > summary:focus-visible,
+details.stage-tools > summary:focus-visible,
+details.rawjson > summary:focus-visible {
   outline: 3px solid var(--accent);
-  outline-offset: -3px;
+  outline-offset: 2px;
+}
+/* open: the body is a box attached under the button */
+details.disclose > .disclose-body,
+details.stage-tools > ul,
+details.stage-tools > p,
+details.rawjson > code {
+  border: 1px solid var(--soft);
+  border-top: 0;
+  background: #fff;
 }
 details.disclose > .disclose-body {
   padding: 0.75rem 1rem 1rem;
@@ -49,11 +105,13 @@ details.disclose > .disclose-body > :last-child {
   margin-bottom: 0;
 }
 /* a section inside a section stays flat */
-details.disclose details.disclose {
+details.disclose details.disclose > .disclose-body {
   background: var(--paper);
 }
 @media (max-width: 760px) {
-  details.disclose > summary {
+  details.disclose > summary,
+  details.stage-tools > summary,
+  details.rawjson > summary {
     min-height: 48px;
   }
 }

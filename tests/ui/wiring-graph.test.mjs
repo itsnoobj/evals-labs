@@ -1,10 +1,18 @@
 // Run from repo root: node tests/ui/wiring-graph.test.mjs
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { rememberOpen } from "../../evals-lab/src/ui/disclose.js";
 import { CASES, perfectRun } from "../../evals-lab/src/task/cases.js";
 import { METRICS, scoreRun } from "../../evals-lab/src/evals/engine.js";
 import { runGuarded, verifyRun } from "../../evals-lab/src/agent/guarded-agent.js";
-import { wiringHtml, wiringStates, bindWiring, NODE_HELP, NODE_IDS } from "../../evals-lab/src/ui/wiring-graph.js";
+import {
+  wiringHtml,
+  wiringStates,
+  bindWiring,
+  countText,
+  NODE_HELP,
+  NODE_IDS,
+} from "../../evals-lab/src/ui/wiring-graph.js";
 
 let checks = 0;
 const check = (fn) => {
@@ -362,6 +370,105 @@ check(() => assert.equal(wiringStates("simple", { steps: [good.steps.at(-1)] }).
       ),
     );
   check(() => assert.equal(wiringStates("simple", { steps: good.steps, judging: true }).judge, "missing"));
+}
+
+// Each phase is a click-to-open section: summary = phase name + a text count; "During the run" opens by default.
+{
+  const phases = (h) =>
+    [
+      ...h.matchAll(/<details class="disclose wlane (wl-\w+)" data-did="([^"]+)"( open)?><summary>([^<]*)<\/summary>/g),
+    ].map((m) => ({ cls: m[1], id: m[2], open: !!m[3], summary: m[4] }));
+  const done = wiringHtml({ kind: "careful", states: st, metrics: METRICS, scores: perfectScores });
+  const p = phases(done);
+  check(() =>
+    assert.deepEqual(
+      p.map((x) => x.cls),
+      ["wl-build", "wl-live", "wl-after"],
+    ),
+  );
+  check(() =>
+    assert.deepEqual(
+      p.map((x) => x.open),
+      [false, true, false],
+    ),
+  );
+  check(() =>
+    assert.deepEqual(
+      p.map((x) => x.summary),
+      [
+        "Before the run: build · 5 of 5 done",
+        "During the run: live · 10 of 10 done",
+        "After the run: measure · 4 of 5 done", // the LLM judge is NOT RUN
+      ],
+    ),
+  );
+  check(() =>
+    assert.deepEqual(
+      p.map((x) => x.id),
+      ["wire-careful-build", "wire-careful-live", "wire-careful-after"],
+    ),
+  );
+  // node ids and data- attributes stay inside the phases
+  for (const id of NODE_IDS.careful) check(() => assert.ok(done.includes(`data-node="${id}"`), id));
+  const idleP = phases(wiringHtml({ kind: "careful", states: {} }));
+  check(() => assert.equal(idleP[1].summary, "During the run: live · 0 of 10 done"));
+  const simpleP = phases(wiringHtml({ kind: "simple", states: simpleStates }));
+  check(() =>
+    assert.deepEqual(
+      simpleP.map((x) => x.id),
+      ["wire-simple-build", "wire-simple-live", "wire-simple-after"],
+    ),
+  );
+  check(() => assert.match(simpleP[0].summary, /^Before the run: build · 0 of 5 done · 5 missing$/));
+  check(() => assert.match(simpleP[1].summary, /^During the run: live · \d of 7 done( · \d (failed|missing))*/));
+  // counts: a node that ran counts as done; failed and blocked ones are also named
+  check(() =>
+    assert.equal(
+      countText([
+        ["a", "A", "pass"],
+        ["b", "B", "fail"],
+        ["c", "C", "idle"],
+      ]),
+      "2 of 3 done · 1 failed",
+    ),
+  );
+  check(() =>
+    assert.equal(
+      countText([
+        ["a", "A", "blocked"],
+        ["b", "B", "idle"],
+      ]),
+      "1 of 2 done · 1 blocked",
+    ),
+  );
+  check(() =>
+    assert.equal(
+      countText([
+        ["a", "A", "skipped"],
+        ["b", "B", "active"],
+      ]),
+      "0 of 2 done",
+    ),
+  );
+  // a phase the reader closed stays closed on the next draw, one the reader opened stays open
+  rememberOpen("wire-careful-live", false);
+  rememberOpen("wire-careful-build", true);
+  const again = phases(wiringHtml({ kind: "careful", states: st, metrics: METRICS, scores: perfectScores }));
+  check(() =>
+    assert.deepEqual(
+      again.map((x) => x.open),
+      [true, false, false],
+    ),
+  );
+  rememberOpen("wire-careful-live", true);
+  rememberOpen("wire-careful-build", false);
+  // the button look of every summary is plain CSS; check the words and sizes are there
+  const dcss = readFileSync(new URL("../../evals-lab/src/styles/disclose.css", import.meta.url), "utf8");
+  check(() => assert.match(dcss, /content: "SHOW"/));
+  check(() => assert.match(dcss, /content: "HIDE"/));
+  check(() => assert.match(dcss, /min-height: 44px/));
+  check(() => assert.match(dcss, /border: 1px solid var\(--line\)/));
+  check(() => assert.match(dcss, /summary:hover[\s\S]*summary:focus-visible/));
 }
 
 console.log(`${checks} checks passed`);

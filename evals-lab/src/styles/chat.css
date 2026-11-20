@@ -313,7 +313,6 @@
 /* the system prompt section sits flush under the chat header */
 .chat > details.disclose {
   margin: 0;
-  border-width: 0 0 1px;
 }
 .chat details.disclose pre {
   white-space: pre-wrap;
@@ -361,6 +360,10 @@
 .mbar .muted {
   margin: 0.5rem 0 0;
   font-size: 0.85rem;
+}
+/* once a mode is chosen the bar is one line: status and the two buttons. The phone advice sits in "Live or recorded?". */
+.mbar[data-chosen="1"] .phone-note {
+  display: none;
 }
 
 /* Side by side: score over the whole test set */
