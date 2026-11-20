@@ -4,7 +4,6 @@
 - [ ] Decide: build '?' button on elements (opens explain pop-up) + 'Copy prompt to ask your own AI' (options 1+2 of the experiment) (25 min)
 - [ ] You: say OK to push (card images from bank sites go public), license, Q13, Q14 (see chat)
 - [ ] Live-test score button (live mode: 60 runs) and Side by side on a phone (5 min)
-- [ ] Clean dead replay hint text in `model-bar.js` (overwritten by main.js now) (3 min)
 - [ ] You verify 4 answer-key cells (see chat message: C03 Flipkart 5%, C05/C06 merchant codes, Infinia Rs 1 per point, C01 Amazon) (10 min)
 - [ ] Live-model path of the careful agent (WebGPU, retry/fallback with the wiring graph on) is unverified in a real browser session (5 min)
 - [ ] You open `http://localhost:8000/evals-lab/` (hard refresh, footer must say `build ux7`), click Load model, run one case live (5 min)
@@ -21,6 +20,7 @@
 - [ ] More cards and cases, other scenarios, shareable URL state
 
 ## Done
+- [x] ux20: Side by side redesigned top to bottom: lead sentence, compact mission strip, overview lanes (`ui/compare-overview.js`, steps open the explain pop-up, NOW and RIGHT/WRONG/BLOCKED badges), one question row (placeholder, ASK BOTH with reason text via `ui/ask-row.js`, quick-start chips), recorded runs start silently, auto-clear after a run + CLEAR RESULTS, eval block moved to the bottom. Headless check (1280 and 500 px) passed; live model path not checked.
 - [x] ux19 (ask help, options 1+2): a square "?" mark replaces the "›" / "DETAILS ›" cue on every element that opens the explain pop-up; the pop-up gets a closed "Ask your own AI" section (`ask-own-ai`) with a copyable prompt built by `ui/ask-prompt.js`. No in-page model. Nothing is sent from the page.
 - [x] ux19: screen 6 "LLM judge lab (coming soon)" is back in the top nav and the phone tab bar with a SOON tag; the page explains the 4 planned steps, why (5 of 5 to every run), and links to Checks. Not built: the lab itself (v1.1 below).
 - [x] ux18 (2026-11-20): eval button says what it is ("Run the eval: all 6 questions" + why line) and shows a P/F grid per run; mission stepper strip; LLM judge lab tab removed from nav. Guarded in-page ask experiment: frozen design misses bar on fresh test set (in-scope 65%, out-of-scope 87.5%, trick 66.7%; injection 100%, 0 invented numbers). Report `docs/research/ask-help-guarded.md`.

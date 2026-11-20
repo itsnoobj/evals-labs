@@ -6,13 +6,13 @@ import { checkWebGpu, MODEL_F16 } from "../agent/llm.js";
 import * as ui from "../ui/ui.js";
 import { cardsMatrixHtml } from "../ui/cards-view.js";
 import { $, state, questionFor, NO_KEY_NOTE, CARD_NAMES, mark, describeError } from "./state.js";
-import { setNote, syncCmpModelBar, enterMode, onLoadModel } from "./model-bar.js";
+import { setNote, syncCmpModelBar, syncAsk, enterMode, onLoadModel } from "./model-bar.js";
 import { onRunCase } from "./run-screen.js";
 import { drawMetrics, onTileSelected, onBugSelected, onJudge } from "./metrics-screen.js";
 import { onRunSet, onCellSelected } from "./golden-screen.js";
 import { drawCurve } from "./compounding-screen.js";
-import { drawChats, onAskBoth, onTryThis, onScoreBoth, onStopScore } from "./compare-screen.js";
-import { drawWiring, loadDspy, bindWiringRoots } from "./wiring-panel.js";
+import { drawChats, onAskBoth, onClearResults, onTryThis, onScoreBoth, onStopScore } from "./compare-screen.js";
+import { drawWiring, loadDspy, bindWiringRoots, openWiringNode } from "./wiring-panel.js";
 import { drawStart, fillExamples } from "./start-screen.js";
 import { initNav } from "./nav.js";
 import { installDisclose } from "../ui/disclose.js";
@@ -25,7 +25,11 @@ import { judgeLabSoonHtml } from "../ui/judge-lab-soon.js";
 const useReplay = () => {
   enterMode("replay");
   setNote("");
-  $("cmp-hint").textContent = "Pick a question and press Ask both.";
+};
+
+// Side by side needs no choice from the visitor: on entering it with no mode chosen, recorded runs start silently.
+const autoReplay = () => {
+  if (location.hash === "#compare" && state.mode === "none" && state.recorded) useReplay();
 };
 
 async function init() {
@@ -62,6 +66,8 @@ async function init() {
   $("load-model").onclick = onLoadModel;
   $("cmp-load-model").onclick = onLoadModel;
   $("cmp-use-replay").onclick = useReplay;
+  $("cmp-run-switch").onclick = () => ($("cmp-run-switch").dataset.action === "live" ? onLoadModel() : useReplay());
+  addEventListener("hashchange", autoReplay);
   $("run-case").onclick = onRunCase;
   $("run-set").onclick = onRunSet;
   $("stop-set").onclick = () => {
@@ -94,12 +100,16 @@ async function init() {
   $("metrics-view").addEventListener("bug-selected", (ev) => onBugSelected(ev.detail.bugId));
   $("grid-view").addEventListener("cell-selected", (ev) => onCellSelected(ev.detail));
   $("use-replay").onclick = useReplay;
-  $("cmp-case").replaceChildren(...CASES.map((c) => new Option(`${c.id}  ${c.query}`, c.id)));
-  $("cmp-case").value = DEFAULT_CASE_ID; // drawChats() below draws the chats for it
+  // The first option is the empty placeholder, so no question is chosen on arrival.
+  $("cmp-case").replaceChildren(
+    new Option("Pick a question...", ""),
+    ...CASES.map((c) => new Option(`${c.id}  ${c.query}`, c.id)),
+  );
+  $("cmp-case").value = "";
+  // A result stays on screen until the next Ask both or CLEAR RESULTS; changing the question only enables ASK BOTH.
   const cmpQuestionChanged = () => {
-    state.cmp = null;
-    $("cmp-summary").hidden = true;
     drawChats();
+    syncAsk();
   };
   $("cmp-case").onchange = () => {
     $("cmp-text").value = "";
@@ -107,6 +117,12 @@ async function init() {
   };
   $("cmp-text").oninput = cmpQuestionChanged;
   $("cmp-ask").onclick = onAskBoth;
+  $("cmp-clear").onclick = onClearResults;
+  // The steps of the two lanes open the same pop-up as the wiring boxes.
+  $("cmp-overview").addEventListener("click", (ev) => {
+    const btn = ev.target.closest("button[data-ov-node]");
+    if (btn) openWiringNode(btn.dataset.ovKind, btn.dataset.ovNode);
+  });
   // The Try these buttons are redrawn by the model bar, so one listener on their container handles them.
   $("cmp-try").addEventListener("click", (ev) => {
     const btn = ev.target.closest("button[data-try]");
@@ -141,6 +157,20 @@ async function init() {
         : `http://localhost${location.port ? `:${location.port}` : ""}${location.pathname}`;
     ui.renderOriginWarning($("origin-warning"), { origin: location.origin, fixUrl });
   }
+  // Start reading the recorded runs now, so the Side by side screen is ready as soon as possible.
+  const recordedLoad = fetch("data/recorded-runs.json")
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    })
+    .then((data) => {
+      state.recorded = data;
+      $("use-replay").disabled = false;
+      syncCmpModelBar();
+      autoReplay();
+      return null;
+    })
+    .catch((err) => err);
   state.gpuCheck = checkWebGpu();
   state.gpu = await state.gpuCheck;
   if (!state.gpu.ok)
@@ -148,17 +178,14 @@ async function init() {
       warn: true,
     });
 
-  try {
-    const res = await fetch("data/recorded-runs.json");
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    state.recorded = await res.json();
-    $("use-replay").disabled = false;
-    syncCmpModelBar();
-  } catch (err) {
+  const recordedError = await recordedLoad;
+  if (recordedError) {
     // Opening index.html as a file:// URL lands here: browsers block module and fetch requests there.
+    state.recordedFailed = true;
+    syncCmpModelBar();
     if (!state.gpu.ok)
       setNote(
-        `Warning: ${state.gpu.reason} Recorded runs could not load (${describeError(err)}). Serve this folder over http.`,
+        `Warning: ${state.gpu.reason} Recorded runs could not load (${describeError(recordedError)}). Serve this folder over http.`,
         { warn: true },
       );
   }

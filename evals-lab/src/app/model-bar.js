@@ -1,9 +1,10 @@
 // The model bar: loading the model, its status and progress, and the copy of the bar on the Side by side screen.
-// Exports: setNote, syncCmpModelBar, enterMode, onLoadModel.
+// Exports: setNote, syncCmpModelBar, syncAsk, enterMode, onLoadModel.
 import { CASES } from "../task/cases.js";
 import { loadModel } from "../agent/llm.js";
 import { modelBoxes } from "../ui/model-box.js";
 import { tryTheseHtml, LIVE_ONLY, NOT_LOADED, LOADING } from "../ui/try-these.js";
+import { askState, runLine } from "../ui/ask-row.js";
 import { $, state, mark, describeError } from "./state.js";
 
 // Writes the words and markers inside the two boxes ("Live AI", "Recorded runs") from the mode kept on #model-bar.
@@ -77,10 +78,43 @@ export function syncCmpModelBar() {
   [...$("cmp-model-progress").children].forEach((s, i) =>
     s.classList.toggle("on", $("model-progress").children[i].classList.contains("on")),
   );
+  // The one quiet "Running on" line under the question row, and its one text button.
+  const line = runLine({
+    kind,
+    mode: state.mode,
+    modelId: state.llm?.modelId,
+    pct: Number(pct),
+    failed: label === "Load failed",
+    recordedFailed: !!state.recordedFailed,
+  });
+  $("cmp-run-text").textContent = line.text;
+  const sw = $("cmp-run-switch");
+  sw.hidden = !line.button;
+  if (line.button) {
+    sw.textContent = line.button.label;
+    sw.dataset.action = line.button.action;
+    sw.disabled = state.cmpBusy || (line.button.action === "live" ? $("cmp-load-model") : $("cmp-use-replay")).disabled;
+  }
   // The Try these buttons use recorded runs only. With the live model they stay disabled and say why in text.
   $("cmp-try").innerHTML = tryTheseHtml({
     disabledReason: state.mode === "live" ? LIVE_ONLY : kind === "loading" ? LOADING : state.recorded ? "" : NOT_LOADED,
   });
+  syncAsk();
+}
+
+// ASK BOTH and the reason next to it. Called whenever the question, the mode, a run or a result changes.
+export function syncAsk() {
+  const ready = state.mode === "live" || state.mode === "replay" || !state.recordedFailed;
+  const st = askState({
+    picked: $("cmp-case").value,
+    typed: $("cmp-text").value,
+    ran: !!state.cmp,
+    busy: state.cmpBusy,
+    ready,
+  });
+  $("cmp-ask").disabled = st.disabled;
+  $("cmp-ask-why").textContent = st.reason;
+  $("cmp-ask-why").hidden = !st.reason;
 }
 
 export function enterMode(mode) {
@@ -91,11 +125,6 @@ export function enterMode(mode) {
   $("run-case").disabled = false;
   $("run-hint").textContent = "Runs the question from step 2.";
   $("run-set").disabled = false;
-  $("cmp-ask").disabled = false;
-  $("cmp-hint").textContent =
-    mode === "replay"
-      ? "Recorded runs. Pick a question and press Ask both, or press a Try these button."
-      : "Pick a question and press Ask both. Live answers vary from run to run.";
   $("judge-run").disabled = mode !== "live";
   $("set-progress").textContent = `${CASES.length} cases. Press Run the set.`;
   if (mode === "replay")

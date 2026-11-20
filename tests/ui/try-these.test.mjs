@@ -87,21 +87,27 @@ test("question label is merchant and amount from CASES", () => {
   assert.equal(questionLabel("C01"), "Amazon, ₹15,000");
 });
 
-test("visible text has no run number or case id", () => {
+test("visible text has no run number or case id; chips are short", () => {
   for (const reason of ["", LIVE_ONLY, NOT_LOADED, LOADING]) {
-    const text = tryTheseHtml({ disabledReason: reason }).replace(/<[^>]+>/g, " ");
+    const html = tryTheseHtml({ disabledReason: reason });
+    const text = html.replace(/<[^>]+>/g, " ");
     assert.ok(!/run number|seed|\bC0\d\b/i.test(text), reason);
-    assert.match(text, /SEE THE GAP: BESCOM, ₹1,800/);
-    assert.match(text, /SEE A RETRY: Amazon, ₹15,000/);
+    assert.equal((html.match(/<span class="try-title">SEE (THE GAP|A RETRY)<\/span>/g) ?? []).length, 2, reason);
   }
 });
 
-test("enabled: two enabled buttons; live: both disabled with the reason as text", () => {
+test("each chip keeps its tested outcome text as a one-line caption", () => {
+  const html = tryTheseHtml();
+  for (const t of TRY_THESE) assert.ok(html.includes(`<span class="try-out">${t.outcome}</span>`), t.id);
+});
+
+test("enabled: two enabled buttons and no long hint; live: both disabled with the reason as text", () => {
   const on = tryTheseHtml();
   assert.equal((on.match(/<button/g) ?? []).length, 2);
   assert.ok(!/disabled/.test(on));
+  assert.ok(!/try-note/.test(on));
   const off = tryTheseHtml({ disabledReason: LIVE_ONLY });
   assert.equal((off.match(/<button[^>]* disabled>/g) ?? []).length, 2);
   assert.equal((off.match(/<span class="try-why">Recorded runs only<\/span>/g) ?? []).length, 2);
-  assert.match(off, /Recorded runs only\. The live model is active\./);
+  assert.match(off, /Recorded runs only\. Press &quot;Use recorded runs&quot; to switch\./);
 });

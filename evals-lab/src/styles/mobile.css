@@ -170,25 +170,14 @@
     max-width: none;
     min-width: 0;
   }
-  /* the Side by side controls stay a compact wrapping row: question on its own line, then two buttons per line */
-  .cmpbar {
-    align-items: stretch;
-  }
   .cmpq {
     flex: 1 1 100%;
-  }
-  .cmpbar button {
-    flex: 1 1 8rem;
-  }
-  .cmpbar #cmp-score-start {
-    flex: 2 1 12rem;
   }
   .toolbar select {
     width: 100%;
     min-width: 0;
   }
   .toolbar button,
-  .cmpbar button,
   .runrow button,
   .choice button,
   .mbar button {

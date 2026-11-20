@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="src/styles/disclose.css" />
     <link rel="stylesheet" href="src/styles/run-visuals.css" />
     <link rel="stylesheet" href="src/styles/chat.css" />
+    <link rel="stylesheet" href="src/styles/compare.css" />
     <link rel="stylesheet" href="src/styles/wiring.css" />
     <link rel="stylesheet" href="src/styles/explain.css" />
     <link rel="stylesheet" href="src/styles/start.css" />
@@ -407,58 +408,22 @@
 
       <section id="compare" aria-labelledby="compare-h" hidden>
         <h1 id="compare-h">5 · Agent without evals vs agent with evals</h1>
+        <p class="lead" id="cmp-lead">Ask both agents one question and compare their answers.</p>
         <div data-mission="compare"></div>
-        <div class="mbar" id="cmp-model-bar" data-hook="cmp-model-bar">
-          <div class="mbar-row">
-            <span class="k">Model</span>
-            <b id="cmp-model-status" data-hook="cmp-model-status" data-status="not-loaded" aria-live="polite"
-              ><i class="sq" aria-hidden="true"></i><span data-hook="cmp-model-label">Not loaded</span></b
-            >
-            <button type="button" id="cmp-load-model" data-hook="cmp-load-model" disabled>Load model</button>
-            <button type="button" class="sec" id="cmp-use-replay" data-hook="cmp-use-replay" disabled>
-              Use recorded runs
-            </button>
-          </div>
-          <p class="phone-note">On a phone, use recorded runs.</p>
-          <div class="bar" id="cmp-model-progress" aria-hidden="true" hidden>
-            <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
-            ><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
-            ><span class="seg"></span><span class="seg"></span>
-          </div>
-          <details class="disclose">
-            <summary>Live or recorded?</summary>
-            <div class="disclose-body">
-              <p>
-                Live = the real model runs in your browser (880 MB first download, cached after). Recorded = real runs
-                saved earlier.
-              </p>
-              <p>The live model is an 880 MB download and needs a laptop-class GPU, so on a phone use recorded runs.</p>
+        <div class="ov-wrap" id="cmp-overview" data-hook="cmp-overview"></div>
+        <div class="askrow" id="cmp-cta" data-hook="cmp-cta">
+          <div class="askrow-main">
+            <div class="cmpq">
+              <label class="k" for="cmp-case">Question</label
+              ><select id="cmp-case" data-hook="cmp-case"></select>
             </div>
-          </details>
-        </div>
-        <div class="cmpbar">
-          <div class="cmpq">
-            <label class="k" for="cmp-case">Question</label
-            ><select id="cmp-case" data-hook="cmp-case"></select>
+            <button type="button" class="ask-big" id="cmp-ask" data-hook="cmp-ask" disabled>Ask both</button>
+            <span class="ask-why" id="cmp-ask-why" data-hook="cmp-ask-why" aria-live="polite"
+              >Pick a question first.</span
+            >
           </div>
-          <button type="button" id="cmp-ask" data-hook="cmp-ask" disabled>Ask both</button>
-          <button type="button" class="sec" id="cmp-score-start" data-hook="cmp-score-start">
-            Run the eval: all questions
-          </button>
-          <button type="button" class="sec" id="cmp-score-stop" data-hook="cmp-score-stop" hidden>Stop</button>
-          <span
-            class="setscore-progress mono"
-            id="cmp-score-progress"
-            data-hook="cmp-score-progress"
-            aria-live="polite"
-          ></span>
-          <label class="check" for="show-wiring"
-            ><input type="checkbox" id="show-wiring" data-hook="show-wiring" /><span
-              ><b>Show the wiring</b></span
-            ></label
-          >
+          <div id="cmp-try" data-hook="cmp-try"></div>
         </div>
-        <p class="muted" id="cmp-score-why" data-hook="cmp-score-why"></p>
         <details class="disclose">
           <summary>Type your own</summary>
           <div class="disclose-body">
@@ -482,14 +447,55 @@
             </div>
           </div>
         </details>
-        <p class="muted" id="cmp-hint">Choose how to run first.</p>
-        <details class="disclose" id="cmp-score-about" data-hook="cmp-score-about">
-          <summary>About scoring</summary>
-          <div class="disclose-body" id="cmp-score-preview" data-hook="cmp-score-preview"></div>
+        <p class="runline" id="cmp-runline" data-hook="cmp-runline">
+          <span id="cmp-run-text" data-hook="cmp-run-text" aria-live="polite">Starting recorded runs.</span>
+          <button type="button" class="linkbtn" id="cmp-run-switch" data-hook="cmp-run-switch" hidden></button>
+        </p>
+        <details class="disclose" id="cmp-how" data-hook="cmp-how">
+          <summary>Change how it runs</summary>
+          <div class="disclose-body">
+            <div class="mbar" id="cmp-model-bar" data-hook="cmp-model-bar">
+              <div class="mbar-row">
+                <span class="k">Model</span>
+                <b id="cmp-model-status" data-hook="cmp-model-status" data-status="not-loaded" aria-live="polite"
+                  ><i class="sq" aria-hidden="true"></i><span data-hook="cmp-model-label">Not loaded</span></b
+                >
+                <button type="button" id="cmp-load-model" data-hook="cmp-load-model" disabled>Load model</button>
+                <button type="button" class="sec" id="cmp-use-replay" data-hook="cmp-use-replay" disabled>
+                  Use recorded runs
+                </button>
+              </div>
+              <p class="phone-note">On a phone, use recorded runs.</p>
+              <div class="bar" id="cmp-model-progress" aria-hidden="true" hidden>
+                <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
+                ><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span
+                ><span class="seg"></span><span class="seg"></span>
+              </div>
+              <details class="disclose">
+                <summary>Live or recorded?</summary>
+                <div class="disclose-body">
+                  <p>
+                    Live = the real model runs in your browser (880 MB first download, cached after). Recorded = real
+                    runs saved earlier.
+                  </p>
+                  <p>
+                    The live model is an 880 MB download and needs a laptop-class GPU, so on a phone use recorded runs.
+                  </p>
+                </div>
+              </details>
+            </div>
+          </div>
         </details>
-        <div id="cmp-try" data-hook="cmp-try"></div>
+        <div class="lastq" id="cmp-lastbar" data-hook="cmp-lastbar" hidden>
+          <p class="lastq-text" id="cmp-last" data-hook="cmp-last"></p>
+          <button type="button" class="sec" id="cmp-clear" data-hook="cmp-clear">Clear results</button>
+        </div>
         <p class="cmpsum" id="cmp-summary" aria-live="polite" hidden></p>
-        <div id="cmp-score" data-hook="cmp-score"></div>
+        <label class="check wire-toggle" for="show-wiring"
+          ><input type="checkbox" id="show-wiring" data-hook="show-wiring" /><span
+            ><b>Show the wiring</b> (what happens behind each chat)</span
+          ></label
+        >
         <div class="cmp" id="cmp-root" data-hook="cmp-root">
           <div class="cmp-row" id="row-simple">
             <div class="cmp-wire is-simple" id="wire-simple" data-hook="wire-simple" hidden>
@@ -517,6 +523,25 @@
           </div>
         </div>
         <p class="muted wire-hint" id="wire-hint" hidden>Click a box to see what it is.</p>
+        <section class="evalblock" id="cmp-eval" data-hook="cmp-eval" aria-labelledby="cmp-eval-h">
+          <h2 id="cmp-eval-h">Score both agents on the whole test set</h2>
+          <p id="cmp-score-why" data-hook="cmp-score-why"></p>
+          <div class="evalblock-actions">
+            <button type="button" id="cmp-score-start" data-hook="cmp-score-start">Run the eval: all questions</button>
+            <button type="button" class="sec" id="cmp-score-stop" data-hook="cmp-score-stop" hidden>Stop</button>
+            <span
+              class="setscore-progress mono"
+              id="cmp-score-progress"
+              data-hook="cmp-score-progress"
+              aria-live="polite"
+            ></span>
+          </div>
+          <details class="disclose" id="cmp-score-about" data-hook="cmp-score-about">
+            <summary>About scoring</summary>
+            <div class="disclose-body" id="cmp-score-preview" data-hook="cmp-score-preview"></div>
+          </details>
+          <div id="cmp-score" data-hook="cmp-score"></div>
+        </section>
         <div id="gloss-compare" data-hook="gloss-compare"></div>
       </section>
 
@@ -535,7 +560,7 @@
         This is a teaching simulation. A small model runs in your browser. Rates come from the banks' own pages and were
         checked in November 2026; they change. Not financial advice.
       </p>
-      <p class="muted build">build ux19</p>
+      <p class="muted build">build ux20</p>
     </footer>
 
     <script type="module" src="src/app/main.js"></script>

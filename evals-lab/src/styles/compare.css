@@ -1,0 +1,424 @@
+/* Side by side (screen 5): one idea per block, top to bottom.
+   Title and lead, compact mission strip, overview lanes, question row, quiet "Running on" line, results, score block.
+   Markup: index.html #compare, src/ui/compare-overview.js, src/ui/try-these.js. Tokens live in styles.css. */
+
+#compare h1 {
+  margin: 1.5rem 0 0.4rem;
+  font-size: 2rem;
+}
+.lead {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+  color: var(--ink);
+  max-width: 40rem;
+}
+
+/* compact mission strip: 28 px squares on one line, a label only for the current step; goal and tasks stay quiet */
+#compare [data-mission] {
+  margin: 0 0 1.25rem;
+}
+#compare .mission {
+  background: none;
+  border: 0;
+  border-left: 3px solid var(--soft);
+}
+#compare .mmain {
+  padding: 0 0 0 0.75rem;
+}
+#compare .msteps {
+  align-items: center;
+  margin: 0;
+}
+#compare .mstep {
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+}
+#compare .mstep + .mstep::before {
+  position: static;
+  flex: none;
+  width: 1rem;
+  height: 2px;
+  margin: 0 -1px;
+}
+#compare .mstep a {
+  flex-direction: row;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+}
+#compare .mstep-sq {
+  width: 28px;
+  height: 28px;
+  font-size: 0.75rem;
+}
+#compare .mstep:not(.is-now) .mstep-name {
+  display: none;
+}
+#compare .mstep-name {
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+#compare .mission .goal {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+#compare .mission details.disclose {
+  margin-top: 0.25rem;
+}
+#compare .mission details.disclose > summary {
+  min-height: 2.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+/* hero visual: two lanes, one per agent. Each step is a button that opens the explain pop-up. */
+.ov {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1.25rem;
+}
+.ov-lane {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  padding: 0.75rem 1rem 1rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--off);
+}
+.ov-careful {
+  border-left-color: var(--accent);
+}
+.ov-title {
+  grid-column: 1 / -1;
+  margin: 0;
+  font: 700 0.8rem var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.ov-steps {
+  display: flex;
+  align-items: flex-start;
+  min-width: 0;
+  margin: 0;
+  padding: 0.6rem 0.5rem 0.25rem 0;
+  list-style: none;
+  overflow-x: auto; /* phones: the lane scrolls inside its box, the page does not */
+}
+.ov-step {
+  display: flex;
+  flex: none;
+  align-items: flex-start;
+}
+.ov-arrow {
+  margin: 1.5rem 0.4rem 0;
+  font: 700 1.1rem var(--mono);
+  color: var(--muted);
+}
+.ov-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+.ov-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 5.5rem;
+  min-height: 5rem;
+  padding: 0.4rem;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font: 700 0.8rem/1.2 var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.ov-node:hover:not(:disabled) {
+  background: var(--paper);
+  color: var(--ink);
+  outline: 2px solid var(--accent);
+}
+.ov-icon,
+.ov-icon svg {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+}
+.ov-step.is-now .ov-node {
+  border-color: var(--accent);
+  background: #eaf0fb;
+  outline: 3px solid var(--accent);
+}
+.ov-now {
+  position: absolute;
+  top: -0.7rem;
+  right: -0.4rem;
+  padding: 0 0.4rem;
+  background: var(--accent);
+  color: #fff;
+  font: 700 0.7rem/1.4 var(--mono);
+  letter-spacing: 0.12em;
+}
+.ov-branch {
+  width: 8.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  color: var(--muted);
+}
+.ov-result {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: 700 0.75rem var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ov-result.is-idle span {
+  font-weight: 400;
+}
+.ov-badge {
+  display: inline-flex;
+  align-items: center;
+  min-width: 7.5rem;
+  padding: 0.3rem 0.7rem;
+  border: 2px solid var(--off);
+  background: #fff;
+  color: var(--ink);
+  font: 800 1rem var(--mono);
+  letter-spacing: 0.08em;
+}
+.ov-badge.is-right {
+  border-color: var(--ok);
+}
+.ov-badge.is-wrong {
+  border-color: var(--bad);
+}
+
+/* the one call-to-action row */
+.askrow {
+  margin: 0 0 0.5rem;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--accent);
+}
+.askrow-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem 1rem;
+}
+.askrow .cmpq {
+  flex: 1 1 16rem;
+  max-width: 28rem;
+}
+.ask-big {
+  flex: none;
+  min-height: 3.25rem;
+  padding: 0 2.5rem;
+  font-size: 1rem;
+}
+.ask-why {
+  flex: 1 1 12rem;
+  align-self: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+/* quick-start chips under the row */
+.askrow .try-these {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0.9rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--soft);
+}
+.askrow .try-these .k {
+  margin: 0;
+}
+.askrow .try-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+}
+.askrow .try-btn {
+  gap: 0.1rem;
+  padding: 0.35rem 0.9rem;
+  min-height: 2.75rem;
+}
+.askrow .try-title {
+  font-size: 0.75rem;
+}
+.askrow .try-out {
+  font-size: 0.78rem;
+  color: var(--ink);
+}
+.askrow .try-btn:hover:not(:disabled) .try-out {
+  color: #fff;
+}
+.askrow .try-note {
+  flex: 1 1 100%;
+  margin: 0;
+}
+
+/* quiet "Running on" line and its text button */
+.runline {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+button.linkbtn,
+button.linkbtn:disabled,
+button.linkbtn:hover:not(:disabled) {
+  min-height: 2.75rem;
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: 600 0.85rem var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: underline;
+}
+button.linkbtn:hover:not(:disabled) {
+  color: var(--ink);
+}
+button.linkbtn:disabled {
+  color: var(--muted);
+  text-decoration: none;
+  cursor: not-allowed;
+}
+#cmp-how {
+  margin-top: 0;
+}
+#cmp-how > summary {
+  min-height: 2.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+/* results */
+.lastq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 1rem 0 0.25rem;
+}
+.lastq-text {
+  flex: 1 1 14rem;
+  min-width: 0;
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.wire-toggle {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0.5rem 0 0;
+  padding: 0 0.9rem 0 0.6rem;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.wire-toggle b {
+  font: 700 0.8rem var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.chat-empty {
+  margin: 0.5rem 0;
+  padding: 1.25rem 1rem;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* the score block at the bottom */
+.evalblock {
+  margin: 2rem 0 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.evalblock h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+.evalblock p {
+  margin: 0;
+}
+.evalblock-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0.75rem 0;
+}
+
+@media (max-width: 600px) {
+  #compare h1 {
+    font-size: 1.6rem;
+  }
+  .ov-lane {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* five steps and four arrows fit a 500 px screen without scrolling */
+  .ov-lane {
+    padding: 0.6rem 0.6rem 0.8rem 0.75rem;
+  }
+  .ov-node {
+    width: 3.9rem;
+    min-height: 4.2rem;
+    padding: 0.25rem 0.1rem;
+    font-size: 0.68rem;
+  }
+  .ov-icon,
+  .ov-icon svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  .ov-arrow {
+    margin: 1.3rem 0.1rem 0;
+    font-size: 0.9rem;
+  }
+  .ov-branch {
+    width: 7rem;
+  }
+  .askrow {
+    padding: 0.75rem;
+  }
+  .askrow .cmpq {
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .ask-big,
+  .askrow .try-btn,
+  .evalblock-actions button {
+    width: 100%;
+  }
+  .askrow .try-row {
+    flex-direction: column;
+    width: 100%;
+  }
+  .evalblock {
+    padding: 1rem;
+  }
+}

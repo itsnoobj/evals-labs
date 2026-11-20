@@ -1,4 +1,4 @@
-// The "Try these" row on Side by side: two buttons that each load a recorded run with a known result.
+// The quick-start chips on Side by side ("Try these"): two buttons that each load a recorded run with a known result.
 // Exports: TRY_THESE, LIVE_ONLY, NOT_LOADED, LOADING, questionLabel, tryTheseHtml. Pure strings, no DOM.
 // `outcome` is shown under the title, so it must stay true for data/recorded-runs.json.
 // tests/ui/try-these.test.mjs replays each (caseId, seed) pair and fails if the words stop being true.
@@ -38,24 +38,27 @@ export function questionLabel(caseId) {
   return `${c.merchant}, ₹${c.amount.toLocaleString("en-IN")}`;
 }
 
-// disabledReason: "" when the buttons work, else the words to show (the buttons are disabled and say why).
+// disabledReason: "" when the chips work, else the words to show (the chips are disabled and say why).
+// Each chip is a short title plus a one-line caption that says the result you will see. No question text: the chat shows it.
 export function tryTheseHtml({ disabledReason = "" } = {}) {
   const buttons = TRY_THESE.map(
     (t) =>
       `<button type="button" class="sec try-btn" data-try="${esc(t.id)}"${disabledReason ? " disabled" : ""}>` +
-      `<span class="try-title">${esc(t.label)}: ${esc(questionLabel(t.caseId))}</span>` +
+      `<span class="try-title">${esc(t.label)}</span>` +
       `<span class="try-out">${esc(t.outcome)}</span>` +
       (disabledReason ? `<span class="try-why">${esc(disabledReason)}</span>` : "") +
       `</button>`,
   ).join("");
-  const note = !disabledReason
-    ? "These use recorded runs, so you see the same result every time."
-    : disabledReason === LIVE_ONLY
-      ? `${LIVE_ONLY}. The live model is active. Press Use recorded runs above to switch.`
-      : `${disabledReason}.`;
+  const note =
+    disabledReason === LIVE_ONLY
+      ? `${LIVE_ONLY}. Press "Use recorded runs" to switch.`
+      : disabledReason
+        ? `${disabledReason}.`
+        : "";
   return (
-    `<div class="try-these" role="group" aria-label="Try these">` +
-    `<p class="k">Try these</p><div class="try-row">${buttons}</div>` +
-    `<p class="muted try-note">${esc(note)}</p></div>`
+    `<div class="try-these" role="group" aria-label="Quick start">` +
+    `<p class="k">Or quick start</p><div class="try-row">${buttons}</div>` +
+    (note ? `<p class="muted try-note">${esc(note)}</p>` : "") +
+    `</div>`
   );
 }

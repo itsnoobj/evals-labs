@@ -225,6 +225,10 @@ export function chatHtml(opts = {}) {
       : expected || steps.length
         ? resultHtml(steps, expected, outcome, cardNames)
         : "";
+  // No question yet (nothing picked): say what to do instead of an empty bubble.
+  const asked = question
+    ? `<div class="msg msg-user"><div class="bubble">${e(question)}</div></div>`
+    : '<p class="chat-empty">No question asked yet. Pick one above and press ASK BOTH.</p>';
   return (
     `<div class="chat chat-${careful ? "careful" : "simple"}">` +
     `<header class="chat-head"><span class="chat-av" aria-hidden="true">${e(
@@ -234,7 +238,7 @@ export function chatHtml(opts = {}) {
     )}</span>` +
     `<div><h3>${e(title)}</h3><p class="chat-sub">${e(subtitle)}</p></div><ul class="chat-chips">${chips}</ul></header>` +
     `${systemHtml(systemPrompt, careful)}` +
-    `<div class="chat-msgs"><div class="msg msg-user"><div class="bubble">${e(question)}</div></div>` +
+    `<div class="chat-msgs">${asked}` +
     `${body}${typing}${verdictWire}${rejected}${log}${score}${tl}</div>${res}</div>`
   );
 }
