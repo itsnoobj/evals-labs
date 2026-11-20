@@ -25,10 +25,10 @@ Confidence labels: high = official bank document; medium = agreeing secondary so
 |---|---|---|---|---|---|---|---|---|
 | C01 | I'm a Prime member spending ₹15,000 on Amazon. Which card should I use? | Amazon -> amazon (Amazon.in) | 3.33% (medium) | 0.5% (medium) | 5% (high) | 5% (medium) | HDFC Swiggy or ICICI Amazon Pay | ₹750 |
 | C02 | Ordering ₹800 of food on Swiggy. Which card is best? | Swiggy -> swiggy (Swiggy app) | 3.33% (medium) | 0.5% (medium) | 1% (high) | 10% (high) | HDFC Swiggy | ₹80 |
-| C03 | I'm buying an ₹8,000 phone on Flipkart. Which card is best? | Flipkart -> online_shopping (Other online shopping, e.g. Flipkart) | 3.33% (medium) | 0.5% (medium) | 1% (high) | 5% (medium) | HDFC Swiggy | ₹400 |
+| C03 | I'm buying a ₹24,999 phone on Flipkart. Which card is best? | Flipkart -> online_shopping (Other online shopping, e.g. Flipkart) | 3.33% (medium) | 0.5% (medium) | 1% (high) | 5% (medium) | HDFC Swiggy | ₹1249.95 |
 | C04 | Petrol worth ₹2,000 at an HP Petrol Pump. Which card should I use? | HP Petrol Pump -> fuel_hpcl (HPCL petrol pump) | 0% (medium) | 5% (high) | 0% (high) | 0% (medium) | IDFC First Power+ | ₹100 |
 | C05 | Paying my ₹1,800 BESCOM electricity bill directly. Which card should I use? | BESCOM -> utilities (Electricity bill) | 3.33% (medium) | 5% (medium) | 0% (high) | 0% (low) | IDFC First Power+ | ₹90 |
-| C06 | Paying my ₹500 Airtel phone bill directly. Which card is best? | Airtel -> telecom (Phone bill) | 3.33% (medium) | 5% (medium) | 0% (high) | 0% (low) | IDFC First Power+ | ₹25 |
+| C06 | Recharging my Airtel postpaid plan, ₹599. Which card is best? | Airtel -> telecom (Phone bill) | 3.33% (medium) | 5% (medium) | 0% (high) | 0% (low) | IDFC First Power+ | ₹29.95 |
 
 ## Per case detail
 
@@ -62,18 +62,18 @@ Why it is robust: HDFC Swiggy 10% is on the official page (high). Rs 800 is abov
 
 Check run by this script: with every low-confidence cell set to 0%, the accepted cards are unchanged; set to 1%, unchanged.
 
-### C03: I'm buying an ₹8,000 phone on Flipkart. Which card is best?
+### C03: I'm buying a ₹24,999 phone on Flipkart. Which card is best?
 
-Merchant "Flipkart" -> category `online_shopping`. Amount ₹8000. Accepted: hdfc_swiggy, reward ₹400.
+Merchant "Flipkart" -> category `online_shopping`. Amount ₹24999. Accepted: hdfc_swiggy, reward ₹1249.95. Note: HDFC Swiggy pays 5% on Flipkart, Rs 1,249.95 here, which stays under its Rs 1,500 cap per cycle.
 
 | Card | Rate | Reward | Confidence | Source | Note |
 |---|---|---|---|---|---|
-| HDFC Swiggy (accepted) | 5% | ₹400 | medium | https://www.grabon.in/indulge/finance/swiggy-hdfc-credit-card-review/ | Flipkart is a named 5% online merchant. Cap Rs 1,500 per cycle. |
-| HDFC Infinia | 3.33% | ₹266.4 | medium | https://cardinsider.com/hdfc-bank/hdfc-bank-infinia-credit-card/ | Same base earn as Amazon: 3.33% at Rs 1 per RP (1% as a statement credit). |
-| ICICI Amazon Pay | 1% | ₹80 | high | https://www.icici.bank.in/content/dam/icicibank/india/managed-assets/revamp-page-images/docs/pdf/tc-for-amazon-pay-credit-card.pdf | 1% on all non-Amazon platforms (cl. 10). Flipkart's merchant code was not checked. |
-| IDFC First Power+ | 0.5% | ₹40 | medium | https://www.idfcfirst.bank.in/content/dam/idfcfirstbank/pdf/cards/Savings-Maximiser-FIRST-Power-plus.pdf | Same other-retail rule: 0.5%. Flipkart's merchant code is inferred. |
+| HDFC Swiggy (accepted) | 5% | ₹1249.95 | medium | https://www.grabon.in/indulge/finance/swiggy-hdfc-credit-card-review/ | Flipkart is a named 5% online merchant. Cap Rs 1,500 per cycle. |
+| HDFC Infinia | 3.33% | ₹832.47 | medium | https://cardinsider.com/hdfc-bank/hdfc-bank-infinia-credit-card/ | Same base earn as Amazon: 3.33% at Rs 1 per RP (1% as a statement credit). |
+| ICICI Amazon Pay | 1% | ₹249.99 | high | https://www.icici.bank.in/content/dam/icicibank/india/managed-assets/revamp-page-images/docs/pdf/tc-for-amazon-pay-credit-card.pdf | 1% on all non-Amazon platforms (cl. 10). Flipkart's merchant code was not checked. |
+| IDFC First Power+ | 0.5% | ₹125 | medium | https://www.idfcfirst.bank.in/content/dam/idfcfirstbank/pdf/cards/Savings-Maximiser-FIRST-Power-plus.pdf | Same other-retail rule: 0.5%. Flipkart's merchant code is inferred. |
 
-Why it is robust: HDFC Swiggy 5% is medium: Flipkart is a named 5% brand in two secondary sources. Every rival is 3.33% or less (Infinia). The one way it fails is Flipkart not mapping to a 5% merchant code, then Infinia wins alone at 3.33%. No unverified cell is in this row.
+Why it is robust: HDFC Swiggy 5% is medium: Flipkart is a named 5% brand in two secondary sources. Rs 24,999 earns Rs 1,249.95, under the Rs 1,500 cycle cap on that 5%. Every rival is 3.33% or less (Infinia). The one way it fails is Flipkart not mapping to a 5% merchant code, then Infinia wins alone at 3.33%. No unverified cell is in this row.
 
 Check run by this script: with every low-confidence cell set to 0%, the accepted cards are unchanged; set to 1%, unchanged.
 
@@ -107,18 +107,18 @@ Why it is robust: IDFC 5% on utility MCCs is official; BESCOM's MCC 4900 mapping
 
 Check run by this script: with every low-confidence cell set to 0%, the accepted cards are unchanged; set to 1%, unchanged.
 
-### C06: Paying my ₹500 Airtel phone bill directly. Which card is best?
+### C06: Recharging my Airtel postpaid plan, ₹599. Which card is best?
 
-Merchant "Airtel" -> category `telecom`. Amount ₹500. Accepted: idfc_first_power_plus, reward ₹25.
+Merchant "Airtel" -> category `telecom`. Amount ₹599. Accepted: idfc_first_power_plus, reward ₹29.95.
 
 | Card | Rate | Reward | Confidence | Source | Note |
 |---|---|---|---|---|---|
-| IDFC First Power+ (accepted) | 5% | ₹25 | medium | https://www.idfcfirst.bank.in/content/dam/idfcfirstbank/pdf/credit-card/MITC-Document-Customer.pdf | Telecom bills use utility MCC 4814 (MITC list) = 5%, same Rs 2,000 cycle cap. Airtel's merchant code is inferred. |
-| HDFC Infinia | 3.33% | ₹16.65 | medium | https://v.hdfc.bank.in/htdocs/common/sms-communication-sept.html | Telecom (MCC 4812, 4814, 4899) earns base RP, capped at 2,000 RP per month (HDFC notice, Sep 2024). 3.33% at Rs 1 per RP (1% as a statement credit). |
+| IDFC First Power+ (accepted) | 5% | ₹29.95 | medium | https://www.idfcfirst.bank.in/content/dam/idfcfirstbank/pdf/credit-card/MITC-Document-Customer.pdf | Telecom bills use utility MCC 4814 (MITC list) = 5%, same Rs 2,000 cycle cap. Airtel's merchant code is inferred. |
+| HDFC Infinia | 3.33% | ₹19.95 | medium | https://v.hdfc.bank.in/htdocs/common/sms-communication-sept.html | Telecom (MCC 4812, 4814, 4899) earns base RP, capped at 2,000 RP per month (HDFC notice, Sep 2024). 3.33% at Rs 1 per RP (1% as a statement credit). |
 | HDFC Swiggy | 0% | ₹0 | low | https://www.newsbytesapp.com/news/business/swiggy-and-hdfc-bank-launch-blck-ornge-credit-cards/tldr | UNVERIFIED in research (0 or 1), set to 0. Research could not verify this. Cannot change the winner of any case. |
 | ICICI Amazon Pay | 0% | ₹0 | high | https://www.icici.bank.in/content/dam/icicibank/india/managed-assets/revamp-page-images/docs/pdf/tc-for-amazon-pay-credit-card.pdf | Telecom MCCs sit in the utility list, so a direct bill payment earns nothing (cl. 9, 12, 28). |
 
-Why it is robust: IDFC 5% on telecom MCC 4814 is on the official list; Airtel's mapping is inferred (medium). Rs 500 is inside the Rs 2,000 cycle cap. The unverified cell (HDFC Swiggy telecom, research range 0 or 1) is far below 5%, so it cannot change the winner. ICICI pays 0 direct, Infinia 3.33.
+Why it is robust: IDFC 5% on telecom MCC 4814 is on the official list; Airtel's mapping is inferred (medium). Rs 599 is inside the Rs 2,000 cycle cap. The unverified cell (HDFC Swiggy telecom, research range 0 or 1) is far below 5%, so it cannot change the winner. ICICI pays 0 direct, Infinia 3.33.
 
 Check run by this script: with every low-confidence cell set to 0%, the accepted cards are unchanged; set to 1%, unchanged.
 

@@ -12,7 +12,7 @@ A browser page that teaches how to evaluate an AI agent, using a small model tha
 
 **[Open the live page](https://itsnoobj.github.io/evals-labs/)** · [How it works](#how-it-works) · [Run it locally](#run-it-locally) · [Repo layout](#repo-layout)
 
-<img src="docs/img/07-side-by-side.png" alt="Side by side: a simple agent and a careful agent answer the same question, with the wiring graph switched on" width="900">
+<img src="docs/img/07-side-by-side.png" alt="Side by side: an agent without evals and an agent with evals answer the same question, with the wiring graph switched on" width="900">
 
 </div>
 
@@ -28,7 +28,7 @@ A small model (Qwen2.5-1.5B through [WebLLM](https://github.com/mlc-ai/web-llm))
 - score the run with 8 checks and break it on purpose to see which checks notice,
 - run a test set and see the run-to-run spread,
 - see how small errors add up over many steps,
-- compare a **simple agent** with a **careful agent** (guardrails, safety net, checker, retries, fallback).
+- compare an **agent without evals** with an **agent with evals** (guardrails, safety net, checker, retries, fallback).
 
 No server, no API key, no build step. Everything runs in the browser. If your browser has no WebGPU, the page replays real runs recorded earlier.
 
@@ -41,8 +41,8 @@ No server, no API key, no build step. Everything runs in the browser. If your br
 | **2 Checks.** 8 checks, plus a bug injector. Click any check.   | <img src="docs/img/03-checks.png" alt="Checks screen" width="440">                                       |
 | **3 Test set.** 6 questions × several runs = a pass-rate grid.  | <img src="docs/img/05-test-set.png" alt="Test set grid" width="440">                                     |
 | **4 Errors add up.** Per-step accuracy compounds over steps.    | <img src="docs/img/06-errors-add-up.png" alt="Errors add up curve" width="440">                          |
-| **5 Side by side.** Same question, two agents, wiring on.       | <img src="docs/img/08-wiring-careful.png" alt="Wiring graph of the careful agent" width="440">           |
-| **AI grader.** The exact prompt an LLM-as-judge is given.       | <img src="docs/img/04-ai-grader.png" alt="How the AI grader works" width="440">                          |
+| **5 Side by side.** Same question, two agents, wiring on.       | <img src="docs/img/08-wiring-careful.png" alt="Wiring graph of the agent with evals" width="440">         |
+| **LLM judge.** The exact prompt a second AI is given, and its 5 grades. | <img src="docs/img/04-ai-grader.png" alt="How the LLM judge works" width="440">                     |
 
 Every box in every diagram opens a panel with the real data of the run and a short list of open-source tools for that step (for example Langfuse for tracing, Promptfoo for evals).
 
@@ -57,15 +57,15 @@ flowchart LR
     T -- result --> M
     M -- final answer --> C{Checker<br>+ output guardrails}
     C -- pass --> A[Answer]
-    C -- fail --> R[Retry up to 3 times]
+    C -- fail --> R[Retry up to 3 tries]
     R --> M
     R -. still failing .-> F[Fallback from the tool result<br>or refuse]
-    A --> E[8 checks vs the answer key]
+    A --> E[8 checks vs the answer key<br>+ LLM judge as a second opinion]
 ```
 
 The model knows **no card rates**. Rates live in two plain-code tools. The model only chooses which tool to call and copies numbers from the result, so every wrong answer is a measurable agent mistake, not a trivia gap.
 
-| Part                | Simple agent             | Careful agent                                          |
+| Part                | Agent without evals      | Agent with evals                                       |
 | ------------------- | ------------------------ | ------------------------------------------------------ |
 | Prompt              | same system prompt       | same system prompt                                     |
 | Output format       | free JSON                | schema-constrained steps (safety net)                  |
@@ -78,16 +78,22 @@ The model knows **no card rates**. Rates live in two plain-code tools. The model
 
 Qwen2.5-1.5B-Instruct (q4f16_1), 6 questions × 5 runs, temperature 0.7. Source: [`benchmarks/RESULTS.md`](benchmarks/RESULTS.md).
 
-| Mode                         | Task success   |
-| ---------------------------- | -------------- |
-| Free JSON reply              | 23 / 30 = 76.7% |
-| Constrained to a schema      | 26 / 30 = 86.7% |
+| Mode                         | Task success    |
+| ---------------------------- | --------------- |
+| Free JSON reply              | 18 / 30 = 60.0% |
+| Constrained to a schema      | 23 / 30 = 76.7% |
 
-The careful agent, replaying the recorded constrained runs, passed the checker 26 times on the first try and 4 times after a retry. Five runs per question is a small sample, so treat the percentages as indicative.
+The agent with evals, replaying the recorded constrained runs, passed the checker 22 times on the first try, 7 times after a retry and once through the fallback. Five runs per question is a small sample, so treat the percentages as indicative. One real finding: asked to recharge an Airtel plan, the small model often sends the whole phrase to the merchant lookup and gets stuck (0 of 5 free runs pass).
 
 ### The answer key
 
-Four real Indian credit cards, six questions, every rate cell with a source URL and a confidence level (see [`docs/answer-key-audit.md`](docs/answer-key-audit.md)). Assumptions are shown on the Start screen: Prime member, first purchase of the month, direct card payment, HDFC Infinia points valued at ₹1 (its best value, 3.33%). _Educational, not financial advice. Rates change._
+Four real Indian credit cards, six everyday questions (Amazon, Swiggy, a ₹24,999 Flipkart phone, petrol, an electricity bill, a phone plan), every rate cell with a source URL and a confidence level (see [`docs/answer-key-audit.md`](docs/answer-key-audit.md)). Assumptions are shown on the Start screen: Prime member, first purchase of the month, direct card payment, HDFC Infinia points valued at ₹1 (its best value, 3.33%). _Educational, not financial advice. Rates change._
+
+## On a phone
+
+<img src="docs/img/m1-start.png" alt="Start screen on a phone" width="240"> <img src="docs/img/m2-compare.png" alt="Side by side on a phone, with the bottom tab bar" width="240">
+
+Phones open the **quick path** by default: Start, Run and Side by side, in a bottom tab bar, with Next and Back buttons on every screen. **Show all screens** switches to the full path. Use recorded runs on a phone; the live model is an 880 MB download that needs a laptop-class GPU.
 
 ## Run it locally
 
@@ -110,7 +116,7 @@ evals-lab/                 the deployed site (GitHub Pages publishes this folder
 ├── data/                  recorded real-model runs, DSPy prompt (fetched by the page)
 └── src/
     ├── task/              the card-picking task: cards, rates, tools, answer key, typed questions
-    ├── agent/             agent loop, careful agent, guardrails, WebLLM adapter
+    ├── agent/             agent loop, agent with evals, guardrails, LLM judge, WebLLM adapter
     ├── evals/             the 8 checks, bug injector, scoring
     ├── ui/                pure functions that return HTML (chat, wiring graph, panels, lessons)
     ├── app/               one module per screen, state.js, main.js (entry point)
@@ -137,7 +143,7 @@ node scripts/audit-key.mjs                            # print the answer-key aud
 
 ## Known limits
 
-- Live model path: an earlier build ran live in Chrome on one machine (Apple M4 Max). The latest careful-agent and wiring screens were checked only with the recorded runs, because the automated headless checks cannot use WebGPU.
+- The automated headless checks use the recorded runs, because headless Chrome has no WebGPU. The live model path (load, run, LLM judge) is tested by hand in Chrome on one machine.
 - A typed question has no answer key, so the checks that need a key show NOT RUN.
 - The tools know 6 merchants. An unknown merchant returns a tool error, on purpose.
 - Monthly caps (for example IDFC's ₹2,000 utility bucket) are assumed not to be reached.

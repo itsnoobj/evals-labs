@@ -20,3 +20,4 @@
 - Golden set shrank from 12 to 6 verified cases: cases whose winner depends on an unverified merchant code, a tie at low confidence, or no winner were dropped.
 - Ties are accepted: `expected.accept` lists every card with the top reward, and `task_success`, `answer_match`, the checker and the result strip all accept any of them.
 - Re-recorded all real model runs (Qwen2.5-1.5B, 6 cases x 5 runs, free and constrained) on the fixed 6-case key; old 12-case result files were overwritten by the 2026-11-20 re-record (not recoverable; the 12-case numbers remain in RESULTS.md marked OLD KEY).
+- Default run number is 0 (was 42): with the 2026-11-20 recordings, seed 42 (pool offset 2) shows both agents right on C05; offset 0 shows the agent without evals wrong and the agent with evals right on the first try. Recorded pools rotate by seed mod 5.
