@@ -2,6 +2,7 @@
 // Exports: setNote, syncCmpModelBar, enterMode, onLoadModel.
 import { CASES } from "../task/cases.js";
 import { loadModel } from "../agent/llm.js";
+import { tryTheseHtml, LIVE_ONLY, NOT_LOADED, LOADING } from "../ui/try-these.js";
 import { $, state, mark, describeError } from "./state.js";
 
 function setStatus(kind, label) {
@@ -40,6 +41,10 @@ export function syncCmpModelBar() {
   [...$("cmp-model-progress").children].forEach((s, i) =>
     s.classList.toggle("on", $("model-progress").children[i].classList.contains("on")),
   );
+  // The Try these buttons use recorded runs only. With the live model they stay disabled and say why in text.
+  $("cmp-try").innerHTML = tryTheseHtml({
+    disabledReason: state.mode === "live" ? LIVE_ONLY : kind === "loading" ? LOADING : state.recorded ? "" : NOT_LOADED,
+  });
 }
 
 export function enterMode(mode) {
@@ -53,7 +58,7 @@ export function enterMode(mode) {
   $("cmp-ask").disabled = false;
   $("cmp-hint").textContent =
     mode === "replay"
-      ? "Recorded runs, run number 0. The preselected question (C05, the BESCOM electricity bill) shows the gap: the agent without evals gets it wrong and the agent with evals gets it right on the first try. For a retry, set the run number to 1 on the Run screen (Settings) and ask C01 (Amazon): the agent without evals is wrong and the agent with evals needs a second try."
+      ? "Recorded runs. Pick a question and press Ask both, or press a Try these button."
       : "Pick a question and press Ask both. Live answers vary from run to run.";
   $("judge-run").disabled = mode !== "live";
   $("set-progress").textContent = `${CASES.length} cases. Press Run the set.`;

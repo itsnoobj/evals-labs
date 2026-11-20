@@ -1,0 +1,131 @@
+/* Start screen picture: task boxes with arrows, the four cards, the 3-step strip. Square, flat, no shadow. */
+.sv {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0 0 1.5rem;
+}
+
+/* 5 boxes left to right. Arrows are text, so the order never depends on colour. Wraps to 2 rows on phones. */
+.sv-flow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.5rem 0;
+}
+.sv-step {
+  flex: 1 1 8rem;
+  min-width: 0;
+  display: flex;
+}
+.sv-arrow {
+  flex: 0 0 1.5rem;
+  align-self: center;
+  text-align: center;
+  font: 700 1.2rem var(--mono);
+  color: var(--ink);
+}
+.sv-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  border-top: 6px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.sv-box:hover {
+  background: var(--paper);
+  color: var(--ink);
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+.sv-box .xvis-svg {
+  width: 3.5rem;
+  height: 3.5rem;
+  flex: none;
+}
+.sv-label {
+  font: 700 0.95rem var(--sans);
+}
+.sv-eg {
+  font: 0.8rem/1.35 var(--mono);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.sv-cue {
+  margin: 0.5rem 0 0;
+}
+
+/* the four cards */
+.sv-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+.sv-card {
+  display: grid;
+  grid-template-rows: 62px auto;
+  align-content: start;
+  justify-items: start;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.sv-cards .card-art {
+  width: 96px;
+  margin: 0;
+}
+.sv-cname {
+  font: 700 0.85rem var(--mono);
+  overflow-wrap: anywhere;
+}
+
+/* what you will do */
+.sv-do {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  font-weight: 700;
+}
+.sv-do li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sv-do b {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--ink);
+  color: #fff;
+  font: 700 0.8rem var(--mono);
+}
+
+@media (max-width: 600px) {
+  .sv-step {
+    flex-basis: 7rem;
+  }
+  .sv-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sv-do {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

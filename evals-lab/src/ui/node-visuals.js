@@ -110,6 +110,11 @@ export function nodeVisualHtml(id, { missing = false } = {}) {
   return `<figure class="xvis${missing ? " xvis-missing" : ""}">${svg(SHAPES[shape])}<figcaption>${esc(caption)}</figcaption></figure>`;
 }
 
+// The pictogram alone, for places that print their own visible label next to it (the Start diagram). Unknown id: "".
+export function nodeIconHtml(id) {
+  return Object.hasOwn(VISUALS, id) ? svg(SHAPES[VISUALS[id][0]]) : "";
+}
+
 // "IN -> OUT" strip made of two text boxes. Values are plain text (escaped here). A missing value reads "none".
 export function flowStripHtml(inText, outText) {
   const box = (label, text) =>

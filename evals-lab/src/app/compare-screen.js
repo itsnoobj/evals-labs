@@ -1,5 +1,5 @@
 // The Side by side screen: Ask both, the two chats, and the two agent runs.
-// Exports: drawChats, onAskBoth, onScoreBoth, onStopScore, drawScore.
+// Exports: drawChats, onAskBoth, onTryThis, onScoreBoth, onStopScore, drawScore.
 import { CASES, CATEGORY_LABELS } from "../task/cases.js";
 import { METRICS, scoreRun } from "../evals/engine.js";
 import { runCase, SYSTEM_PROMPT } from "../agent/agent-step.js";
@@ -9,7 +9,8 @@ import { runGuarded, makeReplayChat, verifyRun } from "../agent/guarded-agent.js
 import { checkInput } from "../agent/guardrails.js";
 import { scoreBoth, replayRunAgent } from "../agent/score-both.js";
 import { scoreResultHtml } from "../ui/score-result.js";
-import { syncCmpModelBar } from "./model-bar.js";
+import { TRY_THESE } from "../ui/try-these.js";
+import { syncCmpModelBar, enterMode, setNote } from "./model-bar.js";
 import {
   $,
   state,
@@ -115,11 +116,21 @@ function runCareful(c, seed, onEvent, onStep) {
 }
 
 // The inputs stay locked while a run is going, so the question cannot change under it.
+let cmpBusy = false;
 function setCmpBusy(busy) {
+  cmpBusy = busy;
   $("cmp-ask").disabled = busy;
   $("cmp-score-start").disabled = busy;
   $("cmp-case").disabled = busy;
   $("cmp-text").disabled = busy;
+  // Try these is redrawn by the model bar sync, which also decides whether recorded runs are available.
+  if (busy)
+    $("cmp-try")
+      .querySelectorAll("button")
+      .forEach((b) => {
+        b.disabled = true;
+      });
+  else syncCmpModelBar();
   $("cmp-examples")
     .querySelectorAll("button")
     .forEach((b) => {
@@ -204,6 +215,25 @@ export async function onScoreBoth() {
     setCmpBusy(false);
     syncCmpModelBar();
   }
+}
+
+// A Try these button: pick the question and run number whose recorded runs show the result named on the button, then Ask both.
+// It needs recorded runs, so it switches to them when no mode is chosen and does nothing in live mode.
+export async function onTryThis(id) {
+  const item = TRY_THESE.find((t) => t.id === id);
+  if (!item || cmpBusy || state.mode === "live" || !state.recorded) return;
+  if (state.mode !== "replay") {
+    enterMode("replay");
+    setNote("");
+  }
+  $("cmp-text").value = "";
+  $("cmp-case").value = item.caseId;
+  $("seed").value = String(item.seed);
+  $("cmp-hint").textContent = "Pick a question and press Ask both.";
+  state.cmp = null;
+  $("cmp-summary").hidden = true;
+  drawChats();
+  await onAskBoth();
 }
 
 const safeScore = (c, run) => {

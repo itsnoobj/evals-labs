@@ -11,16 +11,16 @@ import { onRunCase } from "./run-screen.js";
 import { drawMetrics, onTileSelected, onBugSelected, onJudge } from "./metrics-screen.js";
 import { onRunSet, onCellSelected } from "./golden-screen.js";
 import { drawCurve } from "./compounding-screen.js";
-import { drawChats, onAskBoth, onScoreBoth, onStopScore } from "./compare-screen.js";
+import { drawChats, onAskBoth, onTryThis, onScoreBoth, onStopScore } from "./compare-screen.js";
 import { drawWiring, loadDspy, bindWiringRoots } from "./wiring-panel.js";
 import { drawStart, fillExamples } from "./start-screen.js";
 import { initNav } from "./nav.js";
 import { installDisclose } from "../ui/disclose.js";
+import { glossaryHtml } from "../ui/glossary.js";
 
 // The long explanation of live and recorded runs sits in the "Live or recorded?" section of index.html.
 // The note line under the model bar shows only warnings, progress and errors.
 // enterMode() writes a long replay note under the model bar; that text is in the "Live or recorded?" section.
-// enterMode() also writes a long hint under the Ask both button; its text now sits in the "Suggested questions" section of index.html.
 const useReplay = () => {
   enterMode("replay");
   setNote("");
@@ -29,6 +29,8 @@ const useReplay = () => {
 
 async function init() {
   installDisclose();
+  // One closed "Words used here" section per screen. The containers sit outside every redrawn area, so they stay put.
+  for (const key of ["run", "checks", "golden", "errors", "compare"]) $(`gloss-${key}`).innerHTML = glossaryHtml(key);
   ui.showScreenFromHash();
   initNav();
   drawStart();
@@ -103,6 +105,11 @@ async function init() {
   };
   $("cmp-text").oninput = cmpQuestionChanged;
   $("cmp-ask").onclick = onAskBoth;
+  // The Try these buttons are redrawn by the model bar, so one listener on their container handles them.
+  $("cmp-try").addEventListener("click", (ev) => {
+    const btn = ev.target.closest("button[data-try]");
+    if (btn && !btn.disabled) onTryThis(btn.dataset.try);
+  });
   $("cmp-score-start").onclick = onScoreBoth;
   $("cmp-score-stop").onclick = onStopScore;
   $("show-wiring").onchange = () => {

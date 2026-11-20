@@ -1,13 +1,26 @@
-// The Start screen: the task diagram, the cards table, the demo rules, and the example-question buttons.
+// The Start screen: the task picture, the four cards, the rates table, the demo rules, and the example-question buttons.
 import { METRICS } from "../evals/engine.js";
 import { CARDS, CATEGORIES, CATEGORY_LABELS, ASSUMPTIONS } from "../task/cases.js";
 import { CUSTOM_EXAMPLES } from "../task/custom-question.js";
 import { cardsMatrixHtml } from "../ui/cards-view.js";
+import { openExplain } from "../ui/explain-dialog.js";
+import { STAGES } from "../ui/lessons.js";
+import { startVisualHtml } from "../ui/start-visual.js";
 import * as ui from "../ui/ui.js";
 
 export function drawStart() {
   ui.renderMissions(new Set());
-  ui.renderFlow(document.getElementById("start-flow"), { metrics: METRICS });
+  const visual = document.getElementById("start-visual");
+  visual.innerHTML = startVisualHtml({ metricCount: METRICS.length });
+  // Clicking a box opens the same explain dialog as the Run screen, with no run yet.
+  visual.querySelectorAll("[data-stage]").forEach((b) => {
+    b.onclick = () => {
+      const st = STAGES.find((s) => s.id === b.dataset.stage);
+      openExplain(ui.stageExplain(st, { metrics: METRICS }), {
+        returnFocus: () => visual.querySelector(`[data-stage="${st.id}"]`),
+      });
+    };
+  });
   document.getElementById("start-cards").innerHTML = cardsMatrixHtml({
     cards: CARDS,
     categories: CATEGORIES,
