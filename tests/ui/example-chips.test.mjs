@@ -6,6 +6,9 @@ import { CASES, MERCHANTS } from "../../evals-lab/src/task/cases.js";
 import { scoreBoth, replayRunAgent } from "../../evals-lab/src/agent/score-both.js";
 import {
   exampleChips,
+  questionOptions,
+  OPT_HELP,
+  OPT_SAME,
   exampleChipsHtml,
   knownShops,
   GROUP_HELP,
@@ -69,4 +72,26 @@ test("knownShops lists every MERCHANTS key in the built-in spelling", () => {
   const shops = knownShops(MERCHANTS, CASES);
   assert.equal(shops.length, Object.keys(MERCHANTS).length);
   assert.ok(shops.includes("HP Petrol Pump") && shops.includes("BESCOM"));
+});
+
+test("dropdown: every case once, groups by gap, biggest gap first, numbers from scoreBoth", async () => {
+  const groups = await questionOptions(recorded, CASES);
+  const ids = groups.flatMap((g) => g.items.map((i) => i.id));
+  assert.deepEqual([...ids].sort(), CASES.map((c) => c.id).sort());
+  const gaps = ids.map(gapOf);
+  assert.deepEqual(
+    gaps,
+    [...gaps].sort((a, b) => b - a),
+  );
+  for (const g of groups) {
+    for (const i of g.items) {
+      const s = score.simple.perCase[i.id];
+      const w = score.careful.perCase[i.id];
+      assert.ok(i.text.endsWith(`without evals ${s.passed}/${s.total}, with evals ${w.passed}/${w.total}`));
+      if (g.group === OPT_HELP) assert.ok(gapOf(i.id) > 0);
+      if (g.group === OPT_SAME) assert.equal(gapOf(i.id), 0);
+    }
+  }
+  assert.equal(groups[0].group, OPT_HELP);
+  assert.deepEqual(await questionOptions(null, CASES), []);
 });

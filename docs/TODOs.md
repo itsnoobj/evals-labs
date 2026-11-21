@@ -20,6 +20,8 @@
 
 ## Done
 
+- [x] ux29: Side by side question dropdown grouped and ordered by recorded evals gap (`questionOptions` in `example-chips.js`): "Evals make the difference" (C06 0/5 vs 5/5, C03 1/5 vs 5/5, C01 3/5 vs 5/5, C05 4/5 vs 5/5), then "Both agents do about the same" (C02, C04). Each option shows its recorded without/with counts. Headless recorded pass only. Build tag `ux29`.
+
 - [x] ux28: Typed-question chips are now real test-set cases picked from the recorded runs (`example-chips.js`: 2 biggest evals gaps + 1 both-fine case, captions from `scoreBoth`); hint "Add an amount and a shop this lab knows..." before ASK BOTH; chat says "The AI did not give a final answer." when a finished run has no final step; global AI status bar under the nav (`model-status.js`: not loaded / loading N% / ready / load failed / recorded). Headless recorded pass only; real WebGPU load not exercised. Build tag `ux28`.
 - [x] ux26: typed question / example looked like a no-op in recorded mode (screens 5 and 1). Hint now shown next to the button before the click; ASK BOTH disabled with a reason while recorded runs start.
 - [x] Judge lab dropped 2026-11-20: judge-calibration experiment missed the bar (TEST kappa 0.25 vs 0.40; see docs/research/judge-calibration.md). The "coming soon" tab and page (ux19) are removed (ux24).

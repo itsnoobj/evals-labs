@@ -17,7 +17,7 @@ import { drawStart } from "./start-screen.js";
 import { initNav } from "./nav.js";
 import { installDisclose } from "../ui/disclose.js";
 import { glossaryHtml } from "../ui/glossary.js";
-import { exampleChips, exampleChipsHtml, knownShops } from "../ui/example-chips.js";
+import { exampleChips, exampleChipsHtml, knownShops, questionOptions } from "../ui/example-chips.js";
 
 // The long explanation of live and recorded runs sits in the "Live or recorded?" section of index.html.
 // The note line under the model bar shows only warnings, progress and errors.
@@ -203,6 +203,24 @@ async function init() {
           const html = exampleChipsHtml(chips);
           $("case-examples").innerHTML = html;
           $("cmp-examples").innerHTML = html;
+        })
+        .catch(() => {});
+      // The dropdown gets the same recorded numbers: grouped, biggest evals gap first. A failure keeps the plain list.
+      questionOptions(data, CASES)
+        .then((groups) => {
+          if (!groups.length) return;
+          const sel = $("cmp-case");
+          const keep = sel.value;
+          sel.replaceChildren(
+            new Option("Pick a question...", ""),
+            ...groups.map(({ group, items }) => {
+              const og = document.createElement("optgroup");
+              og.label = group;
+              og.append(...items.map((i) => new Option(i.text, i.id)));
+              return og;
+            }),
+          );
+          sel.value = keep;
         })
         .catch(() => {});
       return null;

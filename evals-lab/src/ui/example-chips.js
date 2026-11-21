@@ -1,6 +1,6 @@
 // Example chips for the "Type your own" boxes. Each chip is a real test-set case, so it always has an answer key and a
 // recorded run. The picks and the captions are computed from data/recorded-runs.json (nothing is typed in by hand).
-// Exports: exampleChips (async), exampleChipsHtml, knownShops, GROUP_HELP, GROUP_FINE, RUNS_PER_CASE.
+// Exports: exampleChips (async), questionOptions (async), exampleChipsHtml, knownShops, GROUP_HELP, GROUP_FINE, OPT_HELP, OPT_SAME, OPT_WORSE, RUNS_PER_CASE.
 import { scoreBoth, replayRunAgent } from "../agent/score-both.js";
 
 export const GROUP_HELP = "Where evals help most";
@@ -13,36 +13,61 @@ const esc = (s) =>
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
   );
 
+// Pass counts per case for both agents on the recorded runs (same 5 runs per case as the Side by side score).
+async function caseRows(recorded, cases) {
+  const score = await scoreBoth({
+    cases,
+    runsPerCase: RUNS_PER_CASE,
+    runAgent: replayRunAgent(recorded, { seedBase: 0 }),
+  });
+  return cases.map((c) => ({ c, s: score.simple.perCase[c.id], w: score.careful.perCase[c.id] }));
+}
+const gap = (r) => r.w.passed - r.s.passed;
+const byGapThenId = (a, b) => gap(b) - gap(a) || a.c.id.localeCompare(b.c.id);
+const labelOf = (c) => `${c.merchant} ₹${c.amount.toLocaleString("en-IN")}`;
+
 // Pass rates per case for both agents on the recorded runs, then:
 //  - "help": the 2 cases with the biggest (with evals passed - without evals passed), biggest first, only if the gap is above 0.
 //  - "fine": the first case where both agents pass every run.
 // Returns [{ id, label, caption, group }]. [] when there are no recorded runs.
 export async function exampleChips(recorded, cases) {
   if (!recorded) return [];
-  const score = await scoreBoth({
-    cases,
-    runsPerCase: RUNS_PER_CASE,
-    runAgent: replayRunAgent(recorded, { seedBase: 0 }),
-  });
-  const rows = cases.map((c) => ({
-    c,
-    s: score.simple.perCase[c.id],
-    w: score.careful.perCase[c.id],
-  }));
+  const rows = await caseRows(recorded, cases);
   const chip = ({ c, s, w }, group) => ({
     id: c.id,
-    label: `${c.merchant} ₹${c.amount.toLocaleString("en-IN")}`,
+    label: labelOf(c),
     caption: `Recorded: without evals ${s.passed} of ${s.total}, with evals ${w.passed} of ${w.total}`,
     group,
   });
-  const gap = (r) => r.w.passed - r.s.passed;
   const help = rows
     .filter((r) => gap(r) > 0)
-    .sort((a, b) => gap(b) - gap(a) || a.c.id.localeCompare(b.c.id))
+    .sort(byGapThenId)
     .slice(0, 2)
     .map((r) => chip(r, GROUP_HELP));
   const fine = rows.find((r) => r.s.passed === r.s.total && r.w.passed === r.w.total && r.s.total > 0);
   return [...help, ...(fine ? [chip(fine, GROUP_FINE)] : [])];
+}
+
+export const OPT_HELP = "Evals make the difference (biggest gap first)";
+export const OPT_SAME = "Both agents do about the same";
+export const OPT_WORSE = "Evals did not help here";
+
+// Every test case for the Side by side dropdown, grouped by what evals did on the recorded runs and ordered by gap, biggest first.
+// Returns [{ group, items: [{ id, text }] }]; empty groups are left out. [] when there are no recorded runs.
+export async function questionOptions(recorded, cases) {
+  if (!recorded) return [];
+  const rows = (await caseRows(recorded, cases)).sort(byGapThenId);
+  const item = ({ c, s, w }) => ({
+    id: c.id,
+    text: `${c.id}  ${labelOf(c)}: without evals ${s.passed}/${s.total}, with evals ${w.passed}/${w.total}`,
+  });
+  return [
+    [OPT_HELP, rows.filter((r) => gap(r) > 0)],
+    [OPT_SAME, rows.filter((r) => gap(r) === 0)],
+    [OPT_WORSE, rows.filter((r) => gap(r) < 0)],
+  ]
+    .filter(([, g]) => g.length)
+    .map(([group, g]) => ({ group, items: g.map(item) }));
 }
 
 // One labelled row of buttons per group. A click is handled by the caller (data-example holds the case id).
