@@ -11,7 +11,7 @@ import { onRunCase } from "./run-screen.js";
 import { drawMetrics, onTileSelected, onBugSelected, onJudge } from "./metrics-screen.js";
 import { onRunSet, onCellSelected } from "./golden-screen.js";
 import { drawCurve } from "./compounding-screen.js";
-import { drawChats, onAskBoth, onClearResults, onTryThis, onScoreBoth, onStopScore } from "./compare-screen.js";
+import { drawChats, onAskBoth, onClearResults, onScoreBoth, onStopScore } from "./compare-screen.js";
 import { drawWiring, loadDspy, bindWiringRoots, openWiringNode } from "./wiring-panel.js";
 import { drawStart } from "./start-screen.js";
 import { initNav } from "./nav.js";
@@ -153,11 +153,6 @@ async function init() {
   $("cmp-root").addEventListener("click", (ev) => {
     const btn = ev.target.closest("button[data-sb-node]");
     if (btn) openWiringNode(btn.dataset.sbKind, btn.dataset.sbNode);
-  });
-  // The Try these buttons are redrawn by the model bar, so one listener on their container handles them.
-  $("cmp-try").addEventListener("click", (ev) => {
-    const btn = ev.target.closest("button[data-try]");
-    if (btn && !btn.disabled) onTryThis(btn.dataset.try);
   });
   $("cmp-score-start").onclick = onScoreBoth;
   $("cmp-score-stop").onclick = onStopScore;

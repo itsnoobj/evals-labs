@@ -1,5 +1,5 @@
 // The Side by side screen: Ask both, the two chats, and the two agent runs.
-// Exports: drawChats, onAskBoth, onClearResults, onTryThis, onScoreBoth, onStopScore, drawScore.
+// Exports: drawChats, onAskBoth, onClearResults, onScoreBoth, onStopScore, drawScore.
 import { CASES, CATEGORY_LABELS } from "../task/cases.js";
 import { METRICS, scoreRun } from "../evals/engine.js";
 import { runCase, SYSTEM_PROMPT } from "../agent/agent-step.js";
@@ -9,10 +9,9 @@ import { runGuarded, makeReplayChat, verifyRun } from "../agent/guarded-agent.js
 import { checkInput } from "../agent/guardrails.js";
 import { scoreBoth, replayRunAgent } from "../agent/score-both.js";
 import { scoreResultHtml, scoreGridHtml, evalButtonLabel, evalWhyLine } from "../ui/score-result.js";
-import { TRY_THESE } from "../ui/try-these.js";
 import { LOADING_TEXT } from "../ui/ask-row.js";
 import { stepBarHtml, resultWord, nowStep } from "../ui/step-bar.js";
-import { syncCmpModelBar, syncAsk, enterMode, setNote, ensureMode } from "./model-bar.js";
+import { syncCmpModelBar, syncAsk, ensureMode } from "./model-bar.js";
 import {
   $,
   state,
@@ -189,14 +188,7 @@ function setCmpBusy(busy) {
   $("cmp-score-start").disabled = busy;
   $("cmp-case").disabled = busy;
   $("cmp-text").disabled = busy;
-  // Try these is redrawn by the model bar sync, which also decides whether recorded runs are available.
-  if (busy)
-    $("cmp-try")
-      .querySelectorAll("button")
-      .forEach((b) => {
-        b.disabled = true;
-      });
-  else syncCmpModelBar();
+  if (!busy) syncCmpModelBar();
   drawLastQuestion();
   $("cmp-examples")
     .querySelectorAll("button")
@@ -298,25 +290,6 @@ export async function onScoreBoth() {
     setCmpBusy(false);
     syncCmpModelBar();
   }
-}
-
-// A Try these button: pick the question and run number whose recorded runs show the result named on the button, then Ask both.
-// These are recorded demos by design (their results are asserted against the recorded data), so a click switches to
-// recorded runs, runs the demo, and leaves the mode on recorded. The status line says "Recorded demo".
-export async function onTryThis(id) {
-  const item = TRY_THESE.find((t) => t.id === id);
-  if (!item || state.cmpBusy || !state.recorded || $("model-bar").dataset.kind === "loading") return;
-  if (state.mode !== "replay") {
-    enterMode("replay");
-    setNote("");
-  }
-  $("cmp-text").value = "";
-  $("cmp-case").value = item.caseId;
-  $("seed").value = String(item.seed);
-  state.cmp = null;
-  $("cmp-summary").hidden = true;
-  drawChats();
-  await onAskBoth({ demo: true });
 }
 
 const safeScore = (c, run) => {

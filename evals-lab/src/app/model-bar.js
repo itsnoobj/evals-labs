@@ -5,7 +5,6 @@ import { loadModel } from "../agent/llm.js";
 import { modelBoxes } from "../ui/model-box.js";
 import { modelStatusHtml } from "../ui/model-status.js";
 import { makeCustomCase } from "../task/custom-question.js";
-import { tryTheseHtml, NOT_LOADED, LOADING } from "../ui/try-these.js";
 import { askState, runLine, runHint, typedHint, LOADING_TEXT } from "../ui/ask-row.js";
 import { checkInput } from "../agent/guardrails.js";
 import { $, state, mark, describeError } from "./state.js";
@@ -141,11 +140,6 @@ export function syncCmpModelBar() {
   const why = state.pref === "replay" && state.mode === "replay" ? state.fallbackReason : "";
   $("cmp-run-why").textContent = why;
   $("cmp-run-why").hidden = !why;
-  // The Try these buttons are recorded demos: they work in either mode, and a click switches to recorded runs.
-  $("cmp-try").innerHTML = tryTheseHtml({
-    disabledReason: kind === "loading" ? LOADING : state.recorded ? "" : NOT_LOADED,
-    recordedDemo: state.mode === "live" || state.pref === "live",
-  });
   syncRunHint();
   syncAsk();
 }

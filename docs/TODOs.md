@@ -20,6 +20,8 @@
 
 ## Done
 
+- [x] ux31: removed the Quick start demo buttons (`try-these.js`, its test, `onTryThis`); "Examples, or type your own" is closed by default on Run and Side by side. Left over: `state.demo` and the "Recorded demo" status text are now unused (cleanup). Build tag `ux31`.
+
 - [x] ux30: Better examples that show how evals help. Quick start is now 3 recorded demos with a named failure: WRONG CARD (C03 seed 3: wrong card, checker catches it, right after retry), NO ANSWER (C06 seed 1: tool call fails, right after retry), SAFETY NET (C03 seed 2: retries fail, fallback gives the right card). Example chips say why runs failed and how many needed a retry or fallback, all computed from recorded runs (C06: 0 of 5, 5 gave no answer, with evals 5 of 5; C03: 1 of 5, 4 picked a wrong card, with evals 5 of 5). Headless recorded pass only. Build tag `ux30`.
 
 - [x] ux29: Side by side question dropdown grouped and ordered by recorded evals gap (`questionOptions` in `example-chips.js`): "Evals make the difference" (C06 0/5 vs 5/5, C03 1/5 vs 5/5, C01 3/5 vs 5/5, C05 4/5 vs 5/5), then "Both agents do about the same" (C02, C04). Each option shows its recorded without/with counts. Headless recorded pass only. Build tag `ux29`.
