@@ -38,13 +38,35 @@ test("the fine chip is a case where both agents pass every run", () => {
   assert.equal(score.careful.perCase[fine[0].id].passed, 5);
 });
 
-test("captions carry exactly the numbers scoreBoth gives, and no other digits", () => {
+test("captions carry the pass counts from scoreBoth and the reasons from the recorded runs", () => {
   for (const c of chips) {
     const s = score.simple.perCase[c.id];
     const w = score.careful.perCase[c.id];
-    assert.equal(c.caption, `Recorded: without evals ${s.passed} of ${s.total}, with evals ${w.passed} of ${w.total}`);
-    assert.deepEqual(c.caption.match(/\d+/g), [s.passed, s.total, w.passed, w.total].map(String));
+    const nums = c.caption.match(/\d+/g).map(Number);
+    // pass counts first, then only reasons that add up: wrong + silent = failures, retried <= passes
+    assert.deepEqual([nums[0], nums[1]], [s.passed, s.total]);
+    const failed = s.total - s.passed;
+    const reasons = c.caption.match(/\((\d+ picked a wrong card)?(, )?(\d+ gave no answer)?\)/);
+    if (failed)
+      assert.equal(
+        (reasons[0].match(/\d+/g) ?? []).map(Number).reduce((a, b) => a + b, 0),
+        failed,
+      );
+    else assert.equal(reasons, null);
+    assert.ok(c.caption.includes(`With evals ${w.passed} of ${w.total} right`));
   }
+});
+
+test("known values: C06 never answers without evals, C03 picks a wrong card, and both are fixed with evals", () => {
+  const cap = (id) => chips.find((c) => c.id === id).caption;
+  assert.equal(
+    cap("C06"),
+    "Recorded: without evals 0 of 5 right (5 gave no answer). With evals 5 of 5 right (3 needed a retry or the fallback).",
+  );
+  assert.equal(
+    cap("C03"),
+    "Recorded: without evals 1 of 5 right (4 picked a wrong card). With evals 5 of 5 right (3 needed a retry or the fallback).",
+  );
 });
 
 test("labels are the shop and the amount from the case", () => {

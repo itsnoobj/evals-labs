@@ -35,26 +35,38 @@ async function replay({ caseId, seed }) {
   return { c, simple, careful };
 }
 
+// What the agent without evals did: no final step at all, a right card, or a wrong card.
+const simpleWord = (c, run) =>
+  word(c, run) === "right"
+    ? "right"
+    : run.steps.some((st) => st.kind === "final")
+      ? "picks the wrong card"
+      : "no answer, a tool call fails";
+
 // The sentence the button should carry, built only from what the replay produced.
 async function outcomeWords(item) {
-  const { c, simple, careful } = await replay(item);
-  const final = word(c, careful.run);
-  const first = word(c, careful.attempts[0].run);
-  if (item.id === "gap") {
-    assert.equal(careful.outcome, "passed_first_try");
-    return `Agent without evals: ${simple}. Agent with evals: ${final} on the first try.`;
+  const { c, careful } = await replay(item);
+  const simple = simpleWord(c, pool("free", item.caseId, item.seed)[0]);
+  assert.equal(word(c, careful.run), "right");
+  assert.equal(word(c, careful.attempts[0].run), "wrong"); // the first try was wrong: that is what the checker caught
+  if (item.id === "safety-net") {
+    assert.equal(careful.outcome, "fixed_by_fallback");
+    return `Without evals: ${simple}. With evals: retries fail, the fallback gives the right card.`;
   }
   assert.equal(careful.outcome, "passed_after_retry");
   assert.ok(careful.attempts.length > 1);
-  return `Agent with evals: ${first} first, ${final} after a retry.`;
+  return item.id === "wrong-card"
+    ? `Without evals: ${simple}. With evals: the checker catches it, right after a retry.`
+    : `Without evals: ${simple}. With evals: right after a retry.`;
 }
 
-test("the two buttons exist: SEE THE GAP and SEE A RETRY", () => {
+test("the three buttons exist: WRONG CARD, NO ANSWER, SAFETY NET", () => {
   assert.deepEqual(
     TRY_THESE.map((t) => [t.id, t.label]),
     [
-      ["gap", "SEE THE GAP"],
-      ["retry", "SEE A RETRY"],
+      ["wrong-card", "WRONG CARD"],
+      ["no-answer", "NO ANSWER"],
+      ["safety-net", "SAFETY NET"],
     ],
   );
   for (const t of TRY_THESE)
@@ -70,16 +82,12 @@ for (const item of TRY_THESE) {
   });
 }
 
-test("gap: without evals wrong, with evals right (explicit)", async () => {
-  const { simple, careful, c } = await replay(TRY_THESE[0]);
-  assert.equal(simple, "wrong");
-  assert.equal(word(c, careful.run), "right");
-});
-
-test("retry: first try wrong, final right, after a retry (explicit)", async () => {
-  const { careful, c } = await replay(TRY_THESE[1]);
-  assert.equal(word(c, careful.attempts[0].run), "wrong");
-  assert.equal(word(c, careful.run), "right");
+test("every demo: without evals fails, with evals ends right", async () => {
+  for (const item of TRY_THESE) {
+    const { simple, careful, c } = await replay(item);
+    assert.equal(simple, "wrong", item.id);
+    assert.equal(word(c, careful.run), "right", item.id);
+  }
 });
 
 test("question label is merchant and amount from CASES", () => {
@@ -92,7 +100,11 @@ test("visible text has no run number or case id; chips are short", () => {
     const html = tryTheseHtml({ disabledReason: reason });
     const text = html.replace(/<[^>]+>/g, " ");
     assert.ok(!/run number|seed|\bC0\d\b/i.test(text), reason);
-    assert.equal((html.match(/<span class="try-title">SEE (THE GAP|A RETRY)<\/span>/g) ?? []).length, 2, reason);
+    assert.equal(
+      (html.match(/<span class="try-title">(WRONG CARD|NO ANSWER|SAFETY NET)<\/span>/g) ?? []).length,
+      3,
+      reason,
+    );
   }
 });
 
@@ -101,21 +113,21 @@ test("each chip keeps its tested outcome text as a one-line caption", () => {
   for (const t of TRY_THESE) assert.ok(html.includes(`<span class="try-out">${t.outcome}</span>`), t.id);
 });
 
-test("enabled: two enabled buttons and no long hint; the live AI chosen only adds the recorded-demo note", () => {
+test("enabled: three enabled buttons and no long hint; the live AI chosen only adds the recorded-demo note", () => {
   const on = tryTheseHtml();
-  assert.equal((on.match(/<button/g) ?? []).length, 2);
+  assert.equal((on.match(/<button/g) ?? []).length, 3);
   assert.ok(!/disabled/.test(on));
   assert.ok(!/try-note/.test(on));
   const live = tryTheseHtml({ recordedDemo: true });
   assert.ok(!/disabled/.test(live), "no 'Recorded runs only' disabled state in live mode");
   assert.ok(!/Recorded runs only/.test(live));
   assert.ok(live.includes(DEMO_NOTE));
-  assert.equal((live.match(/<button/g) ?? []).length, 2);
+  assert.equal((live.match(/<button/g) ?? []).length, 3);
 });
 
-test("not loaded or loading: both disabled with the reason as text", () => {
+test("not loaded or loading: all disabled with the reason as text", () => {
   const off = tryTheseHtml({ disabledReason: LOADING, recordedDemo: true });
-  assert.equal((off.match(/<button[^>]* disabled>/g) ?? []).length, 2);
-  assert.equal((off.match(/<span class="try-why">Wait until the model finishes loading<\/span>/g) ?? []).length, 2);
+  assert.equal((off.match(/<button[^>]* disabled>/g) ?? []).length, 3);
+  assert.equal((off.match(/<span class="try-why">Wait until the model finishes loading<\/span>/g) ?? []).length, 3);
   assert.ok(!off.includes(DEMO_NOTE));
 });

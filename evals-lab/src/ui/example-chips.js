@@ -13,17 +13,40 @@ const esc = (s) =>
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
   );
 
-// Pass counts per case for both agents on the recorded runs (same 5 runs per case as the Side by side score).
+// Pass counts per case for both agents on the recorded runs (same 5 runs per case as the Side by side score), plus why:
+//  - s.wrong / s.silent: failed runs of the agent without evals that gave a wrong card / gave no final answer at all.
+//  - w.retried: runs of the agent with evals that passed only after a retry or the fallback (more than one try).
 async function caseRows(recorded, cases) {
-  const score = await scoreBoth({
-    cases,
-    runsPerCase: RUNS_PER_CASE,
-    runAgent: replayRunAgent(recorded, { seedBase: 0 }),
+  const inner = replayRunAgent(recorded, { seedBase: 0 });
+  const seen = { simple: {}, careful: {} };
+  const runAgent = async (kind, c, i) => {
+    const run = await inner(kind, c, i);
+    (seen[kind][c.id] ??= []).push(run);
+    return run;
+  };
+  const score = await scoreBoth({ cases, runsPerCase: RUNS_PER_CASE, runAgent });
+  return cases.map((c) => {
+    const s = { ...score.simple.perCase[c.id], wrong: 0, silent: 0 };
+    const w = { ...score.careful.perCase[c.id], retried: 0 };
+    s.runs.forEach((ok, i) => {
+      if (ok) return;
+      if (seen.simple[c.id][i].steps.some((st) => st.kind === "final")) s.wrong += 1;
+      else s.silent += 1;
+    });
+    w.runs.forEach((ok, i) => {
+      if (ok && seen.careful[c.id][i].attemptCount > 1) w.retried += 1;
+    });
+    return { c, s, w };
   });
-  return cases.map((c) => ({ c, s: score.simple.perCase[c.id], w: score.careful.perCase[c.id] }));
 }
 const gap = (r) => r.w.passed - r.s.passed;
 const byGapThenId = (a, b) => gap(b) - gap(a) || a.c.id.localeCompare(b.c.id);
+// Plain words for the failures, e.g. " (3 picked a wrong card, 2 gave no answer)". "" when nothing failed.
+const why = (s) => {
+  const parts = [s.wrong && `${s.wrong} picked a wrong card`, s.silent && `${s.silent} gave no answer`].filter(Boolean);
+  return parts.length ? ` (${parts.join(", ")})` : "";
+};
+const fix = (w) => (w.retried ? ` (${w.retried} needed a retry or the fallback)` : "");
 const labelOf = (c) => `${c.merchant} ₹${c.amount.toLocaleString("en-IN")}`;
 
 // Pass rates per case for both agents on the recorded runs, then:
@@ -36,7 +59,7 @@ export async function exampleChips(recorded, cases) {
   const chip = ({ c, s, w }, group) => ({
     id: c.id,
     label: labelOf(c),
-    caption: `Recorded: without evals ${s.passed} of ${s.total}, with evals ${w.passed} of ${w.total}`,
+    caption: `Recorded: without evals ${s.passed} of ${s.total} right${why(s)}. With evals ${w.passed} of ${w.total} right${fix(w)}.`,
     group,
   });
   const help = rows

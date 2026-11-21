@@ -1,4 +1,4 @@
-// The quick-start chips on Side by side ("Try these"): two buttons that each load a recorded run with a known result.
+// The quick-start chips on Side by side ("Try these"): three buttons that each load a recorded run with a known result.
 // Exports: TRY_THESE, NOT_LOADED, LOADING, DEMO_NOTE, questionLabel, tryTheseHtml. Pure strings, no DOM.
 // `outcome` is shown under the title, so it must stay true for data/recorded-runs.json.
 // tests/ui/try-these.test.mjs replays each (caseId, seed) pair and fails if the words stop being true.
@@ -6,24 +6,31 @@ import { CASES } from "../task/cases.js";
 
 export const TRY_THESE = [
   {
-    id: "gap",
-    label: "SEE THE GAP",
-    caseId: "C05",
-    seed: 0,
-    outcome: "Agent without evals: wrong. Agent with evals: right on the first try.",
+    id: "wrong-card",
+    label: "WRONG CARD",
+    caseId: "C03",
+    seed: 3,
+    outcome: "Without evals: picks the wrong card. With evals: the checker catches it, right after a retry.",
   },
   {
-    id: "retry",
-    label: "SEE A RETRY",
-    caseId: "C01",
+    id: "no-answer",
+    label: "NO ANSWER",
+    caseId: "C06",
     seed: 1,
-    outcome: "Agent with evals: wrong first, right after a retry.",
+    outcome: "Without evals: no answer, a tool call fails. With evals: right after a retry.",
+  },
+  {
+    id: "safety-net",
+    label: "SAFETY NET",
+    caseId: "C03",
+    seed: 2,
+    outcome: "Without evals: picks the wrong card. With evals: retries fail, the fallback gives the right card.",
   },
 ];
 
-// These two are recorded demos by design: their results are asserted against data/recorded-runs.json.
+// These are recorded demos by design: their results are asserted against data/recorded-runs.json.
 // With the live AI chosen they still work: a click switches to recorded runs.
-export const DEMO_NOTE = "These two are recorded demos. A click switches to recorded runs.";
+export const DEMO_NOTE = "These are recorded demos. A click switches to recorded runs.";
 export const NOT_LOADED = "Recorded runs did not load";
 export const LOADING = "Wait until the model finishes loading";
 
